@@ -12,27 +12,25 @@ public class MyCrazyPutting extends ApplicationAdapter {
 	float x = 0;
 	@Override
 	public void create () {
-
-		x++;
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+		img = new Texture("golfBall.png");
 	}
 
 	@Override
 	public void render () {
-
-		x++;
-		Gdx.gl.glClearColor(1, 0, 0, 1);
+		int red = 34;
+		int green = 137;
+		int blue = 34;
+		Gdx.gl.glClearColor((float)(red/255.0), (float)(green/255.0), (float)(blue/255.0), 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		batch.draw(img, x, 0);
+//		batch.draw(img, x, 0);
+		batch.draw(img, 100, 100, 50	, 50);
 		batch.end();
 	}
 	
 	@Override
 	public void dispose () {
-
-		x++;
 		batch.dispose();
 		img.dispose();
 	}
