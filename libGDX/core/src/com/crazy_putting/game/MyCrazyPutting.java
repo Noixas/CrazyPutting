@@ -10,6 +10,7 @@ public class MyCrazyPutting extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
 	float x = 0;
+	float y=0;
 	@Override
 	public void create () {
 
@@ -22,10 +23,11 @@ public class MyCrazyPutting extends ApplicationAdapter {
 	public void render () {
 
 		x++;
+		y++;
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		batch.draw(img, x, 0);
+		batch.draw(img, x,y);
 		batch.end();
 	}
 	
