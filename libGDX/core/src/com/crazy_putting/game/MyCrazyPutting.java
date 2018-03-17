@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class CrazyPutting extends ApplicationAdapter {
+public class MyCrazyPutting extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
 	
