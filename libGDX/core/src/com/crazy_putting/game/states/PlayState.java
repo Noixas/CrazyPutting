@@ -4,23 +4,23 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.crazy_putting.game.GameObjects.Ball;
+import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.MyCrazyPutting;
 import javafx.scene.shape.Circle;
 
 import java.util.Random;
 
 public class PlayState extends State {
-    private Texture ball;
-    private int currentPosX;
-    private int currentPosY;
+    private Ball ball;
+    private Hole hole;
     private ShapeRenderer sr;
-    private final int holeRadius = 100;
-    private int holePosX;
-    private int holePosY;
+    private int x;
 
     public PlayState(GameStateManager gsm) {
         super(gsm);
-        ball =  new Texture("golfBall.png");
+        ball =  new Ball("golfBall.png");
+        hole = new Hole();
         sr = new ShapeRenderer();
         create();
 
@@ -28,11 +28,10 @@ public class PlayState extends State {
 
     @Override
     public void create(){
-        int[] startPos = randomizeStartPos();
-        currentPosX = startPos[0];
-        currentPosY = startPos[1];
-        holePosX = startPos[2];
-        holePosY = startPos[3];
+//        randomizeStartPos();
+        ball.setX(0);
+        ball.setY(0);
+        x=0;
     }
 
     @Override
@@ -48,44 +47,52 @@ public class PlayState extends State {
     @Override
     public void render(SpriteBatch sb) {
         sb.begin();
-        sb.draw(ball, currentPosX, currentPosY,20, 20);
+        sb.draw(ball.getTexture(), ball.getX(), ball.getY(),20, 20);
         sb.end();
         sr.begin(ShapeRenderer.ShapeType.Filled);
-        sr.circle(holePosX, holePosY, holeRadius);
+        sr.circle(hole.getX(), hole.getY(), hole.getRadius());
         sr.end();
+    }
+
+    public void move(int limit){
+        if(limit!=x){
+            ball.setX(ball.getX()+1);
+            ball.setY(ball.getY()+1);
+            System.out.println(x);
+            x++;
+        }
+
     }
 
     /**
         Randomizes the start position of the ball
      */
-    public int[] randomizeStartPos(){
+    public void randomizeStartPos(){
         Random random = new Random();
         final int OFFSET = 50;
 
-        int holeX = random.nextInt(MyCrazyPutting.WIDTH);
-        int holeY = random.nextInt(MyCrazyPutting.HEIGHT);
-        while(holeX>MyCrazyPutting.WIDTH/2-100&&holeX<MyCrazyPutting.WIDTH/2+100 ||holeX+holeRadius>MyCrazyPutting.WIDTH || holeX-holeRadius<0){
-            holeX = random.nextInt(MyCrazyPutting.WIDTH);
+        hole.setX(random.nextInt(MyCrazyPutting.WIDTH));
+        hole.setY(random.nextInt(MyCrazyPutting.HEIGHT));
+        while(hole.getX()>MyCrazyPutting.WIDTH/2-100&&hole.getX()<MyCrazyPutting.WIDTH/2+100 ||hole.getX()+hole.getRadius()>MyCrazyPutting.WIDTH || hole.getX()-hole.getRadius()<0){
+            hole.setX(random.nextInt(MyCrazyPutting.WIDTH));
         }
-        while(holeY>MyCrazyPutting.HEIGHT/2-100&&holeY<MyCrazyPutting.HEIGHT/2+100||holeY+holeRadius>MyCrazyPutting.HEIGHT || holeY-holeRadius<0){
-            holeY = random.nextInt(MyCrazyPutting.HEIGHT);
+        while(hole.getY()>MyCrazyPutting.HEIGHT/2-100&&hole.getY()<MyCrazyPutting.HEIGHT/2+100||hole.getY()+hole.getRadius()>MyCrazyPutting.HEIGHT || hole.getY()-hole.getRadius()<0){
+            hole.setY(random.nextInt(MyCrazyPutting.HEIGHT));
         }
 
         final int minDistanceX = (int)(MyCrazyPutting.WIDTH*0.5);
         final int minDistanceY = (int)(MyCrazyPutting.WIDTH*0.5);
-        int randomX = random.nextInt(MyCrazyPutting.WIDTH);
-        int randomY = random.nextInt(MyCrazyPutting.WIDTH);
+        ball.setX(random.nextInt(MyCrazyPutting.WIDTH));
+        ball.setY(random.nextInt(MyCrazyPutting.HEIGHT));
 
-        while(Math.abs(randomX-holeX)<minDistanceX || OFFSET>randomX || randomX>MyCrazyPutting.WIDTH-OFFSET){
-            randomX = random.nextInt(MyCrazyPutting.WIDTH);
+        while(Math.abs(ball.getX()-hole.getX())<minDistanceX || OFFSET>ball.getX() || ball.getX()>MyCrazyPutting.WIDTH-OFFSET){
+            ball.setX(random.nextInt(MyCrazyPutting.WIDTH));
 
         }
-        while(Math.abs(randomY-holeY)<minDistanceY || OFFSET>randomY || randomY>MyCrazyPutting.HEIGHT-OFFSET){
-            randomY = random.nextInt(MyCrazyPutting.HEIGHT);
+        while(Math.abs(ball.getY()-hole.getY())<minDistanceY || OFFSET>ball.getY() || ball.getY()>MyCrazyPutting.HEIGHT-OFFSET){
+            ball.setY(random.nextInt(MyCrazyPutting.HEIGHT));
         }
 
-        int[] randomPos = {randomX, randomY, holeX, holeY};
-        return randomPos;
     }
 
     @Override
