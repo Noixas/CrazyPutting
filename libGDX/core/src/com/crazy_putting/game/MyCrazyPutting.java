@@ -24,6 +24,7 @@ public class MyCrazyPutting extends ApplicationAdapter {
 
 		x++;
 		y++;
+		y = y /2;
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
