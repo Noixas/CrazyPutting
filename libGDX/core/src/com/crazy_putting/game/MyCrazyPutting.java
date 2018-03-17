@@ -12,6 +12,7 @@ public class MyCrazyPutting extends ApplicationAdapter {
 	
 	@Override
 	public void create () {
+		// this is a test comment
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
 	}
