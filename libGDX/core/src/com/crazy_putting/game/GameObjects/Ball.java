@@ -1,38 +1,72 @@
 package com.crazy_putting.game.GameObjects;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
+import com.crazy_putting.game.Others.InputData;
+import com.crazy_putting.game.Others.Velocity;
 
 public class Ball extends GameObject{
-    private int x;
-    private int y;
+    private Vector2 position;
+    private Velocity velocity;
     private Texture texture;
 
     public Ball(String filename){
         texture = new Texture(filename);
+        position = new Vector2();
+        velocity = new Velocity();
     }
 
-
-    public int getX() {
-        return x;
+    public Vector2 getPosition() {
+        return position;
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public void setPosition(Vector2 position) {
+        this.position = position;
     }
 
-    public int getY() {
-        return y;
+    public void setPositionX(float x){
+        position.x = x;
     }
 
-    public void setY(int y) {
-        this.y = y;
+    public void setPositionY(float y){
+        position.y = y;
     }
 
     public Texture getTexture() {
         return texture;
     }
 
-    public void update(float dt){
+    public Velocity getVelocity() {
+        return velocity;
+    }
+
+    public void update(float  dt){
 
     }
+
+    public void handleInput(InputData input){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.I)){
+            Gdx.input.getTextInput(input, "Input data", "", "Input speed and direction separated with space");
+        }
+        if(input.getText()!=null){
+            try{
+                String[] data = input.getText().split(" ");
+                velocity.speed = Float.parseFloat(data[0]);
+                velocity.angle = Float.parseFloat(data[1]);
+            }
+            catch(NumberFormatException e){
+                // later on this will be added on the game screen so that it wasn't printed multiple times
+                // after doing this change, delete printing stack trace
+                Gdx.app.error("Exception: ","You must input numbers");
+                e.getStackTrace();
+            }
+        }
+
+    }
+
+
+
+
 }

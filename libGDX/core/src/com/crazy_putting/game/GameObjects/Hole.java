@@ -1,27 +1,30 @@
 package com.crazy_putting.game.GameObjects;
 
+import com.badlogic.gdx.math.Vector2;
+
 public class Hole extends GameObject {
-    private int x;
-    private int y;
+    private Vector2 position;
     private int radius;
 
     public Hole(int radius){
         this.radius = radius;
-    }
-    public int getX() {
-        return x;
+        position = new Vector2();
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public Vector2 getPosition() {
+        return position;
     }
 
-    public int getY() {
-        return y;
+    public void setPosition(Vector2 position) {
+        this.position = position;
     }
 
-    public void setY(int y) {
-        this.y = y;
+    public void setPositionX(float x){
+        position.x = x;
+    }
+
+    public void setPositionY(float y){
+        position.y = y;
     }
 
     public int getRadius() {
