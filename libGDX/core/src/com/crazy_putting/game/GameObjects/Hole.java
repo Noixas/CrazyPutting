@@ -5,6 +5,9 @@ public class Hole extends GameObject {
     private int y;
     private int radius;
 
+    public Hole(int radius){
+        this.radius = radius;
+    }
     public int getX() {
         return x;
     }

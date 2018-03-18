@@ -32,4 +32,7 @@ public class Ball extends GameObject{
         return texture;
     }
 
+    public void update(float dt){
+
+    }
 }
