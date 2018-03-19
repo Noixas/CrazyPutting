@@ -9,6 +9,7 @@ import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.MyCrazyPutting;
 import com.crazy_putting.game.Others.InputData;
+import com.crazy_putting.game.Physics.PhysicsTest;
 
 import java.util.Random;
 
@@ -17,12 +18,14 @@ public class GameScreen implements Screen {
     private Hole hole;
     final GolfGame game;
     private ShapeRenderer sr;
+    private PhysicsTest physics;
     private int viewportX;
     private int viewportY;
     OrthographicCamera cam;
 
     public GameScreen(GolfGame game) {
         cam = new OrthographicCamera();
+        physics = new PhysicsTest();
         this.game = game;
 
         ball =  new Ball("golfBall.png");
@@ -82,6 +85,7 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         ball.handleInput(game.input);
+        physics.update(ball,delta);
         int red = 34;
         int green = 137;
         int blue = 34;
