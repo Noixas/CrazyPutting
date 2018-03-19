@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.Align;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.MyCrazyPutting;
@@ -84,8 +85,8 @@ public class GameScreen extends InputAdapter implements Screen {
         drawHeightMap();
     }
 
-    public int height(int x, int y){
-        int height = (int)(0.1*x + 0.03*Math.pow(x,2)+y*0.2);
+    public float height(float x, float y){
+        float height = (float)(0.1*x + 0.03*Math.pow(x,2)+y*0.2);
 //        System.out.println(height);
         return height;
     }
@@ -93,7 +94,7 @@ public class GameScreen extends InputAdapter implements Screen {
     @Override
     public void render(float delta) {
         ball.handleInput(game.input);
-ball.update(delta);
+        ball.update(delta);
             PhysicsTest.update(ball, delta);
         int red = 34;
         int green = 137;
@@ -111,11 +112,18 @@ ball.update(delta);
         if(texture!=null){
             game.batch.draw(texture, 0, 0);
         }
+
         game.batch.draw(ball.getTexture(), ball.getPosition().x, ball.getPosition().y,20*viewportX/MyCrazyPutting.WIDTH, 20*viewportY/MyCrazyPutting.HEIGHT);
+        game.font.draw(game.batch, "Speed: "+Math.round(Math.sqrt(Math.pow(ball.getVelocity().Vx,2)+Math.pow(ball.getVelocity().Vy,2))), viewportX-150, viewportY-10);
+        game.font.draw(game.batch, "Height: "+Math.round(height(ball.getPosition().x,ball.getPosition().y)), viewportX-150, viewportY-30);
         game.batch.end();
         sr.begin(ShapeRenderer.ShapeType.Filled);
         sr.circle(hole.getPosition().x, hole.getPosition().y, hole.getRadius());
         sr.end();
+
+
+
+
     }
 
     @Override
@@ -198,7 +206,7 @@ ball.update(delta);
 
         pixmap = new Pixmap(700,700, Pixmap.Format.RGB888);
         texture = new Texture(pixmap);
-        int maxValue = height(pixmap.getWidth(),pixmap.getHeight());
+        int maxValue = (int)(height(pixmap.getWidth(),pixmap.getHeight()));
         int nrOfIntervals = 10;
         int interval = maxValue/nrOfIntervals;
         int[] intervals = new int[nrOfIntervals+1];
@@ -211,7 +219,12 @@ ball.update(delta);
         for(int i = 0; i<pixmap.getWidth();i++){
             for(int j = 0; j<pixmap.getHeight();j++){
                 for(int x=0;x<intervals.length;x++){
-                    if(height(i,j)>intervals[x] && height(i,j)<intervals[x+1]){
+                    if(height(i,j)<0){
+                        pixmap.setColor(new Color(Color.BLUE));
+                        pixmap.drawPixel(i, j);
+                        break;
+                    }
+                    else if(height(i,j)>intervals[x] && height(i,j)<intervals[x+1]){
 //                        System.out.println("Bang");
                         pixmap.setColor(new Color((float)(200/255.0*(1/(double)(x+1))),(float)((250-x*20)/255.0),(float)(200/255.0*(1/(double)(x+1))),1));
                         pixmap.drawPixel(i, j);
