@@ -63,7 +63,7 @@ public class MainScreen extends InputAdapter implements Screen {
 //        game.batch.begin();
 //        game.font.draw(game.batch, "Main menu", viewportX/2, viewportY/2);
 //        game.batch.end();
-        final Color GREEN_YELLOW = new Color(Color.LIME);
+        final Color BUTTON_COLOR = new Color(Color.LIME);
         final int RECTANGLE_WIDTH = 230;
         final int RECTANGLE_HEIGHT = 60;
         final int PADDING = 10;
@@ -77,15 +77,12 @@ public class MainScreen extends InputAdapter implements Screen {
 
 
         renderer.begin(ShapeRenderer.ShapeType.Filled);
-        renderer.setColor(GREEN_YELLOW);
+        renderer.setColor(BUTTON_COLOR);
         renderer.rect(playerRectangle.x, playerRectangle.y, RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
-
-        renderer.setColor(GREEN_YELLOW);
+        renderer.setColor(BUTTON_COLOR);
         renderer.rect(fileRectangle.x, fileRectangle.y, RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
-
-        renderer.setColor(GREEN_YELLOW);
+        renderer.setColor(BUTTON_COLOR);
         renderer.rect(settingsRectangle.x, settingsRectangle.y, RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
-
         renderer.end();
 
         game.batch.begin();
