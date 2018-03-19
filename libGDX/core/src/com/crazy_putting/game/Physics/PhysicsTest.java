@@ -18,7 +18,7 @@ public class PhysicsTest {
     //the height equation 
     // H = 0.01*X + 0.03*X^2 + 0.2*Y
     private double partialDerivativeX(GameObject obj) {
-        return 0.1 + 0.06 * obj.getPosition().x;
+        return 0.1 + 0.06 * obj.getPosition().x ;
     }
 
     private double partialDerivativeY(GameObject obj) {
@@ -58,7 +58,7 @@ public class PhysicsTest {
 
         obj.getVelocity().Vx = newSpeedX;
         obj.getVelocity().Vy = newSpeedY;
-        obj.setPositionX(newX);
+        obj.setPositionX(newX +4);
         obj.setPositionY(newY);
 
     }

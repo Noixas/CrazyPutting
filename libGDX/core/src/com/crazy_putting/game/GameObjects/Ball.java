@@ -20,9 +20,14 @@ public class Ball extends GameObject{
         texture = new Texture(filename);
         position = new Vector2();
         velocity = new Velocity();
-        setVelocity(5,15);
+        setVelocity(1,0);
     }
-
+    public Ball(String filename, Vector2 pPosition){
+        texture = new Texture(filename);
+        position = pPosition;
+        velocity = new Velocity();
+        setVelocity(1,0);
+    }
     public Vector2 getPosition() {
         return position;
     }
