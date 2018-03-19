@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.crazy_putting.game.Parser.Parser;
 import com.crazy_putting.game.states.GameStateManager;
 import com.crazy_putting.game.states.MenuState;
 
@@ -24,7 +25,6 @@ public class MyCrazyPutting extends ApplicationAdapter {
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 		batch = new SpriteBatch();
 		gsm = new GameStateManager();
-
 		int red = 34;
 		int green = 137;
 		int blue = 34;
