@@ -8,9 +8,13 @@ import com.crazy_putting.game.Others.InputData;
 import com.crazy_putting.game.Others.Velocity;
 
 public class Ball extends GameObject{
+
+    private final float MASS = (float) 0.04593;
+
     private Vector2 position;
     private Velocity velocity;
     private Texture texture;
+
 
     public Ball(String filename){
         texture = new Texture(filename);
@@ -42,8 +46,22 @@ public class Ball extends GameObject{
         return velocity;
     }
 
-    public void update(float  dt){
+    public void setSpeed(float speed){
+        this.velocity.setSpeed(speed);
+    }
 
+    public void setVelocity(float speed, float angle){
+        this.velocity.setAngle(angle);
+        this.velocity.setSpeed(speed);
+    }
+
+    public float getMass(){
+        return this.MASS;
+    }
+
+
+
+    public void update(float  dt){
     }
 
     public void handleInput(InputData input){
@@ -66,8 +84,5 @@ public class Ball extends GameObject{
         }
 
     }
-
-
-
 
 }
