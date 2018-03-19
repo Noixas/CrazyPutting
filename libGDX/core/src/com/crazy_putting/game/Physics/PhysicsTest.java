@@ -2,8 +2,6 @@ package com.crazy_putting.game.Physics;
 
 import com.crazy_putting.game.GameObjects.GameObject;
 
-import java.util.ArrayList;
-
 public class PhysicsTest {
     
     private final double g = 9.81;

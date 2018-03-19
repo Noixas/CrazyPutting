@@ -12,6 +12,6 @@ public class Course {
     private float _maxSpeed;
     public Course()
     {
-        
+
     }
 }

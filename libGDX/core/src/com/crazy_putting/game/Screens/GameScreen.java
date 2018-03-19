@@ -8,10 +8,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.MyCrazyPutting;
-<<<<<<< HEAD
-import com.crazy_putting.game.Others.InputData;
-=======
->>>>>>> 661e788eee19c718b7b0c0b052cb47a0752ac6b8
 import com.crazy_putting.game.Physics.PhysicsTest;
 
 import java.util.Random;
@@ -25,11 +21,9 @@ public class GameScreen implements Screen {
     private int viewportX;
     private int viewportY;
     OrthographicCamera cam;
-    PhysicsTest physics;
 
     public GameScreen(GolfGame game) {
         cam = new OrthographicCamera();
-        physics = new PhysicsTest();
         this.game = game;
         physics = new PhysicsTest();
         ball =  new Ball("golfBall.png");
@@ -89,12 +83,8 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         ball.handleInput(game.input);
-<<<<<<< HEAD
-        physics.update(ball,delta);
-=======
 ball.update(delta);
             physics.update(ball, delta);
->>>>>>> 661e788eee19c718b7b0c0b052cb47a0752ac6b8
         int red = 34;
         int green = 137;
         int blue = 34;
