@@ -85,7 +85,7 @@ public class GameScreen extends InputAdapter implements Screen {
     }
 
     public int height(int x, int y){
-        int height = (int)(0.1*x + 0.03*Math.pow(x,2)+y);
+        int height = (int)(0.1*x + 0.03*Math.pow(x,2)+y*0.2);
 //        System.out.println(height);
         return height;
     }
