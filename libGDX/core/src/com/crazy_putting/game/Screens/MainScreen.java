@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.crazy_putting.game.MyCrazyPutting;
+import com.crazy_putting.game.Parser.Parser;
 
 
 public class MainScreen extends InputAdapter implements Screen {
@@ -103,6 +104,9 @@ public class MainScreen extends InputAdapter implements Screen {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector2 worldTouch = viewport.unproject(new Vector2(screenX, viewportY-screenY));
+
+        System.out.println("test");
+        Parser.writeCourse("Test.txt",null);
         System.out.println(worldTouch.x);
         System.out.println(screenX);
         System.out.println(worldTouch.y);
