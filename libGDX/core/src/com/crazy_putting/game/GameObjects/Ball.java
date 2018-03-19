@@ -20,8 +20,14 @@ public class Ball extends GameObject{
         texture = new Texture(filename);
         position = new Vector2();
         velocity = new Velocity();
+        setVelocity(1,0);
     }
-
+    public Ball(String filename, Vector2 pPosition){
+        texture = new Texture(filename);
+        position = pPosition;
+        velocity = new Velocity();
+        setVelocity(1,0);
+    }
     public Vector2 getPosition() {
         return position;
     }
@@ -62,6 +68,7 @@ public class Ball extends GameObject{
 
 
     public void update(float  dt){
+       // System.out.println(getPosition());
     }
 
     public void handleInput(InputData input){
@@ -72,8 +79,9 @@ public class Ball extends GameObject{
         if(input.getText()!=null){
             try{
                 String[] data = input.getText().split(" ");
-                velocity.speed = Float.parseFloat(data[0]);
-                velocity.angle = Float.parseFloat(data[1]);
+                setVelocity(Float.parseFloat(data[0]),Float.parseFloat(data[1]));
+                //velocity.speed = Float.parseFloat(data[0]);
+                //velocity.angle = Float.parseFloat(data[1]);
             }
             catch(NumberFormatException e){
                 // later on this will be added on the game screen so that it wasn't printed multiple times
