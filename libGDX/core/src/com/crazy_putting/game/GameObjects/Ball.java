@@ -47,6 +47,7 @@ public class Ball extends GameObject{
     }
 
     public void handleInput(InputData input){
+        // later on it should be if speed of the ball is zero (ball is not moving, then input data)
         if(Gdx.input.isKeyJustPressed(Input.Keys.I)){
             Gdx.input.getTextInput(input, "Input data", "", "Input speed and direction separated with space");
         }
