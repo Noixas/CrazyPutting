@@ -17,7 +17,6 @@ public class GameScreen implements Screen {
     private Hole hole;
     final GolfGame game;
     private ShapeRenderer sr;
-    private PhysicsTest physics;
     private int viewportX;
     private int viewportY;
     OrthographicCamera cam;
@@ -25,7 +24,6 @@ public class GameScreen implements Screen {
     public GameScreen(GolfGame game) {
         cam = new OrthographicCamera();
         this.game = game;
-        physics = new PhysicsTest();
         ball =  new Ball("golfBall.png");
         hole = new Hole(30);
         sr = new ShapeRenderer();
@@ -84,7 +82,7 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         ball.handleInput(game.input);
 ball.update(delta);
-            physics.update(ball, delta);
+            PhysicsTest.update(ball, delta);
         int red = 34;
         int green = 137;
         int blue = 34;

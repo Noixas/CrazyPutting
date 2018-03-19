@@ -68,7 +68,7 @@ public class Ball extends GameObject{
 
 
     public void update(float  dt){
-        System.out.println(getPosition());
+       // System.out.println(getPosition());
     }
 
     public void handleInput(InputData input){
