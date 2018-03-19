@@ -21,8 +21,8 @@ public class PhysicsTest {
 
     //the height equation 
     // H = 0.01*X + 0.03*X^2 + 0.2*Y
-    private double partialDerivativeX() {
-        return 0.1 + 0.06 * this.x;
+    private double partialDerivativeX(GameObject obj) {
+        return 0.1 + 0.06 * obj.getPosition().x;
     }
 
     private double partialDerivativeY() {
@@ -74,7 +74,7 @@ public class PhysicsTest {
     //Calculation of the Gravitational Force
     //G = -mgh(,x) - mgh(,y)
     private float gravityForce(GameObject obj) {
-        float result = (float) (- obj.getMass() * g * partialDerivativeX());
+        float result = (float) (- obj.getMass() * g * partialDerivativeX(obj));
         result -= obj.getMass() * g * partialDerivativeY();
 
         return result;

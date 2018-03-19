@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.MyCrazyPutting;
-import com.crazy_putting.game.Others.InputData;
+import com.crazy_putting.game.Physics.PhysicsTest;
 
 import java.util.Random;
 
@@ -20,11 +20,12 @@ public class GameScreen implements Screen {
     private int viewportX;
     private int viewportY;
     OrthographicCamera cam;
+    PhysicsTest physics;
 
     public GameScreen(GolfGame game) {
         cam = new OrthographicCamera();
         this.game = game;
-
+        physics = new PhysicsTest();
         ball =  new Ball("golfBall.png");
         hole = new Hole(30);
         sr = new ShapeRenderer();
@@ -82,6 +83,8 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         ball.handleInput(game.input);
+ball.update(delta);
+            physics.update(ball, delta);
         int red = 34;
         int green = 137;
         int blue = 34;

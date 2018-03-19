@@ -20,6 +20,7 @@ public class Ball extends GameObject{
         texture = new Texture(filename);
         position = new Vector2();
         velocity = new Velocity();
+        setVelocity(5,15);
     }
 
     public Vector2 getPosition() {
@@ -62,6 +63,7 @@ public class Ball extends GameObject{
 
 
     public void update(float  dt){
+        System.out.println(getPosition());
     }
 
     public void handleInput(InputData input){
