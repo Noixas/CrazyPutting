@@ -64,7 +64,7 @@ public class MainScreen extends InputAdapter implements Screen {
 //        game.batch.begin();
 //        game.font.draw(game.batch, "Main menu", viewportX/2, viewportY/2);
 //        game.batch.end();
-        final Color BUTTON_COLOR = new Color(Color.LIME);
+        final Color BUTTON_COLOR = new Color((float)(10/255.0), (float)(50/255.0), (float)(10/255.0),0);
         final int RECTANGLE_WIDTH = 230;
         final int RECTANGLE_HEIGHT = 60;
         final int PADDING = 10;
