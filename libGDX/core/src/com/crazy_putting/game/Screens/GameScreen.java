@@ -81,8 +81,8 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         ball.handleInput(game.input);
-ball.update(delta);
-            PhysicsTest.update(ball, delta);
+        ball.update(delta);
+        PhysicsTest.update(ball, delta);
         int red = 34;
         int green = 137;
         int blue = 34;
