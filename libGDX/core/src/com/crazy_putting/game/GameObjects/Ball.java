@@ -80,9 +80,7 @@ public class Ball extends GameObject{
             try{
                 String[] data = input.getText().split(" ");
                 setVelocity(Float.parseFloat(data[0]),Float.parseFloat(data[1]));
-                //velocity.speed = Float.parseFloat(data[0]);
-                //velocity.angle = Float.parseFloat(data[1]);
-               input.clearText();
+                input.clearText();//important to clear text or it will overwrite every frame
             }
             catch(NumberFormatException e){
                 // later on this will be added on the game screen so that it wasn't printed multiple times

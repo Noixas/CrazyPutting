@@ -226,7 +226,7 @@ public class GameScreen extends InputAdapter implements Screen {
 //                        System.out.println("Bang");
                         pixmap.setColor(new Color((float)(200/255.0*(1/(double)(x+1))),(float)((250-x*20)/255.0),(float)(200/255.0*(1/(double)(x+1))),1));
                         pixmap.drawPixel(i, j);
-                        System.out.println(height(i,j)+" interval "+(x+1)+"r: "+200*(1/(double)(x+1))+"g: "+(250-x*20)+" b: "+200*(1/(double)(x+1)));
+                     //   System.out.println(height(i,j)+" interval "+(x+1)+"r: "+200*(1/(double)(x+1))+"g: "+(250-x*20)+" b: "+200*(1/(double)(x+1)));
                         break;
                     }
                 }
