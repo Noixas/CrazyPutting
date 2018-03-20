@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.crazy_putting.game.FormulaParser.*;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.MyCrazyPutting;
@@ -19,11 +20,13 @@ public class GameScreen extends InputAdapter implements Screen {
     private ShapeRenderer sr;
     private int viewportX;
     private int viewportY;
+    FormulaParser parser;
     private Texture texture;
     private Pixmap pixmap;
     OrthographicCamera cam;
 
     public GameScreen(GolfGame game) {
+        parser = new FormulaParser();
         cam = new OrthographicCamera();
         this.game = game;
         ball =  new Ball("golfBall.png");
@@ -82,6 +85,29 @@ public class GameScreen extends InputAdapter implements Screen {
         Gdx.input.setInputProcessor(this);
         drawHeightMap();
     }
+
+    public float newHeight(float x, float y){
+        String formula = "0.1 * x + 0.03*x^2 + 0.2*y";
+        FormulaParser parser = new FormulaParser();
+        try
+        {
+            ExpressionNode expr = parser.parse(formula);
+            expr.accept(new SetVariable("x", x));
+            expr.accept(new SetVariable("y",y));
+            return (float) expr.getValue();
+        }
+        catch (ParserException e)
+        {
+            System.out.println(e.getMessage());
+        }
+        catch (EvaluationException e)
+        {
+            System.out.println(e.getMessage());
+        }
+        return 0;
+    }
+
+
 
     public float height(float x, float y){
         float height = (float)(0.1*x + 0.03*Math.pow(x,2)+y*0.2);
