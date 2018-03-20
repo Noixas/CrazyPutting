@@ -58,6 +58,7 @@ public class PhysicsTest {
 
         obj.getVelocity().Vx = newSpeedX;
         obj.getVelocity().Vy = newSpeedY;
+       // System.out.println("X: "+newSpeedX);
         obj.setPositionX(newX);
         obj.setPositionY(newY);
 

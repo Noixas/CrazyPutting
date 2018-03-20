@@ -4,9 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.utils.Align;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.MyCrazyPutting;
@@ -95,7 +93,7 @@ public class GameScreen extends InputAdapter implements Screen {
     public void render(float delta) {
         ball.handleInput(game.input);
         ball.update(delta);
-            PhysicsTest.update(ball, delta);
+        PhysicsTest.update(ball, delta);
         int red = 34;
         int green = 137;
         int blue = 34;
