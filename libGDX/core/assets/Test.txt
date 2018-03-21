@@ -6,7 +6,7 @@ Friction:
 Goal Pos: 
 Goal Radius: 
 Ball Start Pos: 
-Max Speed: 
+Max Speed:  Speed: 
 COURSE:
 ID: 1
 Height: 
@@ -14,6 +14,7 @@ Friction:
 Goal Pos: 
 Goal Radius: 
 Ball Start Pos: 
+Max Speed: s: 
 Max Speed: 
 COURSE:
 ID: 1
