@@ -72,6 +72,6 @@ public class Ball extends GameObject{
         else _isMoving = true;
     }
 
-    
+
 
 }
