@@ -14,12 +14,13 @@ public class CourseManager {
         _amoutCourse = _courseList.size();
         return  _amoutCourse;
     }
-    public void loadFile(String pFileName)
+    public static void loadFile(String pFileName)
     {
         _courseList = Parser.getCourses(pFileName);
+        System.out.println(_courseList.size());
+
     }
-    public static List<Course> getCourseList()
-    {
+    public static List<Course> getCourseList() {
         return _courseList;
     }
     public static Course getCourseWithID(int pID)

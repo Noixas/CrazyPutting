@@ -17,10 +17,12 @@ public class Parser {
     private static List<Course> _cacheFile = null;
     public static void readCourse(String pFileName) throws  IOException
     {
-
         List<String> lines = Files.readAllLines(Paths.get(pFileName));
+        System.out.println(lines.size() + "amount of lines");
        _cacheFile = generateCourses(lines);
        _fileNameCached = pFileName;
+
+        System.out.println("Read course " + _cacheFile.size());
     }
     public static void writeCourse(String pFileName, Object pCourse)
     {
@@ -82,9 +84,11 @@ public class Parser {
     int lineCount = 0;
     boolean readingCourse = false;
     Course newCourse = null;
+    int propertiesAmount = 7;
         for(int i = 0; i < pLines.size(); i++) {
             String line = pLines.get(i);
-            if (lineCount > 7) {
+            line.trim();
+            if (lineCount == propertiesAmount) {
                 courses.add(newCourse);
                 newCourse = null;
                 readingCourse = false;
@@ -94,7 +98,8 @@ public class Parser {
                 setCourseProperty(newCourse, line, lineCount);
                 lineCount++;
             }
-            if (line.startsWith(_courseSeparator)) {
+            if (line.startsWith("COURSE")) {
+
                 readingCourse = true;
                 newCourse = new Course();
             }
@@ -106,37 +111,37 @@ public class Parser {
             switch (pLine)
             {
                 case 0:
-                    pProperty.replace("ID: ","");
+                    pProperty = pProperty.replace("ID: ","");
                     pCourse.setID(Integer.parseInt(pProperty));
                     break;
                 case 1:
-                    pProperty.replace("Name: ","");
+                    pProperty = pProperty.replace("Name: ","");
                     pCourse.setName(pProperty);
                     break;
                 case 2:
-                    pProperty.replace("Height: ","");
+                    pProperty = pProperty.replace("Height: ","");
                     pCourse.setHeight(pProperty);
                     break;
                 case 3:
-                    pProperty.replace("Friction: ","");
+                    pProperty = pProperty.replace("Friction: ","");
                     pCourse.setFriction(Float.parseFloat(pProperty));
                     break;
                 case 4:
-                    pProperty.replace("Goal Pos: ","");
+                    pProperty = pProperty.replace("Goal Pos: ","");
                     String[] GoalPos = pProperty.trim().split("\\s+");
                     pCourse.setGoalPosition(new Vector2(Float.parseFloat(GoalPos[0]), Float.parseFloat(GoalPos[1])));
                     break;
                 case 5:
-                    pProperty.replace("Goal Radius: ","");
+                    pProperty = pProperty.replace("Goal Radius: ","");
                     pCourse.setGoalRadius(Float.parseFloat(pProperty));
                     break;
                 case 6:
-                    pProperty.replace("Ball Start Pos: ","");
+                    pProperty = pProperty.replace("Ball Start Pos: ","");
                     String[] ballStartPos = pProperty.trim().split("\\s+");
                     pCourse.setBallStartPos(new Vector2(Float.parseFloat(ballStartPos[0]), Float.parseFloat(ballStartPos[1])));
                     break;
                 case 7:
-                    pProperty.replace("Max Speed: ","");
+                    pProperty = pProperty.replace("Max Speed: ","");
                     pCourse.setMaxSpeed(Float.parseFloat(pProperty));
 
                     break;
@@ -148,8 +153,8 @@ public class Parser {
         try {
             if (checkForCache() == false ||_fileNameCached.equals(pFileName) == false)
                 readCourse(pFileName);
-        }catch(IOException e){
-            System.out.println(e);}
+        }catch(Exception e){
+            System.out.println("Exception reading file \n"+e);}
         return _cacheFile;
 
     }

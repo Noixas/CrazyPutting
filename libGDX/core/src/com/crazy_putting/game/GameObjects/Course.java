@@ -79,4 +79,19 @@ public class Course {
     public float getMaxSpeed() {
         return _maxSpeed;
     }
+    @Override
+    public String toString()
+    {
+        String out = "";
+        out +=("\nCOURSE" + "");
+        out +=( "\nID: ") + getID();//+  (getAmountCourses() + 1));//Set the next course ID
+        out +=("\nName: ") + getName();
+        out +=("\nHeight: " ) + getHeight();
+        out += ("\nFriction: ") + getFriction();
+        out += ("\nGoal Pos: ") + getGoalPosition();
+        out +=("\nGoal Radius: ") + getGoalRadius();
+        out +=( "\nBall Start Pos: ") + getStartBall();
+        out += ("\nMax Speed: ") + getMaxSpeed();
+        return out;
+    }
 }
