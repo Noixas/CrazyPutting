@@ -1,31 +1,67 @@
 package com.crazy_putting.game.Physics;
 
+import com.crazy_putting.game.FormulaParser.*;
+import com.crazy_putting.game.FormulaParser.FormulaParser;
 import com.crazy_putting.game.GameObjects.GameObject;
+
 
 public class PhysicsGenericFormulaTest {
 
         private static final double g = 9.81;
-        private static final double dt = 0.0001;
-
         //just create a friction coefficient here for now
         private static final float mu = (float) 0.4;
 
+        private static final String formula = "0.1 * x + 0.03*x^2 + 0.2*y";
 
-        //list of all moving objects
-        //private ArrayList<GameObject> movingThings = new ArrayList<GameObject>();
+        private static FormulaParser parser = new FormulaParser();
+        private static ExpressionNode expr = null;
+
+        private static final double EPSILON = 1;
 
 
 
-        //the height equation
-        // H = 0.01*X + 0.03*X^2 + 0.2*Y
         private static double partialDerivativeX(GameObject obj) {
-            return 0.1 + 0.06 * obj.getPosition().x;
+            float x1 = (float) (obj.getPosition().x + EPSILON);
+            float x2 = (float) (x1 - 2*EPSILON);
+            float y = obj.getPosition().y;
+            float result = (float) ((calcFunction(x1,y) - calcFunction(x2,y))/2*EPSILON);
+            //float difference = (float) (result - (0.01 + obj.getPosition().x * 0.06));
+            //System.out.println("approximation error: " + difference);
+            return result;
         }
 
         private static double partialDerivativeY(GameObject obj) {
-            return 0.2;
+            float x = (float) (obj.getPosition().x + EPSILON);
+            float y1 = obj.getPosition().y;
+            float y2 = (float) (y1 - 2*EPSILON);
+            float result = (float) ((calcFunction(x,y1) - calcFunction(x,y2))/2*EPSILON);
+            //System.out.println(result);
+            return result;
         }
 
+        private static float calcFunction(float x, float y){
+
+            try {
+                if (expr == null) {
+                    expr = parser.parse(formula);
+                }
+                    expr.accept(new SetVariable("x", x));
+                    expr.accept(new SetVariable("y", y));
+
+                    float result = (float) expr.getValue();
+                    return result;
+
+            }
+            catch (ParserException e)
+            {
+                System.out.println(e.getMessage());
+            }
+            catch (EvaluationException e)
+            {
+                System.out.println(e.getMessage());
+            }
+            return 0;
+        }
 
 
 

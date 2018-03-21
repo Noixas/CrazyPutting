@@ -5,6 +5,7 @@ import com.crazy_putting.game.Components.GraphicsComponent;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.MyCrazyPutting;
+import com.crazy_putting.game.Physics.PhysicsGenericFormulaTest;
 import com.crazy_putting.game.Physics.PhysicsTest;
 import com.crazy_putting.game.Screens.GolfGame;
 
@@ -32,7 +33,7 @@ public class GameManager {
     {
         _ball.handleInput(_game.input);
         _ball.update(pDelta);
-        PhysicsTest.update(_ball, pDelta);
+        PhysicsGenericFormulaTest.update(_ball, pDelta);
         UpdateGameLogic(pDelta);
 
     }
