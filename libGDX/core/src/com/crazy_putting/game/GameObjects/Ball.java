@@ -64,7 +64,10 @@ public class Ball extends GameObject{
     public float getMass(){
         return this.MASS;
     }
-
+    public boolean isMoving()
+    {
+        return true;
+    }
     public void update(float  dt){
        // System.out.println(getPosition());
     }
