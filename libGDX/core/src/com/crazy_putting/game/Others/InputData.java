@@ -1,7 +1,4 @@
 package com.crazy_putting.game.Others;
-import com.badlogic.gdx.Application;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.TextInputListener;
 public class InputData implements  TextInputListener{
     private String text;
@@ -19,5 +16,8 @@ public class InputData implements  TextInputListener{
     public String getText() {
         return text;
     }
-
+    public void clearText()
+    {
+        text = null;
+    }
 }

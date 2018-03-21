@@ -22,6 +22,7 @@ public class Velocity {
         this.speed = speed;
         this.Vx = (float) (speed * Math.cos(Math.toRadians(angle)));
         this.Vy = (float) (speed * Math.sin(Math.toRadians(angle)));
+        System.out.println("Initial Vel: " + Vx + " " + Vy);
     }
 
     public float getSpeed(){
