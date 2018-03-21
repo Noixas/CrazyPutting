@@ -17,7 +17,6 @@ public class CourseManager {
     public static void loadFile(String pFileName)
     {
         _courseList = Parser.getCourses(pFileName);
-        System.out.println(_courseList.size());
 
     }
     public static List<Course> getCourseList() {

@@ -18,11 +18,9 @@ public class Parser {
     public static void readCourse(String pFileName) throws  IOException
     {
         List<String> lines = Files.readAllLines(Paths.get(pFileName));
-        System.out.println(lines.size() + "amount of lines");
        _cacheFile = generateCourses(lines);
        _fileNameCached = pFileName;
 
-        System.out.println("Read course " + _cacheFile.size());
     }
     public static void writeCourse(String pFileName, Object pCourse)
     {

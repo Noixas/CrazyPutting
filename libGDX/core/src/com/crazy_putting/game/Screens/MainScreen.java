@@ -35,7 +35,8 @@ public class MainScreen extends InputAdapter implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, viewportX, viewportY);
         CourseManager.loadFile("courses.txt");
-        System.out.println(CourseManager.getCourseList().get(0).toString());
+        for (int i = 0; i < CourseManager.getCourseAmount(); i++)
+        System.out.println(CourseManager.getCourseList().get(i).toString());
     }
 
     @Override
