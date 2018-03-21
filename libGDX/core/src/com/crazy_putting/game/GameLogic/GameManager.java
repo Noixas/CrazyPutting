@@ -6,7 +6,6 @@ import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.MyCrazyPutting;
 import com.crazy_putting.game.Physics.PhysicsGenericFormulaTest;
-import com.crazy_putting.game.Physics.PhysicsTest;
 import com.crazy_putting.game.Screens.GolfGame;
 
 import java.util.Random;
@@ -22,9 +21,8 @@ public class GameManager {
      _ball = new Ball("golfBall.png");
      _game = pGame;
      _hole = new Hole(30);
-     //TODO: Add texture to the hole graphics component
-
-    _ball.addGraphicComponent(new GraphicsComponent( _ball.getTexture()));//TODO: improve implementation, too many calls to ball, could be shorten
+     
+    _ball.addGraphicComponent(new GraphicsComponent( _ball.getTexture()));
     _hole.addGraphicComponent(new GraphicsComponent( new Texture("hole.png"), _hole.getRadius()*2, _hole.getRadius()*2));
 
         randomizeStartPos();
