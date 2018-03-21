@@ -1,13 +1,11 @@
 package com.crazy_putting.game.states;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Hole;
-import com.crazy_putting.game.Others.InputData;
 import com.crazy_putting.game.MyCrazyPutting;
+import com.crazy_putting.game.Others.InputData;
 
 import java.util.Random;
 
@@ -51,7 +49,7 @@ public class PlayState extends State {
 //            cam.zoom -= 1;
 //        }
 //        cam.update();
-        ball.handleInput(input);
+       // ball.handleInput(input);
     }
 
     @Override
