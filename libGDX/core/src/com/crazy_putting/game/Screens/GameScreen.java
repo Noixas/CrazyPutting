@@ -1,89 +1,58 @@
 package com.crazy_putting.game.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector3;
+import com.crazy_putting.game.GameLogic.GameManager;
+import com.crazy_putting.game.GameLogic.GraphicsManager;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.crazy_putting.game.FormulaParser.*;
 import com.crazy_putting.game.GameObjects.Ball;
-import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.MyCrazyPutting;
-import com.crazy_putting.game.Physics.PhysicsTest;
-
-import java.util.Random;
 
 public class GameScreen extends InputAdapter implements Screen {
-    private Ball ball;
-    private Hole hole;
     final GolfGame game;
     private ShapeRenderer sr;
-    private int viewportX;
-    private int viewportY;
     FormulaParser parser;
     private Texture texture;
     private Pixmap pixmap;
+    private GameManager _gameManager;
     OrthographicCamera cam;
 
+    //New blazej
+    private final int WORLD_WIDTH = MyCrazyPutting.WIDTH;
+    private final int WORLD_HEIGHT = MyCrazyPutting.HEIGHT;
+    private Sprite mapSprite;
+
+
     public GameScreen(GolfGame game) {
+        cam = new OrthographicCamera(500, 500 * (WORLD_HEIGHT / WORLD_WIDTH));
+        cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
+        cam.update();
         parser = new FormulaParser();
-        cam = new OrthographicCamera();
         this.game = game;
-        ball =  new Ball("golfBall.png");
-        hole = new Hole(30);
-        sr = new ShapeRenderer();
-        viewportX = MyCrazyPutting.WIDTH;
-        viewportY = MyCrazyPutting.HEIGHT;
-        randomizeStartPos();
-//
-//        System.out.println(viewportY);
-//        viewportX = Math.abs((int)(ball.getPosition().x-hole.getPosition().x))+100;
-//        viewportY = Math.abs((int)(ball.getPosition().y-hole.getPosition().y))+100;
-//        System.out.println(viewportX);
+        _gameManager = new GameManager(game);
+        //sr = new ShapeRenderer();
 
-        cam.setToOrtho(false,  viewportX, viewportY);
-//        viewportX = MyCrazyPutting.WIDTH/2;
-//        viewportY = MyCrazyPutting.HEIGHT/2;
-
-
-        System.out.println("Ball - x: "+ball.getPosition().x+" y: "+ball.getPosition().y);
-        System.out.println("Hole - x: "+hole.getPosition().x+" y: "+hole.getPosition().y);
-    }
-
-    /**
-     Randomizes the start position of the ball
-     */
-    public void randomizeStartPos(){
-        Random random = new Random();
-        final int OFFSET = 50;
-
-        hole.setPositionX(random.nextInt(viewportX));
-        hole.setPositionY(random.nextInt(viewportY));
-        while(hole.getPosition().x>viewportX/2-100&&hole.getPosition().x<viewportX/2+100 ||hole.getPosition().x+hole.getRadius()>viewportX || hole.getPosition().x-hole.getRadius()<0){
-            hole.setPositionX(random.nextInt(viewportX));
-        }
-        while(hole.getPosition().y>viewportY/2-100&&hole.getPosition().y<viewportY/2+100||hole.getPosition().y+hole.getRadius()>viewportY || hole.getPosition().y-hole.getRadius()<0){
-            hole.setPositionY(random.nextInt(viewportY));
-        }
-
-        final int minDistanceX = (int)(viewportX*0.5);
-        final int minDistanceY = (int)(viewportX*0.5);
-        ball.setPositionX(random.nextInt(viewportX));
-        ball.setPositionY(random.nextInt(viewportY));
-
-        while(Math.abs(ball.getPosition().x-hole.getPosition().x)<minDistanceX || OFFSET>ball.getPosition().x || ball.getPosition().x>viewportX-OFFSET){
-            ball.setPositionX(random.nextInt(viewportX));
-        }
-        while(Math.abs(ball.getPosition().y-hole.getPosition().y)<minDistanceY || OFFSET>ball.getPosition().y || ball.getPosition().y>viewportY-OFFSET){
-            ball.setPositionY(random.nextInt(viewportY));
-        }
+        drawHeightMap();
+        mapSprite = new Sprite(texture);
+        mapSprite.setPosition(0,0);
+        mapSprite.setSize(WORLD_WIDTH, WORLD_HEIGHT);
+        Gdx.input.setInputProcessor(this);
 
     }
+
+
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(this);
-        drawHeightMap();
+        //Gdx.input.setInputProcessor(this);
+       // drawHeightMap();
     }
 
     public float newHeight(float x, float y){
@@ -111,48 +80,94 @@ public class GameScreen extends InputAdapter implements Screen {
 
     public float height(float x, float y){
         float height = (float)(0.1*x + 0.03*Math.pow(x,2)+y*0.2);
-//        System.out.println(height);
         return height;
     }
+    private void handleInput() {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.O)){//TODO: reference to InputScreen, blazej?
+            //game.setScreen(new InputScreen(game));
+            //game.getScreen();
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            cam.zoom += 0.02;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.Q)) {
+            cam.zoom -= 0.02;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            cam.translate(-3, 0, 0);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            cam.translate(3, 0, 0);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            cam.translate(0, -3, 0);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            cam.translate(0, 3, 0);
+        }
 
+        cam.zoom = MathUtils.clamp(cam.zoom, 0.1f, Math.min(WORLD_HEIGHT/cam.viewportHeight, WORLD_WIDTH/cam.viewportWidth));
+
+        float effectiveViewportWidth = cam.viewportWidth * cam.zoom;
+        float effectiveViewportHeight = cam.viewportHeight * cam.zoom;
+
+        cam.position.x = MathUtils.clamp(cam.position.x, effectiveViewportWidth / 2f, WORLD_HEIGHT - effectiveViewportWidth / 2f);
+        cam.position.y = MathUtils.clamp(cam.position.y, effectiveViewportHeight / 2f, WORLD_WIDTH - effectiveViewportHeight / 2f);
+    }
     @Override
     public void render(float delta) {
-        ball.handleInput(game.input);
-        ball.update(delta);
-        PhysicsTest.update(ball, delta);
+
+       _gameManager.Update(delta);
+        UpdateCamera();
+
+        game.batch.begin();
+        if(texture!=null){
+            game.batch.draw(texture, 0, 0);
+        }
+        //Get all the graphics and draw them
+        GraphicsManager.Render(game.batch);
+        RenderGUI();
+        game.batch.end();
+        //sr.begin(ShapeRenderer.ShapeType.Filled);
+        //sr.circle(hole.getPosition().x, hole.getPosition().y, hole.getRadius());
+        //sr.end();
+
+
+
+
+    }
+    private void UpdateCamera()
+    {
+        handleInput();
+        cam.update();
+        game.batch.setProjectionMatrix(cam.combined);
+
         int red = 34;
         int green = 137;
         int blue = 34;
         Gdx.gl.glClearColor((float)(red/255.0), (float)(green/255.0), (float)(blue/255.0), 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        game.batch.setProjectionMatrix(cam.combined);
-
-//        batch.begin();
-//        if(texture!=null){
-//            batch.draw(texture, 0, 0);
-//        }
-//        batch.end();
-        game.batch.begin();
-        if(texture!=null){
-            game.batch.draw(texture, 0, 0);
-        }
-
-        game.batch.draw(ball.getTexture(), ball.getPosition().x, ball.getPosition().y,20*viewportX/MyCrazyPutting.WIDTH, 20*viewportY/MyCrazyPutting.HEIGHT);
-        game.font.draw(game.batch, "Speed: "+Math.round(Math.sqrt(Math.pow(ball.getVelocity().Vx,2)+Math.pow(ball.getVelocity().Vy,2))), viewportX-150, viewportY-10);
-        game.font.draw(game.batch, "Height: "+Math.round(height(ball.getPosition().x,ball.getPosition().y)), viewportX-150, viewportY-30);
-        game.batch.end();
-        sr.begin(ShapeRenderer.ShapeType.Filled);
-        sr.circle(hole.getPosition().x, hole.getPosition().y, hole.getRadius());
-        sr.end();
-
-
-
-
     }
-
+    private void RenderGUI()
+    {
+        Ball ball =_gameManager.getBall();
+        Vector3 unprojectSpeed = cam.unproject(new Vector3(10, 10,0));
+        Vector3 unprojectHeight = cam.unproject(new Vector3(10, 30,0));
+        Vector3 unprojectBallX = cam.unproject(new Vector3(10, 50,0));
+        Vector3 unprojectBallY = cam.unproject(new Vector3(10, 70,0));
+        game.font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        game.font.getData().setScale(cam.zoom*0.7f);
+        game.font.setColor(Color.BLACK);
+        game.font.draw(game.batch, "Speed: "+Math.round(Math.sqrt(Math.pow(ball.getVelocity().Vx,2)+Math.pow(ball.getVelocity().Vy,2))), unprojectSpeed.x, unprojectSpeed.y);
+        game.font.draw(game.batch, "Height: "+Math.round(height(ball.getPosition().x,ball.getPosition().y)), unprojectHeight.x, unprojectHeight.y);
+        game.font.draw(game.batch, "Ball x: "+Math.round(ball.getPosition().x), unprojectBallX.x, unprojectBallX.y);
+        game.font.draw(game.batch, "Ball y: "+Math.round(ball.getPosition().y), unprojectBallY.x, unprojectBallY.y);
+    }
     @Override
     public void resize(int width, int height) {
-
+        cam.viewportWidth = width/1.5f;
+        cam.viewportHeight = cam.viewportWidth * height/width;
+        cam.update();
     }
 
     @Override
@@ -228,11 +243,12 @@ public class GameScreen extends InputAdapter implements Screen {
     }
     public void drawHeightMap(){
 
-        pixmap = new Pixmap(700,700, Pixmap.Format.RGB888);
+       // Hole hole = _gameManager.getHole();
+        pixmap = new Pixmap(WORLD_WIDTH, WORLD_HEIGHT, Pixmap.Format.RGB888);
         texture = new Texture(pixmap);
-        int maxValue = (int)(height(pixmap.getWidth(),pixmap.getHeight()));
+        float maxValue = (height(pixmap.getWidth(),pixmap.getHeight()));
         int nrOfIntervals = 10;
-        int interval = maxValue/nrOfIntervals;
+        int interval = (int)maxValue/nrOfIntervals;
         int[] intervals = new int[nrOfIntervals+1];
 
         for(int x=0;x<intervals.length;x++){
@@ -252,12 +268,14 @@ public class GameScreen extends InputAdapter implements Screen {
 //                        System.out.println("Bang");
                         pixmap.setColor(new Color((float)(200/255.0*(1/(double)(x+1))),(float)((250-x*20)/255.0),(float)(200/255.0*(1/(double)(x+1))),1));
                         pixmap.drawPixel(i, j);
-                     //   System.out.println(height(i,j)+" interval "+(x+1)+"r: "+200*(1/(double)(x+1))+"g: "+(250-x*20)+" b: "+200*(1/(double)(x+1)));
+//                        System.out.println(height(i,j)+" interval "+(x+1)+"r: "+200*(1/(double)(x+1))+"g: "+(250-x*20)+" b: "+200*(1/(double)(x+1)));
                         break;
                     }
                 }
             }
         }
-        texture.draw(pixmap, 0, 0);
+        //pixmap.setColor(Color.WHITE);
+        //pixmap.fillCircle((int)hole.getPosition().x,(int)hole.getPosition().y,hole.getRadius());
+        texture = new Texture(pixmap);
     }
 }

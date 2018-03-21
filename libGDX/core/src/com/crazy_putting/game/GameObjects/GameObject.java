@@ -3,12 +3,16 @@ package com.crazy_putting.game.GameObjects;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.crazy_putting.game.Components.GraphicsComponent;
 import com.crazy_putting.game.Others.Velocity;
 
-import javax.swing.text.Position;
-
 public abstract class GameObject {
-
+    private GraphicsComponent _graphicComponent;
+    public void addGraphicComponent(GraphicsComponent pGC)
+    {
+        _graphicComponent = pGC;
+        _graphicComponent.setOwner(this);
+    }
     public abstract  Texture getTexture() ;
     public abstract Vector2 getPosition();
     public abstract Velocity getVelocity();
