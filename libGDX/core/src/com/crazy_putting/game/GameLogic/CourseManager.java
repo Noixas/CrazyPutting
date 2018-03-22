@@ -66,6 +66,7 @@ public class CourseManager {
     public static void addCourseToList(Course pCourse)
     {
         _courseList.add(pCourse);
+        reWriteCourse();
     }
     public static void reWriteCourse()
     {

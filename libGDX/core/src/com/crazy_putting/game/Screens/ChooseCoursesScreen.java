@@ -48,9 +48,15 @@ public class ChooseCoursesScreen implements Screen{
         selectBox.setPosition(50, WINDOW_HEIGHT*0.9f-30);
         Vector2 selectBoxSize = new Vector2(200, 50);
         selectBox.setSize(selectBoxSize.x, selectBoxSize.y);
-        String[] boxItems = {"Course 1", "Course 2", "Course 3"};
+
+        String[] boxItems = new String[CourseManager.getCourseAmount()];
+        // = (String[])CourseManager.getCourseList().toArray();
         // this array doesn't have to be String - I would make an object Course which has it's name, height function
         // and all these properties and make an array of them
+        for (int i =0; i < CourseManager.getCourseAmount(); i++)
+        {
+            boxItems[i] = "Course "+ i;
+        }
         selectBox.setItems(boxItems);
 
         selectBox.addListener(new EventListener() {
