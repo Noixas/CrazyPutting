@@ -31,8 +31,11 @@ public class ChooseCoursesScreen implements Screen{
     private Skin skin;
     private TextButton confirmButton;
 
-    public ChooseCoursesScreen(GolfGame game) {
+    private  int _mode;
+
+    public ChooseCoursesScreen(GolfGame game, int pMode) {
         this.game = game;
+        _mode = pMode;
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("skin/plain-james-ui.json"));
@@ -184,7 +187,7 @@ public class ChooseCoursesScreen implements Screen{
         if(selectBox.getSelectedIndex() != CourseManager.getIndexActive())//IMPORTANT: if is a different course from the active one then we need to parse height formula again
             CourseManager.reParseHeightFormula(selectBox.getSelectedIndex());
 
-        game.setScreen(new GameScreen(game,1));
+        game.setScreen(new GameScreen(game,_mode));
 
     }
     @Override

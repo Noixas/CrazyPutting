@@ -39,7 +39,7 @@ public class GameScreen extends InputAdapter implements Screen {
         cam.update();
         parser = new FormulaParser();
         this.game = game;
-        _gameManager = new GameManager(game);
+        _gameManager = new GameManager(game, pMode);
         //sr = new ShapeRenderer();
 
         drawHeightMap();
