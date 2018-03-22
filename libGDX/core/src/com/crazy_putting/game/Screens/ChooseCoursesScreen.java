@@ -79,6 +79,16 @@ public class ChooseCoursesScreen implements Screen{
         goalValue = new Label(selectBox.getSelected(),skin);
         radiusValue = new Label(selectBox.getSelected(),skin);
         maxVelocityValue = new Label(selectBox.getSelected(),skin);
+
+        TextButton createCourseButton = new TextButton("Create course", skin);
+        createCourseButton.addListener(new ClickListener(){
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                setCourseCreator();
+            }
+        });
+
         updateCourseInfo();
         Table table = new Table();
         table.setWidth(WINDOW_WIDTH);
@@ -104,6 +114,8 @@ public class ChooseCoursesScreen implements Screen{
         table.row();
         table.add(maxVelocityLabel).align(Align.left);
         table.add(maxVelocityValue);
+        table.row();
+        table.add(createCourseButton).align(Align.left);
 
         confirmButton = new TextButton("Confirm", skin);
         Vector2 buttonSize = new Vector2(200,50);
@@ -118,6 +130,8 @@ public class ChooseCoursesScreen implements Screen{
         });
         confirmButton.setColor(Color.WHITE);
 
+
+
         stage.addActor(table);
         stage.addActor(label);
         stage.addActor(confirmButton);
@@ -127,6 +141,10 @@ public class ChooseCoursesScreen implements Screen{
     @Override
     public void show() {
 
+    }
+
+    public void setCourseCreator(){
+        game.setScreen(new CourseCreatorScreen(game));
     }
     public void updateCourseInfo()
     {
@@ -141,8 +159,13 @@ public class ChooseCoursesScreen implements Screen{
     }
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0,1,0,0);
+        int red = 34;
+        int green = 137;
+        int blue = 34;
+        Gdx.gl.glClearColor((float)(red/255.0), (float)(green/255.0), (float)(blue/255.0), 1);
+
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
 //        System.out.println(selectBox.getSelected());
 //        heightLabel.setText(selectBox.getSelected());
         stage.act(delta);

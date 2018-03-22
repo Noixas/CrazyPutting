@@ -49,14 +49,8 @@ public class GameManager {
         if(Math.sqrt(Math.pow(_ball.getPosition().x -_hole.getPosition().x,2) +Math.pow((_ball.getPosition().y - _hole.getPosition().y),2))< _hole.getRadius() &&
                 !(_ball.isMoving())) {
             System.out.println("Ball in goal");
-            
+
             _ball.fix(true);
-        }
-        else{
-            System.out.println("RADIUS: "+_hole.getRadius());
-            System.out.println("ball position x "+_ball.getPosition().x+" y "+_ball.getPosition().y);
-            System.out.println("hole position x "+_hole.getPosition().x+" y "+_hole.getPosition().y);
-            System.out.println("Distance"+Math.sqrt(Math.pow(_ball.getPosition().x -_hole.getPosition().x,2) +Math.pow((_ball.getPosition().y - _hole.getPosition().y),2)));
         }
 
     }
@@ -103,6 +97,10 @@ public class GameManager {
 
     public Ball getBall() {
         return _ball;
+    }
+
+    public int getTurns(){
+        return _turns;
     }
 
     public Hole getHole() {
