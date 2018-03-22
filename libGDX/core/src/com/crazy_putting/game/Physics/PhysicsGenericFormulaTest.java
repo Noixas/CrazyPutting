@@ -1,9 +1,8 @@
 package com.crazy_putting.game.Physics;
 
 import com.crazy_putting.game.FormulaParser.*;
-import com.crazy_putting.game.FormulaParser.FormulaParser;
+import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameObjects.GameObject;
-import com.crazy_putting.game.GameLogic.GraphicsManager;
 
 public class PhysicsGenericFormulaTest {
 
@@ -11,7 +10,6 @@ public class PhysicsGenericFormulaTest {
         //just create a friction coefficient here for now
         private static final float mu = (float) 0.4;
 
-        private static final String formula = "0.1 * x + 0.03*x^2 + 0.2*y";
 
         private static FormulaParser parser = new FormulaParser();
         private static ExpressionNode expr = null;
@@ -24,7 +22,7 @@ public class PhysicsGenericFormulaTest {
             float x1 = (float) (obj.getPosition().x + EPSILON);
             float x2 = (float) (x1 - 2*EPSILON);
             float y = obj.getPosition().y;
-            float result = (float) ((calcFunction(x1,y) - calcFunction(x2,y))/2*EPSILON);
+            float result = (float) ((CourseManager.calculateHeight(x1,y) - CourseManager.calculateHeight(x2,y))/2*EPSILON);
             //float difference = (float) (result - (0.01 + obj.getPosition().x * 0.06));
             //System.out.println("approximation error: " + difference);
             return result;
@@ -34,34 +32,12 @@ public class PhysicsGenericFormulaTest {
             float x = (float) (obj.getPosition().x + EPSILON);
             float y1 = obj.getPosition().y;
             float y2 = (float) (y1 - 2*EPSILON);
-            float result = (float) ((calcFunction(x,y1) - calcFunction(x,y2))/2*EPSILON);
+            float result = (float) ((CourseManager.calculateHeight(x,y1) - CourseManager.calculateHeight(x,y2))/2*EPSILON);
             //System.out.println(result);
             return result;
         }
 
-        private static float calcFunction(float x, float y){
 
-            try {
-                if (expr == null) {
-                    expr = parser.parse(formula);
-                }
-                    expr.accept(new SetVariable("x", x));
-                    expr.accept(new SetVariable("y", y));
-
-                    float result = (float) expr.getValue();
-                    return result;
-
-            }
-            catch (ParserException e)
-            {
-                System.out.println(e.getMessage());
-            }
-            catch (EvaluationException e)
-            {
-                System.out.println(e.getMessage());
-            }
-            return 0;
-        }
 
 
 
@@ -124,7 +100,7 @@ public class PhysicsGenericFormulaTest {
             float dx = x2 - x1;
             float dy =  y2 -y1;
             for(int i = 1; i<4;i++){
-                if(calcFunction(x1+dx/i,equation2Points(dx,dy,x1+dx/i,x1,y1))<0){
+                if(CourseManager.calculateHeight(x1+dx/i,equation2Points(dx,dy,x1+dx/i,x1,y1))<0){
                     return true;
                 }
             }
