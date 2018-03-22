@@ -34,7 +34,7 @@ public class GameScreen extends InputAdapter implements Screen {
 
 
     public GameScreen(GolfGame game, int pMode) {
-        cam = new OrthographicCamera(WORLD_WIDTH*0.9f, WORLD_WIDTH*0.9f * (WORLD_HEIGHT / WORLD_WIDTH));
+        cam = new OrthographicCamera(WORLD_WIDTH, WORLD_HEIGHT);
         cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
         cam.update();
         parser = new FormulaParser();
@@ -131,17 +131,19 @@ public class GameScreen extends InputAdapter implements Screen {
         Vector3 unprojectHeight = cam.unproject(new Vector3(10, 30,0));
         Vector3 unprojectBallX = cam.unproject(new Vector3(10, 50,0));
         Vector3 unprojectBallY = cam.unproject(new Vector3(10, 70,0));
+        Vector3 unprojectTurn = cam.unproject(new Vector3(10, 90,0));
         game.font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        game.font.getData().setScale(cam.zoom*0.7f);
+        game.font.getData().setScale(cam.zoom*0.7f*3f);
         game.font.setColor(Color.BLACK);
         game.font.draw(game.batch, "Speed: "+Math.round(Math.sqrt(Math.pow(ball.getVelocity().Vx,2)+Math.pow(ball.getVelocity().Vy,2))), unprojectSpeed.x, unprojectSpeed.y);
         game.font.draw(game.batch, "Height: "+Math.round(CourseManager.calculateHeight(ball.getPosition().x,ball.getPosition().y)), unprojectHeight.x, unprojectHeight.y);
         game.font.draw(game.batch, "Ball x: "+Math.round(ball.getPosition().x), unprojectBallX.x, unprojectBallX.y);
         game.font.draw(game.batch, "Ball y: "+Math.round(ball.getPosition().y), unprojectBallY.x, unprojectBallY.y);
+        game.font.draw(game.batch, "Turn: "+ _gameManager.getTurns(), unprojectTurn.x, unprojectTurn.y);
     }
     @Override
     public void resize(int width, int height) {
-        cam.viewportWidth = width/1.1f;
+        cam.viewportWidth = width*2f;
         cam.viewportHeight = cam.viewportWidth * height/width;
         cam.update();
     }
