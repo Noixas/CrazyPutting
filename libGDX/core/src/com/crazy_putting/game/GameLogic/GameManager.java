@@ -32,6 +32,8 @@ public class GameManager {
             new Texture("hole.png"), _hole.getRadius()*2, _hole.getRadius()*2));
 
         randomizeStartPos();
+        _ball.setPosition(CourseManager.getStartPosition());
+
     }
     public void Update(float pDelta)
     {
@@ -100,6 +102,7 @@ public class GameManager {
     public void handleInput(InputData input){
         // later on it should be if speed of the ball is zero (ball is not moving, then input data)
         if(Gdx.input.isKeyJustPressed(Input.Keys.I) && _ball.isMoving() == false){
+            CourseManager.reWriteCourse();
             Gdx.input.getTextInput(input, "Input data", "", "Input speed and direction separated with space");
         }
         if(input.getText()!=null){
