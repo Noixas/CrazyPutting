@@ -66,4 +66,9 @@ public class Hole extends GameObject {
     public Vector2 getPreviousPosition() {
         return null;
     }
+
+    @Override
+    public float getSpeed() {
+        return 0;
+    }
 }

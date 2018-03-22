@@ -24,5 +24,6 @@ public abstract class GameObject {
     public abstract void setSpeed(float speed);
     public abstract boolean inTheWater();
     public abstract Vector2 getPreviousPosition();
+    public abstract float getSpeed();
 
 }

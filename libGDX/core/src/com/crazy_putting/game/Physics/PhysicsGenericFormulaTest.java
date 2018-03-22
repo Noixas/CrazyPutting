@@ -3,7 +3,7 @@ package com.crazy_putting.game.Physics;
 import com.crazy_putting.game.FormulaParser.*;
 import com.crazy_putting.game.FormulaParser.FormulaParser;
 import com.crazy_putting.game.GameObjects.GameObject;
-
+import com.crazy_putting.game.GameLogic.GraphicsManager;
 
 public class PhysicsGenericFormulaTest {
 
@@ -79,6 +79,7 @@ public class PhysicsGenericFormulaTest {
 
         public static void update(GameObject obj, double dt){
 
+
             float x = obj.getPosition().x;
             float y = obj.getPosition().y;
 
@@ -110,19 +111,20 @@ public class PhysicsGenericFormulaTest {
 
         private static boolean fellInWater(GameObject obj){
 
+
+
             float x1 = obj.getPreviousPosition().x;
             float y1 = obj.getPreviousPosition().y;
 
             float x2 = obj.getPosition().x;
             float y2 = obj.getPosition().y;
-
+           // if(x2 > GraphicsManager.WORLD_WIDTH || x2<)
 
 
             float dx = x2 - x1;
             float dy =  y2 -y1;
             for(int i = 1; i<4;i++){
                 if(calcFunction(x1+dx/i,equation2Points(dx,dy,x1+dx/i,x1,y1))<0){
-                    System.out.println("true");
                     return true;
                 }
             }
