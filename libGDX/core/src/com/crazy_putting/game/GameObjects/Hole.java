@@ -72,4 +72,15 @@ public class Hole extends GameObject {
         return 0;
     }
 
+    @Override
+    public boolean isFixed() {
+        return true;
+    }
+
+    @Override
+    public void fix(boolean tf) {
+
+    }
+
+
 }

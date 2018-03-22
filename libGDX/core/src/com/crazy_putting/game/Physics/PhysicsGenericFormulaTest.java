@@ -54,6 +54,10 @@ public class PhysicsGenericFormulaTest {
 
         public static void update(GameObject obj, double dt){
 
+            if(obj.isFixed()){
+                return;
+            }
+
 
             float x = obj.getPosition().x;
             float y = obj.getPosition().y;
@@ -62,6 +66,7 @@ public class PhysicsGenericFormulaTest {
             if(collided(obj)) {
                 System.out.println("Water of out of bounds");
                 obj.setPosition(CourseManager.getStartPosition());
+                obj.fix(true);
                 return;
             }
             obj.getPreviousPosition().x = x;

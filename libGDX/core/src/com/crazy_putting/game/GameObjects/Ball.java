@@ -13,29 +13,38 @@ public class Ball extends GameObject{
     private Velocity velocity;
     private Texture texture;
     private boolean _isMoving = false;
+    private boolean _isFixed;
 
     public Ball(String filename){
         texture = new Texture(filename);
         position = new Vector2();
         previousPosition = new Vector2();
         velocity = new Velocity();
-        setVelocity(.1f,90);
+        _isFixed=true;
+        //setVelocity(.1f,90);
     }
     public Ball(String filename, Vector2 pPosition){
         texture = new Texture(filename);
         position = pPosition;
         velocity = new Velocity();
-        setVelocity(1,0);
+        _isFixed=true;
+        //setVelocity(1,0);
     }
     public Vector2 getPosition() {
         return position;
     }
     public Vector2 getPreviousPosition(){ return previousPosition; }
 
+
     @Override
     public float getSpeed() {
         float result = (float) Math.sqrt(Math.pow(velocity.Vx,2) + Math.pow(velocity.Vy,2));
         return result;
+    }
+
+    @Override
+    public boolean isFixed() {
+        return this._isFixed;
     }
 
 
@@ -78,7 +87,7 @@ public class Ball extends GameObject{
     }
     public boolean isMoving()
     {
-        return _isMoving;
+        return getSpeed()>0.5;
     }
     public void update(float  dt){
        // System.out.println(getPosition());
@@ -87,6 +96,13 @@ public class Ball extends GameObject{
         else _isMoving = true;
     }
 
+    public void fix(boolean tf){
+        if(tf){
+            this.velocity.Vx = (float) 0.01;
+            this.velocity.Vy = (float) 0.01;
+        }
+        this._isFixed=tf;
+    }
 
 
     @Override

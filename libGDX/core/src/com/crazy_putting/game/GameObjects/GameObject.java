@@ -25,5 +25,7 @@ public abstract class GameObject {
     public abstract boolean inTheWater();
     public abstract Vector2 getPreviousPosition();
     public abstract float getSpeed();
+    public abstract boolean isFixed();
+    public abstract void fix(boolean tf);
 
 }
