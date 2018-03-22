@@ -138,6 +138,7 @@ public class CourseCreatorScreen implements Screen {
 
             System.out.println("Put here game logic...");
             CourseManager.setActiveCourseWithIndex(CourseManager.getCourseAmount()-1);
+            CourseManager.reWriteCourse();
             game.setScreen(new MenuScreen(game));
         }catch(Exception e)
         {
@@ -147,6 +148,13 @@ public class CourseCreatorScreen implements Screen {
             System.out.println("Error saving course... Going Back to Menu");
             errorLabel.setText("You must input values in text fields");
 //            game.setScreen(new MenuScreen(game));
+            confirmButton.addListener(new ClickListener(){
+
+                @Override
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                    confirmButtonClicked();
+                }
+            });
         }
     }
     @Override

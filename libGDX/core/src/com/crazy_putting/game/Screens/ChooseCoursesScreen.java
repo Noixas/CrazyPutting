@@ -56,6 +56,7 @@ public class ChooseCoursesScreen implements Screen{
         // = (String[])CourseManager.getCourseList().toArray();
         // this array doesn't have to be String - I would make an object Course which has it's name, height function
         // and all these properties and make an array of them
+
         for (int i =0; i < CourseManager.getCourseAmount(); i++)
         {
             boxItems[i] = "Course "+ i;
@@ -157,12 +158,15 @@ public class ChooseCoursesScreen implements Screen{
     }
     public void updateCourseInfo()
     {
-        heightValue.setText(CourseManager.getCourseWithID(selectBox.getSelectedIndex()).getHeight());
-        frictionValue.setText(CourseManager.getCourseWithID(selectBox.getSelectedIndex()).getFriction()+"");
-        startValue.setText(CourseManager.getCourseWithID(selectBox.getSelectedIndex()).getStartBall().toString());
-        goalValue.setText(CourseManager.getCourseWithID(selectBox.getSelectedIndex()).getGoalPosition().toString());
-        radiusValue.setText(CourseManager.getCourseWithID(selectBox.getSelectedIndex()).getGoalRadius()+"");
-        maxVelocityValue.setText(CourseManager.getCourseWithID(selectBox.getSelectedIndex()).getMaxSpeed()+"");
+        System.out.println(selectBox.getSelectedIndex() + " is the box index");
+        System.out.println("amount of cour " + CourseManager.getCourseAmount() );
+        System.out.println("course " + CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()));
+        heightValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getHeight());
+        frictionValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getFriction()+"");
+        startValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getStartBall().toString());
+        goalValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getGoalPosition().toString());
+        radiusValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getGoalRadius()+"");
+        maxVelocityValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getMaxSpeed()+"");
 
 
     }
