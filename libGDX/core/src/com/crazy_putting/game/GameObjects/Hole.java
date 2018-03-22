@@ -71,4 +71,5 @@ public class Hole extends GameObject {
     public float getSpeed() {
         return 0;
     }
+
 }

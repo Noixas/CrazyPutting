@@ -38,8 +38,12 @@ public class Ball extends GameObject{
         return result;
     }
 
+
     public void setPosition(Vector2 position) {
-        this.position = position;
+        this.position.x = position.x;
+        this.position.y = position.y;
+        this.previousPosition.x = position.x;
+        this.previousPosition.y = position.y;
     }
 
     public void setPositionX(float x){
