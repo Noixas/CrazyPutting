@@ -1,6 +1,7 @@
 package com.crazy_putting.game.Physics;
 
 import com.crazy_putting.game.GameLogic.CourseManager;
+import com.crazy_putting.game.GameLogic.GraphicsManager;
 import com.crazy_putting.game.GameObjects.GameObject;
 
 public class PhysicsGenericFormulaTest {
@@ -53,14 +54,21 @@ public class PhysicsGenericFormulaTest {
 
         public static void update(GameObject obj, double dt){
 
+            if(obj.isFixed()){
+                return;
+            }
+
 
             float x = obj.getPosition().x;
             float y = obj.getPosition().y;
 
 
-            if(fellInWater(obj))
-                System.out.println("IN THE WATER");
-
+            if(collided(obj)) {
+                System.out.println("Water of out of bounds");
+                obj.setPosition(CourseManager.getStartPosition());
+                obj.fix(true);
+                return;
+            }
             obj.getPreviousPosition().x = x;
             obj.getPreviousPosition().y = y;
             //calculation of a new X position
@@ -83,16 +91,22 @@ public class PhysicsGenericFormulaTest {
 
         }
 
-        private static boolean fellInWater(GameObject obj){
+        private static boolean collided(GameObject obj){
 
+            //current position of the ball
+            float x2 = obj.getPosition().x;
+            float y2 = obj.getPosition().y;
 
+            if(x2 > GraphicsManager.WORLD_WIDTH/2 || x2<GraphicsManager.WORLD_WIDTH/2 * (-1) || y2>GraphicsManager.WORLD_HEIGHT/2 || y2<GraphicsManager.WORLD_HEIGHT/2 * (-1)){
+                System.out.println("Out of bounds");
+                return true;
 
+            }
+
+            //previous position of the ball
             float x1 = obj.getPreviousPosition().x;
             float y1 = obj.getPreviousPosition().y;
 
-            float x2 = obj.getPosition().x;
-            float y2 = obj.getPosition().y;
-           // if(x2 > GraphicsManager.WORLD_WIDTH || x2<)
 
 
             float dx = x2 - x1;

@@ -45,10 +45,12 @@ public class GameManager {
     }
     private void UpdateGameLogic(float pDelta)
     {
-        if(Math.abs(_ball.getPosition().x - _hole.getPosition().x) < _hole.getRadius() &&
-                Math.abs(_ball.getPosition().y - _hole.getPosition().y) < _hole.getRadius() &&
+        if(Math.abs(_ball.getPosition().x - 40 - _hole.getPosition().x) < _hole.getRadius() &&
+                Math.abs(_ball.getPosition().y - 40 - _hole.getPosition().y) < _hole.getRadius() &&
                 _ball.isMoving()) {
             System.out.println("Ball in goal");
+            
+            _ball.fix(true);
         }
     }
     public void increaseTurnCount()
@@ -110,6 +112,7 @@ public class GameManager {
 
                 String[] data = input.getText().split(" ");
                 _ball.setVelocity(Float.parseFloat(data[0]),Float.parseFloat(data[1]));
+                _ball.fix(false);
                 input.clearText();//important to clear text or it will overwrite every frame
                 if(Float.parseFloat((data[0]))!=0) {
                     _ball.setVelocity(Float.parseFloat(data[0]), Float.parseFloat(data[1]));
