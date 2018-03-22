@@ -48,9 +48,15 @@ public class ChooseCoursesScreen implements Screen{
         selectBox.setPosition(50, WINDOW_HEIGHT*0.9f-30);
         Vector2 selectBoxSize = new Vector2(200, 50);
         selectBox.setSize(selectBoxSize.x, selectBoxSize.y);
-        String[] boxItems = {"Course 1", "Course 2", "Course 3"};
+
+        String[] boxItems = new String[CourseManager.getCourseAmount()];
+        // = (String[])CourseManager.getCourseList().toArray();
         // this array doesn't have to be String - I would make an object Course which has it's name, height function
         // and all these properties and make an array of them
+        for (int i =0; i < CourseManager.getCourseAmount(); i++)
+        {
+            boxItems[i] = "Course "+ i;
+        }
         selectBox.setItems(boxItems);
 
         selectBox.addListener(new EventListener() {
@@ -154,7 +160,7 @@ public class ChooseCoursesScreen implements Screen{
         goalValue.setText(CourseManager.getCourseWithID(selectBox.getSelectedIndex()).getGoalPosition().toString());
         radiusValue.setText(CourseManager.getCourseWithID(selectBox.getSelectedIndex()).getGoalRadius()+"");
         maxVelocityValue.setText(CourseManager.getCourseWithID(selectBox.getSelectedIndex()).getMaxSpeed()+"");
-        CourseManager.setActiveCourseWithIndex(selectBox.getSelectedIndex());
+
 
     }
     @Override
@@ -172,10 +178,14 @@ public class ChooseCoursesScreen implements Screen{
         stage.draw();
     }
 
-    public static void confirmButtonClicked(){
-        // TODO game logic needs to be implemented
-        System.out.println("Put here game logic...");
+    public void confirmButtonClicked(){
+
+        CourseManager.setActiveCourseWithIndex(selectBox.getSelectedIndex());
+        if(selectBox.getSelectedIndex() != CourseManager.getIndexActive())//IMPORTANT: if is a different course from the active one then we need to parse height formula again
+            CourseManager.reParseHeightFormula(selectBox.getSelectedIndex());
+
         game.setScreen(new GameScreen(game,1));
+
     }
     @Override
     public void resize(int width, int height) {
