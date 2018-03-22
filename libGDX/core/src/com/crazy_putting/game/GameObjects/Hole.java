@@ -56,4 +56,14 @@ public class Hole extends GameObject {
     public void setSpeed(float speed){
         return;
     }
+
+    @Override
+    public boolean inTheWater() {
+        return false;
+    }
+
+    @Override
+    public Vector2 getPreviousPosition() {
+        return null;
+    }
 }
