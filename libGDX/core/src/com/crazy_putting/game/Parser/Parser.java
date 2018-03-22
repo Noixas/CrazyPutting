@@ -24,10 +24,16 @@ public class Parser {
     }
     public static void writeCourseList(String pFileName, List<Course> pCourseList)
     {
+        String out = "";
         for (int i = 0; i < pCourseList.size(); i++)
-        writeCourse(pFileName, pCourseList.get(i), i);
+        out += generateStringFile(pFileName, pCourseList.get(i), i);
+        try{
+            writeToTextFile(pFileName, out);
+        }catch(IOException e){
+            System.out.println(e);
+        }
     }
-    public static void writeCourse(String pFileName, Course pCourse, int pIndex)
+    public static String generateStringFile(String pFileName, Course pCourse, int pIndex)
     {
     if( checkForCache() == false) cacheFile(pFileName);
        List<String> out = new ArrayList<String>();//= getCacheFile();
@@ -44,11 +50,7 @@ public class Parser {
         for(int i = 0; i < out.size(); i++) {
             finalFile += out.get(i);
         }
-        try{
-            writeToTextFile(pFileName, finalFile);
-        }catch(IOException e){
-            System.out.println(e);
-        }
+        return finalFile;
     }
     private static void writeToTextFile(String fileName, String content) throws IOException {
         Files.write(Paths.get(fileName), content.getBytes());
