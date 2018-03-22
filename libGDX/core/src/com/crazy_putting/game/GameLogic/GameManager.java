@@ -24,14 +24,15 @@ public class GameManager {
     {
      _ball = new Ball("golfBall.png");
      _game = pGame;
-     _hole = new Hole(30);
+     _hole = new Hole((int)CourseManager.getActiveCourse().getGoalRadius());
      _turns = 0;
-
+     PhysicsGenericFormulaTest.updateCoefficients();
+        System.out.println("Is that radius? "+(int)CourseManager.getActiveCourse().getGoalRadius());
     _ball.addGraphicComponent(new GraphicsComponent( _ball.getTexture()));
     _hole.addGraphicComponent(new GraphicsComponent(
             new Texture("hole.png"), _hole.getRadius()*2, _hole.getRadius()*2));
 
-        randomizeStartPos();
+        _hole.setPosition(CourseManager.getGoalStartPosition());
         _ball.setPosition(CourseManager.getStartPosition());
 
     }
@@ -45,13 +46,19 @@ public class GameManager {
     }
     private void UpdateGameLogic(float pDelta)
     {
-        if(Math.abs(_ball.getPosition().x - 40 - _hole.getPosition().x) < _hole.getRadius() &&
-                Math.abs(_ball.getPosition().y - 40 - _hole.getPosition().y) < _hole.getRadius() &&
-                _ball.isMoving()) {
+        if(Math.sqrt(Math.pow(_ball.getPosition().x -_hole.getPosition().x,2) +Math.pow((_ball.getPosition().y - _hole.getPosition().y),2))< _hole.getRadius() &&
+                !(_ball.isMoving())) {
             System.out.println("Ball in goal");
             
             _ball.fix(true);
         }
+        else{
+            System.out.println("RADIUS: "+_hole.getRadius());
+            System.out.println("ball position x "+_ball.getPosition().x+" y "+_ball.getPosition().y);
+            System.out.println("hole position x "+_hole.getPosition().x+" y "+_hole.getPosition().y);
+            System.out.println("Distance"+Math.sqrt(Math.pow(_ball.getPosition().x -_hole.getPosition().x,2) +Math.pow((_ball.getPosition().y - _hole.getPosition().y),2)));
+        }
+
     }
     public void increaseTurnCount()
     {
