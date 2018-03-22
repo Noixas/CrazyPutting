@@ -99,4 +99,8 @@ public class CourseManager {
         }
         return 0;
     }
+    public static Vector2 getGoalStartPosition()
+    {
+        return  _activeCourse.getGoalPosition();
+    }
 }

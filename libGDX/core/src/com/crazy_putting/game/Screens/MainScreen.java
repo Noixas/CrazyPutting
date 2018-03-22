@@ -1,3 +1,5 @@
+/*
+//CAN DELETE NOW
 package com.crazy_putting.game.Screens;
 
 import com.badlogic.gdx.Gdx;
@@ -156,3 +158,4 @@ public class MainScreen extends InputAdapter implements Screen {
 
 
 }
+*/
