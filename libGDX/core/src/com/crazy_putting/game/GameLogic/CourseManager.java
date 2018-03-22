@@ -12,6 +12,7 @@ public class CourseManager {
     private static List<Course> _courseList;
     private static Course _activeCourse;
     private static  String _cacheFileName;
+    private static int _indexActive = 0;
 
 //TODO call again the expressionNode if another course is selected
     private static FormulaParser parser = new FormulaParser();
@@ -76,6 +77,16 @@ public class CourseManager {
     public  static Vector2 getStartPosition()
     {
         return _activeCourse.getStartBall();
+    }
+    public static int getIndexActive()
+    {
+        return _indexActive;
+    }
+    public static void reParseHeightFormula(int pNewIndex)
+    {
+
+        expr = parser.parse(_activeCourse.getHeight());
+        _indexActive = pNewIndex;
     }
     public static float calculateHeight(float x, float y){
     if(_activeCourse == null)

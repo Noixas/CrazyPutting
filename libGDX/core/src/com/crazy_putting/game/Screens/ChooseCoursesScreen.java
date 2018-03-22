@@ -142,8 +142,7 @@ public class ChooseCoursesScreen implements Screen{
         goalValue.setText(CourseManager.getCourseWithID(selectBox.getSelectedIndex()).getGoalPosition().toString());
         radiusValue.setText(CourseManager.getCourseWithID(selectBox.getSelectedIndex()).getGoalRadius()+"");
         maxVelocityValue.setText(CourseManager.getCourseWithID(selectBox.getSelectedIndex()).getMaxSpeed()+"");
-        CourseManager.setActiveCourseWithIndex(selectBox.getSelectedIndex());
-        System.out.println("Index " + selectBox.getSelected());
+
 
     }
     @Override
@@ -157,11 +156,13 @@ public class ChooseCoursesScreen implements Screen{
     }
 
     public void confirmButtonClicked(){
-        // TODO game logic needs to be implemented
-        System.out.println("Put here game logic...");
+
+        CourseManager.setActiveCourseWithIndex(selectBox.getSelectedIndex());
+        if(selectBox.getSelectedIndex() != CourseManager.getIndexActive())//IMPORTANT: if is a different course from the active one then we need to parse height formula again
+            CourseManager.reParseHeightFormula(selectBox.getSelectedIndex());
+
         game.setScreen(new GameScreen(game,1));
-        System.out.println(CourseManager.getActiveCourse().toString());
-        System.out.println("Index " + selectBox.getSelected());
+
     }
     @Override
     public void resize(int width, int height) {

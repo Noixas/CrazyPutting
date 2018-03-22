@@ -116,19 +116,28 @@ public class CourseCreatorScreen implements Screen {
         createCourse();
         System.out.println("Put here game logic...");
         CourseManager.setActiveCourseWithIndex(CourseManager.getCourseAmount()-1);
-        game.setScreen(new GameScreen(game,1));
+        game.setScreen(new MenuScreen(game));
     }
     private  void createCourse()
     {
-        Course newCourse = new Course();
-        newCourse.setName("Course without name D:");
-        newCourse.setHeight(heightText.getText());
-        newCourse.setFriction(Float.parseFloat(frictionText.getText()));
-        newCourse.setBallStartPos(new Vector2(Float.parseFloat(startTextX.getText()),Float.parseFloat(startTextY.getText())));
-        newCourse.setGoalPosition(new Vector2(Float.parseFloat(goalTextX.getText()),Float.parseFloat(goalTextY.getText())));
-        newCourse.setGoalRadius(Float.parseFloat(radiusText.getText()));
-        newCourse.setMaxSpeed(Float.parseFloat(maxVelocityText.getText()));
-        CourseManager.addCourseToList(newCourse);
+        try {
+            Course newCourse = new Course();
+            newCourse.setName("Course without name D:");
+            newCourse.setHeight(heightText.getText());
+            newCourse.setFriction(Float.parseFloat(frictionText.getText()));
+            newCourse.setBallStartPos(new Vector2(Float.parseFloat(startTextX.getText()), Float.parseFloat(startTextY.getText())));
+            newCourse.setGoalPosition(new Vector2(Float.parseFloat(goalTextX.getText()), Float.parseFloat(goalTextY.getText())));
+            newCourse.setGoalRadius(Float.parseFloat(radiusText.getText()));
+            newCourse.setMaxSpeed(Float.parseFloat(maxVelocityText.getText()));
+            CourseManager.addCourseToList(newCourse);
+        }catch(Exception e)
+        {
+            System.out.println("Error saving course... Going Back to Menu");
+            System.out.println(e.toString());
+            System.out.println("Error saving course... Going Back to Menu");
+            System.out.println("Error saving course... Going Back to Menu");
+            game.setScreen(new MenuScreen(game));
+        }
     }
     @Override
     public void show() {
