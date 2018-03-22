@@ -8,6 +8,7 @@ import java.util.List;
 public class CourseManager {
     private static  int _amoutCourse = 1;
     private static List<Course> _courseList;
+    private static Course _activeCourse;
 
     public static int getCourseAmount()
     {
@@ -17,6 +18,10 @@ public class CourseManager {
     public static void loadFile(String pFileName)
     {
         _courseList = Parser.getCourses(pFileName);
+        if(_courseList != null)
+            _activeCourse = _courseList.get(0);
+        else
+            System.out.println("No courses in the file");
 
     }
     public static List<Course> getCourseList() {
@@ -30,6 +35,17 @@ public class CourseManager {
                 return _courseList.get(i);
         }
         return null;
+    }
+    public static void setActiveCourseWithID(int pID)
+    {
+        setActiveCourse(getCourseWithID(pID));
+    }
+    private static void setActiveCourse(Course pCourse)
+    {
+        _activeCourse = pCourse;
+    }
+    public static Course getActiveCourse(){
+        return _activeCourse;
     }
 
 
