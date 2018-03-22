@@ -8,6 +8,7 @@ public class Ball extends GameObject{
 
     private final float MASS = (float) 0.04593;
 
+    private Vector2 previousPosition;
     private Vector2 position;
     private Velocity velocity;
     private Texture texture;
@@ -16,6 +17,7 @@ public class Ball extends GameObject{
     public Ball(String filename){
         texture = new Texture(filename);
         position = new Vector2();
+        previousPosition = new Vector2();
         velocity = new Velocity();
         setVelocity(.1f,90);
     }
@@ -28,6 +30,7 @@ public class Ball extends GameObject{
     public Vector2 getPosition() {
         return position;
     }
+    public Vector2 getPreviousPosition(){ return previousPosition; }
 
     public void setPosition(Vector2 position) {
         this.position = position;
@@ -53,6 +56,8 @@ public class Ball extends GameObject{
         this.velocity.setSpeed(speed);
     }
 
+
+
     public void setVelocity(float speed, float angle){
         this.velocity.setAngle(angle);
         this.velocity.setSpeed(speed);
@@ -72,6 +77,12 @@ public class Ball extends GameObject{
         else _isMoving = true;
     }
 
+
+
+    @Override
+    public boolean inTheWater() {
+        return false;
+    }
 
 
 }

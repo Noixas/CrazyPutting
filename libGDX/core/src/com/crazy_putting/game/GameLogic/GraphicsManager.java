@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GraphicsManager {
+    public final static int WORLD_WIDTH = 1500;
+    public final static int WORLD_HEIGHT = 1500;
+    public final static int WINDOW_WIDTH = 700;
+    public final static int WINDOW_HEIGHT = 700;
     private static List<GraphicsComponent> _graphicsComponentList = new ArrayList<GraphicsComponent>();
 public static void addGraphicsComponent(GraphicsComponent pGC)
 {

@@ -83,6 +83,11 @@ public class PhysicsGenericFormulaTest {
             float y = obj.getPosition().y;
 
 
+            if(fellInWater(obj))
+                System.out.println("IN THE WATER");
+
+            obj.getPreviousPosition().x = x;
+            obj.getPreviousPosition().y = y;
             //calculation of a new X position
             // x(t + h) = x(t) +hVx(t);
             float newX = (float) (x + (dt * obj.getVelocity().Vx));
@@ -103,6 +108,34 @@ public class PhysicsGenericFormulaTest {
 
         }
 
+        private static boolean fellInWater(GameObject obj){
+
+            float x1 = obj.getPreviousPosition().x;
+            float y1 = obj.getPreviousPosition().y;
+
+            float x2 = obj.getPosition().x;
+            float y2 = obj.getPosition().y;
+
+
+
+            float dx = x2 - x1;
+            float dy =  y2 -y1;
+            for(int i = 1; i<4;i++){
+                if(calcFunction(x1+dx/i,equation2Points(dx,dy,x1+dx/i,x1,y1))<0){
+                    System.out.println("true");
+                    return true;
+                }
+            }
+            return false;
+
+        }
+
+        //equation of the line is: y = dy/dx  - (dy/dx)*x1 + y1
+        private static float equation2Points(float dx, float dy,float xValue, float previousX, float previousY){
+            float k = dy /dx;
+            return k * xValue - k *previousX + previousY ;
+        }
+
     /*
     total power that affects the ball is
     F = G + H;
@@ -111,14 +144,12 @@ public class PhysicsGenericFormulaTest {
         //Calculation of the Gravitational Force
         //G = -mgh(,x) - mgh(,y)
         private static float gravityForceX(GameObject obj) {
-            float result = (float) (- obj.getMass() * g * partialDerivativeX(obj));
 
-            return result;
+            return (float) (- obj.getMass() * g * partialDerivativeX(obj));
         }
 
         private static float gravityForceY(GameObject obj) {
-            float result = (float) (- obj.getMass() * g * partialDerivativeY(obj));
-            return result;
+            return (float) (- obj.getMass() * g * partialDerivativeY(obj));
         }
 
         /*

@@ -22,5 +22,7 @@ public abstract class GameObject {
     public abstract void setPositionY(float y);
     public abstract void setVelocity(float speed, float angle);
     public abstract void setSpeed(float speed);
+    public abstract boolean inTheWater();
+    public abstract Vector2 getPreviousPosition();
 
 }
