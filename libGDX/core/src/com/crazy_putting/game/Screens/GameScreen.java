@@ -204,7 +204,7 @@ public class GameScreen extends InputAdapter implements Screen {
         //(pixmap.getHeight()/2 - j )instead of (j -pixmap.getHeight()/2 ) this way the image stays true to the world coordinates
         for(int i = -pixmap.getWidth()/2; i<pixmap.getWidth()/2;i++){
             for(int j = -pixmap.getHeight()/2; j<pixmap.getHeight()/2;j++){
-                for(int x=0;x<intervals.length;x++){
+                for(int x=0;x<intervals.length-1;x++){
                     float height = CourseManager.calculateHeight(i,j);
                     if(height<0){
                         pixmap.setColor(new Color(Color.BLUE));
