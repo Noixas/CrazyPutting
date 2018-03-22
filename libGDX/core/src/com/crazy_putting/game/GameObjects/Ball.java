@@ -32,6 +32,12 @@ public class Ball extends GameObject{
     }
     public Vector2 getPreviousPosition(){ return previousPosition; }
 
+    @Override
+    public float getSpeed() {
+        float result = (float) Math.sqrt(Math.pow(velocity.Vx,2) + Math.pow(velocity.Vy,2));
+        return result;
+    }
+
     public void setPosition(Vector2 position) {
         this.position = position;
     }
