@@ -2,7 +2,7 @@
 COURSE:
 ID: 0
 Name: Test3
-Height: 1600
+Height: x + y
 Friction: 0.5
 Goal Pos: 150.0 100.0
 Goal Radius: 25.0
@@ -61,4 +61,13 @@ Friction: 1.0
 Goal Pos: 500.0 400.0
 Goal Radius: 50.0
 Ball Start Pos: 100.0 150.0
+Max Speed: 0.0
+COURSE:
+ID: 7
+Name: Course without name D:
+Height: .05 * x + x ^3 - y^2
+Friction: 10.0
+Goal Pos: -100.0 -100.0
+Goal Radius: 50.0
+Ball Start Pos: 100.0 100.0
 Max Speed: 60.0

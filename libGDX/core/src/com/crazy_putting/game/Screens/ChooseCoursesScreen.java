@@ -143,6 +143,7 @@ public class ChooseCoursesScreen implements Screen{
         radiusValue.setText(CourseManager.getCourseWithID(selectBox.getSelectedIndex()).getGoalRadius()+"");
         maxVelocityValue.setText(CourseManager.getCourseWithID(selectBox.getSelectedIndex()).getMaxSpeed()+"");
         CourseManager.setActiveCourseWithIndex(selectBox.getSelectedIndex());
+        System.out.println("Index " + selectBox.getSelected());
 
     }
     @Override
@@ -155,10 +156,12 @@ public class ChooseCoursesScreen implements Screen{
         stage.draw();
     }
 
-    public static void confirmButtonClicked(){
+    public void confirmButtonClicked(){
         // TODO game logic needs to be implemented
         System.out.println("Put here game logic...");
         game.setScreen(new GameScreen(game,1));
+        System.out.println(CourseManager.getActiveCourse().toString());
+        System.out.println("Index " + selectBox.getSelected());
     }
     @Override
     public void resize(int width, int height) {

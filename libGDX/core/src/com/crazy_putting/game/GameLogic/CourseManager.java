@@ -13,7 +13,7 @@ public class CourseManager {
     private static Course _activeCourse;
     private static  String _cacheFileName;
 
-
+//TODO call again the expressionNode if another course is selected
     private static FormulaParser parser = new FormulaParser();
     private static ExpressionNode expr = null;
 
