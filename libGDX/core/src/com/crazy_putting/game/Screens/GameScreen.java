@@ -165,64 +165,72 @@ public class GameScreen extends InputAdapter implements Screen {
     public void dispose() {
 
     }
-    public void drawHeightMap(){
+    public void drawHeightMap() {
 
-       // Hole hole = _gameManager.getHole();
+        // Hole hole = _gameManager.getHole();
         pixmap = new Pixmap(WORLD_WIDTH, WORLD_HEIGHT, Pixmap.Format.RGB888);
         texture = new Texture(pixmap);
         float maxValue = 0;
         // important
         float minValue = 0;
-        for(int i = -pixmap.getWidth()/2; i<pixmap.getWidth()/2;i++) {
+        boolean sameValue = true;
+        float someValue = CourseManager.calculateHeight(0, 0);
+        for (int i = -pixmap.getWidth() / 2; i < pixmap.getWidth() / 2; i++) {
             for (int j = -pixmap.getHeight() / 2; j < pixmap.getHeight() / 2; j++) {
-                if(CourseManager.calculateHeight(i,j)<=minValue){
-                    minValue = CourseManager.calculateHeight(i,j);
+                if (CourseManager.calculateHeight(i, j) != someValue) {
+                    sameValue = false;
                 }
-                if(CourseManager.calculateHeight(i,j)>=maxValue){
-                    maxValue = CourseManager.calculateHeight(i,j);
+                if (CourseManager.calculateHeight(i, j) <= minValue) {
+                    minValue = CourseManager.calculateHeight(i, j);
+                }
+                if (CourseManager.calculateHeight(i, j) >= maxValue) {
+                    maxValue = CourseManager.calculateHeight(i, j);
                 }
             }
         }
 
-        int nrOfIntervals = 10;
-        float interval = (maxValue-minValue)/nrOfIntervals;
-        float[] intervals = new float[nrOfIntervals+1];
-        // should be rounded to smaller integer than minValue
-        for(int x=0;x<intervals.length;x++){
-            if(x!=0){
-                intervals[x] = intervals[x-1]+interval;
+        if (sameValue) {
+            for (int i = -pixmap.getWidth() / 2; i < pixmap.getWidth() / 2; i++) {
+                for (int j = -pixmap.getHeight() / 2; j < pixmap.getHeight() / 2; j++) {
+                    pixmap.setColor(Color.PURPLE);
+                    pixmap.drawPixel(i + pixmap.getWidth() / 2, pixmap.getHeight() / 2 - j);
+                }
             }
-            else if(x==0){
-                intervals[x] = minValue;
+        } else {
+            int nrOfIntervals = 10;
+            float interval = (maxValue - minValue) / nrOfIntervals;
+            float[] intervals = new float[nrOfIntervals + 1];
+            // should be rounded to smaller integer than minValue
+            for (int x = 0; x < intervals.length; x++) {
+                if (x != 0) {
+                    intervals[x] = intervals[x - 1] + interval;
+                } else if (x == 0) {
+                    intervals[x] = minValue;
+                } else {
+                    intervals[x] = maxValue;
+                }
+                System.out.println("Interval " + x + " : " + intervals[x]);
             }
-            else{
-                intervals[x] = maxValue;
-            }
-            System.out.println("Interval "+x+" : "+intervals[x]);
-        }
-        //NOTE: Pixmap coordinates start from TOP LEFT so the picture is mirrored with this loop, I changed the y coordinate in the draw to
-        //(pixmap.getHeight()/2 - j )instead of (j -pixmap.getHeight()/2 ) this way the image stays true to the world coordinates
-        for(int i = -pixmap.getWidth()/2; i<pixmap.getWidth()/2;i++){
-            for(int j = -pixmap.getHeight()/2; j<pixmap.getHeight()/2;j++){
-                for(int x=0;x<intervals.length-1;x++){
-                    float height = CourseManager.calculateHeight(i,j);
-                    if(height<0){
-                        pixmap.setColor(new Color(Color.BLUE));
-                        pixmap.drawPixel(i+pixmap.getWidth()/2, pixmap.getHeight()/2 - j);
-                        break;
-                    }
-                    else if(height>intervals[x] && height<=intervals[x+1]){
+            //NOTE: Pixmap coordinates start from TOP LEFT so the picture is mirrored with this loop, I changed the y coordinate in the draw to
+            //(pixmap.getHeight()/2 - j )instead of (j -pixmap.getHeight()/2 ) this way the image stays true to the world coordinates
+            for (int i = -pixmap.getWidth() / 2; i < pixmap.getWidth() / 2; i++) {
+                for (int j = -pixmap.getHeight() / 2; j < pixmap.getHeight() / 2; j++) {
+                    for (int x = 0; x < intervals.length - 1; x++) {
+                        float height = CourseManager.calculateHeight(i, j);
+                        if (height < 0) {
+                            pixmap.setColor(new Color(Color.BLUE));
+                            pixmap.drawPixel(i + pixmap.getWidth() / 2, pixmap.getHeight() / 2 - j);
+                            break;
+                        } else if (height > intervals[x] && height <= intervals[x + 1]) {
 //                        System.out.println("Bang");
-                        pixmap.setColor(new Color((float)(200/255.0*(1/(double)(x+1))),(float)((250-x*20)/255.0),(float)(200/255.0*(1/(double)(x+1))),1));
-                        pixmap.drawPixel(i+pixmap.getWidth()/2, pixmap.getHeight()/2 - j);
-                       // System.out.println("i "+i+ " j "+j+" "+height(i,j)+" interval "+(x+1)+"r: "+200*(1/(double)(x+1))+"g: "+(250-x*20)+" b: "+200*(1/(double)(x+1)));
-                        break;
+                            pixmap.setColor(new Color((float) (200 / 255.0 * (1 / (double) (x + 1))), (float) ((250 - x * 20) / 255.0), (float) (200 / 255.0 * (1 / (double) (x + 1))), 1));
+                            pixmap.drawPixel(i + pixmap.getWidth() / 2, pixmap.getHeight() / 2 - j);
+                            // System.out.println("i "+i+ " j "+j+" "+height(i,j)+" interval "+(x+1)+"r: "+200*(1/(double)(x+1))+"g: "+(250-x*20)+" b: "+200*(1/(double)(x+1)));
+                            break;
+                        }
                     }
                 }
             }
         }
-        //pixmap.setColor(Color.WHITE);
-        //pixmap.fillCircle((int)hole.getPosition().x,(int)hole.getPosition().y,hole.getRadius());
-        texture = new Texture(pixmap);
     }
 }
