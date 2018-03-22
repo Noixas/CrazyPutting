@@ -80,8 +80,7 @@ public class GameScreen extends InputAdapter implements Screen {
 
 
     public float height(float x, float y){
-//        float height = (float)(0.1*x + 0.03*Math.pow(x,2)+y*0.2);
-        float height = (float)(0.02*Math.pow(x,2)-0.04*Math.pow(y,2));
+        float height = (float)(0.1*x + 0.03*Math.pow(x,2)+y*0.2);
         return height;
     }
     private void handleInput() {
