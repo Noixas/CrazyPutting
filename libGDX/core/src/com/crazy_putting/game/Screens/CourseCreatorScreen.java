@@ -30,6 +30,8 @@ public class CourseCreatorScreen implements Screen {
     private TextField goalTextY;
     private TextField radiusText;
     private TextField maxVelocityText;
+    private Label errorLabel;
+
     public CourseCreatorScreen(GolfGame game){
         this.game = game;
         stage = new Stage();
@@ -68,6 +70,9 @@ public class CourseCreatorScreen implements Screen {
          radiusText = new TextField("", skin);
         Label maxVelocityLabel = new Label("Max velocity",skin);
         maxVelocityText = new TextField("", skin);
+        errorLabel = new Label("", skin);
+        errorLabel.setSize(200,50);
+        errorLabel.setPosition(0,buttonSize.y*3);
         /*
             Important: To change color of font of a label/button/etc. you need to change it in assets in .json
             file of a skin, where it is defined for a particular component.
@@ -100,6 +105,8 @@ public class CourseCreatorScreen implements Screen {
         table.row();
         table.add(maxVelocityLabel);
         table.add(maxVelocityText);
+
+        stage.addActor(errorLabel);
 //        textField = new TextField("", skin);
 //        Vector2 textFieldSize = new Vector2(200,50);
 //        textField.setPosition(confirmButton.getX(),confirmButton.getY()-buttonSize.y);
@@ -114,10 +121,8 @@ public class CourseCreatorScreen implements Screen {
     public void confirmButtonClicked(){
         // TODO game logic needs to be implemented
         createCourse();
-        System.out.println("Put here game logic...");
-        CourseManager.setActiveCourseWithIndex(CourseManager.getCourseAmount()-1);
-        game.setScreen(new MenuScreen(game));
     }
+
     private  void createCourse()
     {
         try {
@@ -130,13 +135,18 @@ public class CourseCreatorScreen implements Screen {
             newCourse.setGoalRadius(Float.parseFloat(radiusText.getText()));
             newCourse.setMaxSpeed(Float.parseFloat(maxVelocityText.getText()));
             CourseManager.addCourseToList(newCourse);
+
+            System.out.println("Put here game logic...");
+            CourseManager.setActiveCourseWithIndex(CourseManager.getCourseAmount()-1);
+            game.setScreen(new MenuScreen(game));
         }catch(Exception e)
         {
             System.out.println("Error saving course... Going Back to Menu");
             System.out.println(e.toString());
             System.out.println("Error saving course... Going Back to Menu");
             System.out.println("Error saving course... Going Back to Menu");
-            game.setScreen(new MenuScreen(game));
+            errorLabel.setText("You must input values in text fields");
+//            game.setScreen(new MenuScreen(game));
         }
     }
     @Override
