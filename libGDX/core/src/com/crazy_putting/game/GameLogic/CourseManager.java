@@ -123,4 +123,8 @@ public class CourseManager {
     {
         return  _activeCourse.getGoalPosition();
     }
+    public static float getMaxSpeed()
+    {
+        return _activeCourse.getMaxSpeed();
+    }
 }

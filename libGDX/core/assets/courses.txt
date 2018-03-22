@@ -115,4 +115,4 @@ Friction: 2.0
 Goal Pos: 3.0 33.0
 Goal Radius: 33.0
 Ball Start Pos: 2.0 1.0
-Max Speed: 3.0
+Max Speed: 0.0

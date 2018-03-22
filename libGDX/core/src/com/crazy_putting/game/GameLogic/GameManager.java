@@ -121,7 +121,10 @@ public class GameManager {
               try {
 
                   String[] data = input.getText().split(" ");
-                  _ball.setVelocity(Float.parseFloat(data[0]), Float.parseFloat(data[1]));
+                  float speed = Float.parseFloat(data[0]);
+                  if(speed > CourseManager.getMaxSpeed())
+                      speed = CourseManager.getMaxSpeed();
+                  _ball.setVelocity(speed, Float.parseFloat(data[1]));
                   _ball.fix(false);
                   input.clearText();//important to clear text or it will overwrite every frame
                   if (Float.parseFloat((data[0])) != 0) {
