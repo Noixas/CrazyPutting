@@ -22,23 +22,27 @@ public class Parser {
        _fileNameCached = pFileName;
 
     }
-    public static void writeCourse(String pFileName, Object pCourse)
+    public static void writeCourseList(String pFileName, List<Course> pCourseList)
+    {
+        for (int i = 0; i < pCourseList.size(); i++)
+        writeCourse(pFileName, pCourseList.get(i), i);
+    }
+    public static void writeCourse(String pFileName, Course pCourse, int pIndex)
     {
     if( checkForCache() == false) cacheFile(pFileName);
        List<String> out = new ArrayList<String>();//= getCacheFile();
         out.add(_courseSeparator + "");
-        out.add( "\nID: " +  (getAmountCourses() + 1));//Set the next course ID
-        out.add("\nName: ");//+pCourse.getName();
-        out.add("\nHeight: " );//+ pCourse.getHeight();
-        out.add("\nFriction: "); // +pCourse.getFriction();
-        out.add("\nGoal Pos: "); //+ pCourse.getGoalPos();
-        out.add("\nGoal Radius: "); //+ pCourse.getGoalRadius();
-        out.add( "\nBall Start Pos: "); //+ pCourse.getBallStartPos();
-        out.add("\nMax Speed: "); //+ pCourse.getMaxSpeed()
+        out.add( "\nID: " +  pIndex);//Set the next course ID
+        out.add("\nName: " + pCourse.getName());
+        out.add("\nHeight: " + pCourse.getHeight());
+        out.add("\nFriction: " +pCourse.getFriction());
+        out.add("\nGoal Pos: "+ pCourse.getGoalPosition().x + " " + pCourse.getGoalPosition().y);
+        out.add("\nGoal Radius: " + pCourse.getGoalRadius());
+        out.add( "\nBall Start Pos: " + pCourse.getStartBall().x + " " + pCourse.getStartBall().y);
+        out.add("\nMax Speed: " + pCourse.getMaxSpeed());
        String finalFile = "";
         for(int i = 0; i < out.size(); i++) {
             finalFile += out.get(i);
-
         }
         try{
             writeToTextFile(pFileName, finalFile);
@@ -47,7 +51,7 @@ public class Parser {
         }
     }
     private static void writeToTextFile(String fileName, String content) throws IOException {
-        Files.write(Paths.get(fileName), content.getBytes(), StandardOpenOption.CREATE);
+        Files.write(Paths.get(fileName), content.getBytes());
     }
     private static int getAmountCourses()
     {

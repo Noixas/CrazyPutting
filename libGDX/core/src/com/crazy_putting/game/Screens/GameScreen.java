@@ -6,14 +6,13 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
+import com.crazy_putting.game.FormulaParser.*;
 import com.crazy_putting.game.GameLogic.GameManager;
 import com.crazy_putting.game.GameLogic.GraphicsManager;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.crazy_putting.game.FormulaParser.*;
 import com.crazy_putting.game.GameObjects.Ball;
-import com.crazy_putting.game.MyCrazyPutting;
 
 import static com.crazy_putting.game.GameLogic.GraphicsManager.WORLD_HEIGHT;
 import static com.crazy_putting.game.GameLogic.GraphicsManager.WORLD_WIDTH;
@@ -290,7 +289,7 @@ public class GameScreen extends InputAdapter implements Screen {
 //                        System.out.println("Bang");
                         pixmap.setColor(new Color((float)(200/255.0*(1/(double)(x+1))),(float)((250-x*20)/255.0),(float)(200/255.0*(1/(double)(x+1))),1));
                         pixmap.drawPixel(i+pixmap.getWidth()/2, j+pixmap.getHeight()/2);
-                        System.out.println("i "+i+ " j "+j+" "+height(i,j)+" interval "+(x+1)+"r: "+200*(1/(double)(x+1))+"g: "+(250-x*20)+" b: "+200*(1/(double)(x+1)));
+                       // System.out.println("i "+i+ " j "+j+" "+height(i,j)+" interval "+(x+1)+"r: "+200*(1/(double)(x+1))+"g: "+(250-x*20)+" b: "+200*(1/(double)(x+1)));
                         break;
                     }
                 }
