@@ -1,6 +1,7 @@
 package com.crazy_putting.game.GameLogic;
 
 import com.badlogic.gdx.math.Vector2;
+import com.crazy_putting.game.FormulaParser.*;
 import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.Parser.Parser;
 
@@ -11,6 +12,10 @@ public class CourseManager {
     private static List<Course> _courseList;
     private static Course _activeCourse;
     private static  String _cacheFileName;
+
+
+    private static FormulaParser parser = new FormulaParser();
+    private static ExpressionNode expr = null;
 
     public static int getCourseAmount()
     {
@@ -24,8 +29,10 @@ public class CourseManager {
         if(_courseList != null) {
             _activeCourse = _courseList.get(0);
         }
-        else
+        else {
             System.out.println("No courses in the file");
+            return;
+        }
 
     }
     public static List<Course> getCourseList() {
@@ -64,5 +71,31 @@ public class CourseManager {
     {
         return _activeCourse.getStartBall();
     }
+    public static float calculateHeight(float x, float y){
+    if(_activeCourse == null)
+    {
+        System.out.println("No course have being defined from a file, load a file first");
+        return -1;
+    }
+        try {
+            if (expr == null) {
+                expr = parser.parse(_activeCourse.getHeight());
+            }
+            expr.accept(new SetVariable("x", x));
+            expr.accept(new SetVariable("y", y));
 
+            float result = (float) expr.getValue();
+            return result;
+
+        }
+        catch (ParserException e)
+        {
+            System.out.println(e.getMessage());
+        }
+        catch (EvaluationException e)
+        {
+            System.out.println(e.getMessage());
+        }
+        return 0;
+    }
 }
