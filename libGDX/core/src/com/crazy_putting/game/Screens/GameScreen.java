@@ -190,6 +190,7 @@ public class GameScreen extends InputAdapter implements Screen {
         }
 
         if(sameValue){
+            // just change a comment line
             for(int i = -pixmap.getWidth()/2; i<pixmap.getWidth()/2;i++){
                 for(int j = -pixmap.getHeight()/2; j<pixmap.getHeight()/2;j++){
                     pixmap.setColor(Color.PURPLE);
