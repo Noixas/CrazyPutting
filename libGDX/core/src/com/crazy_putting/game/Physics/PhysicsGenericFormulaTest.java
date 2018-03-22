@@ -1,6 +1,5 @@
 package com.crazy_putting.game.Physics;
 
-import com.crazy_putting.game.FormulaParser.*;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameObjects.GameObject;
 
@@ -11,8 +10,7 @@ public class PhysicsGenericFormulaTest {
         private static final float mu = (float) 0.4;
 
 
-        private static FormulaParser parser = new FormulaParser();
-        private static ExpressionNode expr = null;
+
 
         private static final double EPSILON = 1;
 
