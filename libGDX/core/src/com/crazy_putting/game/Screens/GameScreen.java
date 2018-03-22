@@ -32,7 +32,7 @@ public class GameScreen extends InputAdapter implements Screen {
     private Sprite mapSprite;
 
 
-    public GameScreen(GolfGame game) {
+    public GameScreen(GolfGame game, int pMode) {
         cam = new OrthographicCamera(WORLD_WIDTH*0.9f, WORLD_WIDTH*0.9f * (WORLD_HEIGHT / WORLD_WIDTH));
         cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
         cam.update();

@@ -11,9 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
-import java.util.Vector;
-
-import static com.crazy_putting.game.GameLogic.GraphicsManager.*;
+import static com.crazy_putting.game.GameLogic.GraphicsManager.WINDOW_HEIGHT;
+import static com.crazy_putting.game.GameLogic.GraphicsManager.WINDOW_WIDTH;
 
 public class CourseCreatorScreen implements Screen {
     private static GolfGame game;
@@ -96,7 +95,7 @@ public class CourseCreatorScreen implements Screen {
     public static void confirmButtonClicked(){
         // TODO game logic needs to be implemented
         System.out.println("Put here game logic...");
-        game.setScreen(new GameScreen(game));
+        game.setScreen(new GameScreen(game,1));
     }
 
     @Override

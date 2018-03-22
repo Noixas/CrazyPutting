@@ -28,6 +28,7 @@ public class CourseManager {
         _courseList = Parser.getCourses(_cacheFileName);
         if(_courseList != null) {
             _activeCourse = _courseList.get(0);
+            expr = parser.parse(_activeCourse.getHeight());
         }
         else {
             System.out.println("No courses in the file");

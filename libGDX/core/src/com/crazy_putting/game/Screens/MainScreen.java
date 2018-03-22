@@ -118,14 +118,14 @@ public class MainScreen extends InputAdapter implements Screen {
         System.out.println(worldTouch.y<playerRectangle.y);
         if(playerRectangle.contains(screenX, viewportY-screenY)){
             System.out.println("Touched");
-            game.setScreen(new GameScreen(game));
+            game.setScreen(new GameScreen(game,1));
 
         }
         if(fileRectangle.contains(worldTouch)){
-            game.setScreen(new GameScreen(game));
+            game.setScreen(new GameScreen(game,1));
         }
         if(settingsRectangle.contains(worldTouch)){
-            game.setScreen(new GameScreen(game));
+            game.setScreen(new GameScreen(game,1));
         }
         return true;
     }

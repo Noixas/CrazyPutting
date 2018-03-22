@@ -1,12 +1,11 @@
 package com.crazy_putting.game.Screens;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.Others.InputData;
-import sun.applet.Main;
 
 public class GolfGame extends Game {
     public SpriteBatch batch;
@@ -20,7 +19,9 @@ public class GolfGame extends Game {
         font.getData().setScale(1.1f);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         input = new InputData();
-        this.setScreen(new MainScreen(this));
+        this.setScreen(new MenuScreen(this));
+
+        CourseManager.loadFile("courses.txt");
     }
 
     @Override
