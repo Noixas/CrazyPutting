@@ -27,6 +27,7 @@ public class GameManager {
      _hole = new Hole(30);
      _turns = 0;
 
+     PhysicsGenericFormulaTest.updateCoefficients();
     _ball.addGraphicComponent(new GraphicsComponent( _ball.getTexture()));
     _hole.addGraphicComponent(new GraphicsComponent(
             new Texture("hole.png"), _hole.getRadius()*2, _hole.getRadius()*2));

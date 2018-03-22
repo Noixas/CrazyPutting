@@ -52,6 +52,10 @@ public class CourseManager {
     {
         setActiveCourse(getCourseWithID(pID));
     }
+    public static void setActiveCourseWithIndex(int pIndex)
+    {
+        setActiveCourse(_courseList.get(pIndex));
+    }
     private static void setActiveCourse(Course pCourse)
     {
         _activeCourse = pCourse;
