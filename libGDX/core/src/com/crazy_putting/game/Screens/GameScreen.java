@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.FormulaParser.*;
+import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameLogic.GameManager;
 import com.crazy_putting.game.GameLogic.GraphicsManager;
 import com.crazy_putting.game.GameObjects.Ball;
@@ -55,33 +56,6 @@ public class GameScreen extends InputAdapter implements Screen {
        // drawHeightMap();
     }
 
-    public float newHeight(float x, float y){
-        String formula = "0.1 * x + 0.03*x^2 + 0.2*y";
-        FormulaParser parser = new FormulaParser();
-        try
-        {
-            ExpressionNode expr = parser.parse(formula);
-            expr.accept(new SetVariable("x", x));
-            expr.accept(new SetVariable("y",y));
-            return (float) expr.getValue();
-        }
-        catch (ParserException e)
-        {
-            System.out.println(e.getMessage());
-        }
-        catch (EvaluationException e)
-        {
-            System.out.println(e.getMessage());
-        }
-        return 0;
-    }
-
-
-
-    public float height(float x, float y){
-        float height = (float)(0.1*x + 0.03*Math.pow(x,2)+y*0.2);
-        return height;
-    }
     private void handleInput() {
         if(Gdx.input.isKeyJustPressed(Input.Keys.O)){//TODO: reference to InputScreen, blazej?
             //game.setScreen(new InputScreen(game));
@@ -159,7 +133,7 @@ public class GameScreen extends InputAdapter implements Screen {
         game.font.getData().setScale(cam.zoom*0.7f);
         game.font.setColor(Color.BLACK);
         game.font.draw(game.batch, "Speed: "+Math.round(Math.sqrt(Math.pow(ball.getVelocity().Vx,2)+Math.pow(ball.getVelocity().Vy,2))), unprojectSpeed.x, unprojectSpeed.y);
-        game.font.draw(game.batch, "Height: "+Math.round(height(ball.getPosition().x,ball.getPosition().y)), unprojectHeight.x, unprojectHeight.y);
+        game.font.draw(game.batch, "Height: "+Math.round(CourseManager.calculateHeight(ball.getPosition().x,ball.getPosition().y)), unprojectHeight.x, unprojectHeight.y);
         game.font.draw(game.batch, "Ball x: "+Math.round(ball.getPosition().x), unprojectBallX.x, unprojectBallX.y);
         game.font.draw(game.batch, "Ball y: "+Math.round(ball.getPosition().y), unprojectBallY.x, unprojectBallY.y);
     }
@@ -190,57 +164,6 @@ public class GameScreen extends InputAdapter implements Screen {
 
     }
 
-    public void drawHeightMapTest(){
-        pixmap = new Pixmap(WORLD_HEIGHT,WORLD_HEIGHT, Pixmap.Format.RGB888);
-        texture = new Texture(pixmap);
-        for(int i = 0; i<pixmap.getWidth();i++){
-            for(int j = 0; j<pixmap.getHeight();j++){
-//                if(i==0&&j==0){
-//                    pixmap.setColor(Color.BLACK);
-//                    pixmap.drawCircle(i,j,100);
-//                }
-                if(height(i,j)>0 && height(i,j)<1000){
-                    pixmap.setColor(Color.BROWN);
-                    pixmap.drawCircle(i,j,90);
-                    System.out.println(height(i,j));
-
-                }
-                else if(height(i,j)>1000 && height(i,j)<3000){
-                    pixmap.setColor(Color.PURPLE);
-                    pixmap.drawPixel(i,j);
-
-                }
-                else if(height(i,j)>3000 && height(i,j)<4000){
-                    pixmap.setColor(Color.BLACK);
-                    pixmap.drawPixel(i,j);
-
-                }
-                else if(height(i,j)>4000 && height(i,j)<5000){
-                    pixmap.setColor(Color.PINK);
-                    pixmap.drawPixel(i,j);
-                }
-                else if (height(i,j)>500000 && height(i,j)<600000){
-                    pixmap.setColor(Color.GREEN);
-                    pixmap.drawPixel(i, j);
-                }
-                else if (height(i,j)>600000&& height(i,j)<700000){
-                    pixmap.setColor(Color.YELLOW);
-                    pixmap.drawPixel(i, j);
-                }
-                else if (height(i,j)>700000 && height(i,j)<800000){
-                    pixmap.setColor(Color.BROWN);
-                    pixmap.drawPixel(i, j);
-                }
-                else {
-                    pixmap.setColor(Color.BLUE);
-                    pixmap.drawPixel(i, j);
-                    System.out.println(height(i,j));
-                }
-
-            }
-        }
-        texture.draw(pixmap, 0, 0);
-    }
     public void drawHeightMap(){
 
        // Hole hole = _gameManager.getHole();
@@ -251,11 +174,11 @@ public class GameScreen extends InputAdapter implements Screen {
         float minValue = 0;
         for(int i = -pixmap.getWidth()/2; i<pixmap.getWidth()/2;i++) {
             for (int j = -pixmap.getHeight() / 2; j < pixmap.getHeight() / 2; j++) {
-                if(height(i,j)<=minValue){
-                    minValue = height(i,j);
+                if(CourseManager.calculateHeight(i,j)<=minValue){
+                    minValue = CourseManager.calculateHeight(i,j);
                 }
-                if(height(i,j)>=maxValue){
-                    maxValue = height(i,j);
+                if(CourseManager.calculateHeight(i,j)>=maxValue){
+                    maxValue = CourseManager.calculateHeight(i,j);
                 }
             }
         }
@@ -280,12 +203,12 @@ public class GameScreen extends InputAdapter implements Screen {
         for(int i = -pixmap.getWidth()/2; i<pixmap.getWidth()/2;i++){
             for(int j = -pixmap.getHeight()/2; j<pixmap.getHeight()/2;j++){
                 for(int x=0;x<intervals.length;x++){
-                    if(height(i,j)<0){
+                    if(CourseManager.calculateHeight(i,j)<0){
                         pixmap.setColor(new Color(Color.BLUE));
                         pixmap.drawPixel(i+pixmap.getWidth()/2, j+pixmap.getHeight()/2);
                         break;
                     }
-                    else if(height(i,j)>intervals[x] && height(i,j)<=intervals[x+1]){
+                    else if(CourseManager.calculateHeight(i,j)>intervals[x] && CourseManager.calculateHeight(i,j)<=intervals[x+1]){
 //                        System.out.println("Bang");
                         pixmap.setColor(new Color((float)(200/255.0*(1/(double)(x+1))),(float)((250-x*20)/255.0),(float)(200/255.0*(1/(double)(x+1))),1));
                         pixmap.drawPixel(i+pixmap.getWidth()/2, j+pixmap.getHeight()/2);
