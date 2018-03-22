@@ -8,6 +8,7 @@ import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.MyCrazyPutting;
 import com.crazy_putting.game.Others.InputData;
+import com.crazy_putting.game.Parser.ReadAndAnalyse;
 import com.crazy_putting.game.Physics.PhysicsGenericFormulaTest;
 import com.crazy_putting.game.Screens.GolfGame;
 
@@ -19,9 +20,12 @@ public class GameManager {
     private Hole _hole;
     private GolfGame _game;
     private int _turns;
-
-    public GameManager(GolfGame pGame)
+    private int _mode;
+    public GameManager(GolfGame pGame, int pMode)
     {
+        _mode = pMode;
+        if(_mode == 2)
+            ReadAndAnalyse.calculate("myFile.txt");
      _ball = new Ball("golfBall.png");
      _game = pGame;
      _hole = new Hole((int)CourseManager.getActiveCourse().getGoalRadius());
@@ -53,10 +57,10 @@ public class GameManager {
             _ball.fix(true);
         }
         else{
-            System.out.println("RADIUS: "+_hole.getRadius());
-            System.out.println("ball position x "+_ball.getPosition().x+" y "+_ball.getPosition().y);
-            System.out.println("hole position x "+_hole.getPosition().x+" y "+_hole.getPosition().y);
-            System.out.println("Distance"+Math.sqrt(Math.pow(_ball.getPosition().x -_hole.getPosition().x,2) +Math.pow((_ball.getPosition().y - _hole.getPosition().y),2)));
+         //   System.out.println("RADIUS: "+_hole.getRadius());
+          //  System.out.println("ball position x "+_ball.getPosition().x+" y "+_ball.getPosition().y);
+          //  System.out.println("hole position x "+_hole.getPosition().x+" y "+_hole.getPosition().y);
+          //  System.out.println("Distance"+Math.sqrt(Math.pow(_ball.getPosition().x -_hole.getPosition().x,2) +Math.pow((_ball.getPosition().y - _hole.getPosition().y),2)));
         }
 
     }
@@ -110,34 +114,47 @@ public class GameManager {
     }
     public void handleInput(InputData input){
         // later on it should be if speed of the ball is zero (ball is not moving, then input data)
-        if(Gdx.input.isKeyJustPressed(Input.Keys.I) && _ball.isMoving() == false){
-            CourseManager.reWriteCourse();
-            Gdx.input.getTextInput(input, "Input data", "", "Input speed and direction separated with space");
-        }
-        if(input.getText()!=null){
-            try{
+      if(_mode == 1) {
+          if (Gdx.input.isKeyJustPressed(Input.Keys.I) && _ball.isMoving() == false) {
+              CourseManager.reWriteCourse();//TODO: CHECK WHY THIS IS HERE
+              Gdx.input.getTextInput(input, "Input data", "", "Input speed and direction separated with space");
+          }
+          if (input.getText() != null) {
+              try {
 
-                String[] data = input.getText().split(" ");
-                _ball.setVelocity(Float.parseFloat(data[0]),Float.parseFloat(data[1]));
-                _ball.fix(false);
-                input.clearText();//important to clear text or it will overwrite every frame
-                if(Float.parseFloat((data[0]))!=0) {
-                    _ball.setVelocity(Float.parseFloat(data[0]), Float.parseFloat(data[1]));
-                    increaseTurnCount();
-                }
-                else{
-                    float e = (float) 0.0001;
-                    _ball.setVelocity(e,Float.parseFloat(data[1]));
-                }
-                input.clearText();//Important so we dont spam new velocity every time
-            }
-            catch(NumberFormatException e){
-                // later on this will be added on the game screen so that it wasn't printed multiple times
-                // after doing this change, delete printing stack trace
-                Gdx.app.error("Exception: ","You must input numbers");
-                e.getStackTrace();
-            }
-        }
+                  String[] data = input.getText().split(" ");
+                  _ball.setVelocity(Float.parseFloat(data[0]), Float.parseFloat(data[1]));
+                  _ball.fix(false);
+                  input.clearText();//important to clear text or it will overwrite every frame
+                  if (Float.parseFloat((data[0])) != 0) {
+                      _ball.setVelocity(Float.parseFloat(data[0]), Float.parseFloat(data[1]));
+                      increaseTurnCount();
+                  } else {
+                      float e = (float) 0.0001;
+                      _ball.setVelocity(e, Float.parseFloat(data[1]));
+                  }
+                  input.clearText();//Important so we dont spam new velocity every time
+              } catch (NumberFormatException e) {
+                  // later on this will be added on the game screen so that it wasn't printed multiple times
+                  // after doing this change, delete printing stack trace
+                  Gdx.app.error("Exception: ", "You must input numbers");
+                  e.getStackTrace();
+              }
+          }
+      }
+      else if(_mode == 2){
+          if (Gdx.input.isKeyJustPressed(Input.Keys.I)){
 
-    }
+              System.out.println("MODE "+_mode+" with N: " + ReadAndAnalyse.getN());
+              if(_ball.isMoving() == false && _turns<ReadAndAnalyse.getN()) {
+              _ball.setVelocity(ReadAndAnalyse.getResult()[_turns][0], ReadAndAnalyse.getResult()[_turns][1]);
+              _ball.fix(false);
+              increaseTurnCount();
+          }
+          else if(_turns>=ReadAndAnalyse.getN()) System.out.println("No more moves...");
+          }
+      }
+      }
+
+
 }

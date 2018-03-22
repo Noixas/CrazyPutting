@@ -48,7 +48,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
                 mode1Button.addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                         golfGame.setScreen(new ChooseCoursesScreen(golfGame)); // go to "Select course" screen, with mode 1
+                         golfGame.setScreen(new ChooseCoursesScreen(golfGame, 1)); // go to "Select course" screen, with mode 1
                     }
                 });
 
@@ -56,7 +56,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
                 mode2Button.addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        // golfGame.setScreen(new SelectCourse(golfGame,2)); // go to "Select course" screen, with mode 2
+                         golfGame.setScreen(new ChooseCoursesScreen(golfGame,2)); // go to "Select course" screen, with mode 2
                     }
                 });
 
