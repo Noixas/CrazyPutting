@@ -1,10 +1,7 @@
 package com.crazy_putting.game.GameObjects;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.crazy_putting.game.Others.InputData;
 import com.crazy_putting.game.Others.Velocity;
 
 public class Ball extends GameObject{
@@ -14,13 +11,13 @@ public class Ball extends GameObject{
     private Vector2 position;
     private Velocity velocity;
     private Texture texture;
-
+    private boolean _isMoving = false;
 
     public Ball(String filename){
         texture = new Texture(filename);
         position = new Vector2();
         velocity = new Velocity();
-        setVelocity(1,0);
+        setVelocity(.1f,90);
     }
     public Ball(String filename, Vector2 pPosition){
         texture = new Texture(filename);
@@ -66,40 +63,15 @@ public class Ball extends GameObject{
     }
     public boolean isMoving()
     {
-        return true;
+        return _isMoving;
     }
     public void update(float  dt){
        // System.out.println(getPosition());
+        if(getVelocity().getSpeed() < 1)
+            _isMoving = false;
+        else _isMoving = true;
     }
 
-    public void handleInput(InputData input){
-        // later on it should be if speed of the ball is zero (ball is not moving, then input data)
-        if(Gdx.input.isKeyJustPressed(Input.Keys.I)){
-            Gdx.input.getTextInput(input, "Input data", "", "Input speed and direction separated with space");
-        }
-        if(input.getText()!=null){
-            try{
 
-                String[] data = input.getText().split(" ");
-                setVelocity(Float.parseFloat(data[0]),Float.parseFloat(data[1]));
-                input.clearText();//important to clear text or it will overwrite every frame
-                if(Float.parseFloat((data[0]))!=0) {
-                    setVelocity(Float.parseFloat(data[0]), Float.parseFloat(data[1]));
-                }
-                else{
-                    float e = (float) 0.0001;
-                    setVelocity(e,Float.parseFloat(data[1]));
-                }
-               input.clearText();
-            }
-            catch(NumberFormatException e){
-                // later on this will be added on the game screen so that it wasn't printed multiple times
-                // after doing this change, delete printing stack trace
-                Gdx.app.error("Exception: ","You must input numbers");
-                e.getStackTrace();
-            }
-        }
-
-    }
 
 }

@@ -1,7 +1,6 @@
 package com.crazy_putting.game.Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -14,6 +13,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.MyCrazyPutting;
 import com.crazy_putting.game.Parser.Parser;
 
@@ -34,7 +34,9 @@ public class MainScreen extends InputAdapter implements Screen {
         this.game = game;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, viewportX, viewportY);
-
+        CourseManager.loadFile("courses.txt");
+        for (int i = 0; i < CourseManager.getCourseAmount(); i++)
+        System.out.println(CourseManager.getCourseList().get(i).toString());
     }
 
     @Override

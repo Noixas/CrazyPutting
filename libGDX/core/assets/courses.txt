@@ -1,0 +1,19 @@
+
+COURSE:
+ID: 1
+Name: Test1
+Height: 0.1 * x + 0.03 * x^2 + 0.2 * y
+Friction: 0.5
+Goal Pos: 100 100
+Goal Radius: 30
+Ball Start Pos: 150 400
+Max Speed: 3
+COURSE:
+ID: 2
+Name: Test2
+Height: 0.1 * x + 0.03 * x^2 + 0.2 * y
+Friction: 0.6
+Goal Pos: 150 100
+Goal Radius: 25
+Ball Start Pos: 140 450
+Max Speed: 3

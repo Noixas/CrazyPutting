@@ -6,28 +6,37 @@ import com.crazy_putting.game.GameObjects.GameObject;
 
 
 public class PhysicsGenericFormulaTest {
+
         private static final double g = 9.81;
         //just create a friction coefficient here for now
         private static final float mu = (float) 0.4;
-//        private static final String formula = "0.1 * x + 0.003*x^2 + 0.2*y";
-        private static final String formula = "0.02*x^2-0.04*y^2";
+
+        private static final String formula = "0.1 * x + 0.03*x^2 + 0.2*y";
+
         private static FormulaParser parser = new FormulaParser();
         private static ExpressionNode expr = null;
 
-        private static final double EPSILON = 0.01;
+        private static final double EPSILON = 1;
+
+
 
         private static double partialDerivativeX(GameObject obj) {
             float x1 = (float) (obj.getPosition().x + EPSILON);
             float x2 = (float) (x1 - 2*EPSILON);
             float y = obj.getPosition().y;
-            return (calcFunction(x1,y) - calcFunction(x2,y))/2*EPSILON;
+            float result = (float) ((calcFunction(x1,y) - calcFunction(x2,y))/2*EPSILON);
+            //float difference = (float) (result - (0.01 + obj.getPosition().x * 0.06));
+            //System.out.println("approximation error: " + difference);
+            return result;
         }
 
         private static double partialDerivativeY(GameObject obj) {
             float x = (float) (obj.getPosition().x + EPSILON);
             float y1 = obj.getPosition().y;
             float y2 = (float) (y1 - 2*EPSILON);
-            return (calcFunction(x,y1) - calcFunction(x,y2))/2*EPSILON;
+            float result = (float) ((calcFunction(x,y1) - calcFunction(x,y2))/2*EPSILON);
+            //System.out.println(result);
+            return result;
         }
 
         private static float calcFunction(float x, float y){
