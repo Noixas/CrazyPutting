@@ -15,6 +15,9 @@ import com.crazy_putting.game.FormulaParser.*;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.MyCrazyPutting;
 
+import static com.crazy_putting.game.GameLogic.GraphicsManager.WORLD_HEIGHT;
+import static com.crazy_putting.game.GameLogic.GraphicsManager.WORLD_WIDTH;
+
 public class GameScreen extends InputAdapter implements Screen {
     final GolfGame game;
     private ShapeRenderer sr;
@@ -25,13 +28,11 @@ public class GameScreen extends InputAdapter implements Screen {
     OrthographicCamera cam;
 
     //New blazej
-    private final int WORLD_WIDTH = MyCrazyPutting.WIDTH;
-    private final int WORLD_HEIGHT = MyCrazyPutting.HEIGHT;
     private Sprite mapSprite;
 
 
     public GameScreen(GolfGame game) {
-        cam = new OrthographicCamera(500, 500 * (WORLD_HEIGHT / WORLD_WIDTH));
+        cam = new OrthographicCamera(WORLD_WIDTH*0.9f, WORLD_WIDTH*0.9f * (WORLD_HEIGHT / WORLD_WIDTH));
         cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
         cam.update();
         parser = new FormulaParser();
@@ -79,7 +80,8 @@ public class GameScreen extends InputAdapter implements Screen {
 
 
     public float height(float x, float y){
-        float height = (float)(0.1*x + 0.03*Math.pow(x,2)+y*0.2);
+//        float height = (float)(0.1*x + 0.03*Math.pow(x,2)+y*0.2);
+        float height = (float)(0.02*Math.pow(x,2)-0.04*Math.pow(y,2));
         return height;
     }
     private void handleInput() {
@@ -165,7 +167,7 @@ public class GameScreen extends InputAdapter implements Screen {
     }
     @Override
     public void resize(int width, int height) {
-        cam.viewportWidth = width/1.5f;
+        cam.viewportWidth = width/1.1f;
         cam.viewportHeight = cam.viewportWidth * height/width;
         cam.update();
     }
@@ -191,7 +193,7 @@ public class GameScreen extends InputAdapter implements Screen {
     }
 
     public void drawHeightMapTest(){
-        pixmap = new Pixmap(700,700, Pixmap.Format.RGB888);
+        pixmap = new Pixmap(WORLD_HEIGHT,WORLD_HEIGHT, Pixmap.Format.RGB888);
         texture = new Texture(pixmap);
         for(int i = 0; i<pixmap.getWidth();i++){
             for(int j = 0; j<pixmap.getHeight();j++){
@@ -246,29 +248,50 @@ public class GameScreen extends InputAdapter implements Screen {
        // Hole hole = _gameManager.getHole();
         pixmap = new Pixmap(WORLD_WIDTH, WORLD_HEIGHT, Pixmap.Format.RGB888);
         texture = new Texture(pixmap);
-        float maxValue = (height(pixmap.getWidth(),pixmap.getHeight()));
-        int nrOfIntervals = 10;
-        int interval = (int)maxValue/nrOfIntervals;
-        int[] intervals = new int[nrOfIntervals+1];
+        float maxValue = 0;
+        // important
+        float minValue = 0;
+        for(int i = -pixmap.getWidth()/2; i<pixmap.getWidth()/2;i++) {
+            for (int j = -pixmap.getHeight() / 2; j < pixmap.getHeight() / 2; j++) {
+                if(height(i,j)<=minValue){
+                    minValue = height(i,j);
+                }
+                if(height(i,j)>=maxValue){
+                    maxValue = height(i,j);
+                }
+            }
+        }
 
+        int nrOfIntervals = 10;
+        float interval = (maxValue-minValue)/nrOfIntervals;
+        float[] intervals = new float[nrOfIntervals+1];
+        // should be rounded to smaller integer than minValue
         for(int x=0;x<intervals.length;x++){
-            intervals[x] = interval*x;
+            if(x!=0){
+                intervals[x] = intervals[x-1]+interval;
+            }
+            else if(x==0){
+                intervals[x] = minValue;
+            }
+            else{
+                intervals[x] = maxValue;
+            }
             System.out.println("Interval "+x+" : "+intervals[x]);
         }
 
-        for(int i = 0; i<pixmap.getWidth();i++){
-            for(int j = 0; j<pixmap.getHeight();j++){
+        for(int i = -pixmap.getWidth()/2; i<pixmap.getWidth()/2;i++){
+            for(int j = -pixmap.getHeight()/2; j<pixmap.getHeight()/2;j++){
                 for(int x=0;x<intervals.length;x++){
                     if(height(i,j)<0){
                         pixmap.setColor(new Color(Color.BLUE));
-                        pixmap.drawPixel(i, j);
+                        pixmap.drawPixel(i+pixmap.getWidth()/2, j+pixmap.getHeight()/2);
                         break;
                     }
-                    else if(height(i,j)>intervals[x] && height(i,j)<intervals[x+1]){
+                    else if(height(i,j)>intervals[x] && height(i,j)<=intervals[x+1]){
 //                        System.out.println("Bang");
                         pixmap.setColor(new Color((float)(200/255.0*(1/(double)(x+1))),(float)((250-x*20)/255.0),(float)(200/255.0*(1/(double)(x+1))),1));
-                        pixmap.drawPixel(i, j);
-//                        System.out.println(height(i,j)+" interval "+(x+1)+"r: "+200*(1/(double)(x+1))+"g: "+(250-x*20)+" b: "+200*(1/(double)(x+1)));
+                        pixmap.drawPixel(i+pixmap.getWidth()/2, j+pixmap.getHeight()/2);
+                        System.out.println("i "+i+ " j "+j+" "+height(i,j)+" interval "+(x+1)+"r: "+200*(1/(double)(x+1))+"g: "+(250-x*20)+" b: "+200*(1/(double)(x+1)));
                         break;
                     }
                 }

@@ -6,19 +6,15 @@ import com.crazy_putting.game.GameObjects.GameObject;
 
 
 public class PhysicsGenericFormulaTest {
-
         private static final double g = 9.81;
         //just create a friction coefficient here for now
         private static final float mu = (float) 0.4;
-
-        private static final String formula = "0.1 * x + 0.003*x^2 + 0.2*y";
-
+//        private static final String formula = "0.1 * x + 0.003*x^2 + 0.2*y";
+        private static final String formula = "0.02*x^2-0.04*y^2";
         private static FormulaParser parser = new FormulaParser();
         private static ExpressionNode expr = null;
 
         private static final double EPSILON = 0.01;
-
-
 
         private static double partialDerivativeX(GameObject obj) {
             float x1 = (float) (obj.getPosition().x + EPSILON);
