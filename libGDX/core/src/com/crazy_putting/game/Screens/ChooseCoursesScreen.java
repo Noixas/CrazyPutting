@@ -136,6 +136,7 @@ public class ChooseCoursesScreen implements Screen{
         goalValue.setText(CourseManager.getCourseWithID(selectBox.getSelectedIndex()).getGoalPosition().toString());
         radiusValue.setText(CourseManager.getCourseWithID(selectBox.getSelectedIndex()).getGoalRadius()+"");
         maxVelocityValue.setText(CourseManager.getCourseWithID(selectBox.getSelectedIndex()).getMaxSpeed()+"");
+        CourseManager.setActiveCourseWithIndex(selectBox.getSelectedIndex());
 
     }
     @Override

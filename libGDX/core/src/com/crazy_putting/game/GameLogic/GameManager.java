@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.crazy_putting.game.Components.GraphicsComponent;
 import com.crazy_putting.game.GameObjects.Ball;
-import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.MyCrazyPutting;
 import com.crazy_putting.game.Others.InputData;
@@ -27,6 +26,7 @@ public class GameManager {
      _game = pGame;
      _hole = new Hole((int)CourseManager.getActiveCourse().getGoalRadius());
      _turns = 0;
+     PhysicsGenericFormulaTest.updateCoefficients();
         System.out.println("Is that radius? "+(int)CourseManager.getActiveCourse().getGoalRadius());
     _ball.addGraphicComponent(new GraphicsComponent( _ball.getTexture()));
     _hole.addGraphicComponent(new GraphicsComponent(

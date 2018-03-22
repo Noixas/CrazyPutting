@@ -9,7 +9,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
-import com.crazy_putting.game.FormulaParser.*;
+import com.crazy_putting.game.FormulaParser.ExpressionNode;
+import com.crazy_putting.game.FormulaParser.FormulaParser;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameLogic.GameManager;
 import com.crazy_putting.game.GameLogic.GraphicsManager;
@@ -46,7 +47,6 @@ public class GameScreen extends InputAdapter implements Screen {
         mapSprite.setPosition(0,0);
         mapSprite.setSize(WORLD_WIDTH, WORLD_HEIGHT);
         Gdx.input.setInputProcessor(this);
-
     }
 
 

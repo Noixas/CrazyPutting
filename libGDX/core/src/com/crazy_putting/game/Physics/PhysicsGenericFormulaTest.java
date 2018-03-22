@@ -8,12 +8,12 @@ public class PhysicsGenericFormulaTest {
 
         private static final double g = 9.81;
         //just create a friction coefficient here for now
-        private static final float mu = (float) 0.4;
+        private static float mu = (float) 0.4;
 
 
 
 
-        private static final double EPSILON = 1;
+        private static double EPSILON = 1;
 
 
 
@@ -35,7 +35,12 @@ public class PhysicsGenericFormulaTest {
             //System.out.println(result);
             return result;
         }
+        public static void updateCoefficients()
+        {
+            mu = CourseManager.getActiveCourse().getFriction();
 
+
+        }
 
 
 
