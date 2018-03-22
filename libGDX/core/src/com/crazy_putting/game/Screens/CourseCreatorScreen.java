@@ -10,8 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.crazy_putting.game.FormulaParser.*;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameObjects.Course;
+import com.crazy_putting.game.Parser.Parser;
 
 import static com.crazy_putting.game.GameLogic.GraphicsManager.WINDOW_HEIGHT;
 import static com.crazy_putting.game.GameLogic.GraphicsManager.WINDOW_WIDTH;
@@ -31,6 +33,9 @@ public class CourseCreatorScreen implements Screen {
     private TextField radiusText;
     private TextField maxVelocityText;
     private Label errorLabel;
+    private ExpressionNode exp = null;
+    private FormulaParser parser = new FormulaParser();
+
 
     public CourseCreatorScreen(GolfGame game){
         this.game = game;
@@ -130,11 +135,33 @@ public class CourseCreatorScreen implements Screen {
             newCourse.setName("Course without name D:");
             newCourse.setHeight(heightText.getText());
             newCourse.setFriction(Float.parseFloat(frictionText.getText()));
-            newCourse.setBallStartPos(new Vector2(Float.parseFloat(startTextX.getText()), Float.parseFloat(startTextY.getText())));
+            Vector2 ball_start_position = new Vector2(Float.parseFloat(startTextX.getText()), Float.parseFloat(startTextY.getText()));
+            newCourse.setBallStartPos(ball_start_position);
             newCourse.setGoalPosition(new Vector2(Float.parseFloat(goalTextX.getText()), Float.parseFloat(goalTextY.getText())));
             newCourse.setGoalRadius(Float.parseFloat(radiusText.getText()));
             newCourse.setMaxSpeed(Float.parseFloat(maxVelocityText.getText()));
             CourseManager.addCourseToList(newCourse);
+            /*
+            ADD LABEL ERROR HERE
+            Starting position is in the water
+             */
+            try {
+                if (exp == null) {
+                    exp = parser.parse(heightText.getText());
+                }
+                exp.accept(new SetVariable("x", ball_start_position.x));
+                exp.accept(new SetVariable("y", ball_start_position.y));
+                float result = (float) exp.getValue();
+                if(result < 0){
+                    System.out.println("Starting position of the ball is in the water");
+                    }
+                }
+                catch (ParserException e) {
+                    System.out.println(e.getMessage());
+                }
+                catch (EvaluationException e) {
+                    System.out.println(e.getMessage());
+                }
 
             System.out.println("Put here game logic...");
             CourseManager.setActiveCourseWithIndex(CourseManager.getCourseAmount()-1);

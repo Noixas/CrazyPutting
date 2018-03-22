@@ -82,5 +82,10 @@ public class Hole extends GameObject {
 
     }
 
+    @Override
+    public boolean isSlow() {
+        return false;
+    }
+
 
 }

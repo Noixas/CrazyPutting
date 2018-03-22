@@ -104,6 +104,11 @@ public class Ball extends GameObject{
         this._isFixed=tf;
     }
 
+    @Override
+    public boolean isSlow() {
+        return getSpeed() < 5;
+    }
+
 
     @Override
     public boolean inTheWater() {

@@ -21,6 +21,7 @@ public class GameManager {
     private GolfGame _game;
     private int _turns;
     private int _mode;
+
     public GameManager(GolfGame pGame, int pMode)
     {
         _mode = pMode;
@@ -51,7 +52,7 @@ public class GameManager {
     private void UpdateGameLogic(float pDelta)
     {
         if(Math.sqrt(Math.pow(_ball.getPosition().x -_hole.getPosition().x,2) +Math.pow((_ball.getPosition().y - _hole.getPosition().y),2))< _hole.getRadius() &&
-                !(_ball.isMoving())) {
+                (_ball.isSlow())) {
             System.out.println("Ball in goal");
 
             _ball.fix(true);

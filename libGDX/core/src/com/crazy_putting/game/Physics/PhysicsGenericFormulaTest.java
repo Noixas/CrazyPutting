@@ -8,7 +8,8 @@ public class PhysicsGenericFormulaTest {
 
         private static final double g = 9.81;
         //just create a friction coefficient here for now
-        private static float mu = (float) 0.4;
+        //COULD BE BUGGY
+        private static float mu = (float) CourseManager.getActiveCourse().getFriction();
 
 
 
@@ -103,7 +104,7 @@ public class PhysicsGenericFormulaTest {
             float y2 = obj.getPosition().y;
 
             if(x2 > GraphicsManager.WORLD_WIDTH/2 || x2<GraphicsManager.WORLD_WIDTH/2 * (-1) || y2>GraphicsManager.WORLD_HEIGHT/2 || y2<GraphicsManager.WORLD_HEIGHT/2 * (-1)){
-                System.out.println("Out of bounds");
+                //System.out.println("Out of bounds");
                 return true;
 
             }
