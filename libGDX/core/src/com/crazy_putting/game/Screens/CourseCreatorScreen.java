@@ -13,7 +13,6 @@ import com.badlogic.gdx.utils.Align;
 import com.crazy_putting.game.FormulaParser.*;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameObjects.Course;
-import com.crazy_putting.game.Parser.Parser;
 
 import static com.crazy_putting.game.GameLogic.GraphicsManager.WINDOW_HEIGHT;
 import static com.crazy_putting.game.GameLogic.GraphicsManager.WINDOW_WIDTH;
@@ -130,70 +129,72 @@ public class CourseCreatorScreen implements Screen {
 
     private  void createCourse()
     {
-        try {
-            Course newCourse = new Course();
-            newCourse.setName("Course without name D:");
-            newCourse.setHeight(heightText.getText());
-            newCourse.setFriction(Float.parseFloat(frictionText.getText()));
-            Vector2 ball_start_position = new Vector2(Float.parseFloat(startTextX.getText()), Float.parseFloat(startTextY.getText()));
-            newCourse.setBallStartPos(ball_start_position);
-            newCourse.setGoalPosition(new Vector2(Float.parseFloat(goalTextX.getText()), Float.parseFloat(goalTextY.getText())));
-            newCourse.setGoalRadius(Float.parseFloat(radiusText.getText()));
-            newCourse.setMaxSpeed(Float.parseFloat(maxVelocityText.getText()));
-            CourseManager.addCourseToList(newCourse);
-            /*
-            ADD LABEL ERROR HERE
-            Starting position is in the water
-             */
-            try {
-                if (exp == null) {
-                    exp = parser.parse(heightText.getText());
-                }
-                exp.accept(new SetVariable("x", ball_start_position.x));
-                exp.accept(new SetVariable("y", ball_start_position.y));
-                float result = (float) exp.getValue();
-                if(result < 0){
-                    throw new IllegalArgumentException("Neither ball nor hole can be in water");
-                }
 
+
+            try{
                 System.out.println("Put here game logic...");
-                CourseManager.setActiveCourseWithIndex(CourseManager.getCourseAmount()-1);
-                CourseManager.reWriteCourse();
-                game.setScreen(new MenuScreen(game));
-            }
-            catch (IllegalArgumentException e){
-                errorLabel.setText("Ball and hole starting position can't be in water");
+                Course newCourse = new Course();
+                newCourse.setName("Course without name D:");
+                newCourse.setHeight(heightText.getText());
+                newCourse.setFriction(Float.parseFloat(frictionText.getText()));
+                Vector2 ball_start_position = new Vector2(Float.parseFloat(startTextX.getText()), Float.parseFloat(startTextY.getText()));
+                newCourse.setBallStartPos(ball_start_position);
+                Vector2 goalStartPosition = new Vector2(Float.parseFloat(goalTextX.getText()), Float.parseFloat(goalTextY.getText()));
+                newCourse.setGoalPosition(goalStartPosition);
+                newCourse.setGoalRadius(Float.parseFloat(radiusText.getText()));
+                newCourse.setMaxSpeed(Float.parseFloat(maxVelocityText.getText()));
+                if(isBallOrGoalUnderWater(ball_start_position, goalStartPosition) == false) {
+                    CourseManager.addCourseToList(newCourse);
+                    CourseManager.setActiveCourseWithIndex(CourseManager.getCourseAmount() - 1);
+                    CourseManager.reWriteCourse();
+                    game.setScreen(new MenuScreen(game));
+                }
+            }catch(Exception e)
+            {
+                System.out.println("Error saving course... Going Back to Menu");
+                System.out.println(e.toString());
+                System.out.println("Error saving course... Going Back to Menu");
+                System.out.println("Error saving course... Going Back to Menu");
+                errorLabel.setText("You must input values in text fields");
+//            game.setScreen(new MenuScreen(game));
                 confirmButton.addListener(new ClickListener(){
 
                     @Override
                     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                        System.out.println("Button clicked");
                         confirmButtonClicked();
                     }
                 });
             }
-            catch (ParserException e) {
-                System.out.println(e.getMessage());
-            }
-            catch (EvaluationException e) {
-                System.out.println(e.getMessage());
-            }
+    }
+    private boolean isBallOrGoalUnderWater(Vector2 pBallPos, Vector2 pGoalPos)
+    {
+        try {
+           // pPos = new Vector2(Float.parseFloat(startTextX.getText()), Float.parseFloat(startTextY.getText()));
 
-        }catch(Exception e)
-        {
-            System.out.println("Error saving course... Going Back to Menu");
-            System.out.println(e.toString());
-            System.out.println("Error saving course... Going Back to Menu");
-            System.out.println("Error saving course... Going Back to Menu");
-            errorLabel.setText("You must input values in text fields");
-//            game.setScreen(new MenuScreen(game));
+            //   if (exp == null) {
+            exp = parser.parse(heightText.getText());
+            exp.accept(new SetVariable("x", pBallPos.x));
+            exp.accept(new SetVariable("y", pBallPos.y));
+            float resultBall = (float) exp.getValue();
+            float resultGoal;
+            exp.accept(new SetVariable("x", pGoalPos.x));
+            exp.accept(new SetVariable("y", pGoalPos.y));
+            resultGoal = (float) exp.getValue();
+            if (resultBall < 0 || resultGoal < 0) {
+                throw new IllegalArgumentException("Neither ball nor hole can be in water");
+            }
+            else return false;
+        }   catch (IllegalArgumentException e){
+            errorLabel.setText("Ball and hole starting position can't be in water");
             confirmButton.addListener(new ClickListener(){
 
                 @Override
                 public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                    System.out.println("Button clicked");
                     confirmButtonClicked();
                 }
             });
+            return true;
         }
     }
     @Override

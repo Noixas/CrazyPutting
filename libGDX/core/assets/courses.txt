@@ -398,9 +398,27 @@ Max Speed: 10.0
 COURSE:
 ID: 44
 Name: Course without name D:
+Height: -10
+Friction: 1.0
+Goal Pos: 1.0 1.0
+Goal Radius: 11.0
+Ball Start Pos: 11.0 1.0
+Max Speed: 11.0
+COURSE:
+ID: 45
+Name: Course without name D:
+Height: 100
+Friction: 8.0
+Goal Pos: 8.0 8.0
+Goal Radius: 8.0
+Ball Start Pos: 8.0 8.0
+Max Speed: 8.0
+COURSE:
+ID: 46
+Name: Course without name D:
 Height: 10
-Friction: 10.0
-Goal Pos: 10.0 10.0
-Goal Radius: 10.0
-Ball Start Pos: 10.0 10.0
-Max Speed: 10.0
+Friction: 1.0
+Goal Pos: 1.0 1.0
+Goal Radius: 1.0
+Ball Start Pos: 1.0 1.0
+Max Speed: 1.0
