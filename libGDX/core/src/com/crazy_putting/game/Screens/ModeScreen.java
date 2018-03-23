@@ -22,9 +22,6 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
             private Stage stage;
             private Skin skin;
 
-            private SpriteBatch batch;
-            private Sprite sprite;
-
             private Table table;
             private TextButton mode1Button;
             private TextButton mode2Button;
@@ -38,17 +35,13 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
                 stage = new Stage(new ScreenViewport());
                 Gdx.input.setInputProcessor(stage);
 
-                // background
-                batch = golfGame.batch;
-                sprite = new Sprite(new Texture(Gdx.files.internal("GRASS.jpg")));
-                sprite.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 
                 // buttons
                 mode1Button = new TextButton("Mode 1", skin);
                 mode1Button.addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                         golfGame.setScreen(new ChooseCoursesScreen(golfGame)); // go to "Select course" screen, with mode 1
+                         golfGame.setScreen(new ChooseCoursesScreen(golfGame, 1)); // go to "Select course" screen, with mode 1
                     }
                 });
 
@@ -56,7 +49,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
                 mode2Button.addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        // golfGame.setScreen(new SelectCourse(golfGame,2)); // go to "Select course" screen, with mode 2
+                         golfGame.setScreen(new ChooseCoursesScreen(golfGame,2)); // go to "Select course" screen, with mode 2
                     }
                 });
 
@@ -92,12 +85,12 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
             @Override
             public void render(float delta) {
                 // background
-                Gdx.gl.glClearColor(1, 1, 1, 1);
-                Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+                int red = 34;
+                int green = 137;
+                int blue = 34;
+                Gdx.gl.glClearColor((float)(red/255.0), (float)(green/255.0), (float)(blue/255.0), 1);
 
-                batch.begin();
-                sprite.draw(batch);
-                batch.end();
+                Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
                 stage.act(Gdx.graphics.getDeltaTime());
                 stage.draw();

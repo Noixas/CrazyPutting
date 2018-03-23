@@ -27,5 +27,6 @@ public abstract class GameObject {
     public abstract float getSpeed();
     public abstract boolean isFixed();
     public abstract void fix(boolean tf);
+    public abstract boolean isSlow();
 
 }

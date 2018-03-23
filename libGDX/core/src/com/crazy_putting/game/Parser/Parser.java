@@ -93,6 +93,7 @@ public class Parser {
             String line = pLines.get(i);
             line.trim();
             if (lineCount == propertiesAmount) {
+                setCourseProperty(newCourse, line, lineCount);
                 courses.add(newCourse);
                 newCourse = null;
                 readingCourse = false;

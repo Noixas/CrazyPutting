@@ -31,8 +31,11 @@ public class ChooseCoursesScreen implements Screen{
     private Skin skin;
     private TextButton confirmButton;
 
-    public ChooseCoursesScreen(GolfGame game) {
+    private  int _mode;
+
+    public ChooseCoursesScreen(GolfGame game, int pMode) {
         this.game = game;
+        _mode = pMode;
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("skin/plain-james-ui.json"));
@@ -48,9 +51,16 @@ public class ChooseCoursesScreen implements Screen{
         selectBox.setPosition(50, WINDOW_HEIGHT*0.9f-30);
         Vector2 selectBoxSize = new Vector2(200, 50);
         selectBox.setSize(selectBoxSize.x, selectBoxSize.y);
-        String[] boxItems = {"Course 1", "Course 2", "Course 3"};
+
+        String[] boxItems = new String[CourseManager.getCourseAmount()];
+        // = (String[])CourseManager.getCourseList().toArray();
         // this array doesn't have to be String - I would make an object Course which has it's name, height function
         // and all these properties and make an array of them
+
+        for (int i =0; i < CourseManager.getCourseAmount(); i++)
+        {
+            boxItems[i] = "Course "+ i;
+        }
         selectBox.setItems(boxItems);
 
         selectBox.addListener(new EventListener() {
@@ -79,6 +89,16 @@ public class ChooseCoursesScreen implements Screen{
         goalValue = new Label(selectBox.getSelected(),skin);
         radiusValue = new Label(selectBox.getSelected(),skin);
         maxVelocityValue = new Label(selectBox.getSelected(),skin);
+
+        TextButton createCourseButton = new TextButton("Create course", skin);
+        createCourseButton.addListener(new ClickListener(){
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                setCourseCreator();
+            }
+        });
+
         updateCourseInfo();
         Table table = new Table();
         table.setWidth(WINDOW_WIDTH);
@@ -104,6 +124,8 @@ public class ChooseCoursesScreen implements Screen{
         table.row();
         table.add(maxVelocityLabel).align(Align.left);
         table.add(maxVelocityValue);
+        table.row();
+        table.add(createCourseButton).align(Align.left);
 
         confirmButton = new TextButton("Confirm", skin);
         Vector2 buttonSize = new Vector2(200,50);
@@ -118,6 +140,8 @@ public class ChooseCoursesScreen implements Screen{
         });
         confirmButton.setColor(Color.WHITE);
 
+
+
         stage.addActor(table);
         stage.addActor(label);
         stage.addActor(confirmButton);
@@ -128,31 +152,47 @@ public class ChooseCoursesScreen implements Screen{
     public void show() {
 
     }
+
+    public void setCourseCreator(){
+        game.setScreen(new CourseCreatorScreen(game));
+    }
     public void updateCourseInfo()
     {
-        heightValue.setText(CourseManager.getCourseWithID(selectBox.getSelectedIndex()).getHeight());
-        frictionValue.setText(CourseManager.getCourseWithID(selectBox.getSelectedIndex()).getFriction()+"");
-        startValue.setText(CourseManager.getCourseWithID(selectBox.getSelectedIndex()).getStartBall().toString());
-        goalValue.setText(CourseManager.getCourseWithID(selectBox.getSelectedIndex()).getGoalPosition().toString());
-        radiusValue.setText(CourseManager.getCourseWithID(selectBox.getSelectedIndex()).getGoalRadius()+"");
-        maxVelocityValue.setText(CourseManager.getCourseWithID(selectBox.getSelectedIndex()).getMaxSpeed()+"");
-        CourseManager.setActiveCourseWithIndex(selectBox.getSelectedIndex());
+        System.out.println(selectBox.getSelectedIndex() + " is the box index");
+        System.out.println("amount of cour " + CourseManager.getCourseAmount() );
+        System.out.println("course " + CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()));
+        heightValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getHeight());
+        frictionValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getFriction()+"");
+        startValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getStartBall().toString());
+        goalValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getGoalPosition().toString());
+        radiusValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getGoalRadius()+"");
+        maxVelocityValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getMaxSpeed()+"");
+
 
     }
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0,1,0,0);
+        int red = 34;
+        int green = 137;
+        int blue = 34;
+        Gdx.gl.glClearColor((float)(red/255.0), (float)(green/255.0), (float)(blue/255.0), 1);
+
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
 //        System.out.println(selectBox.getSelected());
 //        heightLabel.setText(selectBox.getSelected());
         stage.act(delta);
         stage.draw();
     }
 
-    public static void confirmButtonClicked(){
-        // TODO game logic needs to be implemented
-        System.out.println("Put here game logic...");
-        game.setScreen(new GameScreen(game,1));
+    public void confirmButtonClicked(){
+
+        CourseManager.setActiveCourseWithIndex(selectBox.getSelectedIndex());
+        if(selectBox.getSelectedIndex() != CourseManager.getIndexActive())//IMPORTANT: if is a different course from the active one then we need to parse height formula again
+            CourseManager.reParseHeightFormula(selectBox.getSelectedIndex());
+
+        game.setScreen(new GameScreen(game,_mode));
+
     }
     @Override
     public void resize(int width, int height) {
