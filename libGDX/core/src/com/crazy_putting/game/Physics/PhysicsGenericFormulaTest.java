@@ -9,7 +9,7 @@ public class PhysicsGenericFormulaTest {
         private static final double g = 9.81;
         //just create a friction coefficient here for now
         //COULD BE BUGGY
-        private static float mu = (float) CourseManager.getActiveCourse().getFriction();
+        private static float mu ;//= (float) CourseManager.getActiveCourse().getFriction();
 
 
 

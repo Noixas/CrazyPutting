@@ -13,7 +13,6 @@ import com.badlogic.gdx.utils.Align;
 import com.crazy_putting.game.FormulaParser.*;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameObjects.Course;
-import com.crazy_putting.game.Parser.Parser;
 
 import static com.crazy_putting.game.GameLogic.GraphicsManager.WINDOW_HEIGHT;
 import static com.crazy_putting.game.GameLogic.GraphicsManager.WINDOW_WIDTH;

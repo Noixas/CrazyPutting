@@ -7,7 +7,7 @@ Friction: 0.5
 Goal Pos: 140.0 140.0
 Goal Radius: 25.0
 Ball Start Pos: 140.0 100.12558
-Max Speed: 0.0
+Max Speed: 15.0
 COURSE:
 ID: 1
 Name: Test3
@@ -16,7 +16,7 @@ Friction: 0.07
 Goal Pos: 150.0 100.0
 Goal Radius: 25.0
 Ball Start Pos: 140.0 450.0
-Max Speed: 0.0
+Max Speed: 10.0
 COURSE:
 ID: 2
 Name: Test3
@@ -25,7 +25,7 @@ Friction: 0.07
 Goal Pos: 150.0 100.0
 Goal Radius: 25.0
 Ball Start Pos: 140.0 450.0
-Max Speed: 0.0
+Max Speed: 40.0
 COURSE:
 ID: 3
 Name: Test3
@@ -34,7 +34,7 @@ Friction: 0.07
 Goal Pos: 150.0 100.0
 Goal Radius: 25.0
 Ball Start Pos: 140.0 450.0
-Max Speed: 0.0
+Max Speed: 80.0
 COURSE:
 ID: 4
 Name: Course without name D:

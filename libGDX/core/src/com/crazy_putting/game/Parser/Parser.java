@@ -92,7 +92,7 @@ public class Parser {
         for(int i = 0; i < pLines.size(); i++) {
             String line = pLines.get(i);
             line.trim();
-            if (lineCount == propertiesAmount) {
+            if (lineCount > propertiesAmount) {
                 courses.add(newCourse);
                 newCourse = null;
                 readingCourse = false;
@@ -147,7 +147,6 @@ public class Parser {
                 case 7:
                     pProperty = pProperty.replace("Max Speed: ","");
                     pCourse.setMaxSpeed(Float.parseFloat(pProperty));
-
                     break;
 
             }
