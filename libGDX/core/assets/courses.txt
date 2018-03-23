@@ -10,415 +10,46 @@ Ball Start Pos: 140.0 100.12558
 Max Speed: 90.0
 COURSE:
 ID: 1
-Name: Test3
-Height: 0.1 * x + 0.03 * x^2 + 0.2 * y
-Friction: 0.07
-Goal Pos: 150.0 100.0
-Goal Radius: 25.0
-Ball Start Pos: 140.0 450.0
-Max Speed: 0.0
+Name: Course without name D:
+Height: 9
+Friction: 9.0
+Goal Pos: 9.0 9.0
+Goal Radius: 9.0
+Ball Start Pos: 9.0 9.0
+Max Speed: 9.0
 COURSE:
 ID: 2
-Name: Test3
-Height: 0.1 * x + 0.03 * x^2 + 0.2 * y
-Friction: 0.07
-Goal Pos: 150.0 100.0
-Goal Radius: 25.0
-Ball Start Pos: 140.0 450.0
-Max Speed: 0.0
+Name: Course without name D:
+Height: 7
+Friction: 7.0
+Goal Pos: 7.0 7.0
+Goal Radius: 7.0
+Ball Start Pos: 7.0 7.0
+Max Speed: 7.0
 COURSE:
 ID: 3
-Name: Test3
-Height: 0.1 * x + 0.03 * x^2 + 0.2 * y
-Friction: 0.07
-Goal Pos: 150.0 100.0
-Goal Radius: 25.0
-Ball Start Pos: 140.0 450.0
+Name: Course without name D:
+Height: 0
+Friction: 0.0
+Goal Pos: 0.0 0.0
+Goal Radius: 0.0
+Ball Start Pos: 0.0 0.0
 Max Speed: 0.0
 COURSE:
 ID: 4
 Name: Course without name D:
-Height: 8
-Friction: 8.0
-Goal Pos: 8.0 8.0
-Goal Radius: 8.0
-Ball Start Pos: 8.0 8.0
-Max Speed: 0.0
+Height: 444
+Friction: 4.0
+Goal Pos: 44.0 4.0
+Goal Radius: 4.0
+Ball Start Pos: 44.0 4.0
+Max Speed: 4.0
 COURSE:
 ID: 5
 Name: Course without name D:
-Height: 88
-Friction: 8.0
-Goal Pos: 8.0 8.0
-Goal Radius: 8.0
-Ball Start Pos: 8.0 8.0
-Max Speed: 0.0
-COURSE:
-ID: 6
-Name: Course without name D:
 Height: 8
 Friction: 8.0
 Goal Pos: 8.0 8.0
 Goal Radius: 8.0
 Ball Start Pos: 8.0 8.0
-Max Speed: 0.0
-COURSE:
-ID: 7
-Name: Course without name D:
-Height: 8
-Friction: 8.0
-Goal Pos: 8.0 8.0
-Goal Radius: 8.0
-Ball Start Pos: 8.0 8.0
-Max Speed: 0.0
-COURSE:
-ID: 8
-Name: Course without name D:
-Height: 9
-Friction: 9.0
-Goal Pos: 9.0 9.0
-Goal Radius: 9.0
-Ball Start Pos: 9.0 9.0
-Max Speed: 0.0
-COURSE:
-ID: 9
-Name: Course without name D:
-Height: 9
-Friction: 9.0
-Goal Pos: 9.0 9.0
-Goal Radius: 9.0
-Ball Start Pos: 9.0 9.0
-Max Speed: 0.0
-COURSE:
-ID: 10
-Name: Course without name D:
-Height: 3
-Friction: 3.0
-Goal Pos: 33.0 3.0
-Goal Radius: 3.0
-Ball Start Pos: 3.0 3.0
-Max Speed: 0.0
-COURSE:
-ID: 11
-Name: Course without name D:
-Height: 5
-Friction: 5.0
-Goal Pos: 5.0 5.0
-Goal Radius: 5.0
-Ball Start Pos: 5.0 5.0
-Max Speed: 0.0
-COURSE:
-ID: 12
-Name: Course without name D:
-Height: 1
-Friction: 2.0
-Goal Pos: 3.0 33.0
-Goal Radius: 33.0
-Ball Start Pos: 2.0 1.0
-Max Speed: 0.0
-COURSE:
-ID: 13
-Name: Course without name D:
-Height: -10
-Friction: 10.0
-Goal Pos: 10.0 10.0
-Goal Radius: 10.0
-Ball Start Pos: 10.0 10.0
-Max Speed: 0.0
-COURSE:
-ID: 14
-Name: Course without name D:
-Height: -10
-Friction: 10.0
-Goal Pos: 10.0 10.0
-Goal Radius: 10.0
-Ball Start Pos: 10.0 10.0
-Max Speed: 0.0
-COURSE:
-ID: 15
-Name: Course without name D:
-Height: 10
-Friction: 10.0
-Goal Pos: 10.0 10.0
-Goal Radius: 10.0
-Ball Start Pos: 10.0 10.0
-Max Speed: 0.0
-COURSE:
-ID: 16
-Name: Course without name D:
-Height: 10
-Friction: 10.0
-Goal Pos: 10.0 10.0
-Goal Radius: 10.0
-Ball Start Pos: 10.0 10.0
-Max Speed: 0.0
-COURSE:
-ID: 17
-Name: Course without name D:
-Height: 10
-Friction: 10.0
-Goal Pos: 10.0 10.0
-Goal Radius: 10.0
-Ball Start Pos: 10.0 10.0
-Max Speed: 0.0
-COURSE:
-ID: 18
-Name: Course without name D:
-Height: 10
-Friction: 10.0
-Goal Pos: 10.0 10.0
-Goal Radius: 10.0
-Ball Start Pos: 10.0 10.0
-Max Speed: 0.0
-COURSE:
-ID: 19
-Name: Course without name D:
-Height: -10
-Friction: 10.0
-Goal Pos: 10.0 10.0
-Goal Radius: 10.0
-Ball Start Pos: 101.0 10.0
-Max Speed: 0.0
-COURSE:
-ID: 20
-Name: Course without name D:
-Height: 10
-Friction: 10.0
-Goal Pos: 10.0 10.0
-Goal Radius: 10.0
-Ball Start Pos: 101.0 10.0
-Max Speed: 0.0
-COURSE:
-ID: 21
-Name: Course without name D:
-Height: 10
-Friction: 10.0
-Goal Pos: 10.0 10.0
-Goal Radius: 10.0
-Ball Start Pos: 101.0 10.0
-Max Speed: 0.0
-COURSE:
-ID: 22
-Name: Course without name D:
-Height: 10
-Friction: 10.0
-Goal Pos: 10.0 10.0
-Goal Radius: 10.0
-Ball Start Pos: 101.0 10.0
-Max Speed: 0.0
-COURSE:
-ID: 23
-Name: Course without name D:
-Height: 10
-Friction: 10.0
-Goal Pos: 10.0 10.0
-Goal Radius: 10.0
-Ball Start Pos: 101.0 10.0
-Max Speed: 0.0
-COURSE:
-ID: 24
-Name: Course without name D:
-Height: 10
-Friction: 10.0
-Goal Pos: 10.0 10.0
-Goal Radius: 10.0
-Ball Start Pos: 101.0 10.0
-Max Speed: 0.0
-COURSE:
-ID: 25
-Name: Course without name D:
-Height: -10
-Friction: 10.0
-Goal Pos: 10.0 101.0
-Goal Radius: 101.0
-Ball Start Pos: 10.0 10.0
-Max Speed: 0.0
-COURSE:
-ID: 26
-Name: Course without name D:
-Height: 10
-Friction: 10.0
-Goal Pos: 10.0 101.0
-Goal Radius: 101.0
-Ball Start Pos: 10.0 10.0
-Max Speed: 0.0
-COURSE:
-ID: 27
-Name: Course without name D:
-Height: 10
-Friction: 10.0
-Goal Pos: 10.0 101.0
-Goal Radius: 101.0
-Ball Start Pos: 10.0 10.0
-Max Speed: 0.0
-COURSE:
-ID: 28
-Name: Course without name D:
-Height: 10
-Friction: 10.0
-Goal Pos: 10.0 101.0
-Goal Radius: 101.0
-Ball Start Pos: 10.0 10.0
-Max Speed: 0.0
-COURSE:
-ID: 29
-Name: Course without name D:
-Height: 10
-Friction: 10.0
-Goal Pos: 10.0 101.0
-Goal Radius: 101.0
-Ball Start Pos: 10.0 10.0
-Max Speed: 0.0
-COURSE:
-ID: 30
-Name: Course without name D:
-Height: -10
-Friction: 10.0
-Goal Pos: 10.0 10.0
-Goal Radius: 10.0
-Ball Start Pos: 10.0 10.0
-Max Speed: 0.0
-COURSE:
-ID: 31
-Name: Course without name D:
-Height: 70
-Friction: 10.0
-Goal Pos: 10.0 10.0
-Goal Radius: 10.0
-Ball Start Pos: 10.0 10.0
-Max Speed: 0.0
-COURSE:
-ID: 32
-Name: Course without name D:
-Height: 70
-Friction: 10.0
-Goal Pos: 10.0 10.0
-Goal Radius: 10.0
-Ball Start Pos: 10.0 10.0
-Max Speed: 0.0
-COURSE:
-ID: 33
-Name: Course without name D:
-Height: 70
-Friction: 10.0
-Goal Pos: 10.0 10.0
-Goal Radius: 10.0
-Ball Start Pos: 10.0 10.0
-Max Speed: 0.0
-COURSE:
-ID: 34
-Name: Course without name D:
-Height: 70
-Friction: 10.0
-Goal Pos: 10.0 10.0
-Goal Radius: 10.0
-Ball Start Pos: 10.0 10.0
-Max Speed: 0.0
-COURSE:
-ID: 35
-Name: Course without name D:
-Height: 70
-Friction: 10.0
-Goal Pos: 10.0 10.0
-Goal Radius: 10.0
-Ball Start Pos: 10.0 10.0
-Max Speed: 0.0
-COURSE:
-ID: 36
-Name: Course without name D:
-Height: 70
-Friction: 10.0
-Goal Pos: 10.0 10.0
-Goal Radius: 10.0
-Ball Start Pos: 10.0 10.0
-Max Speed: 0.0
-COURSE:
-ID: 37
-Name: Course without name D:
-Height: 70
-Friction: 10.0
-Goal Pos: 10.0 10.0
-Goal Radius: 10.0
-Ball Start Pos: 10.0 10.0
-Max Speed: 0.0
-COURSE:
-ID: 38
-Name: Course without name D:
-Height: -101
-Friction: 10.0
-Goal Pos: 10.0 10.0
-Goal Radius: 10.0
-Ball Start Pos: 10.0 10.0
-Max Speed: 0.0
-COURSE:
-ID: 39
-Name: Course without name D:
-Height: 90
-Friction: 10.0
-Goal Pos: 10.0 10.0
-Goal Radius: 10.0
-Ball Start Pos: 10.0 10.0
-Max Speed: 0.0
-COURSE:
-ID: 40
-Name: Course without name D:
-Height: 90
-Friction: 10.0
-Goal Pos: 10.0 10.0
-Goal Radius: 10.0
-Ball Start Pos: 10.0 10.0
-Max Speed: 0.0
-COURSE:
-ID: 41
-Name: Course without name D:
-Height: -20
-Friction: 20.0
-Goal Pos: 20.0 20.0
-Goal Radius: 20.0
-Ball Start Pos: 20.0 20.0
-Max Speed: 20.0
-COURSE:
-ID: 42
-Name: Course without name D:
-Height: -10
-Friction: 10.0
-Goal Pos: 10.0 10.0
-Goal Radius: 10.0
-Ball Start Pos: 10.0 10.0
-Max Speed: 10.0
-COURSE:
-ID: 43
-Name: Course without name D:
-Height: 10
-Friction: 10.0
-Goal Pos: 10.0 10.0
-Goal Radius: 10.0
-Ball Start Pos: 10.0 10.0
-Max Speed: 10.0
-COURSE:
-ID: 44
-Name: Course without name D:
-Height: -10
-Friction: 1.0
-Goal Pos: 1.0 1.0
-Goal Radius: 11.0
-Ball Start Pos: 11.0 1.0
-Max Speed: 11.0
-COURSE:
-ID: 45
-Name: Course without name D:
-Height: 100
-Friction: 8.0
-Goal Pos: 8.0 8.0
-Goal Radius: 8.0
-Ball Start Pos: 8.0 8.0
-Max Speed: 8.0
-COURSE:
-ID: 46
-Name: Course without name D:
-Height: 10
-Friction: 1.0
-Goal Pos: 1.0 1.0
-Goal Radius: 1.0
-Ball Start Pos: 1.0 1.0
-Max Speed: 1.0
+Max Speed: 66.0
