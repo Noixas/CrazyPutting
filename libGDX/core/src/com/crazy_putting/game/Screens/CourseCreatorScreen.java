@@ -62,7 +62,7 @@ public class CourseCreatorScreen implements Screen {
         Label heightLabel = new Label("Height function",skin);
         heightText = new TextField("", skin);
         Label frictionLabel = new Label("Friction coefficient",skin);
-         frictionText = new TextField("", skin);
+        frictionText = new TextField("", skin);
         Label startLabelX = new Label("Start position X",skin);
         startTextX = new TextField("", skin);
         Label startLabelY = new Label("Start position Y",skin);
@@ -72,7 +72,7 @@ public class CourseCreatorScreen implements Screen {
         Label goalLabelY = new Label("Goal position Y",skin);
         goalTextY = new TextField("", skin);
         Label radiusLabel = new Label("Radius of the target",skin);
-         radiusText = new TextField("", skin);
+        radiusText = new TextField("", skin);
         Label maxVelocityLabel = new Label("Max velocity",skin);
         maxVelocityText = new TextField("", skin);
         errorLabel = new Label("", skin);
@@ -153,20 +153,32 @@ public class CourseCreatorScreen implements Screen {
                 exp.accept(new SetVariable("y", ball_start_position.y));
                 float result = (float) exp.getValue();
                 if(result < 0){
-                    System.out.println("Starting position of the ball is in the water");
-                    }
-                }
-                catch (ParserException e) {
-                    System.out.println(e.getMessage());
-                }
-                catch (EvaluationException e) {
-                    System.out.println(e.getMessage());
+                    throw new IllegalArgumentException("Neither ball nor hole can be in water");
                 }
 
-            System.out.println("Put here game logic...");
-            CourseManager.setActiveCourseWithIndex(CourseManager.getCourseAmount()-1);
-            CourseManager.reWriteCourse();
-            game.setScreen(new MenuScreen(game));
+                System.out.println("Put here game logic...");
+                CourseManager.setActiveCourseWithIndex(CourseManager.getCourseAmount()-1);
+                CourseManager.reWriteCourse();
+                game.setScreen(new MenuScreen(game));
+            }
+            catch (IllegalArgumentException e){
+                errorLabel.setText("Ball and hole starting position can't be in water");
+                confirmButton.addListener(new ClickListener(){
+
+                    @Override
+                    public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                        System.out.println("Button clicked");
+                        confirmButtonClicked();
+                    }
+                });
+            }
+            catch (ParserException e) {
+                System.out.println(e.getMessage());
+            }
+            catch (EvaluationException e) {
+                System.out.println(e.getMessage());
+            }
+
         }catch(Exception e)
         {
             System.out.println("Error saving course... Going Back to Menu");
