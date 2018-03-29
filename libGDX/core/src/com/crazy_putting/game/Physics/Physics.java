@@ -4,7 +4,7 @@ import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameLogic.GraphicsManager;
 import com.crazy_putting.game.GameObjects.GameObject;
 
-public class PhysicsGenericFormulaTest {
+public class Physics {
 
         private static final double g = 9.81;
         //just create a friction coefficient here for now
@@ -70,7 +70,6 @@ public class PhysicsGenericFormulaTest {
 
 
             if(collided(obj)) {
-                System.out.println("Water of out of bounds");
                 obj.setPosition(CourseManager.getStartPosition());
                 obj.fix(true);
                 return;

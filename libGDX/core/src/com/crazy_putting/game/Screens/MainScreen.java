@@ -115,7 +115,6 @@ public class MainScreen extends InputAdapter implements Screen {
         System.out.println(worldTouch.y);
         System.out.println(playerRectangle.x);
         System.out.println(playerRectangle.y);
-        System.out.println("FUck this game");
         System.out.println(worldTouch.x<playerRectangle.x);
         System.out.println(worldTouch.y<playerRectangle.y);
         if(playerRectangle.contains(screenX, viewportY-screenY)){

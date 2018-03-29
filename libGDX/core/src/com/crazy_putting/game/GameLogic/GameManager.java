@@ -9,7 +9,7 @@ import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.MyCrazyPutting;
 import com.crazy_putting.game.Others.InputData;
 import com.crazy_putting.game.Parser.ReadAndAnalyse;
-import com.crazy_putting.game.Physics.PhysicsGenericFormulaTest;
+import com.crazy_putting.game.Physics.Physics;
 import com.crazy_putting.game.Screens.GolfGame;
 
 import java.util.Random;
@@ -31,7 +31,7 @@ public class GameManager {
      _game = pGame;
      _hole = new Hole((int)CourseManager.getActiveCourse().getGoalRadius());
      _turns = 0;
-     PhysicsGenericFormulaTest.updateCoefficients();
+     Physics.updateCoefficients();
         System.out.println("Is that radius? "+(int)CourseManager.getActiveCourse().getGoalRadius());
     _ball.addGraphicComponent(new GraphicsComponent( _ball.getTexture()));
     _hole.addGraphicComponent(new GraphicsComponent(
@@ -45,7 +45,7 @@ public class GameManager {
     {
         handleInput(_game.input);
         _ball.update(pDelta);
-        PhysicsGenericFormulaTest.update(_ball, pDelta);
+        Physics.update(_ball, pDelta);
         UpdateGameLogic(pDelta);
 
     }
