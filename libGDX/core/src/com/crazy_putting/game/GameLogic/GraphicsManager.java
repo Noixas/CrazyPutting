@@ -31,7 +31,7 @@ public static void addGraphicsComponent(GraphicsComponent pGC)
 
         for(int i = 0; i < _graphicsComponentList.size(); i++)
         {
-            _graphicsComponentList.get(i).Render(pBatch);
+            _graphicsComponentList.get(i).render(pBatch);
             //System.out.println(i);
         }
     }

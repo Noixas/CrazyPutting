@@ -27,9 +27,7 @@ package com.crazy_putting.game.FormulaParser;
 /**
  * An ExpressionNode that stores a constant value
  */
-public class ConstantExpressionNode implements ExpressionNode
-{
-  /** The value of the constant */
+public class ConstantExpressionNode implements ExpressionNode {
   private double value;
 
   /**
@@ -73,11 +71,8 @@ public class ConstantExpressionNode implements ExpressionNode
 
   /**
    * Implementation of the visitor design pattern.
-   * 
    * Calls visit on the visitor.
-   * 
-   * @param visitor
-   *          the visitor
+   *
    */
   public void accept(ExpressionNodeVisitor visitor)
   {

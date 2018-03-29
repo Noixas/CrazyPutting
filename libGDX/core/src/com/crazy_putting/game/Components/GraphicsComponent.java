@@ -8,21 +8,24 @@ import com.crazy_putting.game.GameObjects.GameObject;
 import static com.crazy_putting.game.GameLogic.GraphicsManager.WORLD_HEIGHT;
 import static com.crazy_putting.game.GameLogic.GraphicsManager.WORLD_WIDTH;
 
+/**
+ * A graphic component is an object that is rendered in the GUI e.g. a ball or a hole.
+ */
 public class GraphicsComponent extends Component {
 
     private GameObject _owner;
     private Texture _texture;
     private int _width;
     private int _height;
-    public GraphicsComponent( Texture pTexture)
-    {
+
+    public GraphicsComponent( Texture pTexture) {
         GraphicsManager.addGraphicsComponent(this);
         _texture = pTexture;
         _width = 15;
         _height = 15;
     }
-    public GraphicsComponent( Texture pTexture, int pWidth, int pHeight)
-    {
+
+    public GraphicsComponent( Texture pTexture, int pWidth, int pHeight) {
         GraphicsManager.addGraphicsComponent(this);
         _texture = pTexture;
 
@@ -33,12 +36,11 @@ public class GraphicsComponent extends Component {
     {
         _owner = pGameObj;
     }
-    public void Render(SpriteBatch pBach)
+    public void render(SpriteBatch pBach)
     {
         if(_texture == null) return;
 
 
-       // pBach.draw(_texture, _parent.getPosition().x, _parent.getPosition().y,20* GameManager._viewportX/ MyCrazyPutting.WIDTH, 20*GameManager._viewportY/ MyCrazyPutting.HEIGHT);
         pBach.draw(_texture, _owner.getPosition().x+WORLD_WIDTH/2-_width/2, _owner.getPosition().y+WORLD_HEIGHT/2-_height/2,_width, _height);
 
     }

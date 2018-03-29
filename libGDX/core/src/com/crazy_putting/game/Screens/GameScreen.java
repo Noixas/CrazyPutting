@@ -40,7 +40,6 @@ public class GameScreen extends InputAdapter implements Screen {
         parser = new FormulaParser();
         this.game = game;
         _gameManager = new GameManager(game, pMode);
-        //sr = new ShapeRenderer();
 
         drawHeightMap();
         mapSprite = new Sprite(texture);
@@ -53,22 +52,27 @@ public class GameScreen extends InputAdapter implements Screen {
 
     @Override
     public void show() {
-        //Gdx.input.setInputProcessor(this);
-        // drawHeightMap();
     }
 
 
     private void handleInput() {
-        if(Gdx.input.isKeyJustPressed(Input.Keys.O)){//TODO: reference to InputScreen, blazej?
+        if(Gdx.input.isKeyJustPressed(Input.Keys.O)){
+            //TODO: reference to InputScreen - Blazej
             //game.setScreen(new InputScreen(game));
             //game.getScreen();
         }
+        /*
+            Zooming.
+         */
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             cam.zoom += 0.02;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.Q)) {
             cam.zoom -= 0.02;
         }
+        /*
+            Manipulating the position of the camera.
+         */
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             cam.translate(-3, 0, 0);
         }
@@ -94,25 +98,28 @@ public class GameScreen extends InputAdapter implements Screen {
     public void render(float delta) {
 
         _gameManager.Update(delta);
-        UpdateCamera();
+        updateCamera();
 
+        /*
+            Draw the height map.
+         */
         game.batch.begin();
         if(texture!=null){
             game.batch.draw(texture, 0, 0);
         }
-        //Get all the graphics and draw them
+
+        /*
+            Get all the graphics and draw them.
+         */
         GraphicsManager.Render(game.batch);
-        RenderGUI();
+        renderGUI();
         game.batch.end();
-        //sr.begin(ShapeRenderer.ShapeType.Filled);
-        //sr.circle(hole.getPosition().x, hole.getPosition().y, hole.getRadius());
-        //sr.end();
 
 
 
 
     }
-    private void UpdateCamera()
+    private void updateCamera()
     {
         handleInput();
         cam.update();
@@ -124,7 +131,7 @@ public class GameScreen extends InputAdapter implements Screen {
         Gdx.gl.glClearColor((float)(red/255.0), (float)(green/255.0), (float)(blue/255.0), 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
-    private void RenderGUI()
+    private void renderGUI()
     {
         Ball ball =_gameManager.getBall();
         Vector3 unprojectSpeed = cam.unproject(new Vector3(10, 10,0));
@@ -132,6 +139,9 @@ public class GameScreen extends InputAdapter implements Screen {
         Vector3 unprojectBallX = cam.unproject(new Vector3(10, 50,0));
         Vector3 unprojectBallY = cam.unproject(new Vector3(10, 70,0));
         Vector3 unprojectTurn = cam.unproject(new Vector3(10, 90,0));
+        /*
+            Setup of the HUD in top left corner.
+         */
         game.font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         game.font.getData().setScale(cam.zoom*0.7f*3f);
         game.font.setColor(Color.BLACK);
@@ -169,7 +179,6 @@ public class GameScreen extends InputAdapter implements Screen {
     }
     public void drawHeightMap(){
 
-        // Hole hole = _gameManager.getHole();
         pixmap = new Pixmap(WORLD_WIDTH, WORLD_HEIGHT, Pixmap.Format.RGB888);
         texture = new Texture(pixmap);
         float maxValue = 0;
@@ -177,6 +186,9 @@ public class GameScreen extends InputAdapter implements Screen {
         float minValue = 0;
         boolean sameValue = true;
         float someValue = CourseManager.calculateHeight(0,0);
+        /*
+            Compute maximal and minimal values of height function.
+         */
         for(int i = -pixmap.getWidth()/2; i<pixmap.getWidth()/2;i++) {
             for (int j = -pixmap.getHeight() / 2; j < pixmap.getHeight() / 2; j++) {
                 if(CourseManager.calculateHeight(i,j)!=someValue){
@@ -190,9 +202,10 @@ public class GameScreen extends InputAdapter implements Screen {
                 }
             }
         }
-
+        /*
+            If height function is constant:
+         */
         if(sameValue){
-            // just change a comment line
             for(int i = -pixmap.getWidth()/2; i<pixmap.getWidth()/2;i++){
                 for(int j = -pixmap.getHeight()/2; j<pixmap.getHeight()/2;j++){
                     pixmap.setColor(Color.PURPLE);
@@ -200,6 +213,9 @@ public class GameScreen extends InputAdapter implements Screen {
                 }
             }
         }
+        /*
+            If height function is not constant:
+         */
         else{
             int nrOfIntervals = 10;
             float interval = (maxValue-minValue)/nrOfIntervals;
@@ -219,6 +235,10 @@ public class GameScreen extends InputAdapter implements Screen {
             }
             //NOTE: Pixmap coordinates start from TOP LEFT so the picture is mirrored with this loop, I changed the y coordinate in the draw to
             //(pixmap.getHeight()/2 - j )instead of (j -pixmap.getHeight()/2 ) this way the image stays true to the world coordinates
+
+            /*
+                Draw height map.
+             */
             for(int i = -pixmap.getWidth()/2; i<pixmap.getWidth()/2;i++){
                 for(int j = -pixmap.getHeight()/2; j<pixmap.getHeight()/2;j++){
                     for(int x=0;x<intervals.length-1;x++){
@@ -240,8 +260,6 @@ public class GameScreen extends InputAdapter implements Screen {
             }
         }
 
-        //pixmap.setColor(Color.WHITE);
-        //pixmap.fillCircle((int)hole.getPosition().x,(int)hole.getPosition().y,hole.getRadius());
         texture = new Texture(pixmap);
     }
 }
