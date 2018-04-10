@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.crazy_putting.game.Components.GraphicsComponent;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Hole;
-import com.crazy_putting.game.MyCrazyPutting;
 import com.crazy_putting.game.Others.InputData;
 import com.crazy_putting.game.Parser.ReadAndAnalyse;
 import com.crazy_putting.game.Physics.Physics;
@@ -71,8 +70,8 @@ public class GameManager {
         Random random = new Random();
         final int OFFSET = 50;
 
-        int viewportX = MyCrazyPutting.WIDTH/2;
-        int viewportY = MyCrazyPutting.HEIGHT/2;
+        int viewportX = GraphicsManager.WINDOW_WIDTH/2;
+        int viewportY = GraphicsManager.WINDOW_HEIGHT/2;
         _hole.setPositionX(random.nextInt(viewportX));
         _hole.setPositionY(random.nextInt(viewportY));
         while(_hole.getPosition().x>viewportX/2-100&&_hole.getPosition().x<viewportX/2+100
