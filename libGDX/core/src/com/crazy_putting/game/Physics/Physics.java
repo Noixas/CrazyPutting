@@ -10,12 +10,7 @@ public class Physics {
         //just create a friction coefficient here for now
         //COULD BE BUGGY
         private static float mu;
-
-
-
-
         private static double EPSILON = 1;
-
 
 
         private static double partialDerivativeX(GameObject obj) {

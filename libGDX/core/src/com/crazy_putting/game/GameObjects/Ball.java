@@ -15,6 +15,9 @@ public class Ball extends GameObject{
     private boolean _isMoving = false;
     private boolean _isFixed;
 
+    public Ball(){
+
+    }
     public Ball(String filename){
         texture = new Texture(filename);
         position = new Vector2();
@@ -116,4 +119,17 @@ public class Ball extends GameObject{
     }
 
 
+    @Override
+    public Ball clone(){
+        Ball newBall = new Ball();
+        newBall.texture = texture;
+        newBall.position = new Vector2();
+        newBall.position.x = position.x;
+        newBall.position.y = position.y;
+        newBall.velocity = new Velocity();
+        newBall.velocity.speed = velocity.speed;
+        newBall.velocity.angle = velocity.angle;
+        newBall._isFixed = _isFixed;
+        return newBall;
+    }
 }

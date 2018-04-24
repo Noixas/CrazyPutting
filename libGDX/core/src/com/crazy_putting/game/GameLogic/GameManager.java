@@ -3,8 +3,10 @@ package com.crazy_putting.game.GameLogic;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.crazy_putting.game.Bot.Bot;
 import com.crazy_putting.game.Components.GraphicsComponent;
 import com.crazy_putting.game.GameObjects.Ball;
+import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.Others.InputData;
 import com.crazy_putting.game.Parser.ReadAndAnalyse;
@@ -38,6 +40,10 @@ public class GameManager {
 
         _hole.setPosition(CourseManager.getGoalStartPosition());
         _ball.setPosition(CourseManager.getStartPosition());
+        if (pMode == 3) {
+            Bot bot = new Bot(_ball, CourseManager.getActiveCourse());
+            bot.computeCourse();
+        }
 
     }
     public void Update(float pDelta)
