@@ -87,5 +87,6 @@ public class Hole extends GameObject {
         return false;
     }
 
+    public void setVelocityComponents(float newSpeedX, float newSpeedY){}
 
 }

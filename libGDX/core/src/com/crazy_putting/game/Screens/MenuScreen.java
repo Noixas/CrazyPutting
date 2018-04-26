@@ -28,6 +28,7 @@ public class MenuScreen implements Screen {
 
     private Table table;
     private TextButton soloButton;
+    private TextButton fileButton;
     private TextButton aiButton;
     private TextButton courseCreatorButton;
 
@@ -46,15 +47,30 @@ public class MenuScreen implements Screen {
         sprite.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 
         // buttons
-        soloButton = new TextButton("Solo play", skin);
+        soloButton = new TextButton("Human player mode", skin);
         soloButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                golfGame.setScreen(new ModeScreen(golfGame)); // go to "ModesScreen" screen
+                // go to "Select course" screen, with mode 1
+                golfGame.setScreen(new ChooseCoursesScreen(golfGame, 1));
             }
         });
 
-        aiButton = new TextButton("AI play", skin);
+        fileButton = new TextButton("File input mode", skin);
+        fileButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                golfGame.setScreen(new ChooseCoursesScreen(golfGame,2));
+            }
+        });
+
+        aiButton = new TextButton("AI player mode", skin);
+        aiButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                golfGame.setScreen(new ChooseCoursesScreen(golfGame,3)); // go to "ModesScreen" screen
+            }
+        });
 
         courseCreatorButton = new TextButton("Create course", skin);
         courseCreatorButton.addListener(new ClickListener(){
@@ -72,6 +88,8 @@ public class MenuScreen implements Screen {
 
         table.padTop(150);
         table.add(soloButton).size(300, 50).padBottom(20);
+        table.row();
+        table.add(fileButton).size(300, 50).padBottom(20);
         table.row();
         table.add(aiButton).size(300, 50).padBottom(20);
         table.row();

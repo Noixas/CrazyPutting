@@ -1,3 +1,4 @@
+
 package com.crazy_putting.game.GameLogic;
 
 import com.badlogic.gdx.Gdx;
@@ -9,6 +10,7 @@ import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.Others.InputData;
+import com.crazy_putting.game.Others.Velocity;
 import com.crazy_putting.game.Parser.ReadAndAnalyse;
 import com.crazy_putting.game.Physics.Physics;
 import com.crazy_putting.game.Screens.GolfGame;
@@ -22,27 +24,26 @@ public class GameManager {
     private GolfGame _game;
     private int _turns;
     private int _mode;
-
+    private Bot bot;
     public GameManager(GolfGame pGame, int pMode)
     {
         _mode = pMode;
-        if(_mode == 2)
-            ReadAndAnalyse.calculate("myFile.txt");
-     _ball = new Ball("golfBall.png");
-     _game = pGame;
-     _hole = new Hole((int)CourseManager.getActiveCourse().getGoalRadius());
-     _turns = 0;
-     Physics.updateCoefficients();
+        _ball = new Ball("golfBall.png");
+        _game = pGame;
+        _hole = new Hole((int)CourseManager.getActiveCourse().getGoalRadius());
+        _turns = 0;
+        Physics.updateCoefficients();
         System.out.println("Is that radius? "+(int)CourseManager.getActiveCourse().getGoalRadius());
-    _ball.addGraphicComponent(new GraphicsComponent( _ball.getTexture()));
-    _hole.addGraphicComponent(new GraphicsComponent(
-            new Texture("hole.png"), _hole.getRadius()*2, _hole.getRadius()*2));
-
+        _ball.addGraphicComponent(new GraphicsComponent( _ball.getTexture()));
+        _hole.addGraphicComponent(new GraphicsComponent(new Texture("hole.png"), _hole.getRadius()*2, _hole.getRadius()*2));
         _hole.setPosition(CourseManager.getGoalStartPosition());
         _ball.setPosition(CourseManager.getStartPosition());
-        if (pMode == 3) {
-            Bot bot = new Bot(_ball, CourseManager.getActiveCourse());
-            bot.computeCourse();
+        if(_mode == 2){
+            ReadAndAnalyse.calculate("myFile.txt");
+
+        }
+        if (_mode == 3) {
+            bot = new Bot(_ball, _hole, CourseManager.getActiveCourse());
         }
 
     }
@@ -54,10 +55,9 @@ public class GameManager {
         UpdateGameLogic(pDelta);
 
     }
-    private void UpdateGameLogic(float pDelta)
+    public void UpdateGameLogic(float pDelta)
     {
-        if(Math.sqrt(Math.pow(_ball.getPosition().x -_hole.getPosition().x,2) +Math.pow((_ball.getPosition().y - _hole.getPosition().y),2))< _hole.getRadius() &&
-                (_ball.isSlow())) {
+        if(isBallInTheHole(_ball,_hole) && _ball.isSlow()) {
             System.out.println("Ball in goal");
 
             _ball.fix(true);
@@ -118,50 +118,73 @@ public class GameManager {
     }
     public void handleInput(InputData input){
         // later on it should be if speed of the ball is zero (ball is not moving, then input data)
-      if(_mode == 1) {
-          if (Gdx.input.isKeyJustPressed(Input.Keys.I) && _ball.isMoving() == false) {
+        if(_mode == 1) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !_ball.isMoving()) {
               CourseManager.reWriteCourse();//TODO: CHECK WHY THIS IS HERE
               Gdx.input.getTextInput(input, "Input data", "", "Input speed and direction separated with space");
-          }
-          if (input.getText() != null) {
-              try {
+            }
+            if (input.getText() != null) {
+                try {
 
-                  String[] data = input.getText().split(" ");
-                  float speed = Float.parseFloat(data[0]);
-                  if(speed > CourseManager.getMaxSpeed())
-                      speed = CourseManager.getMaxSpeed();
-                  _ball.setVelocity(speed, Float.parseFloat(data[1]));
-                  _ball.fix(false);
-                  input.clearText();//important to clear text or it will overwrite every frame
-                  if (Float.parseFloat((data[0])) != 0) {
-                      _ball.setVelocity(Float.parseFloat(data[0]), Float.parseFloat(data[1]));
-                      increaseTurnCount();
-                  } else {
-                      float e = (float) 0.0001;
-                      _ball.setVelocity(e, Float.parseFloat(data[1]));
-                  }
-                  input.clearText();//Important so we dont spam new velocity every time
-              } catch (NumberFormatException e) {
-                  // later on this will be added on the game screen so that it wasn't printed multiple times
-                  // after doing this change, delete printing stack trace
-                  Gdx.app.error("Exception: ", "You must input numbers");
-                  e.getStackTrace();
-              }
-          }
-      }
-      else if(_mode == 2){
-          if (Gdx.input.isKeyJustPressed(Input.Keys.I)){
+                    String[] data = input.getText().split(" ");
+                    float speed = Float.parseFloat(data[0]);
+                    float angle = Float.parseFloat(data[1]);
+                    input.clearText();//important to clear text or it will overwrite every frame
+                    checkConstrainsAndSetVelocity(speed, angle);
+//                    I commented the next line, because it seems to be a duplicate of the code two lines above
+//                    input.clearText();//Important so we dont spam new velocity every time
+                }
+                catch (NumberFormatException e) {
+                    // later on this will be added on the game screen so that it wasn't printed multiple times
+                    // after doing this change, delete printing stack trace
+                    Gdx.app.error("Exception: ", "You must input numbers");
+                    e.getStackTrace();
+                }
+            }
+        }
+        else if(_mode == 2){
+            if (Gdx.input.isKeyJustPressed(Input.Keys.I)){
+                System.out.println("MODE "+_mode+" with N: " + ReadAndAnalyse.getN());
+                if(!_ball.isMoving() && _turns<ReadAndAnalyse.getN()) {
+                _ball.setVelocity(ReadAndAnalyse.getResult()[_turns][0], ReadAndAnalyse.getResult()[_turns][1]);
+                _ball.fix(false);
+                increaseTurnCount();
+                }
+                else if(_turns>=ReadAndAnalyse.getN()){
+                  System.out.println("No more moves...");
+                }
+            }
+        }
+        else if (_mode == 3){
+            if (Gdx.input.isKeyJustPressed(Input.Keys.I)){
+                Velocity computedVelocity = bot.computeVelocity();
+                checkConstrainsAndSetVelocity(computedVelocity.speed, computedVelocity.angle);
+            }
+        }
+    }
 
-              System.out.println("MODE "+_mode+" with N: " + ReadAndAnalyse.getN());
-              if(_ball.isMoving() == false && _turns<ReadAndAnalyse.getN()) {
-              _ball.setVelocity(ReadAndAnalyse.getResult()[_turns][0], ReadAndAnalyse.getResult()[_turns][1]);
-              _ball.fix(false);
-              increaseTurnCount();
-          }
-          else if(_turns>=ReadAndAnalyse.getN()) System.out.println("No more moves...");
-          }
-      }
-      }
+    public static boolean isBallInTheHole(Ball ball, Hole hole){
+        if(Math.sqrt(Math.pow(ball.getPosition().x -hole.getPosition().x,2) +Math.pow((ball.getPosition().y - hole.getPosition().y),2))< hole.getRadius()){
+            return true;
+        }
+        return false;
+    }
 
+    public void checkConstrainsAndSetVelocity(float inputSpeed, float inputAngle) {
+        float speed = checkMaxSpeedConstrain(inputSpeed);
+        if(speed==0) {
+            speed=0.0001f;
+        }
+        increaseTurnCount();
+        _ball.setVelocity(speed, inputAngle);
+        _ball.fix(false);
+    }
+
+    public float checkMaxSpeedConstrain(float speed){
+        if(speed > CourseManager.getMaxSpeed()){
+            speed = CourseManager.getMaxSpeed();
+        }
+        return speed;
+    }
 
 }

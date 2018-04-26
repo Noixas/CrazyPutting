@@ -1,5 +1,6 @@
 package com.crazy_putting.game.GameObjects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.crazy_putting.game.Others.Velocity;
@@ -75,6 +76,7 @@ public class Ball extends GameObject{
     }
 
     public void setSpeed(float speed){
+
         this.velocity.setSpeed(speed);
     }
 
@@ -94,8 +96,9 @@ public class Ball extends GameObject{
     }
     public void update(float  dt){
        // System.out.println(getPosition());
-        if(getVelocity().getSpeed() < 1)
+        if(getVelocity().getSpeed() < 1f){
             _isMoving = false;
+        }
         else _isMoving = true;
     }
 
@@ -107,9 +110,16 @@ public class Ball extends GameObject{
         this._isFixed=tf;
     }
 
+
+    public void setVelocityComponents(float Vx, float Vy){
+        this.velocity.Vx = Vx;
+        this.velocity.Vy = Vy;
+        setSpeed((float)Math.sin(Math.toRadians(velocity.angle)/Vy));
+    }
+
     @Override
     public boolean isSlow() {
-        return getSpeed() < 5;
+        return getSpeed() < 1;
     }
 
 
@@ -126,10 +136,14 @@ public class Ball extends GameObject{
         newBall.position = new Vector2();
         newBall.position.x = position.x;
         newBall.position.y = position.y;
+        newBall.previousPosition = new Vector2();
+        newBall.previousPosition.x = previousPosition.x;
+        newBall.previousPosition.y = previousPosition.y;
         newBall.velocity = new Velocity();
         newBall.velocity.speed = velocity.speed;
         newBall.velocity.angle = velocity.angle;
         newBall._isFixed = _isFixed;
         return newBall;
+
     }
 }

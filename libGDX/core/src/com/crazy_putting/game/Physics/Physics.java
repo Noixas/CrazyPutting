@@ -1,7 +1,9 @@
 package com.crazy_putting.game.Physics;
 
+import com.badlogic.gdx.Gdx;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameLogic.GraphicsManager;
+import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.GameObject;
 
 public class Physics {
@@ -43,7 +45,6 @@ public class Physics {
 
 
     public static void update(GameObject obj, double dt) {
-
         if (obj.isFixed()) {
             return;
         }
@@ -56,8 +57,11 @@ public class Physics {
         if (collided(obj)) {
             obj.setPosition(CourseManager.getStartPosition());
             obj.fix(true);
+
+            Gdx.app.log("Message","Ball collided");
             return;
         }
+        System.out.println("Get velocity "+obj.getVelocity().Vx);
         obj.getPreviousPosition().x = x;
         obj.getPreviousPosition().y = y;
         //calculation of a new X position
@@ -72,23 +76,24 @@ public class Physics {
         // v(t+h) = v(t) + h*F(x,y,vx,vy)/m
         float newSpeedX = (float) (obj.getVelocity().Vx + dt * totalForceX(obj) / obj.getMass());
         float newSpeedY = (float) (obj.getVelocity().Vy + dt * totalForceY(obj) / obj.getMass());
-
-        obj.getVelocity().Vx = newSpeedX;
-        obj.getVelocity().Vy = newSpeedY;
+        System.out.println("New speeds");
+        System.out.println("p "+obj.getVelocity().Vx);
+        System.out.println(newSpeedY);
+        obj.setVelocityComponents(newSpeedX, newSpeedY);
         obj.setPositionX(newX);
         obj.setPositionY(newY);
 
+        System.out.println("Update physics x: "+newX+" y: "+newY+" speed: "+obj.getVelocity().getSpeed()+" Vx: "+obj.getVelocity().Vx+" Vy: "+obj.getVelocity().Vy);
     }
 
 
     private static boolean collided(GameObject obj) {
-
         //current position of the ball
         float x2 = obj.getPosition().x;
         float y2 = obj.getPosition().y;
 
         if (x2 > GraphicsManager.WORLD_WIDTH / 2 || x2 < GraphicsManager.WORLD_WIDTH / 2 * (-1) || y2 > GraphicsManager.WORLD_HEIGHT / 2 || y2 < GraphicsManager.WORLD_HEIGHT / 2 * (-1)) {
-            //System.out.println("Out of bounds");
+            System.out.println("Out of bounds");
             return true;
 
         }

@@ -9,20 +9,28 @@ public class Velocity {
     public Velocity(){
         setAngle(0);
         setSpeed(0);
+//        updateVelocityComponents();
+        System.out.println("Initial Vel: " + Vx + " " + Vy);
+    }
+
+    public void updateVelocityComponents(){
+        this.Vx = (float) (speed * Math.cos(Math.toRadians(angle)));
+        this.Vy = (float) (speed * Math.sin(Math.toRadians(angle)));
     }
 
     public Velocity(float speed, float angle){
         setAngle(angle);
         setSpeed(speed);
+        updateVelocityComponents();
+        System.out.println("Initial Vel: " + Vx + " " + Vy);
     }
 
 
     //getters and setters for speed components
     public void setSpeed(float speed){
         this.speed = speed;
-        this.Vx = (float) (speed * Math.cos(Math.toRadians(angle)));
-        this.Vy = (float) (speed * Math.sin(Math.toRadians(angle)));
-        System.out.println("Initial Vel: " + Vx + " " + Vy);
+
+        updateVelocityComponents();
     }
 
     public float getSpeed(){
