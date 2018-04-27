@@ -1,6 +1,7 @@
 package com.crazy_putting.game.Bot;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.crazy_putting.game.GameLogic.GameManager;
 import com.crazy_putting.game.GameObjects.Ball;
@@ -15,9 +16,13 @@ public class Bot {
     public Hole hole;
     public Course course;
     public boolean ballRolledThroughTheHole;
+    public float initialX;
+    public float initialY;
 
     public Bot(Ball ball, Hole hole, Course course){
         this.ball = ball.clone();
+        this.initialX = ball.getPosition().x;
+        this.initialY = ball.getPosition().y;
         this.hole = hole;
         this.course = course;
     }
@@ -27,7 +32,6 @@ public class Bot {
         //if terrain is flat
         double dist = euclideanDistance(ball.getPosition(),course.getGoalPosition());
         Gdx.app.log("Tag", String.valueOf(dist)+" "+ball.getPosition().x+" "+course.getGoalPosition().x);
-        System.out.println("Maths "+Math.abs(ball.getPosition().x-course.getGoalPosition().x)/dist);
         float angle = (float) Math.toDegrees(Math.acos(Math.abs(ball.getPosition().x-course.getGoalPosition().x)/dist));
         if(ball.getPosition().x<course.getGoalPosition().x&&ball.getPosition().y<course.getGoalPosition().y){
             angle = angle;
@@ -41,7 +45,6 @@ public class Bot {
         else if(ball.getPosition().x<course.getGoalPosition().x&&ball.getPosition().y>course.getGoalPosition().y){
             angle = 360-angle;
         }
-        System.out.println("Angle "+angle);
         float speed = computeSpeed(angle);
         Velocity computedVelocity = new Velocity(speed, angle);
         return computedVelocity;
@@ -58,6 +61,10 @@ public class Bot {
           (i.e. when the ball is going further and further from the hole?)
         */
         boolean start=true;
+        Vector2 initialPosition = new Vector2();
+        initialPosition.x = initialX;
+        initialPosition.y = initialY;
+        ball.setPosition(initialPosition);
         while(ball.isMoving()||start){
             start = false;
             ball.fix(false);
@@ -69,9 +76,10 @@ public class Bot {
                 if(ball.isSlow()) {
                     System.out.println("Ball in goal");
                     ball.fix(true);
+                    break;
                 }
             }
-            Gdx.app.log("", String.valueOf(ball.isMoving())+String.valueOf(start));
+            Gdx.app.log("", String.valueOf(ball.isMoving())+String.valueOf(ballRolledThroughTheHole)+String.valueOf(isBallInTheHole(ball, hole)));
 //            System.out.println("Simulate shot "+Gdx.graphics.getDeltaTime()+" "+ball.getPosition().x+" "+ball.getPosition().y);
 
 
@@ -79,9 +87,9 @@ public class Bot {
     }
 
     public float computeSpeed(float angle){
-        float speed = 100;
+        float speed = 99;
         // example change rate
-        float changeRate = 0.1f;
+        float changeRate = 0.02f;
         System.out.println("computeSpeed");
         ballRolledThroughTheHole = false;
         while(!GameManager.isBallInTheHole(ball,hole)){
@@ -99,6 +107,7 @@ public class Bot {
             }
             if(speed<1f){
                 System.out.println("Speed to small");
+                speed = 100;
                 break;
             }
             System.out.println("Current speed"+speed);

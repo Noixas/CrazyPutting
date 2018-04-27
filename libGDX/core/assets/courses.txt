@@ -62,3 +62,30 @@ Goal Pos: 9.0 9.0
 Goal Radius: 9.0
 Ball Start Pos: 9.0 9.0
 Max Speed: 9.0
+COURSE:
+ID: 7
+Name: Course without name D:
+Height: 9
+Friction: 0.6
+Goal Pos: 374.0 331.0
+Goal Radius: 25.0
+Ball Start Pos: -10.0 -10.0
+Max Speed: 200.0
+COURSE:
+ID: 8
+Name: Course without name D:
+Height: 8
+Friction: 0.4
+Goal Pos: 341.0 462.0
+Goal Radius: 25.0
+Ball Start Pos: -10.0 -10.0
+Max Speed: 200.0
+COURSE:
+ID: 9
+Name: Course without name D:
+Height: 453
+Friction: 0.3
+Goal Pos: -425.0 345.0
+Goal Radius: 25.0
+Ball Start Pos: 10.0 60.0
+Max Speed: 200.0

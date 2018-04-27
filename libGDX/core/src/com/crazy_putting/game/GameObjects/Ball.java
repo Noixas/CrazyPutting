@@ -85,6 +85,7 @@ public class Ball extends GameObject{
     public void setVelocity(float speed, float angle){
         this.velocity.setAngle(angle);
         this.velocity.setSpeed(speed);
+        this.velocity.updateVelocityComponents();
     }
 
     public float getMass(){
@@ -92,7 +93,7 @@ public class Ball extends GameObject{
     }
     public boolean isMoving()
     {
-        return getSpeed()>0.5;
+        return getSpeed()>0.5f;
     }
     public void update(float  dt){
        // System.out.println(getPosition());
@@ -114,7 +115,7 @@ public class Ball extends GameObject{
     public void setVelocityComponents(float Vx, float Vy){
         this.velocity.Vx = Vx;
         this.velocity.Vy = Vy;
-        setSpeed((float)Math.sin(Math.toRadians(velocity.angle)/Vy));
+        setSpeed((float)((float)(Math.sqrt(Math.pow(getVelocity().Vx,2)+Math.pow(getVelocity().Vy,2)))));
     }
 
     @Override

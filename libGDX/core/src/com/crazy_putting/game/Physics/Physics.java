@@ -61,7 +61,7 @@ public class Physics {
             Gdx.app.log("Message","Ball collided");
             return;
         }
-        System.out.println("Get velocity "+obj.getVelocity().Vx);
+//        System.out.println("Get velocity "+obj.getVelocity().Vx);
         obj.getPreviousPosition().x = x;
         obj.getPreviousPosition().y = y;
         //calculation of a new X position
@@ -76,14 +76,19 @@ public class Physics {
         // v(t+h) = v(t) + h*F(x,y,vx,vy)/m
         float newSpeedX = (float) (obj.getVelocity().Vx + dt * totalForceX(obj) / obj.getMass());
         float newSpeedY = (float) (obj.getVelocity().Vy + dt * totalForceY(obj) / obj.getMass());
-        System.out.println("New speeds");
-        System.out.println("p "+obj.getVelocity().Vx);
-        System.out.println(newSpeedY);
+//        System.out.println("New speeds");
+//        System.out.println("p "+obj.getVelocity().Vx);
+//        System.out.println(newSpeedY);
         obj.setVelocityComponents(newSpeedX, newSpeedY);
+        obj.getVelocity().Vx = newSpeedX;
+        obj.getVelocity().Vy = newSpeedY;
+
+        System.out.println(newSpeedY+" "+obj.getVelocity().Vy+" "+obj.getVelocity().angle);
+//        obj.setSpeed((float)(Math.sqrt(Math.pow(obj.getVelocity().Vx,2)+Math.pow(obj.getVelocity().Vy,2))));
         obj.setPositionX(newX);
         obj.setPositionY(newY);
 
-        System.out.println("Update physics x: "+newX+" y: "+newY+" speed: "+obj.getVelocity().getSpeed()+" Vx: "+obj.getVelocity().Vx+" Vy: "+obj.getVelocity().Vy);
+        System.out.println("Update physics x: "+newX+" y: "+newY+" speed: "+(Math.sqrt(Math.pow(obj.getVelocity().Vx,2)+Math.pow(obj.getVelocity().Vy,2)))+" Vx: "+obj.getVelocity().Vx+" Vy: "+obj.getVelocity().Vy);
     }
 
 
