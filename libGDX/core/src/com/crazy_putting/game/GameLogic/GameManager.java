@@ -146,9 +146,9 @@ public class GameManager {
             if (Gdx.input.isKeyJustPressed(Input.Keys.I)){
                 System.out.println("MODE "+_mode+" with N: " + ReadAndAnalyse.getN());
                 if(!_ball.isMoving() && _turns<ReadAndAnalyse.getN()) {
-                _ball.setVelocity(ReadAndAnalyse.getResult()[_turns][0], ReadAndAnalyse.getResult()[_turns][1]);
-                _ball.fix(false);
-                increaseTurnCount();
+                    _ball.setVelocity(ReadAndAnalyse.getResult()[_turns][0], ReadAndAnalyse.getResult()[_turns][1]);
+                    _ball.fix(false);
+                    increaseTurnCount();
                 }
                 else if(_turns>=ReadAndAnalyse.getN()){
                   System.out.println("No more moves...");

@@ -13,11 +13,11 @@ import com.sun.deploy.config.VerboseDefaultConfig;
 
 public class Bot {
     public Ball ball;
-    public Hole hole;
-    public Course course;
-    public boolean ballRolledThroughTheHole;
-    public float initialX;
-    public float initialY;
+    private Hole hole;
+    private Course course;
+    private boolean ballRolledThroughTheHole;
+    private float initialX;
+    private float initialY;
 
     public Bot(Ball ball, Hole hole, Course course){
         this.ball = ball.clone();
@@ -27,28 +27,33 @@ public class Bot {
         this.course = course;
     }
 
+    /**
+     * Compute velocity(speed and angle) for a flat terrain to score a hole-in-one.
+     */
     public Velocity computeVelocity(){
-        // write logic here
-        //if terrain is flat
+        float angle = computeAngle();
+        float speed = computeSpeed(angle);
+        Gdx.app.log("Log",String.valueOf(angle)+" "+String.valueOf(speed));
+        return new Velocity(speed, angle);
+    }
+
+    public float computeAngle(){
         double dist = euclideanDistance(ball.getPosition(),course.getGoalPosition());
-        Gdx.app.log("Tag", String.valueOf(dist)+" "+ball.getPosition().x+" "+course.getGoalPosition().x);
-        float angle = (float) Math.toDegrees(Math.acos(Math.abs(ball.getPosition().x-course.getGoalPosition().x)/dist));
+        float initialAngle = (float) Math.toDegrees(Math.acos(Math.abs(ball.getPosition().x-course.getGoalPosition().x)/dist));
+        float angle=0;
         if(ball.getPosition().x<course.getGoalPosition().x&&ball.getPosition().y<course.getGoalPosition().y){
-            angle = angle;
+            angle = initialAngle;
         }
         else if(ball.getPosition().x>course.getGoalPosition().x&&ball.getPosition().y<course.getGoalPosition().y){
-            angle = 180-angle;
+            angle = 180-initialAngle;
         }
         else if(ball.getPosition().x>course.getGoalPosition().x&&ball.getPosition().y>course.getGoalPosition().y){
-            angle = 180+angle;
+            angle = 180+initialAngle;
         }
         else if(ball.getPosition().x<course.getGoalPosition().x&&ball.getPosition().y>course.getGoalPosition().y){
-            angle = 360-angle;
+            angle = 360-initialAngle;
         }
-        float speed = computeSpeed(angle);
-        Velocity computedVelocity = new Velocity(speed, angle);
-        return computedVelocity;
-
+        return angle;
     }
 
     public double euclideanDistance(Vector2 start, Vector2 goal){
@@ -56,19 +61,55 @@ public class Bot {
         return dist;
     }
 
+    public float computeSpeed(float angle){
+        // Initial speed, maybe it would be better to replace it with a random float
+        float speed = 100;
+        float changeRate = 0.02f;
+        // true if ball rolled through the hole, but didn't stop there
+        ballRolledThroughTheHole = false;
+        while(!GameManager.isBallInTheHole(ball,hole)){
+            ball.setVelocity(speed,angle);
+            simulateShot();
+            if(GameManager.isBallInTheHole(ball,hole)){
+                return speed;
+            }
+            // if the speed was too big
+            else if(ballRolledThroughTheHole){
+                speed -= speed*changeRate;
+            }
+            // if the speed was too slow
+            else{
+                speed += speed*changeRate;
+            }
+            // The speed is negligible what means that the bot can't find an optimal velocity
+            if(speed<1f){
+                Gdx.app.log("Log","The bot can't find an optimal velocity");
+                speed = 100;
+                break;
+            }
+            Gdx.app.log("Log","Current speed"+String.valueOf(speed));
+        }
+        return speed;
+    }
+
+
+
     public void simulateShot(){
-        /*TODO not sure if that's correct (probably not) and also you must specify other conditions when the simulation should end
-          (i.e. when the ball is going further and further from the hole?)
-        */
-        boolean start=true;
+        //TODO specify other conditions when the simulation should end
+        //(i.e. when the ball is going further and further from the hole?)
+
+
+        // At first ball is never moving, so without additional premise firstIteration the loop would never start
+        boolean firstIteration=true;
         Vector2 initialPosition = new Vector2();
+        // After each simulation the ball should get its initial position (since we want to restart the shot from the
+        // beginning with different speed
         initialPosition.x = initialX;
         initialPosition.y = initialY;
         ball.setPosition(initialPosition);
-        while(ball.isMoving()||start){
-            start = false;
+        while(ball.isMoving()||firstIteration){
+            firstIteration = false;
             ball.fix(false);
-
             ball.update(Gdx.graphics.getDeltaTime());
             Physics.update(ball,Gdx.graphics.getDeltaTime());
             if(isBallInTheHole(ball,hole)){
@@ -79,47 +120,16 @@ public class Bot {
                     break;
                 }
             }
-            Gdx.app.log("", String.valueOf(ball.isMoving())+String.valueOf(ballRolledThroughTheHole)+String.valueOf(isBallInTheHole(ball, hole)));
-//            System.out.println("Simulate shot "+Gdx.graphics.getDeltaTime()+" "+ball.getPosition().x+" "+ball.getPosition().y);
-
-
         }
     }
 
-    public float computeSpeed(float angle){
-        float speed = 99;
-        // example change rate
-        float changeRate = 0.02f;
-        System.out.println("computeSpeed");
-        ballRolledThroughTheHole = false;
-        while(!GameManager.isBallInTheHole(ball,hole)){
-            ball.setVelocity(speed,angle);
-            simulateShot();
-            // TODO check if during the simulation the ball rolled through the whole but was to fast
-            if(GameManager.isBallInTheHole(ball,hole)){
-                return speed;
-            }
-            else if(ballRolledThroughTheHole){
-                speed -= speed*changeRate;
-            }
-            else{
-                speed += speed*changeRate;
-            }
-            if(speed<1f){
-                System.out.println("Speed to small");
-                speed = 100;
-                break;
-            }
-            System.out.println("Current speed"+speed);
-        }
-        System.out.println("Speed "+speed+" angle "+angle);
-        return speed;
-    }
     public static boolean isBallInTheHole(Ball ball, Hole hole){
         if(Math.sqrt(Math.pow(ball.getPosition().x -hole.getPosition().x,2) +Math.pow((ball.getPosition().y - hole.getPosition().y),2))< hole.getRadius()){
             return true;
         }
         return false;
     }
+
+
 
 }
