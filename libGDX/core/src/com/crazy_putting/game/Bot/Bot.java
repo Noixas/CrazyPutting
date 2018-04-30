@@ -12,6 +12,7 @@ import com.crazy_putting.game.Physics.Physics;
 import com.sun.deploy.config.VerboseDefaultConfig;
 
 public class Bot {
+    // TODO finish the bot
     public Ball ball;
     private Hole hole;
     private Course course;
