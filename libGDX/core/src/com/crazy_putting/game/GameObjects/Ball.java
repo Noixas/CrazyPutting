@@ -91,6 +91,11 @@ public class Ball extends GameObject{
     public float getMass(){
         return this.MASS;
     }
+    public boolean isMoving(float speedTolerance)
+    {
+        return getSpeed()>speedTolerance;
+    }
+
     public boolean isMoving()
     {
         return getSpeed()>0.5f;

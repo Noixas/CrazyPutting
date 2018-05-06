@@ -25,6 +25,7 @@ public class GameManager {
     private int _turns;
     private int _mode;
     private Bot bot;
+    private boolean printMessage=true;
     public GameManager(GolfGame pGame, int pMode)
     {
         _mode = pMode;
@@ -52,12 +53,15 @@ public class GameManager {
         handleInput(_game.input);
         _ball.update(pDelta);
         Physics.update(_ball, pDelta);
-        UpdateGameLogic(pDelta);
+        if(printMessage){
+            UpdateGameLogic(pDelta);
+        }
 
     }
     public void UpdateGameLogic(float pDelta)
     {
         if(isBallInTheHole(_ball,_hole) && _ball.isSlow()) {
+            printMessage = false;
             System.out.println("Ball in goal");
 
             _ball.fix(true);
@@ -173,7 +177,7 @@ public class GameManager {
     public void checkConstrainsAndSetVelocity(float inputSpeed, float inputAngle) {
         float speed = checkMaxSpeedConstrain(inputSpeed);
         if(speed==0) {
-            speed=0.0001f;
+            speed=0.000001f;
         }
         increaseTurnCount();
         _ball.setVelocity(speed, inputAngle);

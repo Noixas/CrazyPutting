@@ -76,23 +76,18 @@ public class Physics {
         // v(t+h) = v(t) + h*F(x,y,vx,vy)/m
         float newSpeedX = (float) (obj.getVelocity().Vx + dt * totalForceX(obj) / obj.getMass());
         float newSpeedY = (float) (obj.getVelocity().Vy + dt * totalForceY(obj) / obj.getMass());
-//        System.out.println("New speeds");
-//        System.out.println("p "+obj.getVelocity().Vx);
-//        System.out.println(newSpeedY);
         obj.setVelocityComponents(newSpeedX, newSpeedY);
         obj.getVelocity().Vx = newSpeedX;
         obj.getVelocity().Vy = newSpeedY;
 
-        System.out.println(newSpeedY+" "+obj.getVelocity().Vy+" "+obj.getVelocity().angle);
-//        obj.setSpeed((float)(Math.sqrt(Math.pow(obj.getVelocity().Vx,2)+Math.pow(obj.getVelocity().Vy,2))));
         obj.setPositionX(newX);
         obj.setPositionY(newY);
 
-        System.out.println("Update physics x: "+newX+" y: "+newY+" speed: "+(Math.sqrt(Math.pow(obj.getVelocity().Vx,2)+Math.pow(obj.getVelocity().Vy,2)))+" Vx: "+obj.getVelocity().Vx+" Vy: "+obj.getVelocity().Vy);
+//        System.out.println("Update physics x: "+newX+" y: "+newY+" speed: "+(Math.sqrt(Math.pow(obj.getVelocity().Vx,2)+Math.pow(obj.getVelocity().Vy,2)))+" Vx: "+obj.getVelocity().Vx+" Vy: "+obj.getVelocity().Vy);
     }
 
 
-    private static boolean collided(GameObject obj) {
+    public static boolean collided(GameObject obj) {
         //current position of the ball
         float x2 = obj.getPosition().x;
         float y2 = obj.getPosition().y;
@@ -132,12 +127,12 @@ public class Physics {
 
     //Calculation of the Gravitational Force
     //G = -mgh(,x) - mgh(,y)
-    private static float gravityForceX(GameObject obj) {
+    public static float gravityForceX(GameObject obj) {
 
         return (float) (-obj.getMass() * g * partialDerivativeX(obj));
     }
 
-    private static float gravityForceY(GameObject obj) {
+    public static float gravityForceY(GameObject obj) {
         return (float) (-obj.getMass() * g * partialDerivativeY(obj));
     }
 
@@ -146,7 +141,7 @@ public class Physics {
     H = -(mu)* m* v / ||V||
     V = vx/cos(x)
   */
-    private static float frictionForceX(GameObject obj) {
+    public static float frictionForceX(GameObject obj) {
 
         float numerator = (float) (-mu * obj.getMass() * g * obj.getVelocity().Vx);
         float lengthOfVelocityVector = (float) (Math.pow(obj.getVelocity().Vx, 2) + Math.pow(obj.getVelocity().Vy, 2));
@@ -155,7 +150,7 @@ public class Physics {
         return numerator / denominator;
     }
 
-    private static float frictionForceY(GameObject obj) {
+    public static float frictionForceY(GameObject obj) {
         float numerator = (float) (-mu * obj.getMass() * g * obj.getVelocity().Vy);
         float lengthOfVelocityVector = (float) (Math.pow(obj.getVelocity().Vx, 2) + Math.pow(obj.getVelocity().Vy, 2));
         float denominator = (float) Math.sqrt(lengthOfVelocityVector);

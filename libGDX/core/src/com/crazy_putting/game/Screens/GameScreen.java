@@ -42,7 +42,7 @@ public class GameScreen extends InputAdapter implements Screen {
         _gameManager = new GameManager(game, pMode);
 
         drawHeightMap();
-        mapSprite = new Sprite(texture);
+        mapSprite = new Sprite();
         mapSprite.setPosition(0,0);
         mapSprite.setSize(WORLD_WIDTH, WORLD_HEIGHT);
         Gdx.input.setInputProcessor(this);
@@ -105,6 +105,9 @@ public class GameScreen extends InputAdapter implements Screen {
          */
         game.batch.begin();
         if(texture!=null){
+            if(_gameManager.getBall().isMoving(0.000001f)){
+                drawBallRoute();
+            }
             game.batch.draw(texture, 0, 0);
         }
 
@@ -177,8 +180,20 @@ public class GameScreen extends InputAdapter implements Screen {
     public void dispose() {
 
     }
-    public void drawHeightMap(){
 
+    public void drawBallRoute(){
+        pixmap.setColor(Color.YELLOW);
+        int ballX = (int)_gameManager.getBall().getPosition().x;
+        int ballY = (int)_gameManager.getBall().getPosition().y;
+        for(int i =ballX-5;i<ballX+5;i++){
+            for(int j = ballY-5;j<ballY+5;j++){
+                pixmap.drawPixel(i+pixmap.getWidth()/2, (int)(pixmap.getHeight()/2 - j));
+            }
+        }
+        texture = new Texture(pixmap);
+    }
+
+    public void drawHeightMap(){
         pixmap = new Pixmap(WORLD_WIDTH, WORLD_HEIGHT, Pixmap.Format.RGB888);
         texture = new Texture(pixmap);
         float maxValue = 0;
