@@ -22,6 +22,9 @@ public class Bot {
     private float initialY;
     private float bestSpeed;
     private float closestDistToHole;
+    // TODO zrob prywatne instance variables dla obu linii
+    private LinearFunction lineGoal;
+    private LinearFunction lineStartGoal;
 
 
     public Bot(Ball ball, Hole hole, Course course){
@@ -32,21 +35,27 @@ public class Bot {
         this.course = course;
         this.bestSpeed = 0;
         this.closestDistToHole = (float) euclideanDistance(ball.getPosition(),course.getGoalPosition());
+        this.lineStartGoal = lineStartGoal();
+        Gdx.app.log("Log",lineStartGoal.getA()+" "+lineStartGoal.getB());
+        this.lineGoal = lineGoal(lineStartGoal);
+        Gdx.app.log("Log",lineGoal.getA()+" "+lineGoal.getB());
+
     }
 
     /**
      * Compute velocity(speed and angle) for a flat terrain to score a hole-in-one.
      */
-    public Velocity computeVelocity(){
+    public Velocity computeOptimalVelocity(){
         float angle = 0;
         float speed = 0;
+        Velocity newVelocity = new Velocity(angle,speed);
         if(canBallStopInTheHole()){
             ball.setPosition(new Vector2(initialX, initialY));
-            angle = computeAngle();
-            speed = computeSpeed(angle);
-            Gdx.app.log("Log - computed velocity","Speed "+String.valueOf(speed)+" Angle "+String.valueOf(angle));
+            angle = computeInitialAngle();
+            newVelocity = computeVelocity(angle);
+            Gdx.app.log("Log - computed velocity","Speed "+String.valueOf(newVelocity.getSpeed())+" Angle "+String.valueOf(newVelocity.getAngle()));
         }
-        return new Velocity(speed, angle);
+        return newVelocity;
     }
 
     private boolean canBallStopInTheHole()  {
@@ -71,6 +80,7 @@ public class Bot {
             }
         }
         Gdx.app.log("Log","Ball can't stop in the hole");
+        ballRolledThroughTheHole = false;
         return false;
 
 
@@ -78,7 +88,7 @@ public class Bot {
 
     }
 
-    public float computeAngle(){
+    public float computeInitialAngle(){
         double dist = euclideanDistance(ball.getPosition(),course.getGoalPosition());
         float initialAngle = (float) Math.toDegrees(Math.acos(Math.abs(ball.getPosition().x-course.getGoalPosition().x)/dist));
         float angle=0;
@@ -102,10 +112,11 @@ public class Bot {
         return dist;
     }
 
-    public float computeSpeed(float angle){
+    public Velocity computeVelocity(float angle){
         // Initial speed, maybe it would be better to replace it with a random float
         float speed = 100;
-        float changeRate = 0.02f;
+        float speedRate = 0.1f;
+        float angleRate = 0.1f;
         // true if ball rolled through the hole, but didn't stop there
         ballRolledThroughTheHole = false;
 
@@ -113,21 +124,35 @@ public class Bot {
         this.closestDistToHole = (float) euclideanDistance(ball.getPosition(),course.getGoalPosition());
         while(!GameManager.isBallInTheHole(ball,hole)){
             ball.setVelocity(speed,angle);
+            Gdx.app.log("Debug","speed: "+speed+" angle: "+angle);
             Vector2 initialPosition = new Vector2();
             initialPosition.x = initialX;
             initialPosition.y = initialY;
             ball.setPosition(initialPosition);
             simulateShot(speed,0.5f);
             if(GameManager.isBallInTheHole(ball,hole)){
-                return speed;
+                return new Velocity(speed, angle);
             }
             // if the speed was too big
             else if(ballRolledThroughTheHole){
-                speed -= speed*changeRate;
+                Gdx.app.log("Log","Ball rolled through the hole");
+                speed -= speed*speedRate;
             }
-            // if the speed was too slow
             else{
-                speed += speed*changeRate;
+                if(ballPassedByHole()){
+                    if(leftRight()==Direction.LEFT){
+                        angle -= angleRate*angle;
+                    }
+                    else{
+                        angle += angleRate*angle;
+                    }
+                    speed -= speed*speedRate;
+                }
+                else{
+                    speed +=speed*speedRate;
+                }
+
+//                TODO not sure how to deal with that yet
             }
             // The speed is negligible what means that the bot can't find an optimal velocity
             if(speed<1f){
@@ -136,8 +161,9 @@ public class Bot {
                 break;
             }
             Gdx.app.log("Log","Current speed "+String.valueOf(speed));
+            ballRolledThroughTheHole = false;
         }
-        return speed;
+        return new Velocity(speed, angle);
     }
 
 
@@ -157,14 +183,19 @@ public class Bot {
             ball.fix(false);
             ball.update(Gdx.graphics.getDeltaTime());
             Physics.update(ball,Gdx.graphics.getDeltaTime());
-
+            //&&euclideanDistance(ball.getPosition(),hole.getPosition())>hole.getRadius()
+            // TODO don't think that work for a general case
+            if(ballPassedByHole()){
+                Gdx.app.log("Log","Ball reached goal line");
+                break;
+            }
             if(newClosestDistToHole>(float)euclideanDistance(ball.getPosition(),course.getGoalPosition())){
                 newClosestDistToHole = (float) euclideanDistance(ball.getPosition(),course.getGoalPosition());
             }
-            if(isBallInTheHole(ball,hole)){
+            if(GameManager.isBallInTheHole(ball,hole)){
                 ballRolledThroughTheHole = true;
                 if(ball.isSlow()) {
-                    System.out.println("Ball in goal");
+                    System.out.println("Ball in goal "+ball.getVelocity().getSpeed()+" angle "+ball.getVelocity().getAngle());
                     ball.fix(true);
                     break;
                 }
@@ -181,6 +212,10 @@ public class Bot {
         Gdx.app.log("Log","Simulation completed");
     }
 
+    public boolean ballPassedByHole(){
+        return lineGoal.calculate(ball.getPosition().x)<ball.getPosition().y&&euclideanDistance(ball.getPosition(),hole.getPosition())>hole.getRadius();
+    }
+
     public static boolean isBallInTheHole(Ball ball, Hole hole){
         if(Math.sqrt(Math.pow(ball.getPosition().x -hole.getPosition().x,2) +Math.pow((ball.getPosition().y - hole.getPosition().y),2))< hole.getRadius()){
             return true;
@@ -194,4 +229,45 @@ public class Bot {
         return new LinearFunction(a,b);
     }
 
+    public LinearFunction lineGoal(LinearFunction line){
+        float a = -1/line.getA();
+        float b = hole.getPosition().y-a*hole.getPosition().x;
+        return  new LinearFunction(a,b);
+    }
+
+    /**
+     * Checks in 2D if ball is above goal or below goal
+     */
+    public Direction ballPosition(){
+        assert(lineGoal.intersects(ball.getPosition()));
+        if(ball.getPosition().y>hole.getPosition().y){
+            return Direction.ABOVE;
+        }
+        else{
+            return Direction.BELOW;
+        }
+    }
+
+    /**
+     * Checks if the ball is on the left or right side of the start-goal line
+     */
+    // TODO change above, below, left, right to an enum
+    public Direction leftRight(){
+        if(ball.getPosition().x<hole.getPosition().x){
+            if(ballPosition()==Direction.ABOVE){
+                return Direction.LEFT;
+            }
+            else{
+                return Direction.RIGHT;
+            }
+        }
+        else{
+            if(ballPosition()==Direction.BELOW){
+                return Direction.LEFT;
+            }
+            else{
+                return Direction.RIGHT;
+            }
+        }
+    }
 }

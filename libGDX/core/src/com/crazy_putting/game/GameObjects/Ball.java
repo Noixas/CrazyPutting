@@ -105,7 +105,7 @@ public class Ball extends GameObject{
      * Every delta time checks if the ball is moving or not.
      */
     public void update(float  dt){
-        if(getVelocity().getSpeed() < 1f){
+        if(getVelocity().getSpeed() < 0.5f){
             _isMoving = false;
         }
         else _isMoving = true;

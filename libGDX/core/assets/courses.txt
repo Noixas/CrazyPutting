@@ -69,7 +69,7 @@ Height: (sin(x/100)+cos(y/100))*50+50
 Friction: 0.6
 Goal Pos: 284.0 331.0
 Goal Radius: 25.0
-Ball Start Pos: -10.0 -10.0
+Ball Start Pos: -504.0 210.0
 Max Speed: 200.0
 COURSE:
 ID: 8

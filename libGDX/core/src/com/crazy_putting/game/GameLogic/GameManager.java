@@ -161,8 +161,9 @@ public class GameManager {
         }
         else if (_mode == 3){
             if (Gdx.input.isKeyJustPressed(Input.Keys.I)){
-                Velocity computedVelocity = bot.computeVelocity();
+                Velocity computedVelocity = bot.computeOptimalVelocity();
                 checkConstrainsAndSetVelocity(computedVelocity.speed, computedVelocity.angle);
+                Gdx.app.log("Manager","speed "+computedVelocity.speed+" angle "+computedVelocity.angle);
             }
         }
     }

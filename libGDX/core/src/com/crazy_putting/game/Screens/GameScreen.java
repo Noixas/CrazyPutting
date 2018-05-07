@@ -105,7 +105,7 @@ public class GameScreen extends InputAdapter implements Screen {
          */
         game.batch.begin();
         if(texture!=null){
-            if(_gameManager.getBall().isMoving(0.000001f)){
+            if(_gameManager.getBall().isMoving(0.1f)){
                 drawBallRoute();
             }
             game.batch.draw(texture, 0, 0);
@@ -117,10 +117,6 @@ public class GameScreen extends InputAdapter implements Screen {
         GraphicsManager.Render(game.batch);
         renderGUI();
         game.batch.end();
-
-
-
-
     }
     private void updateCamera()
     {

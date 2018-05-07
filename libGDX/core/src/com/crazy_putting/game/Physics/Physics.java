@@ -83,7 +83,8 @@ public class Physics {
         obj.setPositionX(newX);
         obj.setPositionY(newY);
 
-//        System.out.println("Update physics x: "+newX+" y: "+newY+" speed: "+(Math.sqrt(Math.pow(obj.getVelocity().Vx,2)+Math.pow(obj.getVelocity().Vy,2)))+" Vx: "+obj.getVelocity().Vx+" Vy: "+obj.getVelocity().Vy);
+///        System.out.println("Update physics x: "+newX+" y: "+newY+" speed: "+(Math.sqrt(Math.pow(obj.getVelocity().Vx,2)+Math.pow(obj.getVelocity().Vy,2)))+" Vx: "+obj.getVelocity().Vx+" Vy: "+obj.getVelocity().Vy);
+//        Gdx.app.log("Physics","Speed: "+obj.getSpeed());
     }
 
 
