@@ -80,3 +80,12 @@ Goal Pos: -374.0 523.0
 Goal Radius: 30.0
 Ball Start Pos: 100.0 100.0
 Max Speed: 300.0
+COURSE:
+ID: 9
+Name: Course without name D:
+Height: (sin(x/200)+cos(y/200))*40+70
+Friction: 0.5
+Goal Pos: 234.0 342.0
+Goal Radius: 30.0
+Ball Start Pos: -12.0 34.0
+Max Speed: 300.0

@@ -117,7 +117,7 @@ public class Bot {
     public Velocity computeVelocity(float angle){
         // Initial speed, maybe it would be better to replace it with a random float
         float speed = 100;
-        float speedRate = 0.1f;
+        float speedRate = 0.01f;
         float angleRate = 0.01f;
         // true if ball rolled through the hole, but didn't stop there
         ballRolledThroughTheHole = false;
@@ -153,7 +153,6 @@ public class Bot {
                 else if(speed<course.getMaxSpeed()){
                     speed +=speed*speedRate;
                 }
-
 //                TODO not sure how to deal with that yet
             }
             // The speed is negligible what means that the bot can't find an optimal velocity
