@@ -52,6 +52,8 @@ public class Bot {
         if(canBallStopInTheHole()){
             ball.setPosition(new Vector2(initialX, initialY));
             angle = computeInitialAngle();
+            // only for testing
+//            angle = 340;
             newVelocity = computeVelocity(angle);
             Gdx.app.log("Log - computed velocity","Speed "+String.valueOf(newVelocity.getSpeed())+" Angle "+String.valueOf(newVelocity.getAngle()));
         }
@@ -116,7 +118,7 @@ public class Bot {
         // Initial speed, maybe it would be better to replace it with a random float
         float speed = 100;
         float speedRate = 0.1f;
-        float angleRate = 0.1f;
+        float angleRate = 0.01f;
         // true if ball rolled through the hole, but didn't stop there
         ballRolledThroughTheHole = false;
 
@@ -148,7 +150,7 @@ public class Bot {
                     }
                     speed -= speed*speedRate;
                 }
-                else{
+                else if(speed<course.getMaxSpeed()){
                     speed +=speed*speedRate;
                 }
 
