@@ -67,9 +67,9 @@ ID: 7
 Name: Course without name D:
 Height: (sin(x/100)+cos(y/100))*50+50
 Friction: 0.6
-Goal Pos: 284.0 331.0
+Goal Pos: -150.0 -90.0
 Goal Radius: 25.0
-Ball Start Pos: -150.0 -90.0
+Ball Start Pos: 284.0 331.0
 Max Speed: 200.0
 COURSE:
 ID: 8
@@ -83,9 +83,9 @@ Max Speed: 300.0
 COURSE:
 ID: 9
 Name: Course without name D:
-Height: (sin(x/200)+cos(y/200))*40+70
-Friction: 0.5
-Goal Pos: 234.0 342.0
+Height: (sin(x/70)+cos(y/70))*30+100
+Friction: 0.7
+Goal Pos: 334.0 142.0
 Goal Radius: 30.0
 Ball Start Pos: -12.0 34.0
 Max Speed: 300.0

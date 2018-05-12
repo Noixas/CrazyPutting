@@ -162,6 +162,7 @@ public class GameManager {
         else if (_mode == 3){
             if (Gdx.input.isKeyJustPressed(Input.Keys.I)){
                 Velocity computedVelocity = bot.computeOptimalVelocity();
+                Gdx.app.log("Ball","Position x "+ _ball.getPosition().x+" position y "+_ball.getPosition().y);
                 checkConstrainsAndSetVelocity(computedVelocity.speed, computedVelocity.angle);
                 Gdx.app.log("Manager","speed "+computedVelocity.speed+" angle "+computedVelocity.angle);
             }
@@ -181,6 +182,8 @@ public class GameManager {
             speed=0.000001f;
         }
         increaseTurnCount();
+
+        Gdx.app.log("Ball2","Position x "+ _ball.getPosition().x+" position y "+_ball.getPosition().y);
         _ball.setVelocity(speed, inputAngle);
         _ball.fix(false);
     }

@@ -22,7 +22,7 @@ public class Velocity {
         setAngle(angle);
         setSpeed(speed);
         updateVelocityComponents();
-        System.out.println("Speed "+speed+" angle "+angle);
+//        System.out.println("Speed "+speed+" angle "+angle);
 //        System.out.println("Initial Vel: " + Vx + " " + Vy);
     }
 
