@@ -17,6 +17,7 @@ import javax.sound.sampled.Line;
     courses.txt the name of that file (number of the course ex. 1.jpg)
  */
 public class Bot {
+    // TODO finish the bot
     public Ball ball;
     private Hole hole;
     private Course course;
