@@ -220,7 +220,13 @@ public class ChooseCoursesScreen implements Screen{
         if(selectBox.getSelectedIndex() != CourseManager.getIndexActive())//IMPORTANT: if is a different course from the active one then we need to parse height formula again
             CourseManager.reParseHeightFormula(selectBox.getSelectedIndex());
 
+        if(MenuScreen.Mode3D ==false)
         game.setScreen(new GameScreen(game,_mode));
+        else
+        {
+            game.setScreen(new GameScreen3D(game,_mode));
+
+        }
 
     }
 

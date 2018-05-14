@@ -1,11 +1,11 @@
 package com.crazy_putting.game.GameObjects;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Others.Velocity;
 
-public class Ball extends GameObject{
+public class Ball extends PhysicsGameObject {
 
     private final float MASS = (float) 0.04593;
 
@@ -34,9 +34,9 @@ public class Ball extends GameObject{
         _isFixed=true;
         //setVelocity(1,0);
     }
-    public Vector2 getPosition() {
+   /* public Vector2 getPosition() {
         return position;
-    }
+    }*/
     public Vector2 getPreviousPosition(){ return previousPosition; }
 
 
@@ -57,13 +57,26 @@ public class Ball extends GameObject{
         this.position.y = position.y;
         this.previousPosition.x = position.x;
         this.previousPosition.y = position.y;
-    }
 
+        _position.x = position.x;
+        _position.y = position.y;
+    }
+    public void setPosition(Vector3 position) {
+        this.position.x = position.x;
+        this.position.y = position.y;
+        this.previousPosition.x = position.x;
+        this.previousPosition.y = position.y;
+
+        _position.x = position.x;
+        _position.y = position.y;
+    }
     public void setPositionX(float x){
+        _position.x = x;
         position.x = x;
     }
 
     public void setPositionY(float y){
+        _position.y = y;
         position.y = y;
     }
 

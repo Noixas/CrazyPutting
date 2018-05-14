@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -31,6 +32,11 @@ public class MenuScreen implements Screen {
     private TextButton fileButton;
     private TextButton aiButton;
     private TextButton courseCreatorButton;
+
+    private TextButton button2D;
+    private TextButton button3D;
+
+    public static boolean Mode3D = true; //TODO:Check if its better to implement this somewhere else
 
     public MenuScreen(final GolfGame golfGame) {
 
@@ -80,6 +86,35 @@ public class MenuScreen implements Screen {
             }
         });
 
+        button2D = new TextButton("2D", skin,"toggle");
+        button2D.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+              Mode3D = false;
+            }
+        });
+
+        button3D = new TextButton("3D", skin,"toggle");
+        button3D.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Mode3D = true;
+            }
+        });
+        ButtonGroup buttonGroup = new ButtonGroup(button2D, button3D);
+//next set the max and min amount to be checked
+        buttonGroup.setMaxCheckCount(1);
+        buttonGroup.setMinCheckCount(1);
+        buttonGroup.setChecked("3D");
+
+        Table tableDimensions = new Table();
+        tableDimensions.setWidth(stage.getWidth());
+        //  tableDimensions.align(Align.center|Align.top);
+        tableDimensions.setPosition(400, Gdx.graphics.getHeight()-100);
+        tableDimensions.row();
+        tableDimensions.add(button3D).size(100, 50);;
+        tableDimensions.add(button2D).size(100, 50);;
+
         // table
         table = new Table();
         table.setWidth(stage.getWidth());
@@ -96,6 +131,7 @@ public class MenuScreen implements Screen {
         table.add(courseCreatorButton).size(300, 50);;
 
         stage.addActor(table);
+        stage.addActor(tableDimensions);
     }
 
     @Override

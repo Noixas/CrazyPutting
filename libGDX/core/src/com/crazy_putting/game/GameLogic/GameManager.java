@@ -4,16 +4,19 @@ package com.crazy_putting.game.GameLogic;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Bot.Bot;
-import com.crazy_putting.game.Components.GraphicsComponent;
+import com.crazy_putting.game.Components.Graphics2DComponent;
+import com.crazy_putting.game.Components.Graphics3DComponent;
 import com.crazy_putting.game.GameObjects.Ball;
-import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.Others.InputData;
 import com.crazy_putting.game.Others.Velocity;
 import com.crazy_putting.game.Parser.ReadAndAnalyse;
 import com.crazy_putting.game.Physics.Physics;
 import com.crazy_putting.game.Screens.GolfGame;
+import com.crazy_putting.game.Screens.MenuScreen;
 
 import java.util.Random;
 
@@ -28,17 +31,63 @@ public class GameManager {
     private boolean printMessage=true;
     public GameManager(GolfGame pGame, int pMode)
     {
+
+
         _mode = pMode;
-        _ball = new Ball("golfBall.png");
-        _game = pGame;
-        _hole = new Hole((int)CourseManager.getActiveCourse().getGoalRadius());
-        _turns = 0;
-        Physics.updateCoefficients();
-        System.out.println("Is that radius? "+(int)CourseManager.getActiveCourse().getGoalRadius());
-        _ball.addGraphicComponent(new GraphicsComponent( _ball.getTexture()));
-        _hole.addGraphicComponent(new GraphicsComponent(new Texture("hole.png"), _hole.getRadius()*2, _hole.getRadius()*2));
-        _hole.setPosition(CourseManager.getGoalStartPosition());
-        _ball.setPosition(CourseManager.getStartPosition());
+        if(MenuScreen.Mode3D == false) {
+            _mode = pMode;
+            if (_mode == 2)
+                ReadAndAnalyse.calculate("myFile.txt");
+            _ball = new Ball("golfBall.png");
+            _game = pGame;
+            _hole = new Hole((int) CourseManager.getActiveCourse().getGoalRadius());
+            _turns = 0;
+            Physics.updateCoefficients();
+            System.out.println("Is that radius? " + (int) CourseManager.getActiveCourse().getGoalRadius());
+            _ball.addGraphicComponent(new Graphics2DComponent(_ball.getTexture()));
+            _hole.addGraphicComponent(new Graphics2DComponent(
+                    new Texture("hole.png"), _hole.getRadius() * 2, _hole.getRadius() * 2));
+
+            Vector3 ballPos = new Vector3(0,0,0);
+            Vector2 startPos2D = CourseManager.getStartPosition();
+            ballPos.x = startPos2D.x;
+            ballPos.y = CourseManager.calculateHeight(startPos2D.x,startPos2D.y);
+            ballPos.z =startPos2D.y;
+            _hole.setPosition(CourseManager.getGoalStartPosition());
+            _ball.setPosition(startPos2D);
+
+        }
+        else{
+            _ball = new Ball("golfBall.png");
+            _game = pGame;
+            _hole = new Hole((int) CourseManager.getActiveCourse().getGoalRadius());
+            _turns = 0;
+            Physics.updateCoefficients();
+            System.out.println("Is that radius? " + (int) CourseManager.getActiveCourse().getGoalRadius());
+            _ball.addGraphicComponent(new Graphics3DComponent(1));
+            _hole.addGraphicComponent(new Graphics3DComponent(2));
+
+            _hole.setPosition(CourseManager.getGoalStartPosition());
+            _ball.setPosition(CourseManager.getStartPosition());
+        }
+        System.out.println(CourseManager.getActiveCourse().getStartBall()+"Ball pos INIT");
+
+        System.out.println("TESTING POSSS: "+_ball.getPosition());
+
+
+
+
+     //   _mode = pMode;
+       // _ball = new Ball("golfBall.png");
+       // _game = pGame;
+       // _hole = new Hole((int)CourseManager.getActiveCourse().getGoalRadius());
+       // _turns = 0;
+      //  Physics.updateCoefficients();
+       // System.out.println("Is that radius? "+(int)CourseManager.getActiveCourse().getGoalRadius());
+       // _ball.addGraphicComponent(new Graphics2DComponent( _ball.getTexture()));
+       // _hole.addGraphicComponent(new Graphics2DComponent(new Texture("hole.png"), _hole.getRadius()*2, _hole.getRadius()*2));
+       // _hole.setPosition(CourseManager.getGoalStartPosition());
+       // _ball.setPosition(CourseManager.getStartPosition());
         if(_mode == 2){
             ReadAndAnalyse.calculate("myFile.txt");
 
@@ -50,7 +99,7 @@ public class GameManager {
     }
     public void Update(float pDelta)
     {
-        handleInput(_game.input);
+       handleInput(_game.input);
         _ball.update(pDelta);
         Physics.update(_ball, pDelta);
         if(printMessage){

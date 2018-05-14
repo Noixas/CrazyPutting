@@ -114,7 +114,7 @@ public class GameScreen extends InputAdapter implements Screen {
         /*
             Get all the graphics and draw them.
          */
-        GraphicsManager.Render(game.batch);
+        GraphicsManager.render2D(game.batch);
         renderGUI();
         game.batch.end();
     }

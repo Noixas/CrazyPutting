@@ -1,16 +1,14 @@
 package com.crazy_putting.game.Bot;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.GameLogic.GameManager;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.Others.Velocity;
 import com.crazy_putting.game.Physics.Physics;
-import com.sun.deploy.config.VerboseDefaultConfig;
-import javax.sound.sampled.Line;
 
 /* TODO
     -save a heightmap as a texture/image file after computing it to reuse next time you choose this course and add to
@@ -117,6 +115,15 @@ public class Bot {
 
     public double euclideanDistance(Vector2 start, Vector2 goal){
         double dist = (float) Math.sqrt(Math.pow(start.x-goal.x,2)+Math.pow(start.y-goal.y,2));
+        return dist;
+    }
+    public double euclideanDistance(Vector3 start, Vector2 goal){
+        double dist = (float) Math.sqrt(Math.pow(start.x-goal.x,2)+Math.pow(start.z-goal.y,2));
+        return dist;
+    }
+
+    public double euclideanDistance(Vector3 start, Vector3 goal){
+        double dist = (float) Math.sqrt(Math.pow(start.x-goal.x,2)+Math.pow(start.z-goal.z,2));
         return dist;
     }
 
