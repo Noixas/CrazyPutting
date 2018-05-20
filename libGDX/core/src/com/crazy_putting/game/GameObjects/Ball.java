@@ -10,7 +10,7 @@ public class Ball extends PhysicsGameObject {
     private final float MASS = (float) 0.04593;
 
     private Vector2 previousPosition;
-    private Vector2 position;
+    private Vector3 position;
     private Velocity velocity;
     private Texture texture;
     private boolean _isMoving = false;
@@ -21,22 +21,16 @@ public class Ball extends PhysicsGameObject {
     }
     public Ball(String filename){
         texture = new Texture(filename);
-        position = new Vector2();
+        position = new Vector3();
         previousPosition = new Vector2();
         velocity = new Velocity();
         _isFixed=true;
         //setVelocity(.1f,90);
     }
-    public Ball(String filename, Vector2 pPosition){
-        texture = new Texture(filename);
-        position = pPosition;
-        velocity = new Velocity();
-        _isFixed=true;
-        //setVelocity(1,0);
-    }
-   /* public Vector2 getPosition() {
+
+    public Vector3 getPosition() {
         return position;
-    }*/
+    }
     public Vector2 getPreviousPosition(){ return previousPosition; }
 
 
@@ -155,7 +149,7 @@ public class Ball extends PhysicsGameObject {
     public Ball clone(){
         Ball newBall = new Ball();
         newBall.texture = texture;
-        newBall.position = new Vector2();
+        newBall.position = new Vector3();
         newBall.position.x = position.x;
         newBall.position.y = position.y;
         newBall.previousPosition = new Vector2();

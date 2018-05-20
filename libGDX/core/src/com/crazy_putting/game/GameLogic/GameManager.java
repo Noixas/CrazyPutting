@@ -14,7 +14,7 @@ import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.Others.InputData;
 import com.crazy_putting.game.Others.Velocity;
 import com.crazy_putting.game.Parser.ReadAndAnalyse;
-import com.crazy_putting.game.Physics.Physics;
+import com.crazy_putting.game.Physics.UpdatedPhysics;
 import com.crazy_putting.game.Screens.GolfGame;
 import com.crazy_putting.game.Screens.MenuScreen;
 
@@ -39,10 +39,11 @@ public class GameManager {
             if (_mode == 2)
                 ReadAndAnalyse.calculate("myFile.txt");
             _ball = new Ball("golfBall.png");
+            UpdatedPhysics.addMovableObject(_ball);
             _game = pGame;
             _hole = new Hole((int) CourseManager.getActiveCourse().getGoalRadius());
             _turns = 0;
-            Physics.updateCoefficients();
+            UpdatedPhysics.updateCoefficients();
             System.out.println("Is that radius? " + (int) CourseManager.getActiveCourse().getGoalRadius());
             _ball.addGraphicComponent(new Graphics2DComponent(_ball.getTexture()));
             _hole.addGraphicComponent(new Graphics2DComponent(
@@ -62,7 +63,7 @@ public class GameManager {
             _game = pGame;
             _hole = new Hole((int) CourseManager.getActiveCourse().getGoalRadius());
             _turns = 0;
-            Physics.updateCoefficients();
+            UpdatedPhysics.updateCoefficients();
             System.out.println("Is that radius? " + (int) CourseManager.getActiveCourse().getGoalRadius());
             _ball.addGraphicComponent(new Graphics3DComponent(1));
             _hole.addGraphicComponent(new Graphics3DComponent(2));
@@ -101,7 +102,7 @@ public class GameManager {
     {
        handleInput(_game.input);
         _ball.update(pDelta);
-        Physics.update(_ball, pDelta);
+        UpdatedPhysics.update(pDelta);
         if(printMessage){
             UpdateGameLogic(pDelta);
         }
