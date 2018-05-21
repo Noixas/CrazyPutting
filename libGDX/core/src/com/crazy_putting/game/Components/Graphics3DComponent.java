@@ -38,7 +38,7 @@ public class Graphics3DComponent extends GraphicsComponent {
             endColor = Color.BLACK;
         GraphicsManager.addGraphics3DComponent(this);
         ModelBuilder modelBuilder = new ModelBuilder();
-        float radius = 30f;
+        float radius = 40f;
         _model = modelBuilder.createSphere(radius, radius, radius, 24, 24,new Material(ColorAttribute.createDiffuse(endColor)), VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
         _instance = new ModelInstance(_model);
        //    isBall = true;
@@ -57,7 +57,7 @@ public class Graphics3DComponent extends GraphicsComponent {
     public void render(ModelBatch pModelBatch, Environment pEnvironment ) {
         Vector3 pos2d = _owner.getPosition();
         Vector3 pos = new Vector3(pos2d.x, CourseManager.calculateHeight(pos2d.x,pos2d.y),pos2d.y);
-        _instance.transform.set(pos,new Quaternion());
+        _instance.transform.set(pos2d,new Quaternion());
         //System.out.println(_instance.transform);
 
         pModelBatch.render(_instance,pEnvironment);
