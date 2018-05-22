@@ -15,6 +15,8 @@ public class Graphics3DComponent extends GraphicsComponent {
     private Model _model;
     private ModelInstance _instance;
 
+    ////test delete asap
+    public Color col;
     public Graphics3DComponent( Texture pTexture) {
         GraphicsManager.addGraphics3DComponent(this);
         ModelBuilder modelBuilder = new ModelBuilder();
@@ -33,6 +35,7 @@ public class Graphics3DComponent extends GraphicsComponent {
         if(pTypeElement == 1) {
             endColor = Color.WHITE;
             System.out.println("Whitw ball");
+            col = Color.WHITE;
         }
         else
             endColor = Color.BLACK;
@@ -56,8 +59,10 @@ public class Graphics3DComponent extends GraphicsComponent {
 
     public void render(ModelBatch pModelBatch, Environment pEnvironment ) {
         Vector3 pos2d = _owner.getPosition();
-        Vector3 pos = new Vector3(pos2d.x, CourseManager.calculateHeight(pos2d.x,pos2d.y),pos2d.y);
+        Vector3 pos = new Vector3(pos2d.x, CourseManager.calculateHeight(pos2d.x,pos2d.z),pos2d.y);
         //TODO: pos2D will allow the balls that spawn when clicking to appear at right spot, pos will show hole and ball in right spot
+    if(col == Color.WHITE)
+        pos.y+=20f;
         _instance.transform.set(pos,new Quaternion());
         //System.out.println(_instance.transform);
 

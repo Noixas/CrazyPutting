@@ -31,7 +31,7 @@ public class TerrainGenerator {
     public static Vector3[] triangles = new Vector3[19200];
     private static double[][] points = new double[4][4];
     private static  CachedBicubicInterpolator spline;
-    static double[][] p= {{527,33,23,14}, {100,20,30,40}, {16,60,30,66}, {26,57,75,92}};
+    static double[][] p= {{-100,90,90,0}, {0,20,70,900}, {0,60,30,0}, {-100,-570,70,0}};
     public static Model generateModelTerrain()
     {
         int totalMeshLength = 200;
@@ -54,7 +54,7 @@ public class TerrainGenerator {
         points = p;
 
         spline = new CachedBicubicInterpolator();
-        spline.updateCoefficients(points);
+        spline.updateCoefficients(p);
 
        // System.out.println(CourseManager.calculateHeight(1,100)+ "Course amount");
         ModelBuilder modelBuilder = new ModelBuilder();
@@ -131,6 +131,14 @@ public class TerrainGenerator {
                     h4 = spline.getValueSlow(p,perc*(scaleAmount + j * scaleAmount),perc*(scaleAmount + scaleAmount*i));
                    System.out.println(h1);
                }
+               if(false)
+               {
+                   h1 = spline.getValuefast(perc*j*(scaleAmount),perc*scaleAmount*i);
+                   h2 = spline.getValuefast(perc*j*(scaleAmount),perc*(scaleAmount + scaleAmount*i));
+                   h3 = spline.getValuefast(perc*(scaleAmount + j *scaleAmount),perc*scaleAmount*i);
+                   h4 = spline.getValuefast(perc*(scaleAmount + j * scaleAmount),perc*(scaleAmount + scaleAmount*i));
+
+               }
 
                MeshPartBuilder.VertexInfo v1;
              //  if(startX >-10 && startX <10 && startY>-10 && startY < 10) {
@@ -138,7 +146,7 @@ public class TerrainGenerator {
               //     v1 = zeroPos;
               // }
               // else
-               float hScale = 1;
+               float hScale = 10;
                Vector3 posV1 = new Vector3(j*(scaleAmount), h1*hScale, (scaleAmount) * i);
                Vector3 posV2 = new Vector3(j*(scaleAmount), h2*hScale, scaleAmount + i * (scaleAmount));
                Vector3 posV3 = new Vector3(scaleAmount  +j*(scaleAmount), h3*hScale, scaleAmount * i);

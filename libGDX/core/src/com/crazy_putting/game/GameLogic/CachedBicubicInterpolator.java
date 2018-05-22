@@ -30,7 +30,17 @@ public class CachedBicubicInterpolator
         return p[1] + 0.5 * x*(p[2] - p[0] + x*(2.0*p[0] - 5.0*p[1] + 4.0*p[2] - p[3] + x*(3.0*(p[1] - p[2]) + p[3] - p[0])));
     }
    private double[] arr = new double[4];
+    public float getValuefast (double x, double y) {
+        double x2 = x * x;
+        double x3 = x2 * x;
+        double y2 = y * y;
+        double y3 = y2 * y;
 
+        return (float)((a00 + a01 * y + a02 * y2 + a03 * y3) +
+                (a10 + a11 * y + a12 * y2 + a13 * y3) * x +
+                (a20 + a21 * y + a22 * y2 + a23 * y3) * x2 +
+                (a30 + a31 * y + a32 * y2 + a33 * y3) * x3);
+    }
     public float getValueSlow (double[][] p, double x, double y) {
         y +=.5f;
         arr[0] = getValue(p[0], y);
