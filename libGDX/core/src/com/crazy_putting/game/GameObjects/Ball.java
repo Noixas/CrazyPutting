@@ -9,7 +9,7 @@ public class Ball extends PhysicsGameObject {
 
     private final float MASS = (float) 0.04593;
 
-    private Vector2 previousPosition;
+    private Vector3 previousPosition;
     private Vector3 position;
     private Velocity velocity;
     private Texture texture;
@@ -22,7 +22,7 @@ public class Ball extends PhysicsGameObject {
     public Ball(String filename){
         texture = new Texture(filename);
         position = new Vector3();
-        previousPosition = new Vector2();
+        previousPosition = new Vector3();
         velocity = new Velocity();
         _isFixed=true;
         //setVelocity(.1f,90);
@@ -31,7 +31,9 @@ public class Ball extends PhysicsGameObject {
     public Vector3 getPosition() {
         return position;
     }
-    public Vector2 getPreviousPosition(){ return previousPosition; }
+    public Vector3 getPreviousPosition(){
+        return previousPosition;
+    }
 
 
     @Override
@@ -58,8 +60,10 @@ public class Ball extends PhysicsGameObject {
     public void setPosition(Vector3 position) {
         this.position.x = position.x;
         this.position.y = position.y;
+        this.position.z = position.z;
         this.previousPosition.x = position.x;
         this.previousPosition.y = position.y;
+        this.previousPosition.z = position.z;
 
         _position.x = position.x;
         _position.y = position.y;
@@ -130,7 +134,7 @@ public class Ball extends PhysicsGameObject {
     public void setVelocityComponents(float Vx, float Vy){
         this.velocity.Vx = Vx;
         this.velocity.Vy = Vy;
-        setSpeed((float)((float)(Math.sqrt(Math.pow(getVelocity().Vx,2)+Math.pow(getVelocity().Vy,2)))));
+        setSpeed((float)(Math.sqrt(Math.pow(getVelocity().Vx,2)+Math.pow(getVelocity().Vy,2))));
     }
 
     @Override
@@ -152,7 +156,7 @@ public class Ball extends PhysicsGameObject {
         newBall.position = new Vector3();
         newBall.position.x = position.x;
         newBall.position.y = position.y;
-        newBall.previousPosition = new Vector2();
+        newBall.previousPosition = new Vector3();
         newBall.previousPosition.x = previousPosition.x;
         newBall.previousPosition.y = previousPosition.y;
         newBall.velocity = new Velocity();

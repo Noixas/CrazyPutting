@@ -8,7 +8,7 @@ import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.Others.Velocity;
-import com.crazy_putting.game.Physics.Physics;
+import com.crazy_putting.game.Physics.UpdatedPhysics;
 
 /* TODO
     -save a heightmap as a texture/image file after computing it to reuse next time you choose this course and add to
@@ -33,6 +33,7 @@ public class Bot {
 
     public Bot(Ball ball, Hole hole, Course course){
         this.ball = ball.clone();
+        UpdatedPhysics.addMovableObject(this.ball);
         this.initialX = ball.getPosition().x;
         this.initialY = ball.getPosition().y;
         this.hole = hole;
@@ -123,7 +124,7 @@ public class Bot {
 //    }
 
     public double euclideanDistance(Vector3 start, Vector3 goal){
-        double dist = (float) Math.sqrt(Math.pow(start.x-goal.x,2)+Math.pow(start.y-goal.y,2)+Math.pow(start.z-goal.z,2));
+        double dist = (float) Math.sqrt(Math.pow(start.x-goal.x,2)+Math.pow(start.y-goal.y,2));
         return dist;
     }
 
@@ -222,7 +223,7 @@ public class Bot {
             firstIteration = false;
             ball.fix(false);
             ball.update(Gdx.graphics.getDeltaTime());
-            Physics.update(ball,Gdx.graphics.getDeltaTime());
+            UpdatedPhysics.update(Gdx.graphics.getDeltaTime());
             //&&euclideanDistance(ball.getPosition(),hole.getPosition())>hole.getRadius()
             if(ballPassedByHole()){
                 Gdx.app.log("Log","Ball reached goal line");
