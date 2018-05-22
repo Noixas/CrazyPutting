@@ -40,6 +40,7 @@ public class CourseCreatorScreen implements Screen {
 
     private SpriteBatch batch;
     private Sprite sprite;
+    private Table table;
 
     public CourseCreatorScreen(GolfGame game){
         this.game = game;
@@ -51,7 +52,7 @@ public class CourseCreatorScreen implements Screen {
             Background
          */
         batch = game.batch;
-        sprite = new Sprite(new Texture(Gdx.files.internal("GRASS2.png")));
+        sprite = new Sprite(new Texture(Gdx.files.internal("GRASS4.png")));
         sprite.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         //
 
@@ -96,10 +97,15 @@ public class CourseCreatorScreen implements Screen {
             You can also add your own colors in RGB format.
          */
 
-        Table table = new Table();
-        table.setWidth(WINDOW_WIDTH);
-        table.align(Align.center);
-        table.setPosition(0,WINDOW_HEIGHT/2);
+        table = new Table();
+        table.setWidth(stage.getWidth());
+        table.align(Align.center|Align.top);
+        table.setPosition(0, Gdx.graphics.getHeight());
+
+        table.padTop(150);
+        //table.setWidth(WINDOW_WIDTH);
+        //table.align(Align.center);
+        //table.setPosition(0,WINDOW_HEIGHT/2);
         table.add(heightLabel);
         table.add(heightText);
         table.row();
@@ -164,6 +170,7 @@ public class CourseCreatorScreen implements Screen {
                 }
             }catch(Exception e)
             {
+                System.out.print("                ");
                 System.out.println("Error saving course... Going Back to Menu");
                 System.out.println(e.toString());
                 System.out.println("Error saving course... Going Back to Menu");

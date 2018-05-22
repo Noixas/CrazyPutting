@@ -43,6 +43,7 @@ public class ChooseCoursesScreen implements Screen{
 
     private SpriteBatch batch;
     private Sprite sprite;
+    private Table table;
 
 
     public ChooseCoursesScreen(GolfGame game, int pMode) {
@@ -56,7 +57,7 @@ public class ChooseCoursesScreen implements Screen{
             Background
          */
         batch = game.batch;
-        sprite = new Sprite(new Texture(Gdx.files.internal("GRASS2.png")));
+        sprite = new Sprite(new Texture(Gdx.files.internal("GRASS4.png")));
         sprite.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         //
 
@@ -135,10 +136,14 @@ public class ChooseCoursesScreen implements Screen{
             Add previously initialized labels to a table.
          */
         updateCourseInfo();
-        Table table = new Table();
-        table.setWidth(WINDOW_WIDTH);
-        table.align(Align.center);
-        table.setPosition(10,WINDOW_HEIGHT*0.5f);
+        table = new Table();
+        table.setWidth(stage.getWidth());
+        table.align(Align.center|Align.top);
+        table.setPosition(0, Gdx.graphics.getHeight());
+        table.padTop(150);
+        //table.setWidth(WINDOW_WIDTH);
+        //table.align(Align.center);
+        //table.setPosition(10,WINDOW_HEIGHT*0.5f);
 
         table.add(courseProperties).align(Align.left);
         table.row();
@@ -249,7 +254,13 @@ public class ChooseCoursesScreen implements Screen{
         if(selectBox.getSelectedIndex() != CourseManager.getIndexActive())//IMPORTANT: if is a different course from the active one then we need to parse height formula again
             CourseManager.reParseHeightFormula(selectBox.getSelectedIndex());
 
+        if(MenuScreen.Mode3D ==false)
         game.setScreen(new GameScreen(game,_mode));
+        else
+        {
+            game.setScreen(new GameScreen3D(game,_mode));
+
+        }
 
     }
 
