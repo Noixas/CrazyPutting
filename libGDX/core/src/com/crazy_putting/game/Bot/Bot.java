@@ -1,14 +1,14 @@
 package com.crazy_putting.game.Bot;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.GameLogic.GameManager;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.Others.Velocity;
-import com.crazy_putting.game.Physics.Physics;
+import com.crazy_putting.game.Physics.UpdatedPhysics;
 
 /* TODO
     -save a heightmap as a texture/image file after computing it to reuse next time you choose this course and add to
@@ -33,6 +33,7 @@ public class Bot {
 
     public Bot(Ball ball, Hole hole, Course course){
         this.ball = ball.clone();
+        UpdatedPhysics.addMovableObject(this.ball);
         this.initialX = ball.getPosition().x;
         this.initialY = ball.getPosition().y;
         this.hole = hole;
@@ -54,7 +55,7 @@ public class Bot {
         float speed = 0;
         Velocity newVelocity = new Velocity(angle,speed);
         if(canBallStopInTheHole()){
-            ball.setPosition(new Vector2(initialX, initialY));
+            ball.setPosition(new Vector3(initialX, initialY,0));
             angle = computeInitialAngle();
             // only for testing
 //            angle = 340;
@@ -66,7 +67,7 @@ public class Bot {
 
     private boolean canBallStopInTheHole()  {
 //        Ball newBall = ball.clone();
-//        newBall.setPosition(new Vector2(hole.getPosition().x,hole.getPosition().y));
+//        newBall.setPosition(new Vector3(hole.getPosition().x,hole.getPosition().y));
 //        if(Physics.gravityForceX(newBall)<Physics.frictionForceX(newBall)&&Physics.gravityForceY(newBall)<Physics.frictionForceY(newBall)){
 //            return true;
 //        }a
@@ -78,7 +79,7 @@ public class Bot {
             float tinySpeed = 0.0001f;
             float speedTolerance = 0.00005f;
             ball.setVelocity(tinySpeed, anyAngle);
-            ball.setPosition(new Vector2(position[0],position[1]));
+            ball.setPosition(new Vector3(position[0],position[1],0));
             simulateShot(tinySpeed, speedTolerance);
             if(GameManager.isBallInTheHole(ball,hole)){
                 Gdx.app.log("Log","Ball can stop in the hole");
@@ -113,17 +114,17 @@ public class Bot {
         return angle;
     }
 
-    public double euclideanDistance(Vector2 start, Vector2 goal){
-        double dist = (float) Math.sqrt(Math.pow(start.x-goal.x,2)+Math.pow(start.y-goal.y,2));
-        return dist;
-    }
-    public double euclideanDistance(Vector3 start, Vector2 goal){
-        double dist = (float) Math.sqrt(Math.pow(start.x-goal.x,2)+Math.pow(start.z-goal.y,2));
-        return dist;
-    }
+//    public double euclideanDistance2D(Vector3 start, Vector3 goal){
+//        double dist = (float) Math.sqrt(Math.pow(start.x-goal.x,2)+Math.pow(start.y-goal.y,2));
+//        return dist;
+//    }
+//    public double euclideanDistance(Vector3 start, Vector3 goal){
+//        double dist = (float) Math.sqrt(Math.pow(start.x-goal.x,2)+Math.pow(start.z-goal.y,2));
+//        return dist;
+//    }
 
     public double euclideanDistance(Vector3 start, Vector3 goal){
-        double dist = (float) Math.sqrt(Math.pow(start.x-goal.x,2)+Math.pow(start.z-goal.z,2));
+        double dist = (float) Math.sqrt(Math.pow(start.x-goal.x,2)+Math.pow(start.y-goal.y,2));
         return dist;
     }
 
@@ -146,7 +147,7 @@ public class Bot {
 //            Gdx.app.log("rates",speedRate+" "+angleRate);
             ball.setVelocity(speed,angle);
             Gdx.app.log("Start loop","speed: "+speed+" angle: "+angle);
-            Vector2 initialPosition = new Vector2();
+            Vector3 initialPosition = new Vector3();
             initialPosition.x = initialX;
             initialPosition.y = initialY;
             ball.setPosition(initialPosition);
@@ -222,7 +223,7 @@ public class Bot {
             firstIteration = false;
             ball.fix(false);
             ball.update(Gdx.graphics.getDeltaTime());
-            Physics.update(ball,Gdx.graphics.getDeltaTime());
+            UpdatedPhysics.update(Gdx.graphics.getDeltaTime());
             //&&euclideanDistance(ball.getPosition(),hole.getPosition())>hole.getRadius()
             if(ballPassedByHole()){
                 Gdx.app.log("Log","Ball reached goal line");

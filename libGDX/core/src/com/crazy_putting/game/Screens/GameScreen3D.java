@@ -150,7 +150,7 @@ public class GameScreen3D extends InputAdapter implements Screen {
                for (int i = 0; i<10; i++)System.out.println("Intersection point "+intersectPos);
                GameObject newTest = new GameObject(intersectPos);
                 newTest.addGraphicComponent(new Graphics3DComponent(2));
-             //  newTest.setPosition(new Vector2(intersectPos.x,intersectPos.z));
+             //  newTest.setPosition(new Vector3(intersectPos.x,intersectPos.z));
             }
 
         return result;

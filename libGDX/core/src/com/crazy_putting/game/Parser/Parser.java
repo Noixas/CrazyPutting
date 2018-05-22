@@ -1,6 +1,7 @@
 package com.crazy_putting.game.Parser;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.GameObjects.Course;
 
 import java.io.IOException;
@@ -134,7 +135,7 @@ public class Parser {
                 case 4:
                     pProperty = pProperty.replace("Goal Pos: ","");
                     String[] GoalPos = pProperty.trim().split("\\s+");
-                    pCourse.setGoalPosition(new Vector2(Float.parseFloat(GoalPos[0]), Float.parseFloat(GoalPos[1])));
+                    pCourse.setGoalPosition(new Vector3(Float.parseFloat(GoalPos[0]), Float.parseFloat(GoalPos[1]),0));
                     break;
                 case 5:
                     pProperty = pProperty.replace("Goal Radius: ","");
@@ -143,7 +144,7 @@ public class Parser {
                 case 6:
                     pProperty = pProperty.replace("Ball Start Pos: ","");
                     String[] ballStartPos = pProperty.trim().split("\\s+");
-                    pCourse.setBallStartPos(new Vector2(Float.parseFloat(ballStartPos[0]), Float.parseFloat(ballStartPos[1])));
+                    pCourse.setBallStartPos(new Vector3(Float.parseFloat(ballStartPos[0]), Float.parseFloat(ballStartPos[1]),0));
                     break;
                 case 7:
                     pProperty = pProperty.replace("Max Speed: ","");
