@@ -78,7 +78,7 @@ public class UpdatedPhysics {
     private static Vector3 calculateAcceleration(PhysicsGameObject obj){
         Vector3 gravity = gravityForce(obj);
         Vector3 friction = frictionForce(obj);
-        return new Vector3(friction.x + gravity.x,friction.y + gravity.y);
+        return new Vector3(friction.x + gravity.x,friction.y + gravity.y,0);
     }
 
 
@@ -90,7 +90,7 @@ public class UpdatedPhysics {
         float denominator = (float) Math.sqrt(lengthOfVelocityVector);
 
 
-        return new Vector3(numeratorX/denominator,numeratorY/denominator);
+        return new Vector3(numeratorX/denominator,numeratorY/denominator,0);
     }
 
     private static Vector3 gravityForce(PhysicsGameObject obj){
@@ -119,7 +119,7 @@ public class UpdatedPhysics {
 
         float partialY = ((CourseManager.calculateHeight(x1, yCur) - CourseManager.calculateHeight(x1, y2)) / 2 * EPSILON);
 
-        return new Vector3(partialX,partialY);
+        return new Vector3(partialX,partialY,0);
 
     }
 
