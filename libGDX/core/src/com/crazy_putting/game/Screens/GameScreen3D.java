@@ -100,7 +100,7 @@ public class GameScreen3D extends InputAdapter implements Screen {
         }
         @Override
     public boolean touchDown (int screenX, int screenY, int pointer, int button) {
-        selecting = getObject(screenX, screenY);
+       // selecting = getObject(screenX, screenY);
             System.out.println(screenX);
         return selecting >= 0;
     }

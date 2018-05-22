@@ -57,7 +57,8 @@ public class Graphics3DComponent extends GraphicsComponent {
     public void render(ModelBatch pModelBatch, Environment pEnvironment ) {
         Vector3 pos2d = _owner.getPosition();
         Vector3 pos = new Vector3(pos2d.x, CourseManager.calculateHeight(pos2d.x,pos2d.y),pos2d.y);
-        _instance.transform.set(pos2d,new Quaternion());
+        //TODO: pos2D will allow the balls that spawn when clicking to appear at right spot, pos will show hole and ball in right spot
+        _instance.transform.set(pos,new Quaternion());
         //System.out.println(_instance.transform);
 
         pModelBatch.render(_instance,pEnvironment);

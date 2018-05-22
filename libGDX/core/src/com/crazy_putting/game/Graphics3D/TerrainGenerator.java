@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
+import com.crazy_putting.game.GameLogic.CachedBicubicInterpolator;
 import com.crazy_putting.game.GameLogic.CourseManager;
 
 import java.util.ArrayList;
@@ -28,13 +29,32 @@ public class TerrainGenerator {
     private static boolean triangleBool = false;
     public static List<Vector3> triangleList = new ArrayList<Vector3>();
     public static Vector3[] triangles = new Vector3[19200];
+    private static double[][] points = new double[4][4];
+    private static  CachedBicubicInterpolator spline;
+    static double[][] p= {{527,33,23,14}, {100,20,30,40}, {16,60,30,66}, {26,57,75,92}};
     public static Model generateModelTerrain()
     {
         int totalMeshLength = 200;
         int startPosX = -totalMeshLength/2; //Get half and set it negative so the middle of the mesh is at (0,0)
         int startPosY = -totalMeshLength/2;
         int verticesPerSide = 40; //Amount of vertices per side of mesh part
-        int scaleVertex = 10;  //scale amount
+        float scaleVertex = 10;  //scale amount
+        for (int i = 0; i<4;i++)
+        {
+            for (int j = 0; j<4;j++) {
+                points[i][j] = 4;
+            }
+        }
+        points[2][2] =5;
+        points[2][1] =5;
+        points[1][2] =5;
+        points[1][1] =5;
+        points[0][1] =5;
+        points[3][1] =5;
+        points = p;
+
+        spline = new CachedBicubicInterpolator();
+        spline.updateCoefficients(points);
 
        // System.out.println(CourseManager.calculateHeight(1,100)+ "Course amount");
         ModelBuilder modelBuilder = new ModelBuilder();
@@ -89,9 +109,10 @@ public class TerrainGenerator {
        return surfaceNormal;
 
    }
-   private static void createMesh(MeshPartBuilder pBuilder, int startX, int startY, int length, int scaleVertexSize)
+   private static void createMesh(MeshPartBuilder pBuilder, int startX, int startY, int length, float scaleVertexSize)
    {
-       int scaleAmount = scaleVertexSize;
+       float perc = 1.0f*0.0005f;
+       float scaleAmount = scaleVertexSize;
        for(int i = startY; i < startY+length; i++) {
            for (int j = startX; j < startX +length; j++) {
                float h1 = CourseManager.calculateHeight(j*(scaleAmount),scaleAmount*i);
@@ -104,6 +125,11 @@ public class TerrainGenerator {
                    h2 = 0;
                    h3 = 0;
                    h4 = 0;
+                    h1 = spline.getValueSlow(p,perc*j*(scaleAmount),perc*scaleAmount*i);
+                    h2 = spline.getValueSlow(p,perc*j*(scaleAmount),perc*(scaleAmount + scaleAmount*i));
+                    h3 = spline.getValueSlow(p,perc*(scaleAmount + j *scaleAmount),perc*scaleAmount*i);
+                    h4 = spline.getValueSlow(p,perc*(scaleAmount + j * scaleAmount),perc*(scaleAmount + scaleAmount*i));
+                   System.out.println(h1);
                }
 
                MeshPartBuilder.VertexInfo v1;
@@ -112,10 +138,11 @@ public class TerrainGenerator {
               //     v1 = zeroPos;
               // }
               // else
-               Vector3 posV1 = new Vector3(j*(scaleAmount), h1, (scaleAmount) * i);
-               Vector3 posV2 = new Vector3(j*(scaleAmount), h2, scaleAmount + i * (scaleAmount));
-               Vector3 posV3 = new Vector3(scaleAmount  +j*(scaleAmount), h3, scaleAmount * i);
-               Vector3 posV4 = new Vector3(scaleAmount  +j* (scaleAmount), h4, scaleAmount + i * (scaleAmount));
+               float hScale = 1;
+               Vector3 posV1 = new Vector3(j*(scaleAmount), h1*hScale, (scaleAmount) * i);
+               Vector3 posV2 = new Vector3(j*(scaleAmount), h2*hScale, scaleAmount + i * (scaleAmount));
+               Vector3 posV3 = new Vector3(scaleAmount  +j*(scaleAmount), h3*hScale, scaleAmount * i);
+               Vector3 posV4 = new Vector3(scaleAmount  +j* (scaleAmount), h4*hScale, scaleAmount + i * (scaleAmount));
 
              Vector3 normal1 =calculateNormals(posV1,posV2,posV3);
              Vector3 normal2 = calculateNormals(posV3,posV2,posV4);
@@ -148,7 +175,7 @@ public class TerrainGenerator {
    }
    private static void checkUnderWaterVertex(com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder.VertexInfo ver)
    {
-       if(ver.position.y <=0)
+       if(true&&ver.position.y <=0)
        {
            ver.position.y = 0;
            ver.setCol( Color.BLUE);
