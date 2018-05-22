@@ -1,16 +1,16 @@
 package com.crazy_putting.game.GameLogic;
 
         import com.badlogic.gdx.Gdx;
-        import com.badlogic.gdx.graphics.GL20;
-        import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-        import com.badlogic.gdx.graphics.g3d.Environment;
-        import com.badlogic.gdx.graphics.g3d.ModelBatch;
-        import com.crazy_putting.game.Components.Graphics2DComponent;
-        import com.crazy_putting.game.Components.Graphics3DComponent;
-        import com.crazy_putting.game.Screens.GameScreen3D;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g3d.Environment;
+import com.badlogic.gdx.graphics.g3d.ModelBatch;
+import com.crazy_putting.game.Components.Graphics2DComponent;
+import com.crazy_putting.game.Components.Graphics3DComponent;
+import com.crazy_putting.game.Screens.GameScreen3D;
 
-        import java.util.ArrayList;
-        import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GraphicsManager {
     public final static int WORLD_WIDTH = 1500;
@@ -51,8 +51,7 @@ public class GraphicsManager {
         }
     }
     public static void render3D(ModelBatch pBatch)
-    {
-        Gdx.gl.glViewport(0, 0, WINDOW_WIDTH-300, Gdx.graphics.getHeight());
+    { Gdx.gl.glViewport(0, 0, WINDOW_WIDTH-300, Gdx.graphics.getHeight());
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
         if(GameScreen3D.boxInstance != null)
             pBatch.render(GameScreen3D.boxInstance,_environment);

@@ -21,7 +21,6 @@ import com.crazy_putting.game.GameLogic.GameManager;
 import com.crazy_putting.game.GameLogic.GraphicsManager;
 import com.crazy_putting.game.GameObjects.GUI;
 import com.crazy_putting.game.GameObjects.GameObject;
-import com.crazy_putting.game.GameObjects.OldGameObject;
 import com.crazy_putting.game.Graphics3D.DebugAxesGenerator;
 import com.crazy_putting.game.Graphics3D.TerrainGenerator;
 
@@ -55,19 +54,16 @@ public class GameScreen3D extends InputAdapter implements Screen {
             Width2DScreen = 300;
             Width3DScreen = Gdx.graphics.getWidth() - Width2DScreen;
             Height2DScreen = Height3DScreen = GraphicsManager.WINDOW_HEIGHT;
-            _cam2D = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-            HudViewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),_cam2D);
-            HudViewport.setScreenX(Width3DScreen);
-
-            HudViewport.apply();
-            _cam2D.update();
+            _cam2D = new OrthographicCamera();
+            HudViewport = new FitViewport(Width2DScreen, Height2DScreen,_cam2D);
+           _cam2D.update();
             parser = new FormulaParser();
             this._game = pGame;
             _gameManager = new GameManager(pGame, pMode);
 
             //3D
 
-            _cam3D = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            _cam3D = new PerspectiveCamera(67,Width3DScreen, Height2DScreen);
             _cam3D.position.add( new Vector3(0, 1300, 0));
            // _cam3D.lookAt(_gameManager.getBall().getPosition());
            _cam3D.lookAt(0,0,0);
@@ -78,6 +74,10 @@ public class GameScreen3D extends InputAdapter implements Screen {
             camController = new CameraInputController(_cam3D);
             camController.translateUnits = 50;
             InputMultiplexer inputMultiplexer = new InputMultiplexer(this);
+
+            _gui = new GUI(_game, _gameManager, _cam2D, HudViewport);
+
+            inputMultiplexer.addProcessor(_gui.getUIInputProcessor());
             inputMultiplexer.addProcessor(camController);
             CameraInputController control2 = new CameraInputController(_cam2D);
             inputMultiplexer.addProcessor(control2);
@@ -97,12 +97,10 @@ public class GameScreen3D extends InputAdapter implements Screen {
             //boxInstance = new ModelInstance(modelBox);
 
             //Where all the 2D text is handled
-             _gui = new GUI(_game, _gameManager, _cam2D);
-
         }
         @Override
     public boolean touchDown (int screenX, int screenY, int pointer, int button) {
-        selecting = getObject(screenX, screenY);
+       // selecting = getObject(screenX, screenY);
             System.out.println(screenX);
         return selecting >= 0;
     }
@@ -123,7 +121,7 @@ public class GameScreen3D extends InputAdapter implements Screen {
         return false;
     }
     public int getObject (int screenX, int screenY) {
-        Ray ray = _cam3D.getPickRay(screenX, screenY,0,0, GraphicsManager.WINDOW_WIDTH-300,_cam3D.viewportHeight);//TODO:Get the WindowsWidth -300 from a constant variable somewhere in graphics, dont hardcode
+        Ray ray = _cam3D.getPickRay(screenX, screenY,0,0, _cam3D.viewportWidth,_cam3D.viewportHeight);//TODO:Get the WindowsWidth -300 from a constant variable somewhere in graphics, dont hardcode
         int result = -1;
         float distance = -1;
         Vector3 position = new Vector3();
@@ -212,11 +210,11 @@ public class GameScreen3D extends InputAdapter implements Screen {
 
 
             HudViewport.apply();
-            _game.batch.begin();
+            //_game.batch.begin();
                 if(false)//Dont render 2D Graphics(?) by Rodrigo, check if is not called somewhere else
                      GraphicsManager.render2D(_game.batch);
              _gui.render();
-            _game.batch.end();
+            //_game.batch.end();
         }
         private void updateCamera()
         {
@@ -235,7 +233,7 @@ public class GameScreen3D extends InputAdapter implements Screen {
 
         @Override
         public void resize(int width, int height) {
-            HudViewport.update(width,height);
+          //  HudViewport.update(width,height);
             //_cam3D.viewportWidth = width*2f;
             //_cam3D.viewportHeight = _cam3D.viewportWidth * height/width;
             _cam3D.update();
