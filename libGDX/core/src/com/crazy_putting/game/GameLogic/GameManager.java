@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Bot.Bot;
+import com.crazy_putting.game.Bot.GeneticAlgorithmSimonVers;
 import com.crazy_putting.game.Components.Graphics2DComponent;
 import com.crazy_putting.game.Components.Graphics3DComponent;
 import com.crazy_putting.game.GameObjects.Ball;
@@ -29,6 +30,9 @@ public class GameManager {
     private int _mode;
     private Bot bot;
     private boolean printMessage=true;
+    private GeneticAlgorithmSimonVers GA;
+
+
     public GameManager(GolfGame pGame, int pMode)
     {
 
@@ -95,6 +99,7 @@ public class GameManager {
         }
         if (_mode == 3) {
             bot = new Bot(_ball, _hole, CourseManager.getActiveCourse());
+            GA = new GeneticAlgorithmSimonVers(_ball,_hole,CourseManager.getActiveCourse());
         }
 
     }

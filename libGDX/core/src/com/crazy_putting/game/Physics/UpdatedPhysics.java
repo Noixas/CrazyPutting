@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameLogic.GraphicsManager;
+import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.PhysicsGameObject;
 import com.crazy_putting.game.Others.Velocity;
 
@@ -32,6 +33,10 @@ public class UpdatedPhysics {
         }
     }
 
+    public static void updateBall(Ball ball,double dt){
+        updateObject(ball,dt);
+    }
+
     private static void updateObject(PhysicsGameObject obj, double dt){
        // System.out.println("here");
         if(obj.isFixed()) return;
@@ -51,9 +56,9 @@ public class UpdatedPhysics {
 
         updateComponents(obj,curObjectPosition,curObjectVelocity,objectAcceleration,dt);
 
-        curObjectPosition=null;
-        curObjectVelocity=null;
-        objectAcceleration=null;
+        curObjectPosition = null;
+        curObjectVelocity = null;
+        objectAcceleration = null;
     }
 
     private static void updateComponents(PhysicsGameObject obj, Vector3 position, Velocity velocity, Vector3 acceleration,double dt){
