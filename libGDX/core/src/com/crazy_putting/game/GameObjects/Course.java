@@ -62,6 +62,7 @@ public class Course {
         return _goalRadius;
     }
 
+
     public void setBallStartPos(Vector2 pPos)
     {
         _startBall = pPos;

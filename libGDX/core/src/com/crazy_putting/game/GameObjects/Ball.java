@@ -2,35 +2,33 @@ package com.crazy_putting.game.GameObjects;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Others.Velocity;
 
-public class Ball extends GameObject{
+public class Ball extends PhysicsGameObject {
 
     private final float MASS = (float) 0.04593;
 
     private Vector2 previousPosition;
-    private Vector2 position;
+    private Vector3 position;
     private Velocity velocity;
     private Texture texture;
     private boolean _isMoving = false;
     private boolean _isFixed;
 
+    public Ball(){
+
+    }
     public Ball(String filename){
         texture = new Texture(filename);
-        position = new Vector2();
+        position = new Vector3();
         previousPosition = new Vector2();
         velocity = new Velocity();
         _isFixed=true;
         //setVelocity(.1f,90);
     }
-    public Ball(String filename, Vector2 pPosition){
-        texture = new Texture(filename);
-        position = pPosition;
-        velocity = new Velocity();
-        _isFixed=true;
-        //setVelocity(1,0);
-    }
-    public Vector2 getPosition() {
+
+    public Vector3 getPosition() {
         return position;
     }
     public Vector2 getPreviousPosition(){ return previousPosition; }
@@ -53,13 +51,26 @@ public class Ball extends GameObject{
         this.position.y = position.y;
         this.previousPosition.x = position.x;
         this.previousPosition.y = position.y;
-    }
 
+        _position.x = position.x;
+        _position.y = position.y;
+    }
+    public void setPosition(Vector3 position) {
+        this.position.x = position.x;
+        this.position.y = position.y;
+        this.previousPosition.x = position.x;
+        this.previousPosition.y = position.y;
+
+        _position.x = position.x;
+        _position.y = position.y;
+    }
     public void setPositionX(float x){
+        _position.x = x;
         position.x = x;
     }
 
     public void setPositionY(float y){
+        _position.y = y;
         position.y = y;
     }
 
@@ -72,6 +83,7 @@ public class Ball extends GameObject{
     }
 
     public void setSpeed(float speed){
+
         this.velocity.setSpeed(speed);
     }
 
@@ -80,19 +92,29 @@ public class Ball extends GameObject{
     public void setVelocity(float speed, float angle){
         this.velocity.setAngle(angle);
         this.velocity.setSpeed(speed);
+        this.velocity.updateVelocityComponents();
     }
 
     public float getMass(){
         return this.MASS;
     }
+    public boolean isMoving(float speedTolerance)
+    {
+        return getSpeed()>speedTolerance;
+    }
+
     public boolean isMoving()
     {
-        return getSpeed()>0.5;
+        return getSpeed()>0.5f;
     }
+
+    /**
+     * Every delta time checks if the ball is moving or not.
+     */
     public void update(float  dt){
-       // System.out.println(getPosition());
-        if(getVelocity().getSpeed() < 1)
+        if(getVelocity().getSpeed() < 0.5f){
             _isMoving = false;
+        }
         else _isMoving = true;
     }
 
@@ -104,9 +126,16 @@ public class Ball extends GameObject{
         this._isFixed=tf;
     }
 
+
+    public void setVelocityComponents(float Vx, float Vy){
+        this.velocity.Vx = Vx;
+        this.velocity.Vy = Vy;
+        setSpeed((float)((float)(Math.sqrt(Math.pow(getVelocity().Vx,2)+Math.pow(getVelocity().Vy,2)))));
+    }
+
     @Override
     public boolean isSlow() {
-        return getSpeed() < 5;
+        return getSpeed() < 1;
     }
 
 
@@ -116,4 +145,21 @@ public class Ball extends GameObject{
     }
 
 
+    @Override
+    public Ball clone(){
+        Ball newBall = new Ball();
+        newBall.texture = texture;
+        newBall.position = new Vector3();
+        newBall.position.x = position.x;
+        newBall.position.y = position.y;
+        newBall.previousPosition = new Vector2();
+        newBall.previousPosition.x = previousPosition.x;
+        newBall.previousPosition.y = previousPosition.y;
+        newBall.velocity = new Velocity();
+        newBall.velocity.speed = velocity.speed;
+        newBall.velocity.angle = velocity.angle;
+        newBall._isFixed = _isFixed;
+        return newBall;
+
+    }
 }

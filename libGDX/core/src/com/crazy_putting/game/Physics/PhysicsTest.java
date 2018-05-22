@@ -1,6 +1,6 @@
 package com.crazy_putting.game.Physics;
 
-import com.crazy_putting.game.GameObjects.GameObject;
+import com.crazy_putting.game.GameObjects.OldGameObject;
 
 public class PhysicsTest {
     
@@ -11,17 +11,17 @@ public class PhysicsTest {
 
 
     //list of all moving objects
-    //private ArrayList<GameObject> movingThings = new ArrayList<GameObject>();
+    //private ArrayList<OldGameObject> movingThings = new ArrayList<OldGameObject>();
     
     
 
     //the height equation 
     // H = 0.01*X + 0.03*X^2 + 0.2*Y
-    private static double partialDerivativeX(GameObject obj) {
+    private static double partialDerivativeX(OldGameObject obj) {
         return 0.1 + 0.06 * obj.getPosition().x;
     }
 
-    private static double partialDerivativeY(GameObject obj) {
+    private static double partialDerivativeY(OldGameObject obj) {
         return 0.2;
     }
     
@@ -29,7 +29,7 @@ public class PhysicsTest {
     /*
     applying the force from user 
     */
-    public static void appliedForce(GameObject someObj, float angle, float speed){
+    public static void appliedForce(OldGameObject someObj, float angle, float speed){
         someObj.getVelocity().setAngle(angle);
         someObj.getVelocity().setSpeed(speed);
         
@@ -37,7 +37,7 @@ public class PhysicsTest {
     
     
     
-    public static void update(GameObject obj, double dt){
+    public static void update(OldGameObject obj, double dt){
 
         float x = obj.getPosition().x;
         float y = obj.getPosition().y;
@@ -71,13 +71,13 @@ public class PhysicsTest {
 
     //Calculation of the Gravitational Force
     //G = -mgh(,x) - mgh(,y)
-    private static float gravityForceX(GameObject obj) {
+    private static float gravityForceX(OldGameObject obj) {
         float result = (float) (- obj.getMass() * g * partialDerivativeX(obj));
 
         return result;
     }
 
-    private static float gravityForceY(GameObject obj) {
+    private static float gravityForceY(OldGameObject obj) {
         float result = (float) (- obj.getMass() * g * partialDerivativeY(obj));
         return result;
     }
@@ -87,7 +87,7 @@ public class PhysicsTest {
     H = -(mu)* m* v / ||V||
     V = vx/cos(x)
   */
-    private static float frictionForceX(GameObject obj) {
+    private static float frictionForceX(OldGameObject obj) {
 
         float numerator = (float) (-mu * obj.getMass() * g * obj.getVelocity().Vx);
         float lengthOfVelocityVector = (float) (Math.pow(obj.getVelocity().Vx, 2) + Math.pow(obj.getVelocity().Vy, 2));
@@ -96,7 +96,7 @@ public class PhysicsTest {
         return numerator / denominator;
     }
 
-    private static float frictionForceY(GameObject obj){
+    private static float frictionForceY(OldGameObject obj){
         float numerator = (float) (-mu * obj.getMass() * g * obj.getVelocity().Vy);
         float lengthOfVelocityVector = (float) (Math.pow(obj.getVelocity().Vx, 2) + Math.pow(obj.getVelocity().Vy, 2));
         float denominator = (float) Math.sqrt(lengthOfVelocityVector);
@@ -105,11 +105,11 @@ public class PhysicsTest {
     }
 
 
-    public static float totalForceX(GameObject obj){
+    public static float totalForceX(OldGameObject obj){
         return gravityForceX(obj) + frictionForceX(obj);
     }
 
-    public static float totalForceY(GameObject obj){
+    public static float totalForceY(OldGameObject obj){
         return gravityForceY(obj) + frictionForceY(obj);
     }
     

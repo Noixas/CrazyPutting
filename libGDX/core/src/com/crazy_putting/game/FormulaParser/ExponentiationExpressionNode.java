@@ -30,8 +30,8 @@ package com.crazy_putting.game.FormulaParser;
  * a base and an exponent and calulates base^exponent 
  * 
  */
-public class ExponentiationExpressionNode implements ExpressionNode
-{
+
+public class ExponentiationExpressionNode implements ExpressionNode {
   /** the node containing the base */
   private ExpressionNode base;
   /** the node containing the exponent */
@@ -42,8 +42,7 @@ public class ExponentiationExpressionNode implements ExpressionNode
    * @param base the node containing the base
    * @param exponent the node containing the exponent
    */
-  public ExponentiationExpressionNode(ExpressionNode base, ExpressionNode exponent)
-  {
+  public ExponentiationExpressionNode(ExpressionNode base, ExpressionNode exponent) {
     this.base = base;
     this.exponent = exponent;
   }
@@ -71,12 +70,8 @@ public class ExponentiationExpressionNode implements ExpressionNode
    * 
    * Calls visit on the visitor and then passes the visitor on to the accept
    * method of the base and the exponent.
-   * 
-   * @param visitor
-   *          the visitor
    */
-  public void accept(ExpressionNodeVisitor visitor)
-  {
+  public void accept(ExpressionNodeVisitor visitor) {
     visitor.visit(this);
     base.accept(visitor);
     exponent.accept(visitor);

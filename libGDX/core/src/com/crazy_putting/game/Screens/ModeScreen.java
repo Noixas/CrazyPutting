@@ -41,7 +41,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
                 mode1Button.addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                         golfGame.setScreen(new ChooseCoursesScreen(golfGame, 1)); // go to "Select course" screen, with mode 1
+                        golfGame.setScreen(new ChooseCoursesScreen(golfGame, 1)); // go to "Select course" screen, with mode 1
                     }
                 });
 

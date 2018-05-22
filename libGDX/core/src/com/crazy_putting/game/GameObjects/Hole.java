@@ -13,9 +13,13 @@ public class Hole extends GameObject {
         position = new Vector2();
     }
 
+
     public void setPosition(Vector2 position) {
+        _position.x = position.x;
+        _position.y = position.y;
         this.position = position;
     }
+
 
     public void setPositionX(float x){
         position.x = x;
@@ -23,10 +27,6 @@ public class Hole extends GameObject {
 
     public void setPositionY(float y){
         position.y = y;
-    }
-
-    public Vector2 getPosition() {
-        return this.position;
     }
 
     public int getRadius() {
@@ -57,35 +57,7 @@ public class Hole extends GameObject {
         return;
     }
 
-    @Override
-    public boolean inTheWater() {
-        return false;
-    }
 
-    @Override
-    public Vector2 getPreviousPosition() {
-        return null;
-    }
-
-    @Override
-    public float getSpeed() {
-        return 0;
-    }
-
-    @Override
-    public boolean isFixed() {
-        return true;
-    }
-
-    @Override
-    public void fix(boolean tf) {
-
-    }
-
-    @Override
-    public boolean isSlow() {
-        return false;
-    }
-
+    public void setVelocityComponents(float newSpeedX, float newSpeedY){}
 
 }

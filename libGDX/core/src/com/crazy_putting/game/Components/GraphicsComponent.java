@@ -1,45 +1,18 @@
 package com.crazy_putting.game.Components;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.crazy_putting.game.GameLogic.GraphicsManager;
-import com.crazy_putting.game.GameObjects.GameObject;
+/**
+ * A graphic component is an object that is rendered in the GUI e.g. a ball or a hole.
+ */
+//TODO:Make this a 2DGraphicsComponent and create an abstract GraphicsComponet so 3D and 2D inherit from it
+public abstract class GraphicsComponent extends Component {
 
-import static com.crazy_putting.game.GameLogic.GraphicsManager.WORLD_HEIGHT;
-import static com.crazy_putting.game.GameLogic.GraphicsManager.WORLD_WIDTH;
 
-public class GraphicsComponent extends Component {
-
-    private GameObject _owner;
-    private Texture _texture;
-    private int _width;
-    private int _height;
-    public GraphicsComponent( Texture pTexture)
-    {
-        GraphicsManager.addGraphicsComponent(this);
-        _texture = pTexture;
-        _width = 15;
-        _height = 15;
+    public GraphicsComponent() {
     }
-    public GraphicsComponent( Texture pTexture, int pWidth, int pHeight)
-    {
-        GraphicsManager.addGraphicsComponent(this);
-        _texture = pTexture;
 
-        _width = pWidth;
-        _height = pHeight;
-    }
-    public void setOwner( GameObject pGameObj)
+    public void render()
     {
-        _owner = pGameObj;
-    }
-    public void Render(SpriteBatch pBach)
-    {
-        if(_texture == null) return;
 
-
-       // pBach.draw(_texture, _parent.getPosition().x, _parent.getPosition().y,20* GameManager._viewportX/ MyCrazyPutting.WIDTH, 20*GameManager._viewportY/ MyCrazyPutting.HEIGHT);
-        pBach.draw(_texture, _owner.getPosition().x+WORLD_WIDTH/2-_width/2, _owner.getPosition().y+WORLD_HEIGHT/2-_height/2,_width, _height);
 
     }
 

@@ -1,6 +1,6 @@
 package com.crazy_putting.game.Physics;
 
-import com.crazy_putting.game.GameObjects.GameObject;
+import com.crazy_putting.game.GameObjects.OldGameObject;
 
 /** Physics class for the eqn: Sin(x)+y^2*/
 
@@ -15,7 +15,7 @@ public class PhysicsWithSin {
      * @param obj
      * @return double
      */
-    private static double partialDerivativeX(GameObject obj) {
+    private static double partialDerivativeX(OldGameObject obj) {
         return Math.cos(obj.getPosition().x);
     }
 
@@ -25,7 +25,7 @@ public class PhysicsWithSin {
      */
 
 
-    private static double partialDerivativeY(GameObject obj) {
+    private static double partialDerivativeY(OldGameObject obj) {
         return 2*obj.getPosition().y;
     }
 
@@ -33,7 +33,7 @@ public class PhysicsWithSin {
     /** applying the force from user
      * @param someObj, angle, speed
     */
-    public static void appliedForce(GameObject someObj, float angle, float speed){
+    public static void appliedForce(OldGameObject someObj, float angle, float speed){
         someObj.getVelocity().setAngle(angle);
         someObj.getVelocity().setSpeed(speed);
 
@@ -45,7 +45,7 @@ public class PhysicsWithSin {
 
 
 
-    public static void update(GameObject obj, double dt){
+    public static void update(OldGameObject obj, double dt){
 
         float x = obj.getPosition().x;
         float y = obj.getPosition().y;
@@ -77,7 +77,7 @@ public class PhysicsWithSin {
      * @return float
      * @param obj
      */
-    private static float gravityForceX(GameObject obj) {
+    private static float gravityForceX(OldGameObject obj) {
         float result = (float) (- obj.getMass() * g * partialDerivativeX(obj));
 
         return result;
@@ -88,7 +88,7 @@ public class PhysicsWithSin {
      * @param obj
      */
 
-    private static float gravityForceY(GameObject obj) {
+    private static float gravityForceY(OldGameObject obj) {
         float result = (float) (- obj.getMass() * g * partialDerivativeY(obj));
         return result;
     }
@@ -100,7 +100,7 @@ public class PhysicsWithSin {
      * @param obj
      * @return float
      */
-    private static float frictionForceX(GameObject obj) {
+    private static float frictionForceX(OldGameObject obj) {
 
         float numerator = (float) (-mu * obj.getMass() * g * obj.getVelocity().Vx);
         float lengthOfVelocityVector = (float) (Math.pow(obj.getVelocity().Vx, 2) + Math.pow(obj.getVelocity().Vy, 2));
@@ -117,7 +117,7 @@ public class PhysicsWithSin {
      * @return float
      */
 
-    private static float frictionForceY(GameObject obj){
+    private static float frictionForceY(OldGameObject obj){
         float numerator = (float) (-mu * obj.getMass() * g * obj.getVelocity().Vy);
         float lengthOfVelocityVector = (float) (Math.pow(obj.getVelocity().Vx, 2) + Math.pow(obj.getVelocity().Vy, 2));
         float denominator = (float) Math.sqrt(lengthOfVelocityVector);
@@ -132,7 +132,7 @@ public class PhysicsWithSin {
      */
 
 
-    public static float totalForceX(GameObject obj){
+    public static float totalForceX(OldGameObject obj){
         return gravityForceX(obj) + frictionForceX(obj);
     }
 
@@ -142,7 +142,7 @@ public class PhysicsWithSin {
      * @return float
      */
 
-    public static float totalForceY(GameObject obj){
+    public static float totalForceY(OldGameObject obj){
         return gravityForceY(obj) + frictionForceY(obj);
     }
 
