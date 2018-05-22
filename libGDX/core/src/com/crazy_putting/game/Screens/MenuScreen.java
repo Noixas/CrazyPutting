@@ -2,12 +2,16 @@ package com.crazy_putting.game.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -31,12 +35,21 @@ public class MenuScreen implements Screen {
     private TextButton fileButton;
     private TextButton aiButton;
     private TextButton courseCreatorButton;
+    //private Label heading;
+    //private BitmapFont font;
+    //private TextureAtlas atlas;
+    private Skin skin2;
+
 
     public MenuScreen(final GolfGame golfGame) {
 
         this.golfGame = golfGame;
         finalMenu = this;
 
+        //font = new BitmapFont(Gdx.files.internal("skin/font-title-export.fnt"));
+        //atlas = new TextureAtlas("skin/myButton.json");
+        //skin = new Skin(atlas);
+        //skin2 = new Skin(Gdx.files.internal("skin/plain-james-ui2.json"));
         skin = new Skin(Gdx.files.internal("skin/plain-james-ui.json"));
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -86,7 +99,7 @@ public class MenuScreen implements Screen {
         table.align(Align.center|Align.top);
         table.setPosition(0, Gdx.graphics.getHeight());
 
-        table.padTop(150);
+        table.padTop(200);
         table.add(soloButton).size(300, 50).padBottom(20);
         table.row();
         table.add(fileButton).size(300, 50).padBottom(20);

@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
@@ -38,6 +41,9 @@ public class ChooseCoursesScreen implements Screen{
     private Label maxVelocityValue;
     private TextButton confirmButton;
 
+    private SpriteBatch batch;
+    private Sprite sprite;
+
 
     public ChooseCoursesScreen(GolfGame game, int pMode) {
         this.game = game;
@@ -47,20 +53,28 @@ public class ChooseCoursesScreen implements Screen{
         skin = new Skin(Gdx.files.internal("skin/plain-james-ui.json"));
 
         /*
+            Background
+         */
+        batch = game.batch;
+        sprite = new Sprite(new Texture(Gdx.files.internal("GRASS2.png")));
+        sprite.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        //
+
+        /*
             Set up the first label.
          */
         Label label = new Label("Choose course (Click the name)",skin);
-        label.setFontScale(0.8f);
+        //label.setFontScale(0.8f);
         Vector2 labelSize = new Vector2(50, 50);
         label.setSize(labelSize.x, labelSize.y);
-        label.setPosition(50, WINDOW_HEIGHT*0.9f);
+        label.setPosition(200, WINDOW_HEIGHT*0.9f-100);
 
         /*
             Set up the drop-down menu (select box).
          */
 
         selectBox = new SelectBox<String>(skin);
-        selectBox.setPosition(50, WINDOW_HEIGHT*0.9f-30);
+        selectBox.setPosition(300, WINDOW_HEIGHT*0.9f-130);
         Vector2 selectBoxSize = new Vector2(200, 50);
         selectBox.setSize(selectBoxSize.x, selectBoxSize.y);
 
@@ -115,6 +129,7 @@ public class ChooseCoursesScreen implements Screen{
                 setCourseCreator();
             }
         });
+
 
         /*
             Add previously initialized labels to a table.
@@ -204,14 +219,28 @@ public class ChooseCoursesScreen implements Screen{
         /*
             Prepare background.
          */
+        /*
         int red = 34;
         int green = 137;
         int blue = 34;
         Gdx.gl.glClearColor((float)(red/255.0), (float)(green/255.0), (float)(blue/255.0), 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        */
+
+        /*
+            Background
+         */
+        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        //
+
+        batch.begin();
+        sprite.draw(batch);
+        batch.end();
 
         stage.act(delta);
         stage.draw();
+
     }
 
     public void confirmButtonClicked(){

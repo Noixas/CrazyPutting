@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -35,12 +38,22 @@ public class CourseCreatorScreen implements Screen {
     private ExpressionNode exp = null;
     private FormulaParser parser = new FormulaParser();
 
+    private SpriteBatch batch;
+    private Sprite sprite;
 
     public CourseCreatorScreen(GolfGame game){
         this.game = game;
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
         Skin skin = new Skin(Gdx.files.internal("skin/plain-james-ui.json"));
+
+        /*
+            Background
+         */
+        batch = game.batch;
+        sprite = new Sprite(new Texture(Gdx.files.internal("GRASS2.png")));
+        sprite.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        //
 
         Label title = new Label("Course creator", skin);
         title.setColor(Color.BLUE);
@@ -204,12 +217,25 @@ public class CourseCreatorScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        /*
         int red = 34;
         int green = 137;
         int blue = 34;
         Gdx.gl.glClearColor((float)(red/255.0), (float)(green/255.0), (float)(blue/255.0), 1);
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        */
+
+          /*
+            Background
+         */
+        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        //
+
+        batch.begin();
+        sprite.draw(batch);
+        batch.end();
 
         stage.act(delta);
         stage.draw();
