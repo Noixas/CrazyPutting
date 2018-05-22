@@ -4,7 +4,7 @@ package com.crazy_putting.game.GameLogic;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Bot.Bot;
 import com.crazy_putting.game.Components.Graphics2DComponent;
@@ -50,7 +50,7 @@ public class GameManager {
                     new Texture("hole.png"), _hole.getRadius() * 2, _hole.getRadius() * 2));
 
             Vector3 ballPos = new Vector3(0,0,0);
-            Vector2 startPos2D = CourseManager.getStartPosition();
+            Vector3 startPos2D = CourseManager.getStartPosition();
             ballPos.x = startPos2D.x;
             ballPos.y = CourseManager.calculateHeight(startPos2D.x,startPos2D.y);
             ballPos.z =startPos2D.y;

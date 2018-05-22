@@ -20,7 +20,7 @@ public class UpdatedPhysics {
 
     private static Vector3 curObjectPosition;
     private static Velocity curObjectVelocity;
-    private static Vector2 objectAcceleration;
+    private static Vector3 objectAcceleration;
 
 
     public static void update(double dt){
@@ -56,7 +56,7 @@ public class UpdatedPhysics {
         objectAcceleration=null;
     }
 
-    private static void updateComponents(PhysicsGameObject obj, Vector3 position, Velocity velocity, Vector2 acceleration,double dt){
+    private static void updateComponents(PhysicsGameObject obj, Vector3 position, Velocity velocity, Vector3 acceleration,double dt){
 
         // x(t+h) = x(t) + h*Vx(t) + h^2/2 * Ax;
         // y(t+h) = y(t) + h*Vy(t) + h^2/2 * Ay;
@@ -75,14 +75,14 @@ public class UpdatedPhysics {
 
     }
 
-    private static Vector2 calculateAcceleration(PhysicsGameObject obj){
-        Vector2 gravity = gravityForce(obj);
-        Vector2 friction = frictionForce(obj);
-        return new Vector2(friction.x + gravity.x,friction.y + gravity.y);
+    private static Vector3 calculateAcceleration(PhysicsGameObject obj){
+        Vector3 gravity = gravityForce(obj);
+        Vector3 friction = frictionForce(obj);
+        return new Vector3(friction.x + gravity.x,friction.y + gravity.y);
     }
 
 
-    private static Vector2 frictionForce(PhysicsGameObject obj){
+    private static Vector3 frictionForce(PhysicsGameObject obj){
         float numeratorX = (-mu * g * obj.getVelocity().Vx);
         float numeratorY = (-mu * g * obj.getVelocity().Vy);
 
@@ -90,11 +90,11 @@ public class UpdatedPhysics {
         float denominator = (float) Math.sqrt(lengthOfVelocityVector);
 
 
-        return new Vector2(numeratorX/denominator,numeratorY/denominator);
+        return new Vector3(numeratorX/denominator,numeratorY/denominator);
     }
 
-    private static Vector2 gravityForce(PhysicsGameObject obj){
-        Vector2 partials = partialDerivatives(obj);
+    private static Vector3 gravityForce(PhysicsGameObject obj){
+        Vector3 partials = partialDerivatives(obj);
         float gx = -partials.x * g ;
         float gy = -partials.y * g ;
 
@@ -105,7 +105,7 @@ public class UpdatedPhysics {
 
     }
 
-    private static Vector2 partialDerivatives(PhysicsGameObject obj){
+    private static Vector3 partialDerivatives(PhysicsGameObject obj){
         float x1 =  obj.getPosition().x + EPSILON;
         float x2 =  x1 - 2 * EPSILON;
         float yCur = obj.getPosition().y;
@@ -119,7 +119,7 @@ public class UpdatedPhysics {
 
         float partialY = ((CourseManager.calculateHeight(x1, yCur) - CourseManager.calculateHeight(x1, y2)) / 2 * EPSILON);
 
-        return new Vector2(partialX,partialY);
+        return new Vector3(partialX,partialY);
 
     }
 
