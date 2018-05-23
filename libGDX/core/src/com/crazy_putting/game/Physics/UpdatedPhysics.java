@@ -146,7 +146,7 @@ public class UpdatedPhysics {
 
         if(xCur > GraphicsManager.WORLD_WIDTH / 2 || xCur < GraphicsManager.WORLD_WIDTH / 2 * (-1) ||
                 yCur > GraphicsManager.WORLD_HEIGHT / 2 || yCur < GraphicsManager.WORLD_HEIGHT / 2 * (-1) ){
-           System.out.println("out");
+          // System.out.println("out");
             return true;
         }
 

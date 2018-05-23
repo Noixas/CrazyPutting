@@ -23,10 +23,10 @@ public class GeneticAlgorithmSimonVers {
 
     private Vector3 initial_Position;
 
-    private final int POPULATION_SIZE = 200;
-    private final double ELITE_RATE = 0.4;
-    private final double MUTATION_RATE = 0.25;
-    private static final int MAX_ITER = 100;
+    private final int POPULATION_SIZE = 500;
+    private final double ELITE_RATE = 0.2;
+    private final double MUTATION_RATE = 0.4;
+    private static final int MAX_ITER = 50;
 
 
     public GeneticAlgorithmSimonVers(Hole hole, Course course){
@@ -46,12 +46,12 @@ public class GeneticAlgorithmSimonVers {
 
     //main method for the algorithm
     private void run(){
+
         randomizeBallInput();
 
         for(int i = 0; i < MAX_ITER;i++){
             unFixAllTheBall();
 
-            System.out.println("Iteration: " + i);
             simulateShots();
 
             Collections.sort(allBalls);
@@ -123,8 +123,9 @@ public class GeneticAlgorithmSimonVers {
             }
 
             if(rand.nextFloat()<MUTATION_RATE){
-                iterativeBall.setVelocityGA((speed1+speed2)/2, (angle1 + angle2)/2);
-                iterativeBall.setVelocity((speed1+speed2)/2, (angle1 + angle2)/2);
+                int newAngle = rand.nextInt(361);
+                iterativeBall.setVelocityGA(rand.nextFloat()*(speed1+speed2)/2, newAngle);
+                iterativeBall.setVelocity((rand.nextFloat()*speed1+speed2)/2, newAngle);
             }
             iterativeBall.setPosition(course.getStartBall());
 
@@ -157,6 +158,7 @@ public class GeneticAlgorithmSimonVers {
             return;
         }
         int result = calcToHoleDistance(b);
+       // System.out.println("result: " + result);
 
         if(result < hole.getRadius()){
             b.setFitnessValue(0);
