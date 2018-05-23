@@ -12,7 +12,7 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
     private Vector3 previousPosition;
     private Vector3 position;
     private Velocity velocity;
-    private Velocity velocityGA;
+    private Velocity velocityGA = new Velocity();
     private Texture texture;
     private boolean _isMoving = false;
     private boolean _isFixed;
@@ -20,7 +20,10 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
     private double fitnessValue;
 
     public Ball(){
-
+        position = new Vector3();
+        previousPosition = new Vector3();
+        velocity = new Velocity();
+        _isFixed=true;
     }
     public Ball(String filename){
         texture = new Texture(filename);
@@ -36,8 +39,9 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
     }
 
     public void setVelocityGA(float speed, int angle){
-        this.velocityGA.setAngle(angle);
-        this.velocityGA.setSpeed(speed);
+        velocityGA.setAngle(angle);
+        velocityGA.setSpeed(speed);
+
     }
 
     public double getFitnessValue(){
@@ -67,7 +71,7 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
         return this._isFixed;
     }
 
-
+/*
     public void setPosition(Vector2 position) {
         this.position.x = position.x;
         this.position.y = position.y;
@@ -77,6 +81,7 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
         _position.x = position.x;
         _position.y = position.y;
     }
+    */
     public void setPosition(Vector3 position) {
         this.position.x = position.x;
         this.position.y = position.y;
@@ -85,8 +90,7 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
         this.previousPosition.y = position.y;
         this.previousPosition.z = position.z;
 
-        _position.x = position.x;
-        _position.y = position.y;
+
     }
     public void setPositionX(float x){
         _position.x = x;
@@ -189,6 +193,6 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
 
     @Override
     public int compareTo(Ball o) {
-        return (int) (fitnessValue - o.getFitnessValue());
+        return (int) (fitnessValue - o.getFitnessValue()) ;
     }
 }

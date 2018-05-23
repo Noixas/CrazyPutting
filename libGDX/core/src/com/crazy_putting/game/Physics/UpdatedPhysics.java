@@ -39,7 +39,10 @@ public class UpdatedPhysics {
 
     private static void updateObject(PhysicsGameObject obj, double dt){
        // System.out.println("here");
-        if(obj.isFixed()) return;
+        if(obj.isFixed()){
+            System.out.println("Ball is fixed");
+            return;
+        }
 
         if (collided(obj)){
             dealCollision(obj);
@@ -132,7 +135,7 @@ public class UpdatedPhysics {
         obj.setPosition(CourseManager.getStartPosition());
         obj.fix(true);
 
-        Gdx.app.log("Message","Ball collided");
+       // Gdx.app.log("Message","Ball collided");
     }
 
     private static boolean collided(PhysicsGameObject obj ){
@@ -145,7 +148,7 @@ public class UpdatedPhysics {
 
         if(xCur > GraphicsManager.WORLD_WIDTH / 2 || xCur < GraphicsManager.WORLD_WIDTH / 2 * (-1) ||
                 yCur > GraphicsManager.WORLD_HEIGHT / 2 || yCur < GraphicsManager.WORLD_HEIGHT / 2 * (-1) ){
-
+           System.out.println("out");
             return true;
         }
 
@@ -155,6 +158,7 @@ public class UpdatedPhysics {
         for (int i = 1; i < 4; i++){
             float height = CourseManager.calculateHeight(xPrev + dx / i, equation2Points(dx, dy, xPrev + dx / i, xPrev, yPrev));
             if (height < 0){
+                //System.out.println("in the water");
                 return true;
             }
         }

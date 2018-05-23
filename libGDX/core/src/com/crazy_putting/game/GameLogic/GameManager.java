@@ -43,7 +43,9 @@ public class GameManager {
             if (_mode == 2)
                 ReadAndAnalyse.calculate("myFile.txt");
             _ball = new Ball("golfBall.png");
-            UpdatedPhysics.addMovableObject(_ball);
+
+            
+            //UpdatedPhysics.addMovableObject(_ball);
             _game = pGame;
             _hole = new Hole((int) CourseManager.getActiveCourse().getGoalRadius());
             _turns = 0;
@@ -60,6 +62,7 @@ public class GameManager {
             ballPos.z =startPos2D.y;
             _hole.setPosition(CourseManager.getGoalStartPosition());
             _ball.setPosition(startPos2D);
+
 
         }
         else{
@@ -99,7 +102,7 @@ public class GameManager {
         }
         if (_mode == 3) {
             bot = new Bot(_ball, _hole, CourseManager.getActiveCourse());
-            GA = new GeneticAlgorithmSimonVers(_ball,_hole,CourseManager.getActiveCourse());
+
         }
 
     }
@@ -178,6 +181,16 @@ public class GameManager {
     public void handleInput(InputData input){
         // later on it should be if speed of the ball is zero (ball is not moving, then input data)
         if(_mode == 1) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.G) && !_ball.isMoving()){
+                GA = new GeneticAlgorithmSimonVers(_hole,CourseManager.getActiveCourse());
+                //_ball = GA.getTheBestBall();
+            }
+
+
+
+
+
+
             if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !_ball.isMoving()) {
               CourseManager.reWriteCourse();//TODO: CHECK WHY THIS IS HERE
               Gdx.input.getTextInput(input, "Input data", "", "Input speed and direction separated with space");
