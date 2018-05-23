@@ -38,9 +38,7 @@ public class UpdatedPhysics {
     }
 
     private static void updateObject(PhysicsGameObject obj, double dt){
-       // System.out.println("here");
         if(obj.isFixed()){
-            System.out.println("Ball is fixed");
             return;
         }
 

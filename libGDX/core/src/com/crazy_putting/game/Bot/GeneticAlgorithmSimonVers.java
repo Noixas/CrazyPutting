@@ -24,9 +24,9 @@ public class GeneticAlgorithmSimonVers {
     private Vector3 initial_Position;
 
     private final int POPULATION_SIZE = 200;
-    private final double ELITE_RATE = 0.1;
-    private final double MUTATION_RATE = 0.2;
-    private static final int MAX_ITER = 200;
+    private final double ELITE_RATE = 0.4;
+    private final double MUTATION_RATE = 0.25;
+    private static final int MAX_ITER = 100;
 
 
     public GeneticAlgorithmSimonVers(Hole hole, Course course){
@@ -44,13 +44,9 @@ public class GeneticAlgorithmSimonVers {
         getTheBestBall();
     }
 
-
+    //main method for the algorithm
     private void run(){
-        //System.out.println("Run()");
         randomizeBallInput();
-       // System.out.println("Objects randomized");
-
-
 
         for(int i = 0; i < MAX_ITER;i++){
             unFixAllTheBall();
@@ -59,9 +55,9 @@ public class GeneticAlgorithmSimonVers {
             simulateShots();
 
             Collections.sort(allBalls);
-            System.out.println("Balls are sorted");
+            //System.out.println("Balls are sorted");
 
-            System.out.println("Generation: " + i + " The best score is: " + allBalls.get(0).getFitnessValue());
+            System.out.println("Generation: " + (i+1) + " The best score is: " + allBalls.get(0).getFitnessValue());
 
             if(allBalls.get(0).getFitnessValue() == 0){
                 System.out.println("Success");
@@ -148,9 +144,7 @@ public class GeneticAlgorithmSimonVers {
     }
 
     private void simulateShot(Ball b){
-        //System.out.println("Simulating a shot");
-        //System.out.println("________________________________________________________");
-        //System.out.println("Speed: " + b.getVelocityGA().speed + " Angle: " + b.getVelocityGA().angle);
+
 
         while (b.isMoving() && !b.isFixed()){
             //System.out.println("okey");
@@ -159,7 +153,7 @@ public class GeneticAlgorithmSimonVers {
         }
         if(b.isFixed()){
             b.setFitnessValue(1000);
-            System.out.println("ball fixed,so I quit");
+           // System.out.println("ball fixed,so I quit");
             return;
         }
         int result = calcToHoleDistance(b);

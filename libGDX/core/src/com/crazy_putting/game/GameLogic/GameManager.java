@@ -36,7 +36,6 @@ public class GameManager {
     public GameManager(GolfGame pGame, int pMode)
     {
 
-
         _mode = pMode;
         if(MenuScreen.Mode3D == false) {
             _mode = pMode;
@@ -44,8 +43,8 @@ public class GameManager {
                 ReadAndAnalyse.calculate("myFile.txt");
             _ball = new Ball("golfBall.png");
 
-            
-            //UpdatedPhysics.addMovableObject(_ball);
+
+            UpdatedPhysics.addMovableObject(_ball);
             _game = pGame;
             _hole = new Hole((int) CourseManager.getActiveCourse().getGoalRadius());
             _turns = 0;
@@ -185,11 +184,6 @@ public class GameManager {
                 GA = new GeneticAlgorithmSimonVers(_hole,CourseManager.getActiveCourse());
                 //_ball = GA.getTheBestBall();
             }
-
-
-
-
-
 
             if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !_ball.isMoving()) {
               CourseManager.reWriteCourse();//TODO: CHECK WHY THIS IS HERE
