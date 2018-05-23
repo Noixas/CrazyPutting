@@ -76,6 +76,15 @@ public class GeneticAlgorithmSimonVers {
 
         chooseElite();
 
+        for(int i = eliteSize; i<POPULATION_SIZE;i++){
+
+            //first ball from the elites
+            int i1 = (int) (Math.random() * eliteSize);
+
+            int i2 = (int) (Math.random() * eliteSize);
+            
+
+        }
 
 
 
