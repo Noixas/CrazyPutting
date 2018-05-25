@@ -27,7 +27,7 @@ public class GeneticAlgorithmSimonVers {
     private final double ELITE_RATE = 0.2;
     private final double MUTATION_RATE = 0.4;
     private static final int MAX_ITER = 50;
-
+    // 200 0.1 0.04 50
 
     public GeneticAlgorithmSimonVers(Hole hole, Course course){
 
@@ -112,20 +112,48 @@ public class GeneticAlgorithmSimonVers {
 
             Ball iterativeBall = allBalls.get(i);
 
+            // Simple crossover
+//            if(rand.nextFloat() < 0.5){
+//                iterativeBall.setVelocityGA(speed2,angle1);
+//                iterativeBall.setVelocity(speed2,angle1);
+//            }
+//            else{
+//                iterativeBall.setVelocityGA(speed1,angle2);
+//                iterativeBall.setVelocity(speed1,angle2);
+//            }
 
-            if(rand.nextFloat() < 0.5){
-                iterativeBall.setVelocityGA(speed2,angle1);
-                iterativeBall.setVelocity(speed2,angle1);
-            }
-            else{
-                iterativeBall.setVelocityGA(speed1,angle2);
-                iterativeBall.setVelocity(speed1,angle2);
-            }
+            // Uniform crossover - comparable to simple crossover
+//            if(rand.nextFloat() < 0.5){
+//                if(rand.nextFloat()<0.5){
+//                    iterativeBall.setVelocityGA(speed2,angle1);
+//                    iterativeBall.setVelocity(speed2,angle1);
+//                }
+//                else{
+//                    iterativeBall.setVelocityGA(speed1,angle1);
+//                    iterativeBall.setVelocity(speed1,angle1);
+//                }
+//
+//            }
+//            else{
+//                if(rand.nextFloat()<0.5){
+//                    iterativeBall.setVelocityGA(speed1,angle2);
+//                    iterativeBall.setVelocity(speed1,angle2);
+//                }
+//                else{
+//                    iterativeBall.setVelocityGA(speed2,angle2);
+//                    iterativeBall.setVelocity(speed2,angle2);                }
+//            }
+
+            // Whole arithmetic recombination with random u
+            double u = Math.random();
+            iterativeBall.setVelocityGA((float)((((1-u)*speed1+u*speed2))/1f),(int)((float)((1-u)*angle1+u*angle2)/1));
+            iterativeBall.setVelocity((((float)((1-u)*speed1+u*speed2))/1f),(int)((float)((1-u)*angle1+u*angle2)/1));
+
 
             if(rand.nextFloat()<MUTATION_RATE){
                 int newAngle = rand.nextInt(361);
                 iterativeBall.setVelocityGA(rand.nextFloat()*(speed1+speed2)/2, newAngle);
-                iterativeBall.setVelocity((rand.nextFloat()*speed1+speed2)/2, newAngle);
+                iterativeBall.setVelocity(rand.nextFloat()*(speed1+speed2)/2, newAngle);
             }
             iterativeBall.setPosition(course.getStartBall());
 
