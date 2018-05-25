@@ -3,7 +3,6 @@ package com.crazy_putting.game.GameObjects;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.Others.Velocity;
 
 public class Ball extends PhysicsGameObject {

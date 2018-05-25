@@ -60,8 +60,8 @@ public class Graphics3DComponent extends GraphicsComponent {
         Vector3 pos2d = _owner.getPosition();
         Vector3 pos = new Vector3(pos2d.x, pos2d.z,-pos2d.y);
         //TODO: pos2D will allow the balls that spawn when clicking to appear at right spot, pos will show hole and ball in right spot
-    //if(col == Color.WHITE)
-        //pos.y+=20f;
+    if(col == Color.WHITE)
+        pos.y+=20f;
         _instance.transform.set(pos,new Quaternion());
         //System.out.println(_instance.transform);
 
