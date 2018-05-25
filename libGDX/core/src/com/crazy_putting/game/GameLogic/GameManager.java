@@ -69,14 +69,12 @@ public class GameManager {
             _ball.addGraphicComponent(new Graphics3DComponent(1));
             _hole.addGraphicComponent(new Graphics3DComponent(2));
 
-            Vector3 startPos2D = CourseManager.getStartPosition();
-            Vector3 ballPos = new Vector3(0,0,0);
+            Vector3 ballPos = CourseManager.getStartPosition();
+        //    ballPos.z = CourseManager.calculateHeight(ballPos.x,ballPos.y);
 
-            ballPos.x = startPos2D.x;
-            ballPos.z = CourseManager.calculateHeight(startPos2D.x,startPos2D.y);
-            ballPos.y = startPos2D.y;
+
             _hole.setPosition(CourseManager.getGoalStartPosition());
-            _ball.setPosition(ballPos);
+            _ball.setPosition(CourseManager.getStartPosition());
         }
         System.out.println(CourseManager.getActiveCourse().getStartBall()+"Ball pos INIT");
 
@@ -179,7 +177,12 @@ public class GameManager {
     }
     public void handleInput(InputData input){
         // later on it should be if speed of the ball is zero (ball is not moving, then input data)
-        if(_mode == 1) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.B)) {
+            _ball.getPosition().y += 10;
+            System.out.println(_ball.getPosition());
+
+        }
+            if(_mode == 1) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !_ball.isMoving()) {
               CourseManager.reWriteCourse();//TODO: CHECK WHY THIS IS HERE
               Gdx.input.getTextInput(input, "Input data", "", "Input speed and direction separated with space");

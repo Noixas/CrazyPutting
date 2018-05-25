@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
-import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameLogic.GraphicsManager;
 
 public class Graphics3DComponent extends GraphicsComponent {
@@ -59,10 +58,10 @@ public class Graphics3DComponent extends GraphicsComponent {
 
     public void render(ModelBatch pModelBatch, Environment pEnvironment ) {
         Vector3 pos2d = _owner.getPosition();
-        Vector3 pos = new Vector3(pos2d.x, CourseManager.calculateHeight(pos2d.x,pos2d.y),pos2d.y);
+        Vector3 pos = new Vector3(pos2d.x, pos2d.z,-pos2d.y);
         //TODO: pos2D will allow the balls that spawn when clicking to appear at right spot, pos will show hole and ball in right spot
-    if(col == Color.WHITE)
-        pos.y+=20f;
+    //if(col == Color.WHITE)
+        //pos.y+=20f;
         _instance.transform.set(pos,new Quaternion());
         //System.out.println(_instance.transform);
 

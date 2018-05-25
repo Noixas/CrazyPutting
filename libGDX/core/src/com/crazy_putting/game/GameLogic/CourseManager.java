@@ -80,7 +80,9 @@ public class CourseManager {
     }
     public  static Vector3 getStartPosition()
     {
-        return _activeCourse.getStartBall();
+        Vector3 pos = _activeCourse.getStartBall();
+        pos.z = calculateHeight(pos.x, pos.y);
+        return pos;
     }
     public static int getIndexActive()
     {
@@ -121,7 +123,9 @@ public class CourseManager {
     }
     public static Vector3 getGoalStartPosition()
     {
-        return  _activeCourse.getGoalPosition();
+        Vector3 pos = _activeCourse.getGoalPosition();
+        pos.z = calculateHeight(pos.x, pos.y);
+        return pos;
     }
     public static float getMaxSpeed()
     {

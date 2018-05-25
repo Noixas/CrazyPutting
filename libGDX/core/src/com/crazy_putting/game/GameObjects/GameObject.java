@@ -3,6 +3,7 @@ package com.crazy_putting.game.GameObjects;
 
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Components.GraphicsComponent;
+import com.crazy_putting.game.GameLogic.CourseManager;
 
 public class GameObject {
     private GraphicsComponent _graphicComponent;
@@ -26,6 +27,10 @@ public class GameObject {
 
     public Vector3 getPosition(){
         return _position;
+    }
+    public void updateHeight()
+    {
+        _position.z = CourseManager.calculateHeight(_position.x,_position.y);
     }
 
 }

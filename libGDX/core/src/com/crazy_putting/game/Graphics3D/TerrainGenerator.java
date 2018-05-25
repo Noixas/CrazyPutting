@@ -59,8 +59,8 @@ public class TerrainGenerator {
         spline = new CachedBicubicInterpolator();
         spline.updateCoefficients(p);
         float test = spline.getValuefast(.35f,.7f);
-        for(int i = 0; i<100; i++)
-            System.out.println(test+"MATLAB");
+     //   for(int i = 0; i<100; i++)
+          //  System.out.println(test+"MATLAB");
        // System.out.println(CourseManager.calculateHeight(1,100)+ "Course amount");
         ModelBuilder modelBuilder = new ModelBuilder();
         modelBuilder.begin();
@@ -151,7 +151,7 @@ public class TerrainGenerator {
               //     v1 = zeroPos;
               // }
               // else
-               float hScale = 100;
+               float hScale = 1;
                Vector3 posV1 = new Vector3(j*(scaleAmount), h1*hScale, (scaleAmount) * i);
                Vector3 posV2 = new Vector3(j*(scaleAmount), h2*hScale, scaleAmount + i * (scaleAmount));
                Vector3 posV3 = new Vector3(scaleAmount  +j*(scaleAmount), h3*hScale, scaleAmount * i);
