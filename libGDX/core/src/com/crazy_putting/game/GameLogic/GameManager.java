@@ -69,8 +69,14 @@ public class GameManager {
             _ball.addGraphicComponent(new Graphics3DComponent(1));
             _hole.addGraphicComponent(new Graphics3DComponent(2));
 
+            Vector3 startPos2D = CourseManager.getStartPosition();
+            Vector3 ballPos = new Vector3(0,0,0);
+
+            ballPos.x = startPos2D.x;
+            ballPos.z = CourseManager.calculateHeight(startPos2D.x,startPos2D.y);
+            ballPos.y = startPos2D.y;
             _hole.setPosition(CourseManager.getGoalStartPosition());
-            _ball.setPosition(CourseManager.getStartPosition());
+            _ball.setPosition(ballPos);
         }
         System.out.println(CourseManager.getActiveCourse().getStartBall()+"Ball pos INIT");
 

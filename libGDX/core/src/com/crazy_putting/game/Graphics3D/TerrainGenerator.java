@@ -31,7 +31,10 @@ public class TerrainGenerator {
     public static Vector3[] triangles = new Vector3[19200];
     private static double[][] points = new double[4][4];
     private static  CachedBicubicInterpolator spline;
-    static double[][] p= {{-100,90,90,0}, {0,20,70,900}, {0,60,30,0}, {-100,-570,70,0}};
+    static double[][] p= {{-10,90,90,0},
+                          {0,20,70,70},
+                          {0,60,30,0},
+                          {-10,-57,70,0}};
     public static Model generateModelTerrain()
     {
         int totalMeshLength = 200;
@@ -51,11 +54,13 @@ public class TerrainGenerator {
         points[1][1] =5;
         points[0][1] =5;
         points[3][1] =5;
-        points = p;
+        //points = p;
 
         spline = new CachedBicubicInterpolator();
         spline.updateCoefficients(p);
-
+        float test = spline.getValuefast(.35f,.7f);
+        for(int i = 0; i<100; i++)
+            System.out.println(test+"MATLAB");
        // System.out.println(CourseManager.calculateHeight(1,100)+ "Course amount");
         ModelBuilder modelBuilder = new ModelBuilder();
         modelBuilder.begin();
@@ -146,7 +151,7 @@ public class TerrainGenerator {
               //     v1 = zeroPos;
               // }
               // else
-               float hScale = 1;
+               float hScale = 100;
                Vector3 posV1 = new Vector3(j*(scaleAmount), h1*hScale, (scaleAmount) * i);
                Vector3 posV2 = new Vector3(j*(scaleAmount), h2*hScale, scaleAmount + i * (scaleAmount));
                Vector3 posV3 = new Vector3(scaleAmount  +j*(scaleAmount), h3*hScale, scaleAmount * i);
@@ -178,7 +183,7 @@ public class TerrainGenerator {
                pBuilder.triangle(v6, v5, v4);
            }
        }
-       System.out.println("TOTAL TRIANGLESSSSS" + countTriangles);
+      // System.out.println("TOTAL TRIANGLESSSSS" + countTriangles);
        triangleBool =true;
    }
    private static void checkUnderWaterVertex(com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder.VertexInfo ver)
