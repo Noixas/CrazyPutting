@@ -13,7 +13,7 @@ import com.crazy_putting.game.GameLogic.GraphicsManager;
 public class Graphics3DComponent extends GraphicsComponent {
     private Model _model;
     private ModelInstance _instance;
-
+    private static Quaternion emptyQuaternion = new Quaternion();
     ////test delete asap
     public Color col;
     public Graphics3DComponent( Texture pTexture) {
@@ -58,11 +58,12 @@ public class Graphics3DComponent extends GraphicsComponent {
 
     public void render(ModelBatch pModelBatch, Environment pEnvironment ) {
         Vector3 pos2d = _owner.getPosition();
-        Vector3 pos = new Vector3(pos2d.x, pos2d.z,-pos2d.y);
+        Vector3 pos = new Vector3(pos2d.x, pos2d.z,pos2d.y);
         //TODO: pos2D will allow the balls that spawn when clicking to appear at right spot, pos will show hole and ball in right spot
     if(col == Color.WHITE)
         pos.y+=20f;
-        _instance.transform.set(pos,new Quaternion());
+        _instance.transform.set(pos,emptyQuaternion);
+        //_instance.transform.setToWorld(pos, Vector3.X, Vector3.Y);
         //System.out.println(_instance.transform);
 
         pModelBatch.render(_instance,pEnvironment);
