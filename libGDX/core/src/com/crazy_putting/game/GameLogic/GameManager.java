@@ -5,12 +5,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Bot.Bot;
-import com.crazy_putting.game.Bot.GeneticAlgorithmSimonVers;
+import com.crazy_putting.game.Bot.BotTest;
+import com.crazy_putting.game.Bot.GeneticAlgorithm;
 import com.crazy_putting.game.Components.Graphics2DComponent;
 import com.crazy_putting.game.Components.Graphics3DComponent;
 import com.crazy_putting.game.GameObjects.Ball;
+import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.Others.InputData;
 import com.crazy_putting.game.Others.Velocity;
@@ -30,7 +31,7 @@ public class GameManager {
     private int _mode;
     private Bot bot;
     private boolean printMessage=true;
-    private GeneticAlgorithmSimonVers GA;
+    private GeneticAlgorithm GA;
 
 
     public GameManager(GolfGame pGame, int pMode)
@@ -180,11 +181,16 @@ public class GameManager {
     public void handleInput(InputData input){
         // later on it should be if speed of the ball is zero (ball is not moving, then input data)
         if(_mode == 1) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.T) && !_ball.isMoving()){
+                BotTest botTest= new BotTest(CourseManager.getCourseList(),5);
+                botTest.runTest();
+                botTest.printResults();
+            }
             if (Gdx.input.isKeyJustPressed(Input.Keys.G) && !_ball.isMoving()){
-                GA = new GeneticAlgorithmSimonVers(_hole,CourseManager.getActiveCourse());
+
+                GA = new GeneticAlgorithm(_hole,CourseManager.getActiveCourse());
                 //_ball = GA.getTheBestBall();
             }
-
             if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !_ball.isMoving()) {
               CourseManager.reWriteCourse();//TODO: CHECK WHY THIS IS HERE
               Gdx.input.getTextInput(input, "Input data", "", "Input speed and direction separated with space");

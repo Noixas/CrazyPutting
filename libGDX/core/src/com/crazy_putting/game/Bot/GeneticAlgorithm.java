@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-public class GeneticAlgorithmSimonVers {
+public class GeneticAlgorithm {
 
     private ArrayList<Ball> allBalls;
     private ArrayList<Ball> children;
@@ -27,28 +27,32 @@ public class GeneticAlgorithmSimonVers {
     private final double ELITE_RATE = 0.2;
     private final double MUTATION_RATE = 0.4;
     private static final int MAX_ITER = 50;
-    // 200 0.1 0.04 50
+    private int  nrOfGenerationsProduced;
+    private Ball bestBall;
 
-    public GeneticAlgorithmSimonVers(Hole hole, Course course){
+
+
+    public GeneticAlgorithm(Hole hole, Course course){
 
         this.hole = hole;
         this.course = course;
         this.rand = new Random();
         this.allBalls = new ArrayList<Ball>();
         this.initial_Position = new Vector3();
-
+        nrOfGenerationsProduced = 0;
         createBallObjects();
 
         run();
 
-        getTheBestBall();
+        bestBall = allBalls.get(0);
+        printBestBall();
     }
 
     //main method for the algorithm
     private void run(){
-
         randomizeBallInput();
 
+        nrOfGenerationsProduced  = MAX_ITER;
         for(int i = 0; i < MAX_ITER;i++){
             unFixAllTheBall();
 
@@ -61,22 +65,21 @@ public class GeneticAlgorithmSimonVers {
 
             if(allBalls.get(0).getFitnessValue() == 0){
                 System.out.println("Success");
+                nrOfGenerationsProduced = i+1;
                 break;
             }
 
             children = null;
 
             allBalls = crossOver();
-
-
         }
 
     }
 
-    public void getTheBestBall(){
+    public void printBestBall(){
         System.out.println("The best ball is found");
-        System.out.println("Speed: " + allBalls.get(0).getVelocityGA().speed);
-        System.out.println("Angle: " + allBalls.get(0).getVelocityGA().angle);
+        System.out.println("Speed: " + bestBall.getVelocityGA().speed);
+        System.out.println("Angle: " + bestBall.getVelocityGA().angle);
     }
 
 
@@ -231,5 +234,14 @@ public class GeneticAlgorithmSimonVers {
         for(Ball someBall : allBalls){
             someBall.fix(false);
         }
+    }
+
+
+    public Ball getBestBall() {
+        return bestBall;
+    }
+
+    public int getNrOfGenerationsProduced() {
+        return nrOfGenerationsProduced;
     }
 }
