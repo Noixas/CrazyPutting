@@ -1,6 +1,5 @@
 package com.crazy_putting.game.GameObjects;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 public class Course {
@@ -62,7 +61,6 @@ public class Course {
     public float getGoalRadius() {
         return _goalRadius;
     }
-
 
     public void setBallStartPos(Vector3 pPos)
     {

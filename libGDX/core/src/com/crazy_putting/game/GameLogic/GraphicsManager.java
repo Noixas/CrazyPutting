@@ -1,6 +1,7 @@
 package com.crazy_putting.game.GameLogic;
 
-        import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.Environment;
@@ -50,8 +51,9 @@ public class GraphicsManager {
             //System.out.println(i);
         }
     }
-    public static void render3D(ModelBatch pBatch)
-    { Gdx.gl.glViewport(0, 0, WINDOW_WIDTH-300, Gdx.graphics.getHeight());
+    public static void render3D(ModelBatch pBatch, Camera pCam3D){
+        pBatch.begin(pCam3D);
+        Gdx.gl.glViewport(0, 0, WINDOW_WIDTH-300, Gdx.graphics.getHeight());
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
         if(GameScreen3D.boxInstance != null)
             pBatch.render(GameScreen3D.boxInstance,_environment);
@@ -60,6 +62,7 @@ public class GraphicsManager {
 
             //System.out.println(i);
         }
+        pBatch.end();
     }
     /**
      * Render all the graphics components that exist

@@ -30,21 +30,25 @@ public class Graphics3DComponent extends GraphicsComponent {
      */
     public Graphics3DComponent( int pTypeElement) {
 
-        Color endColor;
-        if(pTypeElement == 1) {
-            endColor = Color.WHITE;
-            System.out.println("Whitw ball");
-            col = Color.WHITE;
-        }
-        else
-            endColor = Color.BLACK;
+        setColor(pTypeElement);
         GraphicsManager.addGraphics3DComponent(this);
         ModelBuilder modelBuilder = new ModelBuilder();
         float radius = 40f;
-        _model = modelBuilder.createSphere(radius, radius, radius, 24, 24,new Material(ColorAttribute.createDiffuse(endColor)), VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
+        _model = modelBuilder.createSphere(radius, radius, radius, 24, 24,new Material(ColorAttribute.createDiffuse(col)), VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
         _instance = new ModelInstance(_model);
        //    isBall = true;
 
+    }
+    public void setColor(int pCustomColor){
+        switch (pCustomColor) {
+            case 0:
+                col =Color.BLACK; break;
+            case 1:
+                col = Color.WHITE; break;
+            case 2:
+                col = Color.RED; break;
+
+        }
     }
     public Graphics3DComponent( Model pModel) {
         GraphicsManager.addGraphics3DComponent(this);

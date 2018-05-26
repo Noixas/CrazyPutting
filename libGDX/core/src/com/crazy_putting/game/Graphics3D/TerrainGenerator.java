@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.GameLogic.CachedBicubicInterpolator;
 import com.crazy_putting.game.GameLogic.CourseManager;
@@ -26,6 +27,7 @@ public class TerrainGenerator {
     public static String testPart;
     private  static boolean testSet = false;
     public static int countTriangles = 0;
+    private static Vector2 _terrainSize;
     private static boolean triangleBool = false;
     public static List<Vector3> triangleList = new ArrayList<Vector3>();
     public static Vector3[] triangles = new Vector3[19200];
@@ -42,6 +44,8 @@ public class TerrainGenerator {
         int startPosY = -totalMeshLength/2;
         int verticesPerSide = 40; //Amount of vertices per side of mesh part
         float scaleVertex = 10;  //scale amount
+        _terrainSize = new Vector2(totalMeshLength*scaleVertex, totalMeshLength*scaleVertex);
+
         for (int i = 0; i<4;i++)
         {
             for (int j = 0; j<4;j++) {
@@ -102,6 +106,9 @@ public class TerrainGenerator {
 
         }
     }*/
+   public static Vector2 getTerrainSize(){
+       return _terrainSize;
+   }
    private static Vector3 calculateNormals(Vector3 pa, Vector3 pb, Vector3 pc)
    {
        Vector3 a = new Vector3(pa);

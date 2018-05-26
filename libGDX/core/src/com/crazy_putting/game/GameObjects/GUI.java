@@ -7,10 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -32,6 +29,7 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
     private Stage UIStage;
     private Label speedText;
     Viewport view;
+    private CheckBox _splineEdit;
 
     public GUI(GolfGame pGame, GameManager pGameManager, Camera pCam2D, FitViewport viewPort)
     {
@@ -54,7 +52,7 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
                 System.out.println("Button55");
             }
         });
-
+        _splineEdit = new CheckBox("Spline Editor", _skin);
 
         initUI();
         System.out.println("VIEWPORT POS "+ view.getScreenY()   );
@@ -91,7 +89,8 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         table.add(ne);
         table.row();
         table.add(soloButton);
-
+        table.row();
+        table.add(_splineEdit);
 
         Vector3 unprojectSpeed = _cam2D.unproject(new Vector3(GameScreen3D.Width3DScreen, 10,0));
         Vector3 unprojectHeight =_cam2D.unproject(new Vector3(GameScreen3D.Width3DScreen, 40,0));
@@ -136,9 +135,9 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         UIStage.draw();
 
     }
-    private void renderGUI()
+    public boolean isSplineEditActive()
     {
-
+        return _splineEdit.isChecked();
     }
 
 }

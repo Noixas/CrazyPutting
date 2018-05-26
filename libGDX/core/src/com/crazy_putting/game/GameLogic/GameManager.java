@@ -67,7 +67,7 @@ public class GameManager {
             UpdatedPhysics.updateCoefficients();
             System.out.println("Is that radius? " + (int) CourseManager.getActiveCourse().getGoalRadius());
             _ball.addGraphicComponent(new Graphics3DComponent(1));
-            _hole.addGraphicComponent(new Graphics3DComponent(2));
+            _hole.addGraphicComponent(new Graphics3DComponent(0));
 
             Vector3 ballPos = CourseManager.getStartPosition();
         //    ballPos.z = CourseManager.calculateHeight(ballPos.x,ballPos.y);
