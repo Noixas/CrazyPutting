@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.collision.Ray;
 import com.crazy_putting.game.Components.Graphics3DComponent;
 import com.crazy_putting.game.GameObjects.GameObject;
 import com.crazy_putting.game.Graphics3D.TerrainGenerator;
+import com.crazy_putting.game.Screens.GameScreen3D;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,10 @@ public class TerrainEditor extends InputAdapter {
     private Vector2 _buttonDragCoord = new Vector2();
     private boolean _dragging = false;
     private List<GameObject> _splinePoints = new ArrayList<GameObject>();
+    private float _sPointRadius = 40f;
+    private GameObject _draggingPoint;
 
+    private GameScreen3D _screen3D;
     public TerrainEditor(Camera pCam3D)
     {
         _cam3D = pCam3D;
@@ -50,9 +54,7 @@ public class TerrainEditor extends InputAdapter {
             }
     }
     private void createControlPoint(Vector3 pPos){
-        Vector3 cache = new Vector3(pPos);
-        pPos.z = cache.y;
-        pPos.y = cache.z;
+        swapYandZ(pPos);
         GameObject point = new GameObject(pPos);
         Graphics3DComponent pointGraphics = new Graphics3DComponent(2);
         point.addGraphicComponent(pointGraphics);
@@ -74,27 +76,60 @@ public class TerrainEditor extends InputAdapter {
        if(_splineEdit == false) return false;
 
         _dragging = false;
+        _draggingPoint = intersectSplinePoint(screenX,screenY);
         _buttonDownCoord.set(screenX,screenY);
+        if(_draggingPoint != null) {
+           Graphics3DComponent gp = (Graphics3DComponent)_draggingPoint.getGraphicComponent();
+           gp.setColor(3);
+           return true;
+        }
+        //_screen3D.setCamControllerEnabled(false);
         return _selecting >= 0;
     }
+    public boolean isDragging(){
+        return _dragging;
+    }
+    private GameObject intersectSplinePoint(int screenX, int screenY ){
+        Ray ray = _cam3D.getPickRay(screenX,screenY,0,0, _cam3D.viewportWidth,_cam3D.viewportHeight);//TODO:Get the WindowsWidth -300 from a constant variable somewhere in graphics, dont hardcode
+            Vector3 intersect = new Vector3();
+        for (GameObject point : _splinePoints) {
+            Vector3 pos = new Vector3(point.getPosition());
+            swapYandZ(pos);
+            boolean found = Intersector.intersectRaySphere(ray, pos, _sPointRadius,intersect);
+            if(found) return point;
+        }
+        return null;
 
+    }
     @Override
     public boolean touchDragged (int screenX, int screenY, int pointer) {
-        if(_splineEdit == false) return false;
+        if(_splineEdit == false ) return false;
+        Vector2 prevDraggingPos;
+        if(_dragging) prevDraggingPos = new Vector2(_buttonDragCoord); //If is first frame of drag then prev distance is 0
+        else prevDraggingPos = new Vector2(screenX,screenY);
+
         _buttonDragCoord.set(screenX,screenY);
-        if(_buttonDragCoord.dst2(_buttonDownCoord) > 2)
+        float dist =_buttonDragCoord.dst2(_buttonDownCoord);
+        if( dist > 2  && _draggingPoint != null)
             _dragging = true;
-        return _selecting >= 0;
+        if(_dragging)
+        _draggingPoint.getPosition().z +=  prevDraggingPos.y - _buttonDragCoord.y;
+        return _dragging;
     }
 
     @Override
     public boolean touchUp (int screenX, int screenY, int pointer, int button) {
         if(_splineEdit == false) return false;
-        if (!_dragging) {
+        if(_dragging){
+                Graphics3DComponent gp = (Graphics3DComponent)_draggingPoint.getGraphicComponent();
+                gp.setColor(3);
+                return true;
+            }
+        //    _screen3D.setCamControllerEnabled(true);
+        if (!_dragging && false) {
             _selecting = getObject(screenX, screenY);
             return true;
         }
-        System.out.println(screenX);
         return false;
     }
     public int getObject (int screenX, int screenY) {
@@ -134,5 +169,13 @@ public class TerrainEditor extends InputAdapter {
         }
 
         return result;
+    }
+    public static void swapYandZ(Vector3 vec){
+        Vector3 cache = new Vector3(vec);
+        vec.z = cache.y;
+        vec.y = cache.z;
+    }
+    public void addObserver(GameScreen3D scr) {
+    _screen3D = scr;
     }
 }
