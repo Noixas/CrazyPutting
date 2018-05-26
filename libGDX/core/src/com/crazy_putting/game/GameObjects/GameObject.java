@@ -33,4 +33,8 @@ public class GameObject {
         _position.z = CourseManager.calculateHeight(_position.x,_position.y);
     }
 
+    @Override
+    public String toString() {
+        return _position.toString();
+    }
 }

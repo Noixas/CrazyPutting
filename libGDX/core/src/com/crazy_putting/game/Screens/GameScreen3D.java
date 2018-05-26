@@ -37,6 +37,7 @@ public class GameScreen3D extends InputAdapter implements Screen {
         private FitViewport  _hudViewport;
         private TerrainEditor _terrainEditor;
         private InputMultiplexer _inputMain;
+        private int _mode;
 
 
        public static ModelInstance boxInstance;
@@ -45,6 +46,7 @@ public class GameScreen3D extends InputAdapter implements Screen {
     public CameraInputController camController;
 
         public GameScreen3D(GolfGame pGame, int pMode) {
+            _mode = pMode;
             Width2DScreen = 300;
             Width3DScreen = Gdx.graphics.getWidth() - Width2DScreen;
             Height2DScreen = Height3DScreen = GraphicsManager.WINDOW_HEIGHT;
@@ -86,7 +88,8 @@ public class GameScreen3D extends InputAdapter implements Screen {
         {
             GameObject axis = new GameObject();
             axis.addGraphicComponent  (new Graphics3DComponent(DebugAxesGenerator.generateAxes()));
-           _terrainEditor = new TerrainEditor(_cam3D);
+            if(MenuScreen.Spline3D)_terrainEditor = new TerrainEditor(_cam3D,true);
+            else _terrainEditor = new TerrainEditor(_cam3D,false);
 
         }
 
@@ -95,7 +98,6 @@ public class GameScreen3D extends InputAdapter implements Screen {
           _terrainEditor.setSplineEditActive(state);
           if(state) {
               _inputMain.addProcessor(1, _terrainEditor);
-                _terrainEditor.addObserver(this);
           }else
               _inputMain.removeProcessor(_terrainEditor);
        }

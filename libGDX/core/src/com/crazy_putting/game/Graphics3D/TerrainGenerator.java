@@ -33,12 +33,29 @@ public class TerrainGenerator {
     public static Vector3[] triangles = new Vector3[19200];
     private static double[][] points = new double[4][4];
     private static  CachedBicubicInterpolator spline;
-    static double[][] p= {{-10,90,90,0},
-                          {0,20,70,70},
-                          {0,60,30,0},
-                          {-10,-57,70,0}};
-    public static Model generateModelTerrain()
+//    static double[][] p= {{-10,90,90,0},
+//                          {0,20,70,70},
+//                          {0,60,30,0},
+//                          {-10,-57,70,0}};
+        static double[][] p= {{-10,90,90,0},
+        {0,20,70,70},
+        {0,60,30,0},
+        {-10,-57,70,0}};
+        public static Model generateModelTerrain(){
+
+            return  innerGenerateModelTerrain(false, null);
+        }
+        public static Model generateModelTerrain(boolean pSplines, double[][] pPoints){
+
+        return  innerGenerateModelTerrain(pSplines, pPoints);
+    }
+    public static CachedBicubicInterpolator updateTerrain(double[][] pPoints){
+            spline.updateCoefficients(pPoints);
+        return  spline;
+    }
+    private static Model innerGenerateModelTerrain(boolean pSplines, double[][] pPoints)
     {
+        p =pPoints;
         int totalMeshLength = 200;
         int startPosX = -totalMeshLength/2; //Get half and set it negative so the middle of the mesh is at (0,0)
         int startPosY = -totalMeshLength/2;
@@ -46,23 +63,25 @@ public class TerrainGenerator {
         float scaleVertex = 10;  //scale amount
         _terrainSize = new Vector2(totalMeshLength*scaleVertex, totalMeshLength*scaleVertex);
 
-        for (int i = 0; i<4;i++)
-        {
-            for (int j = 0; j<4;j++) {
-                points[i][j] = 4;
-            }
-        }
-        points[2][2] =5;
-        points[2][1] =5;
-        points[1][2] =5;
-        points[1][1] =5;
-        points[0][1] =5;
-        points[3][1] =5;
-        //points = p;
+//        for (int i = 0; i<4;i++)
+//        {
+//            for (int j = 0; j<4;j++) {
+//                points[i][j] = 4;
+//            }
+//        }
+//        points[2][2] =5;
+//        points[2][1] =5;
+//        points[1][2] =5;
+//        points[1][1] =5;
+//        points[0][1] =5;
+//        points[3][1] =5;
+//        //points = p;
 
         spline = new CachedBicubicInterpolator();
-        spline.updateCoefficients(p);
-        float test = spline.getValuefast(.35f,.7f);
+        if(p != null) {
+            spline.updateCoefficients(p);
+            float test = spline.getValuefast(.35f, .7f);
+        }
      //   for(int i = 0; i<100; i++)
           //  System.out.println(test+"MATLAB");
        // System.out.println(CourseManager.calculateHeight(1,100)+ "Course amount");
@@ -77,7 +96,7 @@ public class TerrainGenerator {
             {
                 Node node = modelBuilder.node();
                 String code ="i "+i+" j "+j;
-                node.id = "n "+nodeAmount+" "+code;
+                node.id = "n "+nodeAmount;//+" "+code;
                 if(testSet == false) {
                     testMeshCode = "n " + nodeAmount + " " + code;
                     testPart = "part " + code;
@@ -85,7 +104,7 @@ public class TerrainGenerator {
                 }
                 nodeAmount++;
                 MeshPartBuilder meshBuilder = modelBuilder.part("part "+code , GL20.GL_TRIANGLES, VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal  | VertexAttributes.Usage.ColorPacked,m);
-                createMesh(meshBuilder, startPosX+verticesPerSide*i,startPosY+verticesPerSide*j, verticesPerSide, scaleVertex);
+                createMesh(meshBuilder, startPosX+verticesPerSide*i,startPosY+verticesPerSide*j, verticesPerSide, scaleVertex, pSplines);
             }
 
 
@@ -106,6 +125,7 @@ public class TerrainGenerator {
 
         }
     }*/
+
    public static Vector2 getTerrainSize(){
        return _terrainSize;
    }
@@ -117,20 +137,34 @@ public class TerrainGenerator {
        Vector3 V1= (b.sub(a));
        Vector3 V2 = (c.sub(a));
        Vector3 surfaceNormal = V1.crs(V2);
-       //surfaceNormal.nor();
+       surfaceNormal.nor();
        return surfaceNormal;
 
    }
-   private static void createMesh(MeshPartBuilder pBuilder, int startX, int startY, int length, float scaleVertexSize)
+   private static void createMesh(MeshPartBuilder pBuilder, int startX, int startY, int length, float scaleVertexSize, boolean pSplines)
    {
        float perc = 1.0f*0.0005f;
        float scaleAmount = scaleVertexSize;
        for(int i = startY; i < startY+length; i++) {
            for (int j = startX; j < startX +length; j++) {
-               float h1 = CourseManager.calculateHeight(j*(scaleAmount),scaleAmount*i);
-               float h2 = CourseManager.calculateHeight(j*(scaleAmount),scaleAmount + scaleAmount*i);
-               float h3 = CourseManager.calculateHeight(scaleAmount + j *scaleAmount,scaleAmount*i);
-               float h4 = CourseManager.calculateHeight(scaleAmount + j * scaleAmount,scaleAmount + scaleAmount*i);
+
+               float h1 = 0;
+               float h2 = 0;
+               float h3 = 0;
+               float h4 = 0;
+            if(pSplines == false) {
+                h1 = CourseManager.calculateHeight(j * (scaleAmount), scaleAmount * i);
+                h2 = CourseManager.calculateHeight(j * (scaleAmount), scaleAmount + scaleAmount * i);
+                h3 = CourseManager.calculateHeight(scaleAmount + j * scaleAmount, scaleAmount * i);
+                h4 = CourseManager.calculateHeight(scaleAmount + j * scaleAmount, scaleAmount + scaleAmount * i);
+            }else if(true)
+            {
+                h1 = spline.getValuefast(perc*j*(scaleAmount),perc*scaleAmount*i);
+                h2 = spline.getValuefast(perc*j*(scaleAmount),perc*(scaleAmount + scaleAmount*i));
+                h3 = spline.getValuefast(perc*(scaleAmount + j *scaleAmount),perc*scaleAmount*i);
+                h4 = spline.getValuefast(perc*(scaleAmount + j * scaleAmount),perc*(scaleAmount + scaleAmount*i));
+
+            }
                if(false)
                {
                    h1 = 0;
@@ -143,14 +177,14 @@ public class TerrainGenerator {
                     h4 = spline.getValueSlow(p,perc*(scaleAmount + j * scaleAmount),perc*(scaleAmount + scaleAmount*i));
                    System.out.println(h1);
                }
-               if(false)
-               {
-                   h1 = spline.getValuefast(perc*j*(scaleAmount),perc*scaleAmount*i);
-                   h2 = spline.getValuefast(perc*j*(scaleAmount),perc*(scaleAmount + scaleAmount*i));
-                   h3 = spline.getValuefast(perc*(scaleAmount + j *scaleAmount),perc*scaleAmount*i);
-                   h4 = spline.getValuefast(perc*(scaleAmount + j * scaleAmount),perc*(scaleAmount + scaleAmount*i));
+               if(false){
+                   h1 = -51;
+                   h2 = -52;
+                   h3 = -53;
+                   h4 = -54;
+            }
 
-               }
+
 
                MeshPartBuilder.VertexInfo v1;
              //  if(startX >-10 && startX <10 && startY>-10 && startY < 10) {
@@ -158,7 +192,9 @@ public class TerrainGenerator {
               //     v1 = zeroPos;
               // }
               // else
-               float hScale = 1;
+               float hScale = 10;
+               if(pSplines == false)
+                   hScale =1;
                Vector3 posV1 = new Vector3(j*(scaleAmount), h1*hScale, (scaleAmount) * i);
                Vector3 posV2 = new Vector3(j*(scaleAmount), h2*hScale, scaleAmount + i * (scaleAmount));
                Vector3 posV3 = new Vector3(scaleAmount  +j*(scaleAmount), h3*hScale, scaleAmount * i);

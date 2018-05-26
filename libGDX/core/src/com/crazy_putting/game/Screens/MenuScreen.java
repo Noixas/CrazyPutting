@@ -35,8 +35,10 @@ public class MenuScreen implements Screen {
 
     private TextButton button2D;
     private TextButton button3D;
+    private  TextButton button3DSpline;
 
     public static boolean Mode3D = true; //TODO:Check if its better to implement this somewhere else
+    public static boolean Spline3D = false; //TODO:Check if its better to implement this somewhere else
 
     public MenuScreen(final GolfGame golfGame) {
 
@@ -101,7 +103,16 @@ public class MenuScreen implements Screen {
                 Mode3D = true;
             }
         });
-        ButtonGroup buttonGroup = new ButtonGroup(button2D, button3D);
+
+        button3DSpline = new TextButton("Spline", skin,"toggle");
+        button3DSpline.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Spline3D = true;
+            }
+        });
+
+        ButtonGroup buttonGroup = new ButtonGroup(button2D, button3D, button3DSpline);
 //next set the max and min amount to be checked
         buttonGroup.setMaxCheckCount(1);
         buttonGroup.setMinCheckCount(1);
@@ -114,6 +125,7 @@ public class MenuScreen implements Screen {
         tableDimensions.row();
         tableDimensions.add(button3D).size(100, 50);;
         tableDimensions.add(button2D).size(100, 50);;
+        tableDimensions.add(button3DSpline).size(100, 50);;
 
         // table
         table = new Table();
