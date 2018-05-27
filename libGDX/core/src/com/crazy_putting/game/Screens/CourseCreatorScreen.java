@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -90,7 +91,8 @@ public class CourseCreatorScreen implements Screen {
         maxVelocityText = new TextField("", skin);
         errorLabel = new Label("", skin);
         errorLabel.setSize(200,50);
-        errorLabel.setPosition(0,buttonSize.y*3);
+        errorLabel.setPosition(300,buttonSize.y*3 + 30);
+
         /*
             Important: To change color of font of a label/button/etc. you need to change it in assets in .json
             file of a skin, where it is defined for a particular component.
@@ -156,13 +158,13 @@ public class CourseCreatorScreen implements Screen {
                 newCourse.setName("Course without name D:");
                 newCourse.setHeight(heightText.getText());
                 newCourse.setFriction(Float.parseFloat(frictionText.getText()));
-                Vector2 ball_start_position = new Vector2(Float.parseFloat(startTextX.getText()), Float.parseFloat(startTextY.getText()));
+                Vector3 ball_start_position = new Vector3(Float.parseFloat(startTextX.getText()), Float.parseFloat(startTextY.getText()),0);
                 newCourse.setBallStartPos(ball_start_position);
-                Vector2 goalStartPosition = new Vector2(Float.parseFloat(goalTextX.getText()), Float.parseFloat(goalTextY.getText()));
+                Vector3 goalStartPosition = new Vector3(Float.parseFloat(goalTextX.getText()), Float.parseFloat(goalTextY.getText()),0);
                 newCourse.setGoalPosition(goalStartPosition);
                 newCourse.setGoalRadius(Float.parseFloat(radiusText.getText()));
                 newCourse.setMaxSpeed(Float.parseFloat(maxVelocityText.getText()));
-                if(isBallOrGoalUnderWater(ball_start_position, goalStartPosition) == false) {
+                if(!isBallOrGoalUnderWater(ball_start_position, goalStartPosition)) {
                     CourseManager.addCourseToList(newCourse);
                     CourseManager.setActiveCourseWithIndex(CourseManager.getCourseAmount() - 1);
                     CourseManager.reWriteCourse();
@@ -170,7 +172,6 @@ public class CourseCreatorScreen implements Screen {
                 }
             }catch(Exception e)
             {
-                System.out.print("                ");
                 System.out.println("Error saving course... Going Back to Menu");
                 System.out.println(e.toString());
                 System.out.println("Error saving course... Going Back to Menu");
@@ -186,7 +187,7 @@ public class CourseCreatorScreen implements Screen {
                 });
             }
     }
-    private boolean isBallOrGoalUnderWater(Vector2 pBallPos, Vector2 pGoalPos)
+    private boolean isBallOrGoalUnderWater(Vector3 pBallPos, Vector3 pGoalPos)
     {
         try {
            // pPos = new Vector2(Float.parseFloat(startTextX.getText()), Float.parseFloat(startTextY.getText()));

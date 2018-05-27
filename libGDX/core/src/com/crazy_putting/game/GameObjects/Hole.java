@@ -2,19 +2,20 @@ package com.crazy_putting.game.GameObjects;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Others.Velocity;
 
 public class Hole extends GameObject {
-    private Vector2 position;
+    private Vector3 position;
     private int radius;
 
     public Hole(int radius){
         this.radius = radius;
-        position = new Vector2();
+        position = new Vector3();
     }
 
 
-    public void setPosition(Vector2 position) {
+    public void setPosition(Vector3 position) {
         _position.x = position.x;
         _position.y = position.y;
         this.position = position;

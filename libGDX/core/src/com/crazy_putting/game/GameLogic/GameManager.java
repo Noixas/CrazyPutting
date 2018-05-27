@@ -4,7 +4,6 @@ package com.crazy_putting.game.GameLogic;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Bot.Bot;
 import com.crazy_putting.game.Components.Graphics2DComponent;
@@ -34,7 +33,7 @@ public class GameManager {
 
 
         _mode = pMode;
-        if(MenuScreen.Mode3D == false) {
+        if(MenuScreen.Mode3D == false) {//2D Logic
             _mode = pMode;
             if (_mode == 2)
                 ReadAndAnalyse.calculate("myFile.txt");
@@ -50,7 +49,7 @@ public class GameManager {
                     new Texture("hole.png"), _hole.getRadius() * 2, _hole.getRadius() * 2));
 
             Vector3 ballPos = new Vector3(0,0,0);
-            Vector2 startPos2D = CourseManager.getStartPosition();
+            Vector3 startPos2D = CourseManager.getStartPosition();
             ballPos.x = startPos2D.x;
             ballPos.y = CourseManager.calculateHeight(startPos2D.x,startPos2D.y);
             ballPos.z =startPos2D.y;
@@ -58,11 +57,13 @@ public class GameManager {
             _ball.setPosition(startPos2D);
 
         }
-        else{
+        else{//3D Logic
+            _mode = pMode;
             _ball = new Ball("golfBall.png");
             _game = pGame;
             _hole = new Hole((int) CourseManager.getActiveCourse().getGoalRadius());
             _turns = 0;
+            UpdatedPhysics.addMovableObject(_ball);
             UpdatedPhysics.updateCoefficients();
             System.out.println("Is that radius? " + (int) CourseManager.getActiveCourse().getGoalRadius());
             _ball.addGraphicComponent(new Graphics3DComponent(1));

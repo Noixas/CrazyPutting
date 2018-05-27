@@ -1,6 +1,6 @@
 package com.crazy_putting.game.Bot;
 
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 public class LinearFunction {
     private float a;
@@ -15,7 +15,7 @@ public class LinearFunction {
         return a*x+b;
     }
 
-    public boolean intersects(Vector2 point){
+    public boolean intersects(Vector3 point){
         return point.x*a+b==point.y;
     }
 

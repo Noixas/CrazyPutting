@@ -1,15 +1,16 @@
 package com.crazy_putting.game.GameObjects;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 public class Course {
     private int _ID;
     private String _name;
     private String _height;
     private float _friction; //friction coefficient
-    private Vector2 _goalPosition;
+    private Vector3 _goalPosition;
     private float _goalRadius;
-    private  Vector2 _startBall;
+    private  Vector3 _startBall;
     private float _maxSpeed;
     public void setID(int pID)
     {
@@ -44,12 +45,12 @@ public class Course {
         return _friction;
     }
 
-    public void setGoalPosition(Vector2 pPos)
+    public void setGoalPosition(Vector3 pPos)
     {
         _goalPosition = pPos;
     }
 
-    public Vector2 getGoalPosition() {
+    public Vector3 getGoalPosition() {
         return _goalPosition;
     }
 
@@ -63,12 +64,12 @@ public class Course {
     }
 
 
-    public void setBallStartPos(Vector2 pPos)
+    public void setBallStartPos(Vector3 pPos)
     {
         _startBall = pPos;
     }
 
-    public Vector2 getStartBall() {
+    public Vector3 getStartBall() {
         return _startBall;
     }
 

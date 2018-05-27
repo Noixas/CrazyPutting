@@ -1,6 +1,6 @@
 package com.crazy_putting.game.GameLogic;
 
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.FormulaParser.*;
 import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.Parser.Parser;
@@ -78,7 +78,7 @@ public class CourseManager {
         if(_cacheFileName == null) return; //If we havent cache a filename then we should not proceed
         Parser.writeCourseList(_cacheFileName ,_courseList);
     }
-    public  static Vector2 getStartPosition()
+    public  static Vector3 getStartPosition()
     {
         return _activeCourse.getStartBall();
     }
@@ -119,7 +119,7 @@ public class CourseManager {
         }
         return 0;
     }
-    public static Vector2 getGoalStartPosition()
+    public static Vector3 getGoalStartPosition()
     {
         return  _activeCourse.getGoalPosition();
     }
