@@ -2,6 +2,7 @@
 package com.crazy_putting.game.Physics;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameLogic.GraphicsManager;
@@ -10,7 +11,7 @@ import com.crazy_putting.game.Others.Velocity;
 
 import java.util.ArrayList;
 
-public class UpdatedPhysics {
+public class RKDraft {
 
     private static final float g = 9.806f;
     private static float mu;
@@ -19,8 +20,11 @@ public class UpdatedPhysics {
 
     private static Vector3 curObjectPosition;
     private static Velocity curObjectVelocity;
-    private static Vector3 objectAcceleration;
+    private static Vector2 objectAcceleration;
 
+    /*
+    Updating physics
+     */
 
     public static void update(double dt){
 
@@ -55,8 +59,8 @@ public class UpdatedPhysics {
         objectAcceleration=null;
     }
 
-    private static void updateComponents(PhysicsGameObject obj, Vector3 position, Velocity velocity, Vector3 acceleration,double dt){
-
+    private static void updateComponents(PhysicsGameObject obj, Vector3 position, Velocity velocity, Vector2 acceleration,double dt){
+        /*
         // x(t+h) = x(t) + h*Vx(t) + h^2/2 * Ax;
         // y(t+h) = y(t) + h*Vy(t) + h^2/2 * Ay;
         float newX =  (float) (position.x +(dt * velocity.Vx) + (dt*acceleration.x * dt / 2));
@@ -68,20 +72,29 @@ public class UpdatedPhysics {
 
         obj.setPositionX(newX);
         obj.setPositionY(newY);
-        obj.updateHeight();
+
         obj.setVelocityComponents(newVelX, newVelY);
+        */
 
+        integral(obj, dt);
 
     }
 
-    private static Vector3 calculateAcceleration(PhysicsGameObject obj){
-        Vector3 gravity = gravityForce(obj);
-        Vector3 friction = frictionForce(obj);
-        return new Vector3(friction.x + gravity.x,friction.y + gravity.y,0);
+    /*
+    Acceleration a = F/m = G + H
+     */
+
+    private static Vector2 calculateAcceleration(PhysicsGameObject obj){
+        Vector2 gravity = gravityForce(obj);
+        Vector2 friction = frictionForce(obj);
+        return new Vector2(friction.x + gravity.x,friction.y + gravity.y);
     }
 
+    /*
+    Calculate H
+     */
 
-    private static Vector3 frictionForce(PhysicsGameObject obj){
+    private static Vector2 frictionForce(PhysicsGameObject obj){
         float numeratorX = (-mu * g * obj.getVelocity().Vx);
         float numeratorY = (-mu * g * obj.getVelocity().Vy);
 
@@ -89,11 +102,15 @@ public class UpdatedPhysics {
         float denominator = (float) Math.sqrt(lengthOfVelocityVector);
 
 
-        return new Vector3(numeratorX/denominator,numeratorY/denominator,0);
+        return new Vector2(numeratorX/denominator,numeratorY/denominator);
     }
 
-    private static Vector3 gravityForce(PhysicsGameObject obj){
-        Vector3 partials = partialDerivatives(obj);
+    /*
+    Calculate G
+     */
+
+    private static Vector2 gravityForce(PhysicsGameObject obj){
+        Vector2 partials = partialDerivatives(obj);
         float gx = -partials.x * g ;
         float gy = -partials.y * g ;
 
@@ -104,7 +121,11 @@ public class UpdatedPhysics {
 
     }
 
-    private static Vector3 partialDerivatives(PhysicsGameObject obj){
+    /*
+    Partial Derivatives
+     */
+
+    private static Vector2 partialDerivatives(PhysicsGameObject obj){
         float x1 =  obj.getPosition().x + EPSILON;
         float x2 =  x1 - 2 * EPSILON;
         float yCur = obj.getPosition().y;
@@ -118,9 +139,13 @@ public class UpdatedPhysics {
 
         float partialY = ((CourseManager.calculateHeight(x1, yCur) - CourseManager.calculateHeight(x1, y2)) / 2 * EPSILON);
 
-        return new Vector3(partialX,partialY,0);
+        return new Vector2(partialX,partialY);
 
     }
+
+    /*
+    Collision
+     */
 
     private static void dealCollision(PhysicsGameObject obj){
         obj.setPosition(CourseManager.getStartPosition());
@@ -168,5 +193,52 @@ public class UpdatedPhysics {
         mu = CourseManager.getActiveCourse().getFriction();
     }
 
+    /*
+    RK4
+     */
 
+    private static Derivative derivative(PhysicsGameObject obj, /*float t,*/ double dt, Derivative d) {
+        float x = (float) (obj.getPosition().x + d.getDx()*dt);
+        float y = (float) (obj.getPosition().y + d.getDy()*dt);
+
+        float Vx = (float) (obj.getVelocity().Vx + d.getDvx()*dt);
+        float Vy = (float) (obj.getVelocity().Vy + d.getDvy()*dt);
+
+        obj.setPositionX(x);
+        obj.setPositionY(y);
+        obj.setVelocityComponents(Vx,Vy);
+
+        float dx = Vx;
+        float dy = Vy;
+
+        Vector2 a = calculateAcceleration(obj); // t+dt
+        float dvx = a.x;
+        float dvy = a.y;
+
+        d.setDx(dx); d.setDy(dy); d.setDvx(dvx); d.setDvy(dvy);
+        return d;
+    }
+
+    private static void integral(PhysicsGameObject obj, /*float t,*/ double dt) {
+        Derivative a = derivative(obj, 0.0f, new Derivative());
+        Derivative b = derivative(obj, dt*0.5f, a );
+        Derivative c = derivative(obj, dt*0.5f, b );
+        Derivative d = derivative(obj, dt, c );
+
+        float dxdt = 1.0f / 6.0f * ( a.getDx() + 2.0f * ( b.getDx() + c.getDx() ) + d.getDx() );
+        float dydt = 1.0f / 6.0f * ( a.getDy() + 2.0f * ( b.getDy() + c.getDy() ) + d.getDy() );
+
+        float dvxdt = 1.0f / 6.0f * ( a.getDvx() + 2.0f * ( b.getDvx() + c.getDvx() ) + d.getDvx() );
+        float dvydt = 1.0f / 6.0f * ( a.getDvy() + 2.0f * ( b.getDvy() + c.getDvy() ) + d.getDvy() );
+
+        float x = (float) (obj.getPosition().x + dxdt*dt);
+        float y = (float) (obj.getPosition().y + dydt*dt);
+
+        float Vx = (float) (obj.getVelocity().Vx + dvxdt*dt);
+        float Vy = (float) (obj.getVelocity().Vy + dvydt*dt);
+
+        obj.setPositionX(x);
+        obj.setPositionY(y);
+        obj.setVelocityComponents(Vx,Vy);
+    }
 }

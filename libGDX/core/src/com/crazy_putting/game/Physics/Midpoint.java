@@ -11,23 +11,22 @@ import com.crazy_putting.game.Others.Velocity;
 
 import java.util.ArrayList;
 
-public class UpdatedPhysics4 {
+public class Midpoint extends Physics{
 
-    private static final float g = 9.806f;
-    private static float mu;
-    private static float EPSILON = 1;
-    private static ArrayList<PhysicsGameObject> movingObjects = new ArrayList<PhysicsGameObject>();
+    protected Vector3 curObjectPosition;
+    protected Velocity curObjectVelocity;
+    protected Vector2 objectAcceleration;
+    private State state = new State();
 
-    private static Vector3 curObjectPosition;
-    private static Velocity curObjectVelocity;
-    private static Vector2 objectAcceleration;
-    private static State state = new State();
+    public Midpoint(){
+        Physics.physics = this;
+    }
 
     /*
     Updating physics
      */
 
-    public static void update(double dt){
+    public void update(double dt){
 
         if(!movingObjects.isEmpty()){
             for(int i =0;i<movingObjects.size();i++){
@@ -36,7 +35,7 @@ public class UpdatedPhysics4 {
         }
     }
 
-    private static void updateObject(PhysicsGameObject obj, double dt){
+    public void updateObject(PhysicsGameObject obj, double dt){
        // System.out.println("here");
         if(obj.isFixed()) return;
 
@@ -61,67 +60,17 @@ public class UpdatedPhysics4 {
         objectAcceleration=null;
     }
 
-    private static void updateComponents(PhysicsGameObject obj, Vector3 position, Velocity velocity, Vector2 acceleration,double dt){
+    public void updateComponents(PhysicsGameObject obj, Vector3 position, Velocity velocity, Vector2 acceleration,double dt){
 
         integral(obj, dt);
 
     }
 
     /*
-    Collision
+    Midpoint
      */
 
-    private static void dealCollision(PhysicsGameObject obj){
-        obj.setPosition(CourseManager.getStartPosition());
-        obj.fix(true);
-
-        Gdx.app.log("Message","Ball collided");
-    }
-
-    private static boolean collided(PhysicsGameObject obj ){
-
-        float xCur = obj.getPosition().x;
-        float yCur = obj.getPosition().y;
-
-        float xPrev = obj.getPreviousPosition().x;
-        float yPrev = obj.getPreviousPosition().y;
-
-        if(xCur > GraphicsManager.WORLD_WIDTH / 2 || xCur < GraphicsManager.WORLD_WIDTH / 2 * (-1) ||
-                yCur > GraphicsManager.WORLD_HEIGHT / 2 || yCur < GraphicsManager.WORLD_HEIGHT / 2 * (-1) ){
-
-            return true;
-        }
-
-        float dx = xCur-xPrev;
-        float dy = yCur-yPrev;
-
-        for (int i = 1; i < 4; i++){
-            float height = CourseManager.calculateHeight(xPrev + dx / i, equation2Points(dx, dy, xPrev + dx / i, xPrev, yPrev));
-            if (height < 0){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private static float equation2Points(float dx, float dy, float xValue, float previousX, float previousY) {
-        return (dy/dx) * (xValue -  previousX) + previousY;
-    }
-
-
-    public static void addMovableObject(PhysicsGameObject obj) {
-        movingObjects.add(obj);
-    }
-
-    public static void updateCoefficients() {
-        mu = CourseManager.getActiveCourse().getFriction();
-    }
-
-    /*
-    RK4
-     */
-
-    private static Derivative derivative(/*PhysicsGameObject obj, float t,*/ double dt, State s, Derivative d) {
+    public Derivative derivative(/*PhysicsGameObject obj, float t,*/ double dt, State s, Derivative d) {
         State s_new = new State();
         s_new.setX( (float) (s.getX() + d.getDx()*dt) );
         s_new.setY( (float) (s.getY() + d.getDy()*dt) );
@@ -139,7 +88,7 @@ public class UpdatedPhysics4 {
         return d_new;
     }
 
-    private static void integral(PhysicsGameObject obj, /*float t,*/ double dt) {
+    public void integral(PhysicsGameObject obj, /*float t,*/ double dt) {
         State s = state;
 
         Derivative k1 = derivative(0.0f, s, new Derivative());
@@ -166,7 +115,7 @@ public class UpdatedPhysics4 {
     Acceleration a = F/m = G + H
      */
 
-    private static Vector2 acceleration(State s){
+    public Vector2 acceleration(State s){
         Vector2 gravity = gravityForce(s);
         Vector2 friction = frictionForce(s);
         return new Vector2(friction.x + gravity.x,friction.y + gravity.y);
@@ -176,7 +125,7 @@ public class UpdatedPhysics4 {
     Calculate H
      */
 
-    private static Vector2 frictionForce(State s){
+    public Vector2 frictionForce(State s){
         float numeratorX = (-mu * g * s.getVx());
         float numeratorY = (-mu * g * s.getVy());
 
@@ -190,7 +139,7 @@ public class UpdatedPhysics4 {
     Calculate G
      */
 
-    private static Vector2 gravityForce(State s){
+    public Vector2 gravityForce(State s){
         Vector2 partials = partialDerivatives(s);
         float gx = -partials.x * g ;
         float gy = -partials.y * g ;
@@ -206,7 +155,7 @@ public class UpdatedPhysics4 {
     Partial Derivatives
      */
 
-    private static Vector2 partialDerivatives(State s){
+    public Vector2 partialDerivatives(State s){
         float x1 =  s.getX() + EPSILON;
         float x2 =  x1 - 2 * EPSILON;
         float yCur = s.getY();
