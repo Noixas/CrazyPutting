@@ -69,7 +69,11 @@ public class GameManager {
             UpdatedPhysics.updateCoefficients();
             System.out.println("Is that radius? " + (int) CourseManager.getActiveCourse().getGoalRadius());
             _ball.addGraphicComponent(new Graphics3DComponent(1));
-            _hole.addGraphicComponent(new Graphics3DComponent(2));
+            _hole.addGraphicComponent(new Graphics3DComponent(0));
+
+            Vector3 ballPos = CourseManager.getStartPosition();
+        //    ballPos.z = CourseManager.calculateHeight(ballPos.x,ballPos.y);
+
 
             _hole.setPosition(CourseManager.getGoalStartPosition());
             _ball.setPosition(CourseManager.getStartPosition());
@@ -175,7 +179,12 @@ public class GameManager {
     }
     public void handleInput(InputData input){
         // later on it should be if speed of the ball is zero (ball is not moving, then input data)
-        if(_mode == 1) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.B)) {
+            _ball.getPosition().y += 10;
+            System.out.println(_ball.getPosition());
+
+        }
+            if(_mode == 1) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !_ball.isMoving()) {
               CourseManager.reWriteCourse();//TODO: CHECK WHY THIS IS HERE
               Gdx.input.getTextInput(input, "Input data", "", "Input speed and direction separated with space");

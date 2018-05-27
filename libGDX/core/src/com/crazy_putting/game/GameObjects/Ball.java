@@ -10,27 +10,29 @@ public class Ball extends PhysicsGameObject {
     private final float MASS = (float) 0.04593;
 
     private Vector3 previousPosition;
-    private Vector3 position;
+    //private Vector3 position;
     private Velocity velocity;
     private Texture texture;
     private boolean _isMoving = false;
     private boolean _isFixed;
 
     public Ball(){
-
+        previousPosition = new Vector3();
+        velocity = new Velocity();
+        _isFixed=true;
     }
     public Ball(String filename){
         texture = new Texture(filename);
-        position = new Vector3();
+       // position = new Vector3();
         previousPosition = new Vector3();
         velocity = new Velocity();
         _isFixed=true;
         //setVelocity(.1f,90);
     }
 
-    public Vector3 getPosition() {
-        return position;
-    }
+//    public Vector3 getPosition() {
+//        return position;
+//    }
     public Vector3 getPreviousPosition(){
         return previousPosition;
     }
@@ -49,8 +51,8 @@ public class Ball extends PhysicsGameObject {
 
 
     public void setPosition(Vector2 position) {
-        this.position.x = position.x;
-        this.position.y = position.y;
+        getPosition().x = position.x;
+        getPosition().y = position.y;
         this.previousPosition.x = position.x;
         this.previousPosition.y = position.y;
 
@@ -58,24 +60,15 @@ public class Ball extends PhysicsGameObject {
         _position.y = position.y;
     }
     public void setPosition(Vector3 position) {
-        this.position.x = position.x;
-        this.position.y = position.y;
-        this.position.z = position.z;
-        this.previousPosition.x = position.x;
-        this.previousPosition.y = position.y;
-        this.previousPosition.z = position.z;
-
-        _position.x = position.x;
-        _position.y = position.y;
+          _position =  new Vector3(position);
+       previousPosition = new Vector3(position);
     }
     public void setPositionX(float x){
         _position.x = x;
-        position.x = x;
     }
 
     public void setPositionY(float y){
         _position.y = y;
-        position.y = y;
     }
 
     public Texture getTexture() {
@@ -153,12 +146,8 @@ public class Ball extends PhysicsGameObject {
     public Ball clone(){
         Ball newBall = new Ball();
         newBall.texture = texture;
-        newBall.position = new Vector3();
-        newBall.position.x = position.x;
-        newBall.position.y = position.y;
-        newBall.previousPosition = new Vector3();
-        newBall.previousPosition.x = previousPosition.x;
-        newBall.previousPosition.y = previousPosition.y;
+        newBall.setPosition(getPosition());
+        newBall.previousPosition = new Vector3(previousPosition);
         newBall.velocity = new Velocity();
         newBall.velocity.speed = velocity.speed;
         newBall.velocity.angle = velocity.angle;
