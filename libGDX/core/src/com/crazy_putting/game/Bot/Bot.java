@@ -3,12 +3,15 @@ package com.crazy_putting.game.Bot;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.Vector3;
+import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameLogic.GameManager;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.Others.Velocity;
 import com.crazy_putting.game.Physics.Physics;
+
+import java.util.List;
 
 /* TODO
     -save a heightmap as a texture/image file after computing it to reuse next time you choose this course and add to
@@ -45,6 +48,12 @@ public class Bot {
         this.lineGoal = lineGoal(lineStartGoal);
         Gdx.app.log("Log",lineGoal.getA()+" "+lineGoal.getB());
 
+        Map<Node> myMap = new Map<Node>(1000, 1000, new ExampleFactory());
+        List<Node> path = myMap.findPath((int)CourseManager.getStartPosition().x, (int)CourseManager.getStartPosition().y, (int)CourseManager.getGoalStartPosition().x, (int)CourseManager.getGoalStartPosition().y);
+
+        for (int i = 0; i < path.size(); i++) {
+            System.out.print("(" + path.get(i).getxPosition() + ", " + path.get(i).getyPosition() + ") -> ");
+        }
     }
 
     /**
