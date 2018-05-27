@@ -11,6 +11,13 @@ public class Derivative {
     public Derivative() {
     }
 
+    public Derivative(float dx, float dy, float dvx, float dvy) {
+        this.dx = dx;
+        this.dy = dy;
+        this.dvx = dvx;
+        this.dvy = dvy;
+    }
+
     public float getDx() {
         return dx;
     }

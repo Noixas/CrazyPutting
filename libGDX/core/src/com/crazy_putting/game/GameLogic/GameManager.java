@@ -14,6 +14,8 @@ import com.crazy_putting.game.Others.InputData;
 import com.crazy_putting.game.Others.Velocity;
 import com.crazy_putting.game.Parser.ReadAndAnalyse;
 import com.crazy_putting.game.Physics.UpdatedPhysics;
+import com.crazy_putting.game.Physics.UpdatedPhysics3;
+import com.crazy_putting.game.Physics.UpdatedPhysics4;
 import com.crazy_putting.game.Screens.GolfGame;
 import com.crazy_putting.game.Screens.MenuScreen;
 
