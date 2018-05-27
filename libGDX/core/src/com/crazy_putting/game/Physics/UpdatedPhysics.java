@@ -53,7 +53,7 @@ public class UpdatedPhysics {
         obj.getPreviousPosition().y = curObjectPosition.y;
 
         curObjectVelocity = obj.getVelocity();
-        objectAcceleration = calculateAcceleration(obj);
+        calculateAcceleration(obj);
 
         updateComponents(obj,curObjectPosition,curObjectVelocity,objectAcceleration,dt);
 
@@ -81,10 +81,19 @@ public class UpdatedPhysics {
 
     }
 
-    private static Vector3 calculateAcceleration(PhysicsGameObject obj){
+    public static boolean calculateAcceleration(PhysicsGameObject obj){
         Vector3 gravity = gravityForce(obj);
+        double grav = Math.sqrt(Math.pow(gravity.x,2)+ Math.pow(gravity.y,2));
+
         Vector3 friction = frictionForce(obj);
-        return new Vector3(friction.x + gravity.x,friction.y + gravity.y,0);
+        double fric = Math.sqrt(Math.pow(friction.x,2)+ Math.pow(friction.y,2));
+
+        objectAcceleration = new Vector3(friction.x + gravity.x,friction.y + gravity.y,0);
+
+        if(!obj.isMoving() && fric>grav){
+            return false;
+        }
+        return true;
     }
 
 

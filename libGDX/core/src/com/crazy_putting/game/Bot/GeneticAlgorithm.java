@@ -22,14 +22,14 @@ public class GeneticAlgorithm {
 
     private Vector3 initial_Position;
 
-    private final int POPULATION_SIZE = 200;
-    private final double ELITE_RATE = 0.2;
-    private final double MUTATION_RATE = 0.4;
-    private static final int MAX_ITER = 20;
+    private final int POPULATION_SIZE = 500;
+    private final double ELITE_RATE = 0.1;
+    private final double MUTATION_RATE = 0.25;
+    private static final int MAX_ITER = 80;
     private int  nrOfGenerationsProduced;
     private Ball bestBall;
-    private int countRepetitions;
-    private int previousBest;
+    //private int countRepetitions;
+    //private int previousBest;
 
     public GeneticAlgorithm(Hole hole, Course course){
         // TODO decreaded population size and generations
@@ -49,39 +49,39 @@ public class GeneticAlgorithm {
 
     //main method for the algorithm
     private void run(){
-        randomizeBallInput(course);
 
-        nrOfGenerationsProduced  = MAX_ITER;
+        randomizeBallInput();
+
+       // nrOfGenerationsProduced  = MAX_ITER;
         // implement previous best score if the score doesnt change in 15 generation reinitialize weights
+
         for(int i = 0; i < MAX_ITER;i++){
 //            if(countRepetitions>10&&allBalls.get(0).getFitnessValue()>bestFit){
 //                randomizeBallInput(course);
 //                countRepetitions = 0;
 //            }
 //            bestFit = (int)allBalls.get(0).getFitnessValue();
-            unFixAllTheBall();
-            simulateShots();
-            System.out.println();
-            Collections.sort(allBalls);
-            for(int ki=0;ki<100;ki++){
-                System.out.print(allBalls.get(ki).getFitnessValue()+" "+allBalls.get(ki).getVelocityGA().speed+" "+allBalls.get(ki).getVelocityGA().angle+" ");
-            }
-            System.out.println();
-            //System.out.println("Balls are sorted");
 
-            System.out.println("\nGeneration: " + (i+1) + " The best score is: " + allBalls.get(0).getFitnessValue());
+            unFixAllTheBall();
+
+            simulateShots();
+
+            Collections.sort(allBalls);
+
+            System.out.println("Generation: " + (i+1) + " The best score is: " + allBalls.get(0).getFitnessValue());
 
             if(allBalls.get(0).getFitnessValue() == 0){
                 System.out.println("Success");
-                nrOfGenerationsProduced = i+1;
-                break;
+
+                return;
             }
 
             children = null;
 
             allBalls = crossOver();
-//            if()
-//            countRepetitions++;
+
+
+
         }
     }
 
@@ -95,9 +95,7 @@ public class GeneticAlgorithm {
     private void simulateShots(){
 
         for(int i = 0; i < POPULATION_SIZE; i++){
-           // System.out.println("Simulating shot #" + i);
             simulateShot(allBalls.get(i));
-//            System.out.println(allBalls.get(i).ran+ "after");
         }
     }
 
@@ -124,37 +122,6 @@ public class GeneticAlgorithm {
 
             Ball iterativeBall = allBalls.get(i);
 
-            // Simple crossover
-//            if(rand.nextFloat() < 0.5){
-//                iterativeBall.setVelocityGA(speed2,angle1);
-//                iterativeBall.setVelocity(speed2,angle1);
-//            }
-//            else{
-//                iterativeBall.setVelocityGA(speed1,angle2);
-//                iterativeBall.setVelocity(speed1,angle2);
-//            }
-
-            // Uniform crossover - comparable to simple crossover
-//            if(rand.nextFloat() < 0.5){
-//                if(rand.nextFloat()<0.5){
-//                    iterativeBall.setVelocityGA(speed2,angle1);
-//                    iterativeBall.setVelocity(speed2,angle1);
-//                }
-//                else{
-//                    iterativeBall.setVelocityGA(speed1,angle1);
-//                    iterativeBall.setVelocity(speed1,angle1);
-//                }
-//
-//            }
-//            else{
-//                if(rand.nextFloat()<0.5){
-//                    iterativeBall.setVelocityGA(speed1,angle2);
-//                    iterativeBall.setVelocity(speed1,angle2);
-//                }
-//                else{
-//                    iterativeBall.setVelocityGA(speed2,angle2);
-//                    iterativeBall.setVelocity(speed2,angle2);                }
-//            }
 
             // Whole arithmetic recombination with random u
             double u = Math.random();
@@ -164,8 +131,9 @@ public class GeneticAlgorithm {
 
             if(rand.nextFloat()<MUTATION_RATE){
                 int newAngle = rand.nextInt(361);
-                iterativeBall.setVelocityGA(rand.nextFloat()*(speed1+speed2)/2, newAngle);
-                iterativeBall.setVelocity(rand.nextFloat()*(speed1+speed2)/2, newAngle);
+                float newSpeed = rand.nextFloat()*course.getMaxSpeed();
+                iterativeBall.setVelocityGA((rand.nextFloat()*newSpeed), newAngle);
+                iterativeBall.setVelocity((rand.nextFloat()*newSpeed), newAngle);
             }
             iterativeBall.setPosition(course.getStartBall());
 
@@ -185,28 +153,26 @@ public class GeneticAlgorithm {
     }
 
     private void simulateShot(Ball b){
-//        b.setRan();
-//        System.out.println("before"+b.ran);
 
-        while (b.isMoving() && !b.isFixed()){
-            //System.out.println("okey");
-            //System.out.println(b.getSpeed());
+        double distance = calcToHoleDistance(b);
+
+        b.setFitnessValue(distance);
+
+        while (UpdatedPhysics.calculateAcceleration (b) && !b.isFixed()) {
+            if (b.isSlow()) {
+                distance = calcToHoleDistance(b);
+                if (distance < hole.getRadius()) {
+                    b.setFitnessValue(0);
+                    return;
+                }
+                b.setFitnessValue(distance);
+            }
             UpdatedPhysics.updateBall(b,Gdx.graphics.getDeltaTime());
         }
-        if(b.isFixed()){
-            b.setFitnessValue(1000);
-           // System.out.println("ball fixed,so I quit");
-            return;
-        }
-        int result = calcToHoleDistance(b);
-       // System.out.println("result: " + result);
 
-        if(result < hole.getRadius()){
-            b.setFitnessValue(0);
-            System.out.println("SUUCCESS"+result+" "+hole.getRadius()+" "+b.isMoving()+" "+b.getPosition().x+" "+hole.getPosition().x+" "+hole.getPosition().y+" "+hole.getPosition().z);
-        }
-        else {
-            b.setFitnessValue(result);
+        if (b.isFixed ()) {
+            b.setFitnessValue(distance);
+            return;
         }
     }
 
@@ -216,13 +182,16 @@ public class GeneticAlgorithm {
         return (int) Math.sqrt(xDist + yDist);
     }
 
-    private void randomizeBallInput(Course course){
+    private void randomizeBallInput(){
+
         if(!this.allBalls.isEmpty()){
+
             for(Ball ball : allBalls){
-                float speed = rand.nextFloat() * course.getMaxSpeed();
+                float random = randomFloat();
+                float speed = random * course.getMaxSpeed();
                 int angle = rand.nextInt(361);
                 ball.setVelocityGA(speed, angle);
-                ball.setVelocity(speed,angle);
+                ball.setVelocity(speed, angle);
             }
         }
     }
@@ -230,12 +199,12 @@ public class GeneticAlgorithm {
 
     private void createBallObjects(){
         this.initial_Position = course.getStartBall();
-//        System.out.println("Position "+initial_Position.x+" "+ini);
         for(int i = 0 ; i < POPULATION_SIZE; i++){
+
             Ball addBall = new Ball();
+
             addBall.setPosition(initial_Position);
             addBall.fix(false);
-            //UpdatedPhysics.addMovableObject(addBall);
             allBalls.add(addBall);
         }
     }
@@ -246,6 +215,13 @@ public class GeneticAlgorithm {
         }
     }
 
+    private float randomFloat(){
+        float result = rand.nextFloat();
+        while(result < 0.005){
+            result = rand.nextFloat();
+        }
+        return result;
+    }
 
     public Ball getBestBall() {
         return bestBall;
