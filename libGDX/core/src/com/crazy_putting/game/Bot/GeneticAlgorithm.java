@@ -5,7 +5,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.GameObjects.Hole;
-import com.crazy_putting.game.Physics.UpdatedPhysics;
+import com.crazy_putting.game.Physics.Physics;
+import com.crazy_putting.game.Physics.Verlet;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -154,11 +155,12 @@ public class GeneticAlgorithm {
 
     private void simulateShot(Ball b){
 
-        double distance = calcToHoleDistance(b);
+        int distance = calcToHoleDistance(b);
 
         b.setFitnessValue(distance);
 
-        while (UpdatedPhysics.calculateAcceleration (b) && !b.isFixed()) {
+
+        while (Physics.physics.calculateAcceleration(b) && !b.isFixed()){
             if (b.isSlow()) {
                 distance = calcToHoleDistance(b);
                 if (distance < hole.getRadius()) {
@@ -167,7 +169,7 @@ public class GeneticAlgorithm {
                 }
                 b.setFitnessValue(distance);
             }
-            UpdatedPhysics.updateBall(b,Gdx.graphics.getDeltaTime());
+            Physics.physics.updateBall(b,Gdx.graphics.getDeltaTime());
         }
 
         if (b.isFixed ()) {
@@ -189,7 +191,7 @@ public class GeneticAlgorithm {
             for(Ball ball : allBalls){
                 float random = randomFloat();
                 float speed = random * course.getMaxSpeed();
-                int angle = rand.nextInt(361);
+                float angle = rand.nextInt(361);
                 ball.setVelocityGA(speed, angle);
                 ball.setVelocity(speed, angle);
             }

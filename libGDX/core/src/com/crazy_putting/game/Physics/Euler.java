@@ -6,7 +6,7 @@ import com.crazy_putting.game.GameLogic.GraphicsManager;
 import com.crazy_putting.game.GameObjects.PhysicsGameObject;
 
 public class Euler {
-    public
+
 
     private static final double g = 9.81;
     //just create a friction coefficient here for now

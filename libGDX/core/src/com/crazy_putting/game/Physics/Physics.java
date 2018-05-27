@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameLogic.GraphicsManager;
+import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.PhysicsGameObject;
 import com.crazy_putting.game.Others.Velocity;
 
@@ -14,7 +15,7 @@ public abstract class Physics {
 
     protected final float g = 9.806f;
     protected float EPSILON = 1;
-    protected float mu;
+    protected static float mu;
     protected ArrayList<PhysicsGameObject> movingObjects = new ArrayList<PhysicsGameObject>();
 
     public static Physics physics;
@@ -70,9 +71,13 @@ public abstract class Physics {
         movingObjects.add(obj);
     }
 
-    public void updateCoefficients() {
+    public static void updateCoefficients() {
         mu = CourseManager.getActiveCourse().getFriction();
     }
+
+    public abstract void updateBall(Ball b,float dt);
+
+    public abstract boolean calculateAcceleration(PhysicsGameObject obj);
 
 
 }

@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameLogic.GraphicsManager;
+import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.PhysicsGameObject;
 import com.crazy_putting.game.Others.Velocity;
 
@@ -33,6 +34,16 @@ public class Midpoint extends Physics{
                 updateObject(movingObjects.get(i),dt);
             }
         }
+    }
+
+    @Override
+    public void updateBall(Ball b, float dt) {
+        updateObject(b,dt);
+    }
+
+    @Override
+    public boolean calculateAcceleration(PhysicsGameObject obj) {
+        return false;
     }
 
     public void updateObject(PhysicsGameObject obj, double dt){

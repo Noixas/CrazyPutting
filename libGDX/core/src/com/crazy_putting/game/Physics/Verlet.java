@@ -4,6 +4,7 @@ package com.crazy_putting.game.Physics;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.GameLogic.CourseManager;
+import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.PhysicsGameObject;
 import com.crazy_putting.game.Others.Velocity;
 
@@ -31,6 +32,10 @@ public class Verlet extends Physics{
         }
     }
 
+    public void updateBall(Ball ball, float dt){
+        updateObject(ball,dt);
+    }
+
     public void updateObject(PhysicsGameObject obj, double dt){
         // System.out.println("here");
         if(obj.isFixed()) return;
@@ -46,7 +51,7 @@ public class Verlet extends Physics{
         obj.getPreviousPosition().y = curObjectPosition.y;
 
         curObjectVelocity = obj.getVelocity();
-        objectAcceleration = calculateAcceleration(obj);
+        calculateAcceleration(obj);
 
         updateComponents(obj,curObjectPosition,curObjectVelocity,objectAcceleration,dt);
 
@@ -57,8 +62,7 @@ public class Verlet extends Physics{
 
     public void updateComponents(PhysicsGameObject obj, Vector3 position, Velocity velocity, Vector3 acceleration, double dt){
 
-        curObjectVelocity = obj.getVelocity();
-        objectAcceleration = calculateAcceleration(obj);
+
 
         // x(t+h) = x(t) + h*Vx(t) + h^2/2 * Ax;
         // y(t+h) = y(t) + h*Vy(t) + h^2/2 * Ay;
@@ -77,11 +81,21 @@ public class Verlet extends Physics{
 
     }
 
-    public Vector3 calculateAcceleration(PhysicsGameObject obj){
-        Vector3 gravity = gravityForce(obj);
-        Vector3 friction = frictionForce(obj);
-        return new Vector3(friction.x + gravity.x,friction.y + gravity.y,0);
-    }
+    public boolean calculateAcceleration(PhysicsGameObject obj){
+            Vector3 gravity = gravityForce(obj);
+            double grav = Math.sqrt(Math.pow(gravity.x,2)+ Math.pow(gravity.y,2));
+
+            Vector3 friction = frictionForce(obj);
+            double fric = Math.sqrt(Math.pow(friction.x,2)+ Math.pow(friction.y,2));
+
+            objectAcceleration = new Vector3(friction.x + gravity.x,friction.y + gravity.y,0);
+
+            if(!obj.isMoving() && fric>grav){
+                return false;
+            }
+            return true;
+        }
+
 
 
     public Vector3 frictionForce(PhysicsGameObject obj){
