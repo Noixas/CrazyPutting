@@ -40,11 +40,11 @@ public class GameManager {
             if (_mode == 2)
                 ReadAndAnalyse.calculate("myFile.txt");
             _ball = new Ball("golfBall.png");
-            UpdatedPhysics.addMovableObject(_ball);
+            UpdatedPhysics3.addMovableObject(_ball);
             _game = pGame;
             _hole = new Hole((int) CourseManager.getActiveCourse().getGoalRadius());
             _turns = 0;
-            UpdatedPhysics.updateCoefficients();
+            UpdatedPhysics3.updateCoefficients();
             System.out.println("Is that radius? " + (int) CourseManager.getActiveCourse().getGoalRadius());
             _ball.addGraphicComponent(new Graphics2DComponent(_ball.getTexture()));
             _hole.addGraphicComponent(new Graphics2DComponent(
@@ -65,8 +65,8 @@ public class GameManager {
             _game = pGame;
             _hole = new Hole((int) CourseManager.getActiveCourse().getGoalRadius());
             _turns = 0;
-            UpdatedPhysics.addMovableObject(_ball);
-            UpdatedPhysics.updateCoefficients();
+            UpdatedPhysics3.addMovableObject(_ball);
+            UpdatedPhysics3.updateCoefficients();
             System.out.println("Is that radius? " + (int) CourseManager.getActiveCourse().getGoalRadius());
             _ball.addGraphicComponent(new Graphics3DComponent(1));
             _hole.addGraphicComponent(new Graphics3DComponent(0));
@@ -109,7 +109,7 @@ public class GameManager {
     {
        handleInput(_game.input);
         _ball.update(pDelta);
-        UpdatedPhysics.update(pDelta);
+        UpdatedPhysics3.update(pDelta);
         if(printMessage){
             UpdateGameLogic(pDelta);
         }
