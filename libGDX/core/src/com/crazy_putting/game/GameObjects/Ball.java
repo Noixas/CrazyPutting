@@ -16,9 +16,12 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
     private Texture texture;
     private boolean _isMoving = false;
     private boolean _isFixed;
-
+    public int ran;
     private double fitnessValue;
 
+    public void setRan(){
+        ran= (int)(Math.random()*100);
+    }
     public Ball(){
         position = new Vector3();
         previousPosition = new Vector3();
@@ -48,8 +51,8 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
         return this.fitnessValue;
     }
 
-    public double setFitnessValue(double value){
-        return this.fitnessValue = value;
+    public void setFitnessValue(double value){
+        this.fitnessValue = value;
     }
 
     public Vector3 getPosition() {

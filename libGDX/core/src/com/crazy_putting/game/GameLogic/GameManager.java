@@ -182,7 +182,7 @@ public class GameManager {
         // later on it should be if speed of the ball is zero (ball is not moving, then input data)
         if(_mode == 1) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.T) && !_ball.isMoving()){
-                BotTest botTest= new BotTest(CourseManager.getCourseList(),5);
+                BotTest botTest = new BotTest(CourseManager.getCourseList(),5);
                 botTest.runTest();
                 botTest.printResults();
             }
