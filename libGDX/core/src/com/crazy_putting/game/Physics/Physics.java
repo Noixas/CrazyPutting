@@ -34,7 +34,7 @@ public abstract class Physics {
         obj.setPosition(CourseManager.getStartPosition());
         obj.fix(true);
 
-        Gdx.app.log("Message","Ball collided");
+       // Gdx.app.log("Message","Ball collided");
     }
 
     public boolean collided(PhysicsGameObject obj ){

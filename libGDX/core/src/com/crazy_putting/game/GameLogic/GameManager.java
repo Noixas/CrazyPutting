@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Bot.Bot;
+import com.crazy_putting.game.Bot.GeneticAlgorithm;
 import com.crazy_putting.game.Components.Graphics2DComponent;
 import com.crazy_putting.game.Components.Graphics3DComponent;
 import com.crazy_putting.game.GameObjects.Ball;
@@ -183,6 +184,12 @@ public class GameManager {
 
         }
             if(_mode == 1) {
+                if (Gdx.input.isKeyJustPressed(Input.Keys.G) && !_ball.isMoving()){
+
+                    GeneticAlgorithm GA = new GeneticAlgorithm(_hole,CourseManager.getActiveCourse());
+                    //_ball = GA.getTheBestBall();
+                }
+
             if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !_ball.isMoving()) {
               CourseManager.reWriteCourse();//TODO: CHECK WHY THIS IS HERE
               Gdx.input.getTextInput(input, "Input data", "", "Input speed and direction separated with space");

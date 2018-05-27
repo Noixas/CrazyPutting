@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.GameObjects.Hole;
-import com.crazy_putting.game.Physics.UpdatedPhysics;
+import com.crazy_putting.game.Physics.Physics;
 import com.sun.javafx.geom.transform.GeneralTransform3D;
 import com.sun.org.apache.xpath.internal.SourceTree;
 
@@ -29,7 +29,7 @@ public class BotTest {
         for(int i=0;i<testCourses.size();i++){
             CourseManager.setActiveCourseWithIndex(i);
             Gdx.app.log("Next test course",testCourses.get(i).toString());
-            UpdatedPhysics.updateCoefficients();
+            Physics.physics.updateCoefficients();
             hole = new Hole((int) testCourses.get(i).getGoalRadius());
             hole.setPosition(testCourses.get(i).getGoalPosition());
             for(int j = 0;j<testsPerCourse;j++){

@@ -23,6 +23,7 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
     public Ball(){
         previousPosition = new Vector3();
         velocity = new Velocity();
+        velocityGA = new Velocity();
         _isFixed=true;
     }
     public Ball(String filename){
