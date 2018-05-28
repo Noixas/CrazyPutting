@@ -11,10 +11,6 @@ import com.crazy_putting.game.Others.Velocity;
 
 public class Verlet extends Physics{
 
-    protected Vector3 curObjectPosition;
-    protected Velocity curObjectVelocity;
-    protected Vector3 objectAcceleration;
-
     public Verlet(){
         Physics.physics = this;
     }

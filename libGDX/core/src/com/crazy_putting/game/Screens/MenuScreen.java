@@ -130,6 +130,13 @@ public class MenuScreen implements Screen {
             }
         });
 
+        ButtonGroup buttonGroup = new ButtonGroup(button2D, button3D, button3DSpline);
+//next set the max and min amount to be checked
+        buttonGroup.setMaxCheckCount(1);
+        buttonGroup.setMinCheckCount(1);
+        buttonGroup.setChecked("3D");
+
+
         buttonPhysicsV = new TextButton("Verlet", skin,"toggle");
         buttonPhysicsV.addListener(new ClickListener(){
             @Override
@@ -162,11 +169,12 @@ public class MenuScreen implements Screen {
             }
         });
 
-        ButtonGroup buttonGroup = new ButtonGroup(button2D, button3D, button3DSpline);
+        ButtonGroup buttonGroupPhysics = new ButtonGroup(buttonPhysicsE, buttonPhysicsV, buttonPhysicsM, buttonPhysicsRK);
 //next set the max and min amount to be checked
-        buttonGroup.setMaxCheckCount(1);
-        buttonGroup.setMinCheckCount(1);
-        buttonGroup.setChecked("3D");
+        buttonGroupPhysics.setMaxCheckCount(1);
+        buttonGroupPhysics.setMinCheckCount(1);
+        buttonGroupPhysics.setChecked("RK4");
+
 
         Table tableDimensions = new Table();
         tableDimensions.setWidth(stage.getWidth());
@@ -176,6 +184,7 @@ public class MenuScreen implements Screen {
         tableDimensions.add(button3D).size(100, 50);
         tableDimensions.add(button2D).size(100, 50);
         tableDimensions.add(button3DSpline).size(100, 50);
+
 
         Table tablePhysics = new Table();
         tablePhysics.setWidth(stage.getWidth());

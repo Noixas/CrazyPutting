@@ -10,9 +10,6 @@ import com.crazy_putting.game.Others.Velocity;
 
 public class RK4 extends Physics{
 
-    protected Vector3 curObjectPosition;
-    protected Velocity curObjectVelocity;
-    protected Vector3 objectAcceleration;
     private State state = new State();
 
     public RK4(){

@@ -1,11 +1,8 @@
 
 package com.crazy_putting.game.Physics;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.GameLogic.CourseManager;
-import com.crazy_putting.game.GameLogic.GraphicsManager;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.PhysicsGameObject;
 import com.crazy_putting.game.Others.Velocity;
@@ -14,9 +11,6 @@ import java.util.ArrayList;
 
 public class Midpoint extends Physics{
 
-    protected Vector3 curObjectPosition;
-    protected Velocity curObjectVelocity;
-    protected Vector3 objectAcceleration;
     private State state = new State();
 
 
