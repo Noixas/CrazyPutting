@@ -18,7 +18,7 @@ public abstract class Physics {
     protected static float mu;
     protected ArrayList<PhysicsGameObject> movingObjects = new ArrayList<PhysicsGameObject>();
 
-    public static Physics physics;
+    public static Physics physics=new RK4();
 
     /*
     Updating physics
