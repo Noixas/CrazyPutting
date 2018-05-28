@@ -12,7 +12,7 @@ public class RK4 extends Physics{
 
     protected Vector3 curObjectPosition;
     protected Velocity curObjectVelocity;
-    protected Vector2 objectAcceleration;
+    protected Vector3 objectAcceleration;
     private State state = new State();
 
     public RK4(){
@@ -37,12 +37,6 @@ public class RK4 extends Physics{
         updateObject(ball,dt);
     }
 
-    @Override
-    //TODO acceleration of the object
-    public boolean calculateAcceleration(PhysicsGameObject obj) {
-        return false;
-    }
-
     public void updateObject(PhysicsGameObject obj, double dt){
         // System.out.println("here");
         if(obj.isFixed()) return;
@@ -59,7 +53,7 @@ public class RK4 extends Physics{
 
         state.update(obj);
         curObjectVelocity = obj.getVelocity();
-        objectAcceleration = acceleration(state);
+        calculateAcceleration(obj);
 
         updateComponents(obj,curObjectPosition,curObjectVelocity,objectAcceleration,dt);
 
@@ -68,7 +62,7 @@ public class RK4 extends Physics{
         objectAcceleration=null;
     }
 
-    public void updateComponents(PhysicsGameObject obj, Vector3 position, Velocity velocity, Vector2 acceleration,double dt){
+    public void updateComponents(PhysicsGameObject obj, Vector3 position, Velocity velocity, Vector3 acceleration, double dt){
 
         integral(obj, dt);
 
@@ -102,6 +96,7 @@ public class RK4 extends Physics{
 
         obj.setPositionX(x);
         obj.setPositionY(y);
+        obj.updateHeight();
         obj.setVelocityComponents(Vx,Vy);
     }
 
@@ -114,7 +109,7 @@ public class RK4 extends Physics{
 
         float dx = s_new.getVx();
         float dy = s_new.getVy();
-        Vector2 a = acceleration(s_new); // t+dt
+        Vector3 a = acceleration(s_new); // t+dt
         float dvx = a.x;
         float dvy = a.y;
 
@@ -127,32 +122,48 @@ public class RK4 extends Physics{
     Acceleration a = F/m = G + H
      */
 
-    public Vector2 acceleration(State s){
-        Vector2 gravity = gravityForce(s);
-        Vector2 friction = frictionForce(s);
-        return new Vector2(friction.x + gravity.x,friction.y + gravity.y);
+    @Override
+    public boolean calculateAcceleration(PhysicsGameObject obj) {
+        Vector3 gravity = gravityForce(state);
+        double grav = Math.sqrt(Math.pow(gravity.x,2)+ Math.pow(gravity.y,2));
+
+        Vector3 friction = frictionForce(state);
+        double fric = Math.sqrt(Math.pow(friction.x,2)+ Math.pow(friction.y,2));
+
+        objectAcceleration = new Vector3(friction.x + gravity.x,friction.y + gravity.y,0);
+
+        if(!obj.isMoving() && fric>grav){
+            return false;
+        }
+        return true;
+    }
+
+    public Vector3 acceleration(State s){
+        Vector3 gravity = gravityForce(s);
+        Vector3 friction = frictionForce(s);
+        return new Vector3(friction.x + gravity.x,friction.y + gravity.y,0);
     }
 
     /*
     Calculate H
      */
 
-    public Vector2 frictionForce(State s){
+    public Vector3 frictionForce(State s){
         float numeratorX = (-mu * g * s.getVx());
         float numeratorY = (-mu * g * s.getVy());
 
         float lengthOfVelocityVector = (float) (Math.pow(s.getVx(), 2) + Math.pow(s.getVy(), 2));
         float denominator = (float) Math.sqrt(lengthOfVelocityVector);
 
-        return new Vector2(numeratorX/denominator,numeratorY/denominator);
+        return new Vector3(numeratorX/denominator,numeratorY/denominator,0);
     }
 
     /*
     Calculate G
      */
 
-    public Vector2 gravityForce(State s){
-        Vector2 partials = partialDerivatives(s);
+    public Vector3 gravityForce(State s){
+        Vector3 partials = partialDerivatives(s);
         float gx = -partials.x * g ;
         float gy = -partials.y * g ;
 
@@ -167,7 +178,7 @@ public class RK4 extends Physics{
     Partial Derivatives
      */
 
-    public Vector2 partialDerivatives(State s){
+    public Vector3 partialDerivatives(State s){
         float x1 =  s.getX() + EPSILON;
         float x2 =  x1 - 2 * EPSILON;
         float yCur = s.getY();
@@ -180,7 +191,7 @@ public class RK4 extends Physics{
 
         float partialY = ((CourseManager.calculateHeight(x1, yCur) - CourseManager.calculateHeight(x1, y2)) / 2 * EPSILON);
 
-        return new Vector2(partialX,partialY);
+        return new Vector3(partialX,partialY,0);
 
     }
 }

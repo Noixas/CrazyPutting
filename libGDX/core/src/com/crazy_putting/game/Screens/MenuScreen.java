@@ -19,10 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.crazy_putting.game.Physics.Midpoint;
-import com.crazy_putting.game.Physics.Physics;
-import com.crazy_putting.game.Physics.RK4;
-import com.crazy_putting.game.Physics.Verlet;
+import com.crazy_putting.game.Physics.*;
 
 public class MenuScreen implements Screen {
 
@@ -48,6 +45,7 @@ public class MenuScreen implements Screen {
     private TextButton buttonPhysicsV;
     private TextButton buttonPhysicsM;
     private TextButton buttonPhysicsRK;
+    private TextButton buttonPhysicsE;
 
     private TextButton button2D;
     private TextButton button3D;
@@ -156,6 +154,14 @@ public class MenuScreen implements Screen {
             }
         });
 
+        buttonPhysicsE = new TextButton("Euler", skin,"toggle");
+        buttonPhysicsE.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                new Euler();
+            }
+        });
+
         ButtonGroup buttonGroup = new ButtonGroup(button2D, button3D, button3DSpline);
 //next set the max and min amount to be checked
         buttonGroup.setMaxCheckCount(1);
@@ -176,6 +182,7 @@ public class MenuScreen implements Screen {
         //  tableDimensions.align(Align.center|Align.top);
         tablePhysics.setPosition(400, Gdx.graphics.getHeight()-200);
         tablePhysics.row();
+        tablePhysics.add(buttonPhysicsE).size(100, 50);
         tablePhysics.add(buttonPhysicsV).size(100, 50);
         tablePhysics.add(buttonPhysicsM).size(100, 50);
         tablePhysics.add(buttonPhysicsRK).size(100, 50);
