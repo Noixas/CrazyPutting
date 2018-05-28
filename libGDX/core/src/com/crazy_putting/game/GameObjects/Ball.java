@@ -5,20 +5,25 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Others.Velocity;
 
-public class Ball extends PhysicsGameObject {
+public class Ball extends PhysicsGameObject implements Comparable<Ball> {
 
     private final float MASS = (float) 0.04593;
 
     private Vector3 previousPosition;
     //private Vector3 position;
     private Velocity velocity;
+    private Velocity velocityGA;
     private Texture texture;
     private boolean _isMoving = false;
     private boolean _isFixed;
 
+    private int fitnessValue;
+
+
     public Ball(){
         previousPosition = new Vector3();
         velocity = new Velocity();
+        velocityGA = new Velocity();
         _isFixed=true;
     }
     public Ball(String filename){
@@ -26,6 +31,7 @@ public class Ball extends PhysicsGameObject {
        // position = new Vector3();
         previousPosition = new Vector3();
         velocity = new Velocity();
+        velocityGA = new Velocity();
         _isFixed=true;
         //setVelocity(.1f,90);
     }
@@ -33,6 +39,23 @@ public class Ball extends PhysicsGameObject {
 //    public Vector3 getPosition() {
 //        return position;
 //    }
+    public int getFitnessValue(){
+        return this.fitnessValue;
+    }
+
+    public void setFitnessValue(int value){
+        this.fitnessValue = value;
+    }
+
+    public Velocity getVelocityGA(){
+        return velocityGA;
+    }
+
+    public void setVelocityGA(float speed, float angle){
+        velocityGA.setAngle(angle);
+        velocityGA.setSpeed(speed);
+    }
+
     public Vector3 getPreviousPosition(){
         return previousPosition;
     }
@@ -154,5 +177,10 @@ public class Ball extends PhysicsGameObject {
         newBall._isFixed = _isFixed;
         return newBall;
 
+    }
+
+    @Override
+    public int compareTo(Ball o) {
+        return this.fitnessValue - o.getFitnessValue();
     }
 }

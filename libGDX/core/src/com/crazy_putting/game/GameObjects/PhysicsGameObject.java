@@ -21,5 +21,6 @@ public abstract class PhysicsGameObject extends GameObject {
     public abstract void fix(boolean tf);
     public abstract boolean isSlow();
     public abstract void setVelocityComponents(float newSpeedX, float newSpeedY);
+    public abstract boolean isMoving();
 
 }

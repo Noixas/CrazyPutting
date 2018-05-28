@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Bot.Bot;
+import com.crazy_putting.game.Bot.GeneticAlgorithm;
 import com.crazy_putting.game.Components.Graphics2DComponent;
 import com.crazy_putting.game.Components.Graphics3DComponent;
 import com.crazy_putting.game.GameObjects.Ball;
@@ -13,9 +14,7 @@ import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.Others.InputData;
 import com.crazy_putting.game.Others.Velocity;
 import com.crazy_putting.game.Parser.ReadAndAnalyse;
-import com.crazy_putting.game.Physics.UpdatedPhysics;
-import com.crazy_putting.game.Physics.UpdatedPhysics3;
-import com.crazy_putting.game.Physics.UpdatedPhysics4;
+import com.crazy_putting.game.Physics.Physics;
 import com.crazy_putting.game.Screens.GolfGame;
 import com.crazy_putting.game.Screens.MenuScreen;
 
@@ -40,11 +39,11 @@ public class GameManager {
             if (_mode == 2)
                 ReadAndAnalyse.calculate("myFile.txt");
             _ball = new Ball("golfBall.png");
-            UpdatedPhysics3.addMovableObject(_ball);
+            Physics.physics.addMovableObject(_ball);
             _game = pGame;
             _hole = new Hole((int) CourseManager.getActiveCourse().getGoalRadius());
             _turns = 0;
-            UpdatedPhysics3.updateCoefficients();
+            Physics.physics.updateCoefficients();
             System.out.println("Is that radius? " + (int) CourseManager.getActiveCourse().getGoalRadius());
             _ball.addGraphicComponent(new Graphics2DComponent(_ball.getTexture()));
             _hole.addGraphicComponent(new Graphics2DComponent(
@@ -65,8 +64,8 @@ public class GameManager {
             _game = pGame;
             _hole = new Hole((int) CourseManager.getActiveCourse().getGoalRadius());
             _turns = 0;
-            UpdatedPhysics3.addMovableObject(_ball);
-            UpdatedPhysics3.updateCoefficients();
+            Physics.physics.addMovableObject(_ball);
+            Physics.physics.updateCoefficients();
             System.out.println("Is that radius? " + (int) CourseManager.getActiveCourse().getGoalRadius());
             _ball.addGraphicComponent(new Graphics3DComponent(1));
             _hole.addGraphicComponent(new Graphics3DComponent(0));
@@ -109,7 +108,7 @@ public class GameManager {
     {
        handleInput(_game.input);
         _ball.update(pDelta);
-        UpdatedPhysics3.update(pDelta);
+        Physics.physics.update(pDelta);
         if(printMessage){
             UpdateGameLogic(pDelta);
         }
@@ -185,6 +184,12 @@ public class GameManager {
 
         }
             if(_mode == 1) {
+                if (Gdx.input.isKeyJustPressed(Input.Keys.G) && !_ball.isMoving()){
+
+                    GeneticAlgorithm GA = new GeneticAlgorithm(_hole,CourseManager.getActiveCourse());
+                    //_ball = GA.getTheBestBall();
+                }
+
             if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !_ball.isMoving()) {
               CourseManager.reWriteCourse();//TODO: CHECK WHY THIS IS HERE
               Gdx.input.getTextInput(input, "Input data", "", "Input speed and direction separated with space");

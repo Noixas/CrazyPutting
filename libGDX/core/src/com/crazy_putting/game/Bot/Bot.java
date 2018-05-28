@@ -3,12 +3,17 @@ package com.crazy_putting.game.Bot;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.Vector3;
+import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameLogic.GameManager;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.Others.Velocity;
-import com.crazy_putting.game.Physics.UpdatedPhysics;
+import com.crazy_putting.game.Physics.Physics;
+
+import javax.swing.text.Position;
+import java.util.ArrayList;
+import java.util.List;
 
 /* TODO
     -save a heightmap as a texture/image file after computing it to reuse next time you choose this course and add to
@@ -29,11 +34,12 @@ public class Bot {
     private State currentState;
     private State previousState;
     private Velocity previousVelocity;
+    private ArrayList<Node> path;
 
 
     public Bot(Ball ball, Hole hole, Course course){
         this.ball = ball.clone();
-        UpdatedPhysics.addMovableObject(this.ball);
+        Physics.physics.addMovableObject(this.ball);
         this.initialX = ball.getPosition().x;
         this.initialY = ball.getPosition().y;
         this.hole = hole;
@@ -45,6 +51,12 @@ public class Bot {
         this.lineGoal = lineGoal(lineStartGoal);
         Gdx.app.log("Log",lineGoal.getA()+" "+lineGoal.getB());
 
+        Map<Node> myMap = new Map<Node>(1000, 1000, new ExampleFactory());
+        path = (ArrayList<Node>) myMap.findPath((int)CourseManager.getStartPosition().x, (int)CourseManager.getStartPosition().y, (int)CourseManager.getGoalStartPosition().x, (int)CourseManager.getGoalStartPosition().y);
+
+        for (int i = 0; i < path.size(); i++) {
+            System.out.print("(" + path.get(i).getxPosition() + ", " + path.get(i).getyPosition() + ") -> ");
+        }
     }
 
     /**
@@ -96,19 +108,21 @@ public class Bot {
     }
 
     public float computeInitialAngle(){
-        double dist = euclideanDistance(ball.getPosition(),course.getGoalPosition());
-        float initialAngle = (float) Math.toDegrees(Math.acos(Math.abs(ball.getPosition().x-course.getGoalPosition().x)/dist));
+        Node node = path.get(4);
+        Vector3 nodePosition = new Vector3(node.getxPosition(),node.getyPosition(),0);
+        double dist = euclideanDistance(ball.getPosition(),nodePosition);
+        float initialAngle = (float) Math.toDegrees(Math.acos(Math.abs(ball.getPosition().x-nodePosition.x)/dist));
         float angle=0;
-        if(ball.getPosition().x<course.getGoalPosition().x&&ball.getPosition().y<course.getGoalPosition().y){
+        if(ball.getPosition().x<nodePosition.x&&ball.getPosition().y<nodePosition.y){
             angle = initialAngle;
         }
-        else if(ball.getPosition().x>course.getGoalPosition().x&&ball.getPosition().y<course.getGoalPosition().y){
+        else if(ball.getPosition().x>nodePosition.x&&ball.getPosition().y<nodePosition.y){
             angle = 180-initialAngle;
         }
-        else if(ball.getPosition().x>course.getGoalPosition().x&&ball.getPosition().y>course.getGoalPosition().y){
+        else if(ball.getPosition().x>nodePosition.x&&ball.getPosition().y>nodePosition.y){
             angle = 180+initialAngle;
         }
-        else if(ball.getPosition().x<course.getGoalPosition().x&&ball.getPosition().y>course.getGoalPosition().y){
+        else if(ball.getPosition().x<nodePosition.x&&ball.getPosition().y>nodePosition.y){
             angle = 360-initialAngle;
         }
         return angle;
@@ -169,6 +183,14 @@ public class Bot {
                     previousVelocity = new Velocity(oldSpeed,oldAngle);
                     Gdx.app.log("Left or right",String.valueOf(leftRight()==currentState)+" "+leftRight().toString()+" "+currentState.toString());
                 }
+                else if(currentState==State.COLLIDED){
+                    if(leftRightPath()==State.LEFT_PATH){
+                        angle -= angleRate*angle;
+                    }
+                    else{
+                        angle += angleRate*angle;
+                    }
+                }
                 else if(ballPassedByHole()||ballRolledThroughTheHole){
                     speed -= speed*speedRate;
                     if(ballRolledThroughTheHole){
@@ -223,7 +245,7 @@ public class Bot {
             firstIteration = false;
             ball.fix(false);
             ball.update(Gdx.graphics.getDeltaTime());
-            UpdatedPhysics.update(Gdx.graphics.getDeltaTime());
+            Physics.physics.update(Gdx.graphics.getDeltaTime());
             //&&euclideanDistance(ball.getPosition(),hole.getPosition())>hole.getRadius()
             if(ballPassedByHole()){
                 Gdx.app.log("Log","Ball reached goal line");
@@ -249,6 +271,9 @@ public class Bot {
             if(!ball.isMoving(speedTolerance)&&!ballPassedByHole()&&!ballRolledThroughTheHole){
                 Gdx.app.log("Log","Ball stopped moving");
                 currentState = State.STOPPED;
+            }
+            if(Physics.physics.collided(ball)){
+                currentState = State.COLLIDED;
             }
         }
         if(newClosestDistToHole<closestDistToHole){
@@ -319,6 +344,50 @@ public class Bot {
             }
             else{
                 return State.RIGHT;
+            }
+        }
+    }
+
+    public Node equivalentNodeX(Vector3 position, ArrayList<Node> path){
+        Node node = new Node(0,0);
+        for(int i=0;i<path.size();i++){
+            if(path.get(i).getxPosition()==position.x){
+                node = path.get(i);
+            }
+        }
+        return node;
+    }
+    
+
+    public State ballPathPosition(){
+//        assert(lineGoal.intersects(ball.getPosition()));
+        if(ball.getPosition().y>equivalentNodeX(ball.getPosition(), path).getyPosition()){
+            return State.ABOVE_PATH;
+        }
+        else{
+            return State.BELOW_PATH;
+        }
+    }
+
+    /**
+     * Checks if the ball is on the left or right side of the start-goal line
+     */
+    public State leftRightPath(){
+//        Gdx.app.log("Above or below",ballPosition().toString());
+        if(initialX<equivalentNodeX(ball.getPosition(), path).getxPosition()){
+            if(ballPathPosition()==State.ABOVE_PATH){
+                return State.LEFT_PATH;
+            }
+            else{
+                return State.RIGHT_PATH;
+            }
+        }
+        else{
+            if(ballPosition()==State.BELOW_PATH){
+                return State.LEFT_PATH;
+            }
+            else{
+                return State.RIGHT_PATH;
             }
         }
     }
