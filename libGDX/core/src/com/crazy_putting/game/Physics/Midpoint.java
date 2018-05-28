@@ -67,24 +67,6 @@ public class Midpoint extends Physics{
         objectAcceleration=null;
     }
 
-    @Override
-    public boolean calculateAcceleration(PhysicsGameObject obj) {
-        Vector3 gravity = gravityForce(state);
-        double grav = Math.sqrt(Math.pow(gravity.x,2)+ Math.pow(gravity.y,2));
-
-        Vector3 friction = frictionForce(state);
-        double fric = Math.sqrt(Math.pow(friction.x,2)+ Math.pow(friction.y,2));
-
-        objectAcceleration = new Vector3(friction.x + gravity.x,friction.y + gravity.y,0);
-
-        if(!obj.isMoving() && fric>grav){
-            return false;
-        }
-        return true;
-    }
-
-
-
     public void updateComponents(PhysicsGameObject obj, Vector3 position, Velocity velocity, Vector3 acceleration,double dt){
         integral(obj, dt);
 
@@ -139,6 +121,22 @@ public class Midpoint extends Physics{
     /*
     Acceleration a = F/m = G + H
      */
+
+    @Override
+    public boolean calculateAcceleration(PhysicsGameObject obj) {
+        Vector3 gravity = gravityForce(state);
+        double grav = Math.sqrt(Math.pow(gravity.x,2)+ Math.pow(gravity.y,2));
+
+        Vector3 friction = frictionForce(state);
+        double fric = Math.sqrt(Math.pow(friction.x,2)+ Math.pow(friction.y,2));
+
+        objectAcceleration = new Vector3(friction.x + gravity.x,friction.y + gravity.y,0);
+
+        if(!obj.isMoving() && fric>grav){
+            return false;
+        }
+        return true;
+    }
 
     public Vector3 acceleration(State s){
         Vector3 gravity = gravityForce(s);
