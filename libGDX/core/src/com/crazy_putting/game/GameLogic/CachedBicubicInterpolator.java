@@ -7,6 +7,8 @@ public class CachedBicubicInterpolator
     private double a20, a21, a22, a23;
     private double a30, a31, a32, a33;
 
+    private double minX;
+    private double maxX;
     public void updateCoefficients (double[][] p) {
         a00 = p[1][1];
         a01 = -.5*p[1][0] + .5*p[1][2];
@@ -26,6 +28,7 @@ public class CachedBicubicInterpolator
         a33 = .25*p[0][0] - .75*p[0][1] + .75*p[0][2] - .25*p[0][3] - .75*p[1][0] + 2.25*p[1][1] - 2.25*p[1][2] + .75*p[1][3] + .75*p[2][0] - 2.25*p[2][1] + 2.25*p[2][2] - .75*p[2][3] - .25*p[3][0] + .75*p[3][1] - .75*p[3][2] + .25*p[3][3];
     }
 
+
     public static double getValue (double[] p, double x) {
         return p[1] + 0.5 * x*(p[2] - p[0] + x*(2.0*p[0] - 5.0*p[1] + 4.0*p[2] - p[3] + x*(3.0*(p[1] - p[2]) + p[3] - p[0])));
     }
@@ -41,16 +44,32 @@ public class CachedBicubicInterpolator
                 (a20 + a21 * y + a22 * y2 + a23 * y3) * x2 +
                 (a30 + a31 * y + a32 * y2 + a33 * y3) * x3);
     }
+//    public float getValueSlow (double[][] p, double x, double y) {
+//       // y +=.5f;
+//        arr[0] = getValue(p[0], x);
+//        arr[1] = getValue(p[1], x);
+//        arr[2] = getValue(p[2], x);
+//        arr[3] = getValue(p[3], x);
+//       //    System.out.println(y+"Y");
+//        return (float)arr[3];
+//      //  x +=.5f;
+//        //return (float)getValue(arr, y);
+//    }
     public float getValueSlow (double[][] p, double x, double y) {
-        y +=.5f;
-        arr[0] = getValue(p[0], y);
-        arr[1] = getValue(p[1], y);
-        arr[2] = getValue(p[2], y);
-        arr[3] = getValue(p[3], y);
-       //    System.out.println(y+"Y");
-       // return (float)arr[3];
-        x +=.5f;
-        return (float)getValue(arr, x);
+        y += .5f;
+        x += .5f;
+        if(minX > y) minX = y;
+        if(maxX < y) maxX = y;
+
+        System.out.println("MIN X "+minX+ "Max X "+ maxX);
+
+        arr[0] = getValue(p[0], x);
+        arr[1] = getValue(p[1], x);
+        arr[2] = getValue(p[2], x);
+        arr[3] = getValue(p[3], x);
+        System.out.println(x+"Y");
+        return (float) arr[3];
+       // return (float)getValue(arr, y);
     }
 
 }

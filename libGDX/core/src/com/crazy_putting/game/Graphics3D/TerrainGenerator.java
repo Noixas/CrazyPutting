@@ -12,6 +12,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.GameLogic.CachedBicubicInterpolator;
 import com.crazy_putting.game.GameLogic.CourseManager;
+import com.crazy_putting.game.GameLogic.Splines.BiCubicSpline;
+import com.crazy_putting.game.GameLogic.Splines.SplineInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,14 +35,12 @@ public class TerrainGenerator {
     public static Vector3[] triangles = new Vector3[19200];
     private static double[][] points = new double[4][4];
     private static  CachedBicubicInterpolator spline;
+    private static BiCubicSpline newSpline;
 //    static double[][] p= {{-10,90,90,0},
 //                          {0,20,70,70},
 //                          {0,60,30,0},
 //                          {-10,-57,70,0}};
-        static double[][] p= {{-10,90,90,0},
-        {0,20,70,70},
-        {0,60,30,0},
-        {-10,-57,70,0}};
+static double[][] p ;
         public static Model generateModelTerrain(){
 
             return  innerGenerateModelTerrain(false, null);
@@ -78,9 +78,10 @@ public class TerrainGenerator {
 //        //points = p;
 
         spline = new CachedBicubicInterpolator();
+        newSpline = new BiCubicSpline();
         if(p != null) {
-            spline.updateCoefficients(p);
-            float test = spline.getValuefast(.35f, .7f);
+          //  spline.updateCoefficients(p);
+          //  float test = spline.getValuefast(.35f, .7f);
         }
      //   for(int i = 0; i<100; i++)
           //  System.out.println(test+"MATLAB");
@@ -96,6 +97,8 @@ public class TerrainGenerator {
             {
                 Node node = modelBuilder.node();
                 String code ="i "+i+" j "+j;
+                Vector2 start = new Vector2( scaleVertex*(startPosX+verticesPerSide*i),scaleVertex*(startPosY+verticesPerSide*j));
+                SplineInfo splineNode = newSpline.createSplineBlock(p,start, new Vector2(verticesPerSide*scaleVertex,verticesPerSide*scaleVertex), scaleVertex);
                 node.id = "n "+nodeAmount;//+" "+code;
                 if(testSet == false) {
                     testMeshCode = "n " + nodeAmount + " " + code;
@@ -104,7 +107,7 @@ public class TerrainGenerator {
                 }
                 nodeAmount++;
                 MeshPartBuilder meshBuilder = modelBuilder.part("part "+code , GL20.GL_TRIANGLES, VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal  | VertexAttributes.Usage.ColorPacked,m);
-                createMesh(meshBuilder, startPosX+verticesPerSide*i,startPosY+verticesPerSide*j, verticesPerSide, scaleVertex, pSplines);
+                createMesh(meshBuilder, startPosX+verticesPerSide*i,startPosY+verticesPerSide*j, verticesPerSide, scaleVertex, pSplines,splineNode);
             }
 
 
@@ -141,7 +144,7 @@ public class TerrainGenerator {
        return surfaceNormal;
 
    }
-   private static void createMesh(MeshPartBuilder pBuilder, int startX, int startY, int length, float scaleVertexSize, boolean pSplines)
+   private static void createMesh(MeshPartBuilder pBuilder, int startX, int startY, int length, float scaleVertexSize, boolean pSplines, SplineInfo spline)
    {
        float perc = 1.0f*0.0005f;
        float scaleAmount = scaleVertexSize;
@@ -157,26 +160,29 @@ public class TerrainGenerator {
                 h2 = CourseManager.calculateHeight(j * (scaleAmount), scaleAmount + scaleAmount * i);
                 h3 = CourseManager.calculateHeight(scaleAmount + j * scaleAmount, scaleAmount * i);
                 h4 = CourseManager.calculateHeight(scaleAmount + j * scaleAmount, scaleAmount + scaleAmount * i);
-            }else if(true)
-            {
-                h1 = spline.getValuefast(perc*j*(scaleAmount),perc*scaleAmount*i);
-                h2 = spline.getValuefast(perc*j*(scaleAmount),perc*(scaleAmount + scaleAmount*i));
-                h3 = spline.getValuefast(perc*(scaleAmount + j *scaleAmount),perc*scaleAmount*i);
-                h4 = spline.getValuefast(perc*(scaleAmount + j * scaleAmount),perc*(scaleAmount + scaleAmount*i));
-
             }
-               if(false)
-               {
-                   h1 = 0;
-                   h2 = 0;
-                   h3 = 0;
-                   h4 = 0;
-                    h1 = spline.getValueSlow(p,perc*j*(scaleAmount),perc*scaleAmount*i);
-                    h2 = spline.getValueSlow(p,perc*j*(scaleAmount),perc*(scaleAmount + scaleAmount*i));
-                    h3 = spline.getValueSlow(p,perc*(scaleAmount + j *scaleAmount),perc*scaleAmount*i);
-                    h4 = spline.getValueSlow(p,perc*(scaleAmount + j * scaleAmount),perc*(scaleAmount + scaleAmount*i));
-                   System.out.println(h1);
-               }
+//              else if(false)
+//            {
+//                h1 = spline.getValuefast(perc*j*(scaleAmount),perc*scaleAmount*i);
+//                h2 = spline.getValuefast(perc*j*(scaleAmount),perc*(scaleAmount + scaleAmount*i));
+//                h3 = spline.getValuefast(perc*(scaleAmount + j *scaleAmount),perc*scaleAmount*i);
+//                h4 = spline.getValuefast(perc*(scaleAmount + j * scaleAmount),perc*(scaleAmount + scaleAmount*i));
+//
+//            }
+//             else  if(true)
+//               {
+//                    h1 = spline.getValueSlow(p,perc*j*(scaleAmount),perc*scaleAmount*i);
+//                    h2 = spline.getValueSlow(p,perc*j*(scaleAmount),perc*(scaleAmount + scaleAmount*i));
+//                    h3 = spline.getValueSlow(p,perc*(scaleAmount + j *scaleAmount),perc*scaleAmount*i);
+//                    h4 = spline.getValueSlow(p,perc*(scaleAmount + j * scaleAmount),perc*(scaleAmount + scaleAmount*i));
+//                   System.out.println(h1);
+//               }
+               else{
+                    h1 = newSpline.getHeightAt(new Vector2(j*(scaleAmount),scaleAmount*i), spline);
+                    h2 = newSpline.getHeightAt(new Vector2(j*(scaleAmount),(scaleAmount + scaleAmount*i)),spline);
+                    h3 = newSpline.getHeightAt(new Vector2((scaleAmount + j *scaleAmount),scaleAmount*i),spline);
+                    h4 = newSpline.getHeightAt(new Vector2((scaleAmount + j * scaleAmount),(scaleAmount + scaleAmount*i)),spline);
+            }
                if(false){
                    h1 = -51;
                    h2 = -52;
@@ -192,7 +198,7 @@ public class TerrainGenerator {
               //     v1 = zeroPos;
               // }
               // else
-               float hScale = 10;
+               float hScale = 1;
                if(pSplines == false)
                    hScale =1;
                Vector3 posV1 = new Vector3(j*(scaleAmount), h1*hScale, (scaleAmount) * i);
@@ -231,7 +237,7 @@ public class TerrainGenerator {
    }
    private static void checkUnderWaterVertex(com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder.VertexInfo ver)
    {
-       if(true&&ver.position.y <=0)
+       if(false&&ver.position.y <=0)
        {
            ver.position.y = 0;
            ver.setCol( Color.BLUE);

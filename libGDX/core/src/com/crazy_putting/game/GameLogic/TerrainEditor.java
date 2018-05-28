@@ -31,10 +31,22 @@ public class TerrainEditor extends InputAdapter {
     private GameObject _draggingPoint;
     private boolean _splineEnabled;
 
-    double[][] p = {{-10,90,90,0},
-            {0,20,70,0},
-            {0,60,30,0},
-            {-10,-57,70,0}};
+//    double[][] p = {{-10,90,90,0},
+//            {0,20,70,0},
+//            {0,60,30,0},
+//            {-10,-57,70,0}};
+//double[][] p = {{0,0,0,0},
+//        {90,90,0,0},
+//        {250,250,0,0},
+//        {160,160,0,0}};
+//double[][] p = {{-50,50,-50,50},
+//        {0,0,0,0},
+//        {0,0,0,0},
+//        {0,0,0,0}};
+    double[][] p = {{-50},{50},{50},{50},
+            {0},{0},{0},{0},
+            {0},{0},{0},{0},
+            {0},{0},{0},{0}};
     public TerrainEditor(Camera pCam3D, boolean pSplines) {
         _splineEnabled = pSplines;
         if(pSplines) {
@@ -56,6 +68,9 @@ public class TerrainEditor extends InputAdapter {
     }
 
     }
+    /*
+    Create spline points uniformly on the prev generated terrain
+     */
     private void createSplinePoints(Vector2 pTerrainSize, int pAmountPerSize){
         int dist2PointX = (int) pTerrainSize.x/(pAmountPerSize -1) ;
         int dist2PointY = (int) pTerrainSize.y/(pAmountPerSize -1);
@@ -67,19 +82,24 @@ public class TerrainEditor extends InputAdapter {
                 System.out.println("POINT CREATED AT: "+pos);
             }
     }
+    /*
+        Create spline points based on the given points
+    */
     private void createSplinePoints(Vector2 pTerrainSize, double[][] pHeight){
-        int dist2PointX = (int) pTerrainSize.x/(pHeight.length -1) ;
-        int dist2PointY = (int) pTerrainSize.y/(pHeight[0].length -1);
-        for(int i = 0; i < pHeight.length; i++)
-            for(int j = 0; j < pHeight.length; j++)
+        double[][] newP = {{-50,50},{-50,50}};
+        int dist2PointX = (int) pTerrainSize.x/(newP.length -1) ;
+        int dist2PointY = (int) pTerrainSize.y/(newP[0].length -1);
+        for(int i = 0; i < newP.length; i++)
+            for(int j = 0; j < newP.length; j++)
             {
                 Vector3 pos = getClosestVertex(new Vector3(dist2PointX*j - (int)(pTerrainSize.x/2), 20000,dist2PointY*i - (int)(pTerrainSize.y/2)));
-                createControlPoint(pos,new Vector2(j,i),pHeight[i][j]);
+                createControlPoint(pos,new Vector2(j,i),newP[i][j]);
                 System.out.println("POINT CREATED AT: "+pos);
             }
     }
     private void createControlPoint(Vector3 pPos,Vector2 pIndex, double pHeight){
         swapYandZ(pPos);
+        pPos.z = (float)pHeight*10.0f;
         SplinePoint point = new SplinePoint(pPos, pIndex, pHeight);
         Graphics3DComponent pointGraphics = new Graphics3DComponent(2);
         point.addGraphicComponent(pointGraphics);
@@ -114,6 +134,8 @@ public class TerrainEditor extends InputAdapter {
         if(_draggingPoint != null) {
            Graphics3DComponent gp = (Graphics3DComponent)_draggingPoint.getGraphicComponent();
            gp.setColor(3);
+           printArray(p);
+            System.out.println(_draggingPoint.getPosition());
            return true;
         }
         //_screen3D.setCamControllerEnabled(false);
@@ -168,7 +190,7 @@ public class TerrainEditor extends InputAdapter {
             changinMesh.updateVertices(0,vertices);
         }
 
-        updateControlPoints();
+        //updateControlPoints();
        // vertices[1] =(float) p[0][0];
      //   vertices[1] = vertices[1]+100;
 
@@ -183,7 +205,9 @@ public class TerrainEditor extends InputAdapter {
     //    System.out.println(vert.length);
         for(int i = 1; i < vert.length; i +=7)
         {
-            vert[i] = spline.getValuefast(perc*vert[i-1],perc*vert[i+1])*10;
+           // vert[i] = spline.getValuefast(perc*vert[i-1],perc*vert[i+1])*10;
+            vert[i] = spline.getValueSlow(p,perc*vert[i-1],perc*vert[i+1])*10;
+
             triangles.get(count + offset).y = vert[i];
             count++;
         }
@@ -238,18 +262,24 @@ public class TerrainEditor extends InputAdapter {
     }
     private void printArray(double[][] array)
     {
+        String out = "\n";
         for(int i = 0; i<array.length; i++)
         {for(int j = 0; j<array.length; j++)
         {
-            System.out.println(array[i][j]);
-        }}
+            out += array[i][j]+"  ";
+        }
+        out+="\n";
+        }
+        System.out.println(out);
     }
     @Override
     public boolean touchUp (int screenX, int screenY, int pointer, int button) {
         if(_splineEdit == false) return false;
         if(_dragging){
                 Graphics3DComponent gp = (Graphics3DComponent)_draggingPoint.getGraphicComponent();
+            System.out.println(_draggingPoint.getPosition());
                 gp.setColor(3);
+                printArray(p);
                 return true;
             }
         //    _screen3D.setCamControllerEnabled(true);
