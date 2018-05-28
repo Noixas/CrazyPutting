@@ -6,8 +6,9 @@ import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.Physics.Physics;
-import com.crazy_putting.game.Physics.Verlet;
 
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -29,6 +30,8 @@ public class GeneticAlgorithm {
     private static final int MAX_ITER = 80;
     private int  nrOfGenerationsProduced;
     private Ball bestBall;
+
+    private static DecimalFormat df2 = new DecimalFormat(".##");
     //private int countRepetitions;
     //private int previousBest;
 
@@ -88,8 +91,8 @@ public class GeneticAlgorithm {
 
     public void printBestBall(){
         System.out.println("The best ball is found");
-        System.out.println("Speed: " + bestBall.getVelocityGA().speed);
-        System.out.println("Angle: " + bestBall.getVelocityGA().angle);
+        System.out.println("Speed: " + df2.format(bestBall.getVelocityGA().speed));
+        System.out.println("Angle: " + df2.format(bestBall.getVelocityGA().angle));
     }
 
 
@@ -115,10 +118,10 @@ public class GeneticAlgorithm {
 
             int i2 = (int) (Math.random() * eliteSize);
 
-            int angle1 = (int) allBalls.get(i1).getVelocityGA().angle;
+            float angle1 = (int) allBalls.get(i1).getVelocityGA().angle;
             float speed1 = allBalls.get(i1).getVelocityGA().speed;
 
-            int angle2 = (int) allBalls.get(i2).getVelocityGA().angle;
+            float angle2 =  allBalls.get(i2).getVelocityGA().angle;
             float speed2 = allBalls.get(i2).getVelocityGA().speed;
 
             Ball iterativeBall = allBalls.get(i);
@@ -126,8 +129,8 @@ public class GeneticAlgorithm {
 
             // Whole arithmetic recombination with random u
             double u = Math.random();
-            iterativeBall.setVelocityGA((float)((((1-u)*speed1+u*speed2))/1f),(int)((float)((1-u)*angle1+u*angle2)/1));
-            iterativeBall.setVelocity((((float)((1-u)*speed1+u*speed2))/1f),(int)((float)((1-u)*angle1+u*angle2)/1));
+            iterativeBall.setVelocityGA((float)((((1-u)*speed1+u*speed2))/1f),((float)((1-u)*angle1+u*angle2)/1));
+            iterativeBall.setVelocity((((float)((1-u)*speed1+u*speed2))/1f),((float)((1-u)*angle1+u*angle2)/1));
 
 
             if(rand.nextFloat()<MUTATION_RATE){
@@ -163,7 +166,8 @@ public class GeneticAlgorithm {
         while (Physics.physics.calculateAcceleration(b) && !b.isFixed()){
             if (b.isSlow()) {
                 distance = calcToHoleDistance(b);
-                if (distance < hole.getRadius()) {
+                if (distance < hole.getRadius() ) {
+                    System.out.println("Distance: " + distance);
                     b.setFitnessValue(0);
                     return;
                 }
@@ -173,7 +177,7 @@ public class GeneticAlgorithm {
         }
 
         if (b.isFixed ()) {
-            b.setFitnessValue(distance);
+            b.setFitnessValue(distance*5);
             return;
         }
     }
@@ -181,7 +185,7 @@ public class GeneticAlgorithm {
     private int calcToHoleDistance(Ball b){
         double xDist = Math.pow(b.getPosition().x - hole.getPosition().x,2);
         double yDist = Math.pow(b.getPosition().y - hole.getPosition().y,2);
-        return (int) Math.sqrt(xDist + yDist);
+        return (int) Math.round(Math.sqrt(xDist + yDist));
     }
 
     private void randomizeBallInput(){
@@ -191,7 +195,7 @@ public class GeneticAlgorithm {
             for(Ball ball : allBalls){
                 float random = randomFloat();
                 float speed = random * course.getMaxSpeed();
-                float angle = rand.nextInt(361);
+                float angle = rand.nextFloat() * 360;
                 ball.setVelocityGA(speed, angle);
                 ball.setVelocity(speed, angle);
             }
@@ -219,7 +223,7 @@ public class GeneticAlgorithm {
 
     private float randomFloat(){
         float result = rand.nextFloat();
-        while(result < 0.005){
+        while(result*course.getMaxSpeed() < 0.51){
             result = rand.nextFloat();
         }
         return result;
