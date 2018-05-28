@@ -133,8 +133,8 @@ public class GeneticAlgorithm {
             if(rand.nextFloat()<MUTATION_RATE){
                 int newAngle = rand.nextInt(361);
                 float newSpeed = rand.nextFloat()*course.getMaxSpeed();
-                iterativeBall.setVelocityGA((rand.nextFloat()*newSpeed), newAngle);
-                iterativeBall.setVelocity((rand.nextFloat()*newSpeed), newAngle);
+                iterativeBall.setVelocityGA((newSpeed), newAngle);
+                iterativeBall.setVelocity((newSpeed), newAngle);
             }
             iterativeBall.setPosition(course.getStartBall());
 
@@ -173,7 +173,7 @@ public class GeneticAlgorithm {
         }
 
         if (b.isFixed ()) {
-            b.setFitnessValue(distance);
+            b.setFitnessValue(3000);
             return;
         }
     }
@@ -181,7 +181,8 @@ public class GeneticAlgorithm {
     private int calcToHoleDistance(Ball b){
         double xDist = Math.pow(b.getPosition().x - hole.getPosition().x,2);
         double yDist = Math.pow(b.getPosition().y - hole.getPosition().y,2);
-        return (int) Math.sqrt(xDist + yDist);
+        double zDist = Math.pow(b.getPosition().z - hole.getPosition().z,2);
+        return (int) Math.sqrt(xDist + yDist + zDist);
     }
 
     private void randomizeBallInput(){
