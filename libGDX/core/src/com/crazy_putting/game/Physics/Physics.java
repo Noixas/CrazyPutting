@@ -18,7 +18,11 @@ public abstract class Physics {
     protected static float mu;
     protected ArrayList<PhysicsGameObject> movingObjects = new ArrayList<PhysicsGameObject>();
 
-    public static Physics physics=new RK4();
+    protected Vector3 curObjectPosition;
+    protected Velocity curObjectVelocity;
+    protected Vector3 objectAcceleration;
+
+    public static Physics physics;
 
     /*
     Updating physics
@@ -63,6 +67,10 @@ public abstract class Physics {
         return false;
     }
 
+    /*
+    other
+     */
+
     public float equation2Points(float dx, float dy, float xValue, float previousX, float previousY) {
         return (dy/dx) * (xValue -  previousX) + previousY;
     }
@@ -78,6 +86,5 @@ public abstract class Physics {
     public abstract void updateBall(Ball b,float dt);
 
     public abstract boolean calculateAcceleration(PhysicsGameObject obj);
-
 
 }

@@ -10,10 +10,6 @@ import com.crazy_putting.game.Others.Velocity;
 
 public class Euler extends Physics{
 
-    protected Vector3 curObjectPosition;
-    protected Velocity curObjectVelocity;
-    protected Vector3 objectAcceleration;
-
     public Euler(){
         Physics.physics = this;
     }
