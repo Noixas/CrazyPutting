@@ -21,7 +21,7 @@ public abstract class Physics {
     protected Velocity curObjectVelocity;
     protected Vector3 objectAcceleration;
 
-    public static Physics physics;
+    public static Physics physics = new RK4();
 
     /*
     Updating physics

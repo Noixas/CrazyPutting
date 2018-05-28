@@ -1,7 +1,6 @@
 
 package com.crazy_putting.game.Physics;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameObjects.Ball;
@@ -21,7 +20,6 @@ public class RK4 extends Physics{
      */
 
     public void update(double dt){
-
         if(!movingObjects.isEmpty()){
             for(int i =0;i<movingObjects.size();i++){
                 updateObject(movingObjects.get(i),dt);

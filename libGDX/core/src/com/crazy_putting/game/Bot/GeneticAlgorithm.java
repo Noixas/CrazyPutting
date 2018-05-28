@@ -6,7 +6,6 @@ import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.Physics.Physics;
-import com.crazy_putting.game.Physics.Verlet;
 
 import java.util.ArrayList;
 import java.util.Collections;

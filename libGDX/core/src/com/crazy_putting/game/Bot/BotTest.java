@@ -1,15 +1,11 @@
 package com.crazy_putting.game.Bot;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.Physics.Physics;
-import com.sun.javafx.geom.transform.GeneralTransform3D;
-import com.sun.org.apache.xpath.internal.SourceTree;
 
-import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 import java.util.List;
 
