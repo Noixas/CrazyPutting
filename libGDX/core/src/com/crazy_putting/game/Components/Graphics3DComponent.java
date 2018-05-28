@@ -49,6 +49,8 @@ public class Graphics3DComponent extends GraphicsComponent {
                 col = Color.RED; break;
             case 3:
                 col = Color.FIREBRICK; break;
+            case 5:
+                col = Color.GREEN; break;
 
         }
     }
