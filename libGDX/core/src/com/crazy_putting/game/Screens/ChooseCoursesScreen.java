@@ -175,7 +175,8 @@ public class ChooseCoursesScreen implements Screen{
         table.add(maxVelocityValue);
         table.row();
         table.add(createCourseButton).align(Align.left);
-        if(MenuScreen.Spline3D) {
+      //  if(MenuScreen.Spline3D) {
+        if(false){
             table.row();
             table.add(splineText).align(Align.left);
             table.add(splines).align(Align.left);
