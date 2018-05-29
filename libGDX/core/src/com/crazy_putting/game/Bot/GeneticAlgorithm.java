@@ -2,11 +2,13 @@ package com.crazy_putting.game.Bot;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
+
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.Physics.Physics;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -14,6 +16,7 @@ import java.util.Random;
 public class GeneticAlgorithm {
 
     private ArrayList<Ball> allBalls;
+    private ArrayList<Ball> firstIteration;
     private ArrayList<Ball> children;
 
     private Hole hole;
@@ -23,11 +26,14 @@ public class GeneticAlgorithm {
     private Vector3 initial_Position;
 
     private final int POPULATION_SIZE = 200;
-    private final double ELITE_RATE = 0.15;
+    private final double ELITE_RATE = 0.1;
     private final double MUTATION_RATE = 0.3;
     private static final int MAX_ITER = 150;
     private int  nrOfGenerationsProduced;
     private Ball bestBall;
+
+    private static DecimalFormat df2 = new DecimalFormat(".##");
+
     //private int countRepetitions;
     //private int previousBest;
 
@@ -37,9 +43,11 @@ public class GeneticAlgorithm {
         this.course = course;
         this.rand = new Random();
         this.allBalls = new ArrayList<Ball>();
+        this.firstIteration = new ArrayList<Ball>();
         this.initial_Position = new Vector3();
         nrOfGenerationsProduced = 0;
         createBallObjects();
+
 
         run();
 
@@ -50,23 +58,28 @@ public class GeneticAlgorithm {
     //main method for the algorithm
     private void run(){
 
+        //create 5xPopulationSize list
         randomizeBallInput();
 
-       // nrOfGenerationsProduced  = MAX_ITER;
-        // implement previous best score if the score doesnt change in 15 generation reinitialize weights
+        unFixFirstBalls();
+        //simulates for bigger list all the balls
+        simulateFirstShots();
+
+        //sort them by their distance result
+        Collections.sort(firstIteration);
+
+        //take only the best ones in our original population
+        createPopulation();
 
         for(int i = 0; i < MAX_ITER;i++){
-//            if(countRepetitions>10&&allBalls.get(0).getFitnessValue()>bestFit){
-//                randomizeBallInput(course);
-//                countRepetitions = 0;
-//            }
-//            bestFit = (int)allBalls.get(0).getFitnessValue();
 
             unFixAllTheBall();
 
             simulateShots();
 
             Collections.sort(allBalls);
+
+
 
             System.out.println("Generation: " + (i+1) + " The best score is: " + allBalls.get(0).getFitnessValue());
 
@@ -86,11 +99,23 @@ public class GeneticAlgorithm {
     }
 
     public void printBestBall(){
-        System.out.println("The best ball is found");
-        System.out.println("Speed: " + bestBall.getVelocityGA().speed);
-        System.out.println("Angle: " + bestBall.getVelocityGA().angle);
+        System.out.println("The best ball that is found");
+        System.out.println("Speed: " + df2.format(bestBall.getVelocityGA().speed));
+        System.out.println("Angle: " + df2.format(bestBall.getVelocityGA().angle));
+
     }
 
+    private void createPopulation(){
+        for(int i=0; i<POPULATION_SIZE; i++){
+            allBalls.add(firstIteration.get(i));
+        }
+    }
+
+    private void simulateFirstShots(){
+        for(int i = 0; i < firstIteration.size(); i++){
+            simulateShot(firstIteration.get(i));
+        }
+    }
 
     private void simulateShots(){
 
@@ -114,10 +139,10 @@ public class GeneticAlgorithm {
 
             int i2 = (int) (Math.random() * eliteSize);
 
-            int angle1 = (int) allBalls.get(i1).getVelocityGA().angle;
+            float angle1 = allBalls.get(i1).getVelocityGA().angle;
             float speed1 = allBalls.get(i1).getVelocityGA().speed;
 
-            int angle2 = (int) allBalls.get(i2).getVelocityGA().angle;
+            float angle2 = allBalls.get(i2).getVelocityGA().angle;
             float speed2 = allBalls.get(i2).getVelocityGA().speed;
 
             Ball iterativeBall = allBalls.get(i);
@@ -125,15 +150,14 @@ public class GeneticAlgorithm {
 
             // Whole arithmetic recombination with random u
             double u = Math.random();
-            iterativeBall.setVelocityGA((float)((((1-u)*speed1+u*speed2))/1f),(int)((float)((1-u)*angle1+u*angle2)/1));
-            iterativeBall.setVelocity((((float)((1-u)*speed1+u*speed2))/1f),(int)((float)((1-u)*angle1+u*angle2)/1));
+            iterativeBall.setVelocityGA((float)((((1-u)*speed1+u*speed2))/1f),((float)((1-u)*angle1+u*angle2)/1));
+            iterativeBall.setVelocity((((float)((1-u)*speed1+u*speed2))/1f),((float)((1-u)*angle1+u*angle2)/1));
 
 
             if(rand.nextFloat()<MUTATION_RATE){
-                int newAngle = rand.nextInt(361);
                 float newSpeed = rand.nextFloat()*course.getMaxSpeed();
-                iterativeBall.setVelocityGA((newSpeed), newAngle);
-                iterativeBall.setVelocity((newSpeed), newAngle);
+                iterativeBall.setVelocityGA((newSpeed), ((float)((1-u)*angle1+u*angle2)/1));
+                iterativeBall.setVelocity((newSpeed),((float)((1-u)*angle1+u*angle2)/1));
             }
             iterativeBall.setPosition(course.getStartBall());
 
@@ -154,7 +178,7 @@ public class GeneticAlgorithm {
 
     private void simulateShot(Ball b){
 
-        int distance = calcToHoleDistance(b);
+        int distance = 3000;
 
         b.setFitnessValue(distance);
 
@@ -186,12 +210,12 @@ public class GeneticAlgorithm {
 
     private void randomizeBallInput(){
 
-        if(!this.allBalls.isEmpty()){
+        if(!firstIteration.isEmpty()){
 
-            for(Ball ball : allBalls){
+            for(Ball ball : firstIteration){
                 float random = randomFloat();
                 float speed = random * course.getMaxSpeed();
-                float angle = rand.nextInt(361);
+                float angle = rand.nextFloat()*361;
                 ball.setVelocityGA(speed, angle);
                 ball.setVelocity(speed, angle);
             }
@@ -201,13 +225,19 @@ public class GeneticAlgorithm {
 
     private void createBallObjects(){
         this.initial_Position = course.getStartBall();
-        for(int i = 0 ; i < POPULATION_SIZE; i++){
+        for(int i = 0 ; i < POPULATION_SIZE * 5; i++){
 
             Ball addBall = new Ball();
 
             addBall.setPosition(initial_Position);
             addBall.fix(false);
-            allBalls.add(addBall);
+            firstIteration.add(addBall);
+        }
+    }
+
+    private void unFixFirstBalls(){
+        for(Ball b: firstIteration){
+            b.fix(false);
         }
     }
 
