@@ -134,7 +134,7 @@ public class BiCubicSpline {
             if(spline.getRec().contains(pPos))
                 return getHeightAt(pPos,spline);
         }
-        return -1;
+        return Float.NaN;
 
     }
     public float getHeightAt(Vector2 pPos, SplineInfo spline){
