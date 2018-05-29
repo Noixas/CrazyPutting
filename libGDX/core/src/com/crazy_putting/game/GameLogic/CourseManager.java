@@ -96,6 +96,9 @@ public class CourseManager {
         pos.z = calculateHeight(pos.x, pos.y);
         return pos;
     }
+    public static void saveCourseSpline(){
+        _activeCourse.setSplinePoints(_spline.getSplinePointsHeight());
+    }
     public static int getIndexActive()
     {
         return _indexActive;

@@ -144,6 +144,16 @@ public class BiCubicSpline {
         return Float.NaN;
 
     }
+    public float[][] getSplinePointsHeight(){
+        float[][] points = new float[_splinePoints.length][_splinePoints[0].length];
+        for(int i = 0; i<_splinePoints.length; i++)
+        {for(int j = 0; j<_splinePoints[0].length; j++) {
+            points[i][j] = (float)_splinePoints[i][j].getSplineHeight();
+        }
+        }
+        return points;
+
+    }
     public float getHeightAt(Vector2 pPos, SplineInfo spline){
         Vector2 posLocal = spline.normPos(pPos);
 
