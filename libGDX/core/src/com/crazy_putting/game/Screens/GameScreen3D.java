@@ -55,6 +55,8 @@ public class GameScreen3D extends InputAdapter implements Screen {
            _cam2D.update();
             parser = new FormulaParser();
             this._game = pGame;
+
+            initTerrain();
             _gameManager = new GameManager(pGame, pMode);
 
             //3D
@@ -72,7 +74,6 @@ public class GameScreen3D extends InputAdapter implements Screen {
             _gui = new GUI(_game, _gameManager, _cam2D, _hudViewport);
 
             initInput();
-            initTerrain();
 
 
         }
