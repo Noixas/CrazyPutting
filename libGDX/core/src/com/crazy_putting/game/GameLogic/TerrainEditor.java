@@ -25,6 +25,8 @@ public class TerrainEditor extends InputAdapter {
     private int _selected = -1, _selecting = -1;
     private Camera _cam3D;
     private boolean _splineEdit = false;
+    private boolean _changeBall = false;
+    private boolean _changeHole = false;
     private Vector2 _buttonDownCoord = new Vector2();
     private Vector2 _buttonDragCoord = new Vector2();
     private boolean _dragging = false;
@@ -65,11 +67,19 @@ public class TerrainEditor extends InputAdapter {
     public void addObserver(GameManager pObserver) {
         _observer = pObserver;
     }
-    public void setSplineEditActive(boolean pActive){
+    public void updateGUIState(boolean pSpline, boolean ball, boolean hole){
         if(_splineEnabled) {
-            _splineEdit = pActive;
+            _splineEdit = pSpline;
             showSplinePoints();
+            _changeBall = ball;
+            _changeHole = hole;
+
+            System.out.println("Ball "+ball);
+            System.out.println("Hole "+hole);
+            System.out.println("Edit "+pSpline);
+            System.out.println();
         }
+
     }
     private void showSplinePoints(){
         for (int i = 0; i < _splinePoints.length;i++) {
@@ -86,9 +96,12 @@ public class TerrainEditor extends InputAdapter {
     }
     @Override
     public boolean touchDown (int screenX, int screenY, int pointer, int button) {
-       if(_splineEdit == false) return false;
 
-        _dragging = false;
+        System.out.println(_changeBall);
+       if(_splineEdit) {
+           System.out.println("SplineEdit");
+
+           _dragging = false;
         _draggingPoint = intersectSplinePoint(screenX,screenY);
         _buttonDownCoord.set(screenX,screenY);
         if(_draggingPoint != null) {
@@ -98,11 +111,35 @@ public class TerrainEditor extends InputAdapter {
             System.out.println(_draggingPoint.getPosition());
            return true;
         }
+       }else if(_changeBall){
+           System.out.println("Ball");
+            Vector3 pos = getObject(screenX,screenY);
+            changeBallPos(pos);
+       }
+       else if(_changeHole){
+           System.out.println("Hole");
+           Vector3 pos = getObject(screenX,screenY);
+           changeHolePos(pos);
+       }
         //_screen3D.setCamControllerEnabled(false);
         return _selecting >= 0;
     }
     public boolean isDragging(){
         return _dragging;
+    }
+    private void changeBallPos(Vector3 pPos){
+        if(pPos == null) return;;
+        Vector3 cachePos = new Vector3(pPos);
+        pPos.y = cachePos.z;
+        pPos.z = cachePos.y;
+        _observer.updateBallPos(pPos);
+    }
+    private void changeHolePos(Vector3 pPos){
+        if(pPos == null) return;;
+        Vector3 cachePos = new Vector3(pPos);
+        pPos.y = cachePos.z;
+        pPos.z = cachePos.y;
+        _observer.updateHolePos(pPos);
     }
     private SplinePoint intersectSplinePoint(int screenX, int screenY ){
         Ray ray = _cam3D.getPickRay(screenX,screenY,0,0, _cam3D.viewportWidth,_cam3D.viewportHeight);//TODO:Get the WindowsWidth -300 from a constant variable somewhere in graphics, dont hardcode
@@ -257,13 +294,10 @@ public class TerrainEditor extends InputAdapter {
                 return true;
             }
         //    _screen3D.setCamControllerEnabled(true);
-        if (!_dragging && false) {
-            _selecting = getObject(screenX, screenY);
-            return true;
-        }
+
         return false;
     }
-    public int getObject (int screenX, int screenY) {
+    public Vector3 getObject (int screenX, int screenY) {
         Ray ray = _cam3D.getPickRay(screenX, screenY,0,0, _cam3D.viewportWidth,_cam3D.viewportHeight);//TODO:Get the WindowsWidth -300 from a constant variable somewhere in graphics, dont hardcode
         int result = -1;
         float distance = -1;
@@ -271,12 +305,12 @@ public class TerrainEditor extends InputAdapter {
         _terrainInstance.transform.getTranslation(position);
         // position.add(_terrainInstance.transform.);
         float dist2 = ray.origin.dst2(position);
-        Mesh aMesh = _terrainInstance.getNode(TerrainGenerator.testMeshCode).parts.get(0).meshPart.mesh;
-        //  if (distance >= 0f && dist2 > distance) continue;
-        short[] indices = new short[aMesh.getNumIndices()];
-        aMesh.getIndices(indices);
-        // float[] vert = new float[aMesh.getNumVertices()*aMesh.f];//Important to multiply it against the vertex size and divide by 4
-        //   aMesh.getVertices(vert);
+//        Mesh aMesh = _terrainInstance.getNode(TerrainGenerator.testMeshCode).parts.get(0).meshPart.mesh;
+//        //  if (distance >= 0f && dist2 > distance) continue;
+//        short[] indices = new short[aMesh.getNumIndices()];
+//        aMesh.getIndices(indices);
+//        // float[] vert = new float[aMesh.getNumVertices()*aMesh.f];//Important to multiply it against the vertex size and divide by 4
+//        //   aMesh.getVertices(vert);
         Vector3 intersectPos = new Vector3();
           /*  float[] tri = new float[28800];
             int countt = 0;
@@ -290,16 +324,18 @@ public class TerrainEditor extends InputAdapter {
                 countt++;
             }*/
         if (Intersector.intersectRayTriangles(ray,TerrainGenerator.triangleList,intersectPos)) {
-            for (int i = 0; i<1; i++)System.out.println("Intersection point "+intersectPos);
-            Vector3 cachePos = new Vector3(intersectPos);
-            intersectPos.y = cachePos.z;
-            intersectPos.z = cachePos.y;
-            GameObject newTest = new GameObject(intersectPos);
-            newTest.addGraphicComponent(new Graphics3DComponent(2));
+
+            System.out.println("Intersection point "+intersectPos);
+//            Vector3 cachePos = new Vector3(intersectPos);
+//            intersectPos.y = cachePos.z;
+//            intersectPos.z = cachePos.y;
+//            GameObject newTest = new GameObject(intersectPos);
+//            newTest.addGraphicComponent(new Graphics3DComponent(2));
             //  newTest.setPosition(new Vector3(intersectPos.x,intersectPos.z));
+            return intersectPos;
         }
 
-        return result;
+        return null;
     }
     public static void swapYandZ(Vector3 vec){
         Vector3 cache = new Vector3(vec);

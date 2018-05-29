@@ -109,6 +109,13 @@ public class GameManager {
         _ball.getPosition().z = CourseManager.calculateHeight(_ball.getPosition().x,_ball.getPosition().y);
         _hole.getPosition().z = CourseManager.calculateHeight(_hole.getPosition().x,_hole.getPosition().y);
     }
+    public void updateBallPos(Vector3 pos){
+        System.out.println("NEW ball pos "+pos);
+        _ball.setPosition(pos);
+    }
+    public void updateHolePos(Vector3 pos){
+        _hole.setPosition(pos);
+    }
     public void Update(float pDelta)
     {
        handleInput(_game.input);
@@ -255,7 +262,10 @@ public class GameManager {
             }
         }
     }
-
+    public void saveBallAndHolePos(){
+        CourseManager.getActiveCourse().setBallStartPos(_ball.getPosition());
+        CourseManager.getActiveCourse().setGoalPosition(_hole.getPosition());
+    }
     public static boolean isBallInTheHole(Ball ball, Hole hole){
         if(Math.sqrt(Math.pow(ball.getPosition().x -hole.getPosition().x,2) +Math.pow((ball.getPosition().y - hole.getPosition().y),2))< hole.getRadius()){
             return true;

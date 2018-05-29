@@ -48,6 +48,10 @@ public class ChooseCoursesScreen implements Screen{
 
 
     public ChooseCoursesScreen(GolfGame game, int pMode) {
+        if(MenuScreen.Spline3D == false)
+            CourseManager.loadFile("courses.txt");
+        else CourseManager.loadFile("coursesSpline.txt");
+
         this.game = game;
         _mode = pMode;
         stage = new Stage();
