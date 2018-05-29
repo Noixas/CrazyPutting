@@ -40,6 +40,7 @@ public class ChooseCoursesScreen implements Screen{
     private Label radiusValue;
     private Label maxVelocityValue;
     private TextButton confirmButton;
+    private Label splines;
 
     private SpriteBatch batch;
     private Sprite sprite;
@@ -105,6 +106,7 @@ public class ChooseCoursesScreen implements Screen{
          */
         Label courseProperties = new Label("Course properties:", skin);
         Label heightLabel = new Label("Height function",skin);
+        if(MenuScreen.Spline3D) heightLabel = new Label("SPLINE MODE",skin);
         Label frictionLabel = new Label("Friction coefficient",skin);
         Label startLabel = new Label("Start position",skin);
         Label goalLabel = new Label("Goal position",skin);
@@ -113,12 +115,15 @@ public class ChooseCoursesScreen implements Screen{
 
 
         heightValue = new Label(selectBox.getSelected(),skin);
+        if(MenuScreen.Spline3D)heightValue = new Label("",skin);
         frictionValue = new Label(selectBox.getSelected(),skin);
         startValue = new Label(selectBox.getSelected(),skin);
         goalValue = new Label(selectBox.getSelected(),skin);
         radiusValue = new Label(selectBox.getSelected(),skin);
         maxVelocityValue = new Label(selectBox.getSelected(),skin);
 
+        splines = new Label("Spline info", skin);
+        Label splineText = new Label("Spline Points Height",skin);
         /*
             Add "Create course" button
          */
@@ -166,7 +171,11 @@ public class ChooseCoursesScreen implements Screen{
         table.add(maxVelocityValue);
         table.row();
         table.add(createCourseButton).align(Align.left);
-
+        if(MenuScreen.Spline3D) {
+            table.row();
+            table.add(splineText).align(Align.left);
+            table.add(splines).align(Align.left);
+        }
         /*
             Add confirmation button.
          */
@@ -182,6 +191,7 @@ public class ChooseCoursesScreen implements Screen{
             }
         });
         confirmButton.setColor(Color.WHITE);
+
 
 
         /*
@@ -210,13 +220,15 @@ public class ChooseCoursesScreen implements Screen{
         System.out.println(selectBox.getSelectedIndex() + " is the box index");
         System.out.println("amount of cour " + CourseManager.getCourseAmount() );
         System.out.println("course " + CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()));
+        if(MenuScreen.Spline3D == false)
         heightValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getHeight());
         frictionValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getFriction()+"");
         startValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getStartBall().toString());
         goalValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getGoalPosition().toString());
         radiusValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getGoalRadius()+"");
         maxVelocityValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getMaxSpeed()+"");
-
+        if(MenuScreen.Spline3D)
+            splines.setText( CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).toStringSplinePointsMatrix());
 
     }
     @Override

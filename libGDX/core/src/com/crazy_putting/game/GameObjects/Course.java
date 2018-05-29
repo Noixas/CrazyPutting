@@ -94,6 +94,17 @@ public class Course {
         }
         return out;
     }
+    public String toStringSplinePointsMatrix()    {
+        String out = "";
+        for(int i = 0; i<_splinePoints.length; i++)
+        {for(int j = 0; j<_splinePoints[0].length; j++)
+        {
+            out += _splinePoints[i][j]+"  ";
+        }
+            out+="\n";
+        }
+        return out;
+    }
     public float getMaxSpeed() {
         return _maxSpeed;
     }
