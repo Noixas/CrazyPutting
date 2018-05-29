@@ -1,7 +1,9 @@
 package com.crazy_putting.game.GameLogic;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.FormulaParser.*;
+import com.crazy_putting.game.GameLogic.Splines.BiCubicSpline;
 import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.Parser.Parser;
 
@@ -13,6 +15,7 @@ public class CourseManager {
     private static Course _activeCourse;
     private static  String _cacheFileName;
     private static int _indexActive = 0;
+    private static BiCubicSpline _spline;
 
 //TODO call again the expressionNode if another course is selected
     private static FormulaParser parser = new FormulaParser();
@@ -48,6 +51,9 @@ public class CourseManager {
                 return _courseList.get(i);
         }
         return null;
+    }
+    public static void setBiCubicSpline(BiCubicSpline spline){
+    _spline = spline;
     }
     public  static Course getCourseWithIndex(int pIndex)
     {
@@ -101,6 +107,15 @@ public class CourseManager {
         return -1;
     }
         try {
+
+            System.out.println(y);
+            if(_spline != null) {
+                //System.out.println(x+" y at h"+ y);
+               float h = _spline.getHeightAt(new Vector2(x, y));
+
+                System.out.println(x+" y at "+ y + " h "+ h);
+                return h;
+            }
             if (expr == null) {
                 expr = parser.parse(_activeCourse.getHeight());
             }

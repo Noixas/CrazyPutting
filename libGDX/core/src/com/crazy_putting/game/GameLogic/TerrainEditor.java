@@ -61,6 +61,7 @@ public class TerrainEditor extends InputAdapter {
        // createSplinePoints(terrainSize, p)
             BiCubicSpline spline = TerrainGenerator.getSpline();
            _splinePoints = spline.getSplinePoints();
+        CourseManager.setBiCubicSpline(spline);//change CourseMAnager to use splines instead of formula height
     }  else {
         _cam3D = pCam3D;
         GameObject terrain = new GameObject();
