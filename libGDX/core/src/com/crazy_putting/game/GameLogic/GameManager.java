@@ -123,6 +123,9 @@ public class GameManager {
     {
         if(isBallInTheHole(_ball,_hole) && _ball.isSlow()) {
             printMessage = false;
+            _ball.fix(true);
+            _ball.setVelocityComponents(0,0);
+
             System.out.println("Ball in goal");
 
             _ball.fix(true);
@@ -189,9 +192,15 @@ public class GameManager {
 
         }
             if(_mode == 1) {
+                if (Gdx.input.isKeyJustPressed(Input.Keys.G) && !_ball.isMoving()){
+
+                    GeneticAlgorithm GA = new GeneticAlgorithm(_hole,CourseManager.getActiveCourse());
+                    //_ball = GA.getTheBestBall();
+                }
 
 
-            if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !_ball.isMoving()) {
+
+                if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !_ball.isMoving()) {
               CourseManager.reWriteCourse();//TODO: CHECK WHY THIS IS HERE
               Gdx.input.getTextInput(input, "Input data", "", "Input speed and direction separated with space");
             }
