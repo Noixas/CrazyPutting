@@ -110,6 +110,7 @@ public class MenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
               Mode3D = false;
+                Spline3D = false;
             }
         });
 
@@ -118,6 +119,7 @@ public class MenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Mode3D = true;
+                Spline3D = false;
             }
         });
 

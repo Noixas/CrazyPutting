@@ -9,14 +9,11 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.crazy_putting.game.Components.Graphics3DComponent;
 import com.crazy_putting.game.FormulaParser.FormulaParser;
 import com.crazy_putting.game.GameLogic.GameManager;
 import com.crazy_putting.game.GameLogic.GraphicsManager;
 import com.crazy_putting.game.GameLogic.TerrainEditor;
 import com.crazy_putting.game.GameObjects.GUI;
-import com.crazy_putting.game.GameObjects.GameObject;
-import com.crazy_putting.game.Graphics3D.DebugAxesGenerator;
 
 /*
 Handles the graphics of the in-Game screen, which is the 3D cam and 2D cam for the GUI and the tools to control the 3D environment
@@ -88,8 +85,8 @@ public class GameScreen3D extends InputAdapter implements Screen {
     }
         private void initTerrain()
         {
-            GameObject axis = new GameObject();
-            axis.addGraphicComponent  (new Graphics3DComponent(DebugAxesGenerator.generateAxes()));
+            //GameObject axis = new GameObject();
+           // axis.addGraphicComponent  (new Graphics3DComponent(DebugAxesGenerator.generateAxes()));
             if(MenuScreen.Spline3D)_terrainEditor = new TerrainEditor(_cam3D,true);
             else _terrainEditor = new TerrainEditor(_cam3D,false);
 

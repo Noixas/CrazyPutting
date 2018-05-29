@@ -30,8 +30,11 @@ public class BiCubicSpline {
     private List<SplineInfo> _splineList = new ArrayList<SplineInfo>();
     private List<Rectangle> _rect = new ArrayList<Rectangle>();
     private SplinePoint[][] _splinePoints = new SplinePoint[6][6];
+    private Vector2 _dimensions;
     public BiCubicSpline( Vector2 posStart, float verticesPerSide, float pScale){
      //   int verticesPerSide = 40;
+        int sizeSide =200;
+        _dimensions = new Vector2(sizeSide *pScale,sizeSide*pScale);
         for (int i = 0; i < _splinePoints.length; i++) { // aRow
             for (int j = 0; j < _splinePoints.length; j++) { // bColumn
 
@@ -61,7 +64,9 @@ public class BiCubicSpline {
     return spline;
     }
 
-
+    public Vector2 getDimensions() {
+        return _dimensions;
+    }
 
     private double[][] mulMat(double[][] pPoints, double[][] pSOE)
     {
