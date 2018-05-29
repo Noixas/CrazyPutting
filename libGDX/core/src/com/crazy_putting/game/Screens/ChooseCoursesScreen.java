@@ -256,8 +256,7 @@ public class ChooseCoursesScreen implements Screen{
 
         if(MenuScreen.Mode3D ==false)
         game.setScreen(new GameScreen(game,_mode));
-        else
-        {
+        else{
             game.setScreen(new GameScreen3D(game,_mode));
 
         }

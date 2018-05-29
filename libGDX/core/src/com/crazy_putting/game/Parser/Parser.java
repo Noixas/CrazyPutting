@@ -36,7 +36,7 @@ public class Parser {
     }
     public static String generateStringFile(String pFileName, Course pCourse, int pIndex)
     {
-    if( checkForCache() == false) cacheFile(pFileName);
+    if(checkForCache() == false) cacheFile(pFileName);
        List<String> out = new ArrayList<String>();//= getCacheFile();
         out.add(_courseSeparator + "");
         out.add( "\nID: " +  pIndex);//Set the next course ID
@@ -47,6 +47,7 @@ public class Parser {
         out.add("\nGoal Radius: " + pCourse.getGoalRadius());
         out.add( "\nBall Start Pos: " + pCourse.getStartBall().x + " " + pCourse.getStartBall().y);
         out.add("\nMax Speed: " + pCourse.getMaxSpeed());
+        out.add("\nSpline Points: " + pCourse.toStringSplinePoints());
        String finalFile = "";
         for(int i = 0; i < out.size(); i++) {
             finalFile += out.get(i);
@@ -89,7 +90,7 @@ public class Parser {
     int lineCount = 0;
     boolean readingCourse = false;
     Course newCourse = null;
-    int propertiesAmount = 7;
+    int propertiesAmount = 8;
         for(int i = 0; i < pLines.size(); i++) {
             String line = pLines.get(i);
             line.trim();
@@ -149,11 +150,28 @@ public class Parser {
                 case 7:
                     pProperty = pProperty.replace("Max Speed: ","");
                     pCourse.setMaxSpeed(Float.parseFloat(pProperty));
-
+                    break;
+                case 8:
+                    pProperty = pProperty.replace("Spline Points: ", "");
+                    pCourse.setSplinePoints(generatePoints(pProperty));
                     break;
 
             }
         }
+    private static float[][] generatePoints(String line){
+        String[] num = line.trim().split("\\s+");
+        int length = Integer.parseInt(num[0]);
+        int length0 = Integer.parseInt(num[1]);
+        float[][] points = new float[length][length0];
+        int count = 2;
+        for(int i = 0; i<length; i++){
+            for(int j = 0; j<length0; j++){
+                points[i][j] = Float.parseFloat(num[count]);
+                count++;
+            }
+        }
+            return points;
+    }
     public static List<Course> getCourses(String pFileName)
     {
         try {
