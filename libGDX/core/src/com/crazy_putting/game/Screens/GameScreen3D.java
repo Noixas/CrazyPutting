@@ -66,7 +66,7 @@ public class GameScreen3D extends InputAdapter implements Screen {
 
             initTerrain();
             _gameManager = new GameManager(pGame, pMode);
-
+            _terrainEditor.addObserver(_gameManager);
 
             camController = new CameraInputController(_cam3D);
             camController.translateUnits = 50;

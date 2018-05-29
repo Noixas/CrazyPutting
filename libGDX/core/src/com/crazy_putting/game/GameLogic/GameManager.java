@@ -105,6 +105,10 @@ public class GameManager {
         }
 
     }
+    public void updateObjectPos(){
+        _ball.getPosition().z = CourseManager.calculateHeight(_ball.getPosition().x,_ball.getPosition().y);
+        _hole.getPosition().z = CourseManager.calculateHeight(_hole.getPosition().x,_hole.getPosition().y);
+    }
     public void Update(float pDelta)
     {
        handleInput(_game.input);
