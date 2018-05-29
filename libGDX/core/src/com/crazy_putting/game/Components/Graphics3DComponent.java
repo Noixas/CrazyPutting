@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
+import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameLogic.GraphicsManager;
 
 public class Graphics3DComponent extends GraphicsComponent {
@@ -33,7 +34,14 @@ public class Graphics3DComponent extends GraphicsComponent {
         setColor(pTypeElement);
         GraphicsManager.addGraphics3DComponent(this);
         ModelBuilder modelBuilder = new ModelBuilder();
-        float radius = 40f;
+        float radius = 10f;
+        if(pTypeElement==1){
+            radius = 20f;
+        }
+        else{
+            radius = CourseManager.getActiveCourse().getGoalRadius()*2f;
+        }
+
         _model = modelBuilder.createSphere(radius, radius, radius, 24, 24,new Material(ColorAttribute.createDiffuse(col)), VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
         _instance = new ModelInstance(_model);
        //    isBall = true;

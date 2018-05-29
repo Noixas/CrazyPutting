@@ -101,7 +101,8 @@ public class GameManager {
 
         }
         if (_mode == 3) {
-            bot = new Bot(_ball, _hole, CourseManager.getActiveCourse());
+            // TODO make the bot
+//            bot = new Bot(_ball, _hole, CourseManager.getActiveCourse());
         }
 
     }
@@ -240,7 +241,9 @@ public class GameManager {
                 //_ball = GA.getTheBestBall();
             }
             if(Gdx.input.isKeyJustPressed(Input.Keys.T) && !_ball.isMoving()){
-                BotTest test = new BotTest(CourseManager.getCourseList(),3);
+                BotTest test = new BotTest(CourseManager.getCourseList(),);
+                test.runTest();
+                test.printResults();
             }
         }
     }

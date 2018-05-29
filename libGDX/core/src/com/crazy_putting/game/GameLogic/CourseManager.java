@@ -108,7 +108,7 @@ public class CourseManager {
     }
         try {
 
-            System.out.println(y);
+//            System.out.println(y);
             if(_spline != null) {
                 //System.out.println(x+" y at h"+ y);
                float h = _spline.getHeightAt(new Vector2(x, y));
