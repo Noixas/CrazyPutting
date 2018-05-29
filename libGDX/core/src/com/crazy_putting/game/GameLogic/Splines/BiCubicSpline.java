@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Components.Graphics3DComponent;
+import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameObjects.SplinePoint;
 
 import java.util.ArrayList;
@@ -35,26 +36,27 @@ public class BiCubicSpline {
      //   int verticesPerSide = 40;
         int sizeSide =200;
         _dimensions = new Vector2(sizeSide *pScale,sizeSide*pScale);
+        float[][] coursePoints = CourseManager.getActiveCourse().getSplinePoints();
         for (int i = 0; i < _splinePoints.length; i++) { // aRow
             for (int j = 0; j < _splinePoints.length; j++) { // bColumn
 
-
-                SplinePoint point = new SplinePoint(new Vector3(pScale*(posStart.x+verticesPerSide*i),pScale*(posStart.y+verticesPerSide*j),0));
+                float height = coursePoints[i][j];
+                SplinePoint point = new SplinePoint(new Vector3(pScale*(posStart.x+verticesPerSide*i),pScale*(posStart.y+verticesPerSide*j),height));
                 Graphics3DComponent pointGraphics = new Graphics3DComponent(2);
                 point.addGraphicComponent(pointGraphics);
                 _splinePoints[i][j] = point;
             }}
-        _splinePoints[0][0].getPosition().z += 500;
-        _splinePoints[0][5].getPosition().z += 500;
-        _splinePoints[5][0].getPosition().z += 250;
-        _splinePoints[5][5].getPosition().z += 500;
-
-        _splinePoints[0][0].sstHeight(500);
-        _splinePoints[0][5].sstHeight(500);
-        _splinePoints[5][0].sstHeight(250);
-        _splinePoints[5][5].sstHeight(500);
-
-        _splinePoints[3][3].sstHeight(500);
+//        _splinePoints[0][0].getPosition().z += 500;
+//        _splinePoints[0][5].getPosition().z += 500;
+//        _splinePoints[5][0].getPosition().z += 250;
+//        _splinePoints[5][5].getPosition().z += 500;
+//
+//        _splinePoints[0][0].sstHeight(500);
+//        _splinePoints[0][5].sstHeight(500);
+//        _splinePoints[5][0].sstHeight(250);
+//        _splinePoints[5][5].sstHeight(500);
+//
+//        _splinePoints[3][3].sstHeight(500);
     }
     public SplineInfo createSplineBlock(int[][] points, Vector2 posStart, Vector2 pDimensions, float pScale, Node pNode){
         SplineInfo spline =new SplineInfo(posStart,pDimensions,pScale, pNode);

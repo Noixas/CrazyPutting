@@ -41,6 +41,7 @@ public class CourseManager {
         }
 
     }
+
     public static List<Course> getCourseList() {
         return _courseList;
     }
