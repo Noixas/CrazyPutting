@@ -80,7 +80,7 @@ public class ChooseCoursesScreen implements Screen{
          */
 
         selectBox = new SelectBox<String>(skin);
-        selectBox.setPosition(300, WINDOW_HEIGHT*0.9f-130);
+        selectBox.setPosition(WINDOW_WIDTH *.2f, WINDOW_HEIGHT*0.9f-130);
         Vector2 selectBoxSize = new Vector2(200, 50);
         selectBox.setSize(selectBoxSize.x, selectBoxSize.y);
 
