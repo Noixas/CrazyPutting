@@ -80,7 +80,7 @@ public class ChooseCoursesScreen implements Screen{
          */
 
         selectBox = new SelectBox<String>(skin);
-        selectBox.setPosition(WINDOW_WIDTH *.2f, WINDOW_HEIGHT*0.9f-130);
+        selectBox.setPosition(300, WINDOW_HEIGHT*0.9f-130);
         Vector2 selectBoxSize = new Vector2(200, 50);
         selectBox.setSize(selectBoxSize.x, selectBoxSize.y);
 
@@ -175,8 +175,7 @@ public class ChooseCoursesScreen implements Screen{
         table.add(maxVelocityValue);
         table.row();
         table.add(createCourseButton).align(Align.left);
-      //  if(MenuScreen.Spline3D) {
-        if(false){
+        if(MenuScreen.Spline3D) {
             table.row();
             table.add(splineText).align(Align.left);
             table.add(splines).align(Align.left);
