@@ -8,6 +8,7 @@ import com.crazy_putting.game.GameLogic.CourseManager;
 public class GameObject {
     private GraphicsComponent _graphicComponent;
     protected Vector3 _position = new Vector3();//= Vector3.Zero;
+    public boolean enabled = true;
     public GameObject(Vector3 pPosition)
     {
         _position = pPosition;

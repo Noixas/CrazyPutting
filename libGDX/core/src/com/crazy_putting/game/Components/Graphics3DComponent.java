@@ -14,6 +14,7 @@ public class Graphics3DComponent extends GraphicsComponent {
     private Model _model;
     private ModelInstance _instance;
     private static Quaternion emptyQuaternion = new Quaternion();
+    private float radius;
     ////test delete asap
     public Color col;
     public Graphics3DComponent( Texture pTexture) {
@@ -33,7 +34,7 @@ public class Graphics3DComponent extends GraphicsComponent {
         setColor(pTypeElement);
         GraphicsManager.addGraphics3DComponent(this);
         ModelBuilder modelBuilder = new ModelBuilder();
-        float radius = 40f;
+         radius = 40f;
         _model = modelBuilder.createSphere(radius, radius, radius, 24, 24,new Material(ColorAttribute.createDiffuse(col)), VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
         _instance = new ModelInstance(_model);
        //    isBall = true;
@@ -65,8 +66,11 @@ public class Graphics3DComponent extends GraphicsComponent {
     }
 
     public void render(ModelBatch pModelBatch, Environment pEnvironment ) {
+        if(_owner.enabled == false )return;
         Vector3 pos2d = _owner.getPosition();
         Vector3 pos = new Vector3(pos2d.x, pos2d.z,pos2d.y);
+//        if(col == Color.RED)
+//            pos.y=+radius/2;
         //TODO: pos2D will allow the balls that spawn when clicking to appear at right spot, pos will show hole and ball in right spot
     if(col == Color.WHITE)
         pos.y+=20f;

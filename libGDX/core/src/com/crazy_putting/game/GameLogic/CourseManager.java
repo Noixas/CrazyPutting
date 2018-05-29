@@ -16,6 +16,7 @@ public class CourseManager {
     private static  String _cacheFileName;
     private static int _indexActive = 0;
     private static BiCubicSpline _spline;
+    private static Vector2 _dimensions;
 
 //TODO call again the expressionNode if another course is selected
     private static FormulaParser parser = new FormulaParser();
@@ -54,6 +55,10 @@ public class CourseManager {
     }
     public static void setBiCubicSpline(BiCubicSpline spline){
     _spline = spline;
+    _dimensions = _spline.getDimensions();
+    }
+    public static Vector2 getCourseDimensions(){
+        return _dimensions;
     }
     public  static Course getCourseWithIndex(int pIndex)
     {
