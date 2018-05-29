@@ -28,7 +28,7 @@ public class GeneticAlgorithm {
     private final int POPULATION_SIZE = 200;
     private final double ELITE_RATE = 0.1;
     private final double MUTATION_RATE = 0.3;
-    private static final int MAX_ITER = 150;
+    private static final int MAX_ITER = 50;
     private int  nrOfGenerationsProduced;
     private Ball bestBall;
 
