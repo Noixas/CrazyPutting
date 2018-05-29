@@ -241,7 +241,7 @@ public class GameManager {
                 //_ball = GA.getTheBestBall();
             }
             if(Gdx.input.isKeyJustPressed(Input.Keys.T) && !_ball.isMoving()){
-                BotTest test = new BotTest(CourseManager.getCourseList(),);
+                BotTest test = new BotTest(CourseManager.getCourseList(),5);
                 test.runTest();
                 test.printResults();
             }

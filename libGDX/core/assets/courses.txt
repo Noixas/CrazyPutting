@@ -3,7 +3,7 @@ COURSE:
 ID: 0
 Name: Test3
 Height: 0.1 * x + 0.03 * x^2 + 0.2 * y
-Friction: 0.5
+Friction: 0.8
 Goal Pos: 140.0 140.0
 Goal Radius: 25.0
 Ball Start Pos: 140.0 100.12558
@@ -12,7 +12,7 @@ COURSE:
 ID: 1
 Name: Test3
 Height: 0.6 * x + 0.01 * x^2 + 0.7 * y
-Friction: 0.3
+Friction: 0.75
 Goal Pos: 150.0 100.0
 Goal Radius: 50.0
 Ball Start Pos: -234.0 450.0
