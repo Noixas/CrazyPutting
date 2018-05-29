@@ -25,12 +25,13 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
     private GameManager _gameManager;
     private Camera _cam2D;
     private Skin _skin;
-    private TextButton soloButton;
+    private TextButton saveSplines;
     private Table table;
     private Stage UIStage;
     private Label speedText;
     private Label ball_position;
     private Label turnCount;
+    private Label maxSpeed;
     Viewport view;
     private CheckBox _splineEdit;
 
@@ -48,11 +49,12 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         _gameManager = pGameManager;
         _cam2D = pCam2D;
         _skin = new Skin(Gdx.files.internal("skin/plain-james-ui.json"));
-        soloButton = new TextButton("Solo play", _skin);
-        soloButton.addListener(new ClickListener(){
+        saveSplines = new TextButton("Save Splines", _skin);
+        saveSplines.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Button55");
+                CourseManager.saveCourseSpline();
+                CourseManager.reWriteCourse();
             }
         });
         _splineEdit = new CheckBox("Spline Editor", _skin);
@@ -84,20 +86,26 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         int y = (int)_gameManager.getBall().getPosition().y;
         int height = (int)CourseManager.calculateHeight(x,y);
         ball_position = new Label("Ball Position\n" + "height: " + height + "\nx:" + x + " y: " + y,skin);
+
+
         turnCount = new Label("Turns: " + _gameManager.getTurns(),skin);
+        maxSpeed = new Label("Max speed: " + CourseManager.getMaxSpeed()+"\n",skin);
+
         table.setDebug(true);
        // table.setSize(GameScreen3D.Width2DScreen,);
         Label ne = new Label("TEST TABLE this is longer",skin);
         //Label ne2 = new Label("TEST TA2222222222222E this is longer",skin);
         System.out.println(table.getY()+"X OF TABLE");
 
+        table.add(maxSpeed);
+        table.row();
         table.add(speedText);
         table.row();
         table.add(ball_position);
         table.row();
         table.add(turnCount);
         table.row();
-        table.add(soloButton);
+        table.add(saveSplines);
         table.row();
         table.add(_splineEdit);
 
@@ -107,7 +115,7 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         Vector3 unprojectBallY = _cam2D.unproject(new Vector3(GameScreen3D.Width3DScreen, 100,0));
         Vector3 unprojectTurn = _cam2D.unproject(new Vector3(GameScreen3D.Width3DScreen, 130,0));
         UIStage.addActor(table);
-      //  UIStage.addActor(soloButton);
+      //  UIStage.addActor(saveSplines);
 
 
     }
@@ -123,6 +131,7 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         Vector3 unprojectBallX = _cam2D.unproject(new Vector3(GameScreen3D.Width3DScreen, 70,0));
         Vector3 unprojectBallY = _cam2D.unproject(new Vector3(GameScreen3D.Width3DScreen, 100,0));
         Vector3 unprojectTurn = _cam2D.unproject(new Vector3(GameScreen3D.Width3DScreen, 130,0));
+        maxSpeed.setText("Max speed: " + CourseManager.getMaxSpeed());
         speedText.setText("Speed: " + (int) (_gameManager.getBall().getVelocity().getSpeed()));
         int x = (int)ball.getPosition().x;
         int y = (int)ball.getPosition().y;
@@ -145,8 +154,8 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         _game.font.draw(_game.batch, "Turn: "+ _gameManager.getTurns(), unprojectTurn.x, unprojectTurn.y);
 */
         Vector3 pos = _cam2D.unproject(new Vector3(GameScreen3D.Width3DScreen, 170,0));
-      //  soloButton.setPosition(pos.x,pos.y);
-        //soloButton.draw(_game.batch,100);
+      //  saveSplines.setPosition(pos.x,pos.y);
+        //saveSplines.draw(_game.batch,100);
         UIStage.draw();
 
     }

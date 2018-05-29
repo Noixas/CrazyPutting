@@ -11,6 +11,7 @@ public class Course {
     private float _goalRadius;
     private  Vector3 _startBall;
     private float _maxSpeed;
+    private float[][] _splinePoints = new float[6][6];
     public void setID(int pID)
     {
         _ID = pID;
@@ -76,6 +77,23 @@ public class Course {
         _maxSpeed = pMax;
     }
 
+    public float[][] getSplinePoints(){
+        return _splinePoints;
+    }
+    public void setSplinePoints(float[][] points){
+        _splinePoints = points;
+    }
+    public String toStringSplinePoints()    {
+        String out = ""+_splinePoints.length +" "+ _splinePoints[0].length+" ";
+        for(int i = 0; i<_splinePoints.length; i++)
+        {for(int j = 0; j<_splinePoints[0].length; j++)
+        {
+            out += _splinePoints[i][j]+"  ";
+        }
+            //out+="\n";
+        }
+        return out;
+    }
     public float getMaxSpeed() {
         return _maxSpeed;
     }
@@ -92,6 +110,7 @@ public class Course {
         out +=("\nGoal Radius: ") + getGoalRadius();
         out +=( "\nBall Start Pos: ") + getStartBall();
         out += ("\nMax Speed: ") + getMaxSpeed();
+        out += ("\nSpline Points: ") + toStringSplinePoints();
         return out;
     }
 }

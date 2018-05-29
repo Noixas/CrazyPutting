@@ -41,6 +41,7 @@ public class CourseManager {
         }
 
     }
+
     public static List<Course> getCourseList() {
         return _courseList;
     }
@@ -94,6 +95,9 @@ public class CourseManager {
         Vector3 pos = _activeCourse.getStartBall();
         pos.z = calculateHeight(pos.x, pos.y);
         return pos;
+    }
+    public static void saveCourseSpline(){
+        _activeCourse.setSplinePoints(_spline.getSplinePointsHeight());
     }
     public static int getIndexActive()
     {

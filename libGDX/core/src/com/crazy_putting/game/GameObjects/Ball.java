@@ -155,7 +155,7 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
 
     @Override
     public boolean isSlow() {
-        return getSpeed() < 1;
+        return getSpeed() < 3;
     }
 
 
