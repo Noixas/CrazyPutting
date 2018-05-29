@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.crazy_putting.game.GameLogic.GameManager;
 import com.crazy_putting.game.Screens.GameScreen3D;
 import com.crazy_putting.game.Screens.GolfGame;
+import com.crazy_putting.game.GameLogic.CourseManager;
 
 public class GUI extends GameObject {
 /*
@@ -28,6 +29,8 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
     private Table table;
     private Stage UIStage;
     private Label speedText;
+    private Label ball_position;
+    private Label turnCount;
     Viewport view;
     private CheckBox _splineEdit;
 
@@ -72,21 +75,27 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
       //  Vector3 tablePos = _cam2D.unproject(new Vector3(, 0,0),view.getScreenX(),view.getScreenY(),view.getScreenWidth(),view.getScreenHeight());
 
         Vector2 pos = UIStage.screenToStageCoordinates(new Vector2(GameScreen3D.Width3DScreen, GameScreen3D.Height2DScreen));
-        System.out.println(pos+"TESSSS");
+       // System.out.println(pos+"TESSSS");
       //  table.setOrigin(0,0);
        // table.setPosition(pos.x,pos.y);
-        speedText = new Label("TEST TABLE",skin);
+        speedText = new Label("Speed: " + _gameManager.getBall().getVelocity().getSpeed(),skin);
+
+        int x = (int)_gameManager.getBall().getPosition().x;
+        int y = (int)_gameManager.getBall().getPosition().y;
+        int height = (int)CourseManager.calculateHeight(x,y);
+        ball_position = new Label("Ball Position\n" + "height: " + height + "\nx:" + x + " y: " + y,skin);
+        turnCount = new Label("Turns: " + _gameManager.getTurns(),skin);
         table.setDebug(true);
        // table.setSize(GameScreen3D.Width2DScreen,);
         Label ne = new Label("TEST TABLE this is longer",skin);
-        Label ne2 = new Label("TEST TA2222222222222E this is longer",skin);
+        //Label ne2 = new Label("TEST TA2222222222222E this is longer",skin);
         System.out.println(table.getY()+"X OF TABLE");
 
         table.add(speedText);
         table.row();
-        table.add(ne2);
+        table.add(ball_position);
         table.row();
-        table.add(ne);
+        table.add(turnCount);
         table.row();
         table.add(soloButton);
         table.row();
@@ -114,6 +123,12 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         Vector3 unprojectBallX = _cam2D.unproject(new Vector3(GameScreen3D.Width3DScreen, 70,0));
         Vector3 unprojectBallY = _cam2D.unproject(new Vector3(GameScreen3D.Width3DScreen, 100,0));
         Vector3 unprojectTurn = _cam2D.unproject(new Vector3(GameScreen3D.Width3DScreen, 130,0));
+        speedText.setText("Speed: " + (int) (_gameManager.getBall().getVelocity().getSpeed()));
+        int x = (int)ball.getPosition().x;
+        int y = (int)ball.getPosition().y;
+        int height = (int)CourseManager.calculateHeight(x,y);
+        ball_position.setText("Ball Position\n" + "height: " + height + "\nx:" + x + " y: " + y);
+        turnCount.setText("Turns: " + _gameManager.getTurns());
      //   System.out.println(GameScreen3D.Width3DScreen);
         /*
             Setup of the HUD in top left corner.

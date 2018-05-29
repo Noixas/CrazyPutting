@@ -22,10 +22,10 @@ public class GeneticAlgorithm {
 
     private Vector3 initial_Position;
 
-    private final int POPULATION_SIZE = 500;
-    private final double ELITE_RATE = 0.1;
-    private final double MUTATION_RATE = 0.25;
-    private static final int MAX_ITER = 80;
+    private final int POPULATION_SIZE = 200;
+    private final double ELITE_RATE = 0.15;
+    private final double MUTATION_RATE = 0.3;
+    private static final int MAX_ITER = 150;
     private int  nrOfGenerationsProduced;
     private Ball bestBall;
     //private int countRepetitions;

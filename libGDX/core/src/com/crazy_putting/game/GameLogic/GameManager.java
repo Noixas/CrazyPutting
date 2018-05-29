@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Bot.Bot;
+import com.crazy_putting.game.Bot.BotTest;
 import com.crazy_putting.game.Bot.GeneticAlgorithm;
 import com.crazy_putting.game.Components.Graphics2DComponent;
 import com.crazy_putting.game.Components.Graphics3DComponent;
@@ -100,7 +101,8 @@ public class GameManager {
 
         }
         if (_mode == 3) {
-            bot = new Bot(_ball, _hole, CourseManager.getActiveCourse());
+            // TODO make the bot
+//            bot = new Bot(_ball, _hole, CourseManager.getActiveCourse());
         }
 
     }
@@ -188,11 +190,7 @@ public class GameManager {
 
         }
             if(_mode == 1) {
-                if (Gdx.input.isKeyJustPressed(Input.Keys.G) && !_ball.isMoving()){
 
-                    GeneticAlgorithm GA = new GeneticAlgorithm(_hole,CourseManager.getActiveCourse());
-                    //_ball = GA.getTheBestBall();
-                }
 
             if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !_ball.isMoving()) {
               CourseManager.reWriteCourse();//TODO: CHECK WHY THIS IS HERE
@@ -231,11 +229,21 @@ public class GameManager {
             }
         }
         else if (_mode == 3){
-            if (Gdx.input.isKeyJustPressed(Input.Keys.I)){
+            if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !_ball.isMoving()){
                 Velocity computedVelocity = bot.computeOptimalVelocity();
                 Gdx.app.log("Ball","Position x "+ _ball.getPosition().x+" position y "+_ball.getPosition().y);
                 checkConstrainsAndSetVelocity(computedVelocity.speed, computedVelocity.angle);
                 Gdx.app.log("Manager","speed "+computedVelocity.speed+" angle "+computedVelocity.angle);
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.G) && !_ball.isMoving()){
+
+                GeneticAlgorithm GA = new GeneticAlgorithm(_hole,CourseManager.getActiveCourse());
+                //_ball = GA.getTheBestBall();
+            }
+            if(Gdx.input.isKeyJustPressed(Input.Keys.T) && !_ball.isMoving()){
+                BotTest test = new BotTest(CourseManager.getCourseList(),);
+                test.runTest();
+                test.printResults();
             }
         }
     }
