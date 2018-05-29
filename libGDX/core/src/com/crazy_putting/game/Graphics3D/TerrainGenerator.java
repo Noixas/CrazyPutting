@@ -68,7 +68,7 @@ static double[][] p ;
         float scaleVertex = 10;  //scale amount
         _terrainSize = new Vector2(totalMeshLength*scaleVertex, totalMeshLength*scaleVertex);
 
-
+       // if(pSplines)
         _spline = new BiCubicSpline(new Vector2 (startPosX,startPosY), verticesPerSide, 10);
         ModelBuilder modelBuilder = new ModelBuilder();
         modelBuilder.begin();
@@ -81,7 +81,9 @@ static double[][] p ;
                 Node node = modelBuilder.node();
                 String code ="i "+i+" j "+j;
                 Vector2 start = new Vector2( scaleVertex*(startPosX+verticesPerSide*i),scaleVertex*(startPosY+verticesPerSide*j));
-                SplineInfo splineNode = _spline.createSplineBlock(generateSquareIndexes(i,j),start, new Vector2(verticesPerSide*scaleVertex,verticesPerSide*scaleVertex), scaleVertex,node);
+                SplineInfo splineNode = null;
+               // if(pSplines)
+              splineNode = _spline.createSplineBlock(generateSquareIndexes(i,j),start, new Vector2(verticesPerSide*scaleVertex,verticesPerSide*scaleVertex), scaleVertex,node);
                node.id = "n "+nodeAmount;//+" "+code;
                 if(testSet == false) {
                     testMeshCode = "n " + nodeAmount + " " + code;

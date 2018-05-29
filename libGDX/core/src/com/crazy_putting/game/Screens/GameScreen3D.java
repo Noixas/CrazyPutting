@@ -69,7 +69,7 @@ public class GameScreen3D extends InputAdapter implements Screen {
             camController.translateUnits = 50;
 
 
-            _gui = new GUI(_game, _gameManager, _cam2D, _hudViewport);
+            _gui = new GUI(_game, _gameManager, _cam2D, _hudViewport, MenuScreen.Spline3D);
 
             initInput();
 

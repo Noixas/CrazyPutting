@@ -42,6 +42,7 @@ public class BiCubicSpline {
 
                 float height = coursePoints[i][j];
                 SplinePoint point = new SplinePoint(new Vector3(pScale*(posStart.x+verticesPerSide*i),pScale*(posStart.y+verticesPerSide*j),height));
+                point.enabled = false;
                 Graphics3DComponent pointGraphics = new Graphics3DComponent(2);
                 point.addGraphicComponent(pointGraphics);
                 _splinePoints[i][j] = point;

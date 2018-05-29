@@ -34,10 +34,12 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
     private Label maxSpeed;
     Viewport view;
     private CheckBox _splineEdit;
+    private boolean _spline;
 
-    public GUI(GolfGame pGame, GameManager pGameManager, Camera pCam2D, FitViewport viewPort)
+    public GUI(GolfGame pGame, GameManager pGameManager, Camera pCam2D, FitViewport viewPort, boolean pSpline)
     {
         _game = pGame;
+        _spline = pSpline;
         if(viewPort ==null)
             view = new FitViewport(10,10);
        else
@@ -45,7 +47,7 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         UIStage = new Stage(viewPort,_game.batch);
         UIStage.getViewport().setScreenBounds(GameScreen3D.Width3DScreen,0 ,GameScreen3D.Width2DScreen-1,GameScreen3D.Height2DScreen-1);
         UIStage.getViewport().apply();
-        UIStage.setDebugAll(true);
+        UIStage.setDebugAll(false);
         _gameManager = pGameManager;
         _cam2D = pCam2D;
         _skin = new Skin(Gdx.files.internal("skin/plain-james-ui.json"));
@@ -91,7 +93,7 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         turnCount = new Label("Turns: " + _gameManager.getTurns(),skin);
         maxSpeed = new Label("Max speed: " + CourseManager.getMaxSpeed()+"\n",skin);
 
-        table.setDebug(true);
+       // table.setDebug(true);
        // table.setSize(GameScreen3D.Width2DScreen,);
         Label ne = new Label("TEST TABLE this is longer",skin);
         //Label ne2 = new Label("TEST TA2222222222222E this is longer",skin);
@@ -104,11 +106,12 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         table.add(ball_position);
         table.row();
         table.add(turnCount);
-        table.row();
-        table.add(saveSplines);
-        table.row();
-        table.add(_splineEdit);
-
+        if(_spline) {
+            table.row();
+            table.add(saveSplines);
+            table.row();
+            table.add(_splineEdit);
+        }
         Vector3 unprojectSpeed = _cam2D.unproject(new Vector3(GameScreen3D.Width3DScreen, 10,0));
         Vector3 unprojectHeight =_cam2D.unproject(new Vector3(GameScreen3D.Width3DScreen, 40,0));
         Vector3 unprojectBallX = _cam2D.unproject(new Vector3(GameScreen3D.Width3DScreen, 70,0));
