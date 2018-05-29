@@ -195,7 +195,7 @@ static double[][] p ;
    }
    private static void checkUnderWaterVertex(com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder.VertexInfo ver)
    {
-       if(true&&ver.position.y <=0)
+       if(true&&ver.position.y <-1)
        {
            ver.position.y = 0;
            ver.setCol( Color.BLUE);

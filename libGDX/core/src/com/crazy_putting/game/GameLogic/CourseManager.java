@@ -106,25 +106,20 @@ public class CourseManager {
         System.out.println("No course have being defined from a file, load a file first");
         return -1;
     }
-        try {
-
-            System.out.println(y);
-            if(_spline != null) {
-                //System.out.println(x+" y at h"+ y);
+        try{
+            if(_spline != null){ //Spline height{
                float h = _spline.getHeightAt(new Vector2(x, y));
-
-               // System.out.println(x+" y at "+ y + " h "+ h);
                 return h;
-            }
-            if (expr == null) {
-                expr = parser.parse(_activeCourse.getHeight());
-            }
-            expr.accept(new SetVariable("x", x));
-            expr.accept(new SetVariable("y", y));
+            }else {//Formula function
+                if (expr == null) {
+                    expr = parser.parse(_activeCourse.getHeight());
+                }
+                expr.accept(new SetVariable("x", x));
+                expr.accept(new SetVariable("y", y));
 
-            float result = (float) expr.getValue();
-            return result;
-
+                float result = (float) expr.getValue();
+                return result;
+            }
         }
         catch (ParserException e)
         {

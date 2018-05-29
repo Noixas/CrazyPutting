@@ -2,6 +2,7 @@ package com.crazy_putting.game.GameLogic;
 
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.math.Intersector;
@@ -222,9 +223,17 @@ public class TerrainEditor extends InputAdapter {
 
       //  System.out.println(pNode);
     //    System.out.println(vert.length);
+        for(int i = 0; i <14; i ++) {
+            System.out.println(vert[i]);
+        }
         for(int i = 1; i < vert.length; i +=7)
         {
+            boolean aboveWater = vert[i]>=-1;
             vert[i] = spline.getHeightAt(new Vector2(vert[i-1],vert[i+1]));
+            if(vert[i] < -1 && aboveWater)
+                vert[i+2] = Color.toFloatBits(Color.BLUE.r,Color.BLUE.g,Color.BLUE.b,Color.BLUE.a);
+            else if(aboveWater == false && vert[i]>=-1)
+                vert[i+2] = Color.toFloatBits(Color.GREEN.r,Color.GREEN.g,Color.GREEN.b,Color.GREEN.a);
             triangles.get(count + offset).y = vert[i];
             count++;
         }
