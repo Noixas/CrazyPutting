@@ -1,6 +1,5 @@
 package com.crazy_putting.game.Physics;
 
-
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameLogic.GraphicsManager;
@@ -17,9 +16,8 @@ public abstract class Physics {
     protected static float mu;
     protected ArrayList<PhysicsGameObject> movingObjects = new ArrayList<PhysicsGameObject>();
 
-    protected Vector3 curObjectPosition;
-    protected Velocity curObjectVelocity;
     protected Vector3 objectAcceleration;
+    protected State state = new State();
 
     public static Physics physics = new RK4();
 
@@ -28,6 +26,25 @@ public abstract class Physics {
      */
 
     public abstract void update(double dt);
+
+    /*
+    other
+     */
+
+    public void addMovableObject(PhysicsGameObject obj) {
+        movingObjects.add(obj);
+    }
+
+    public static void updateCoefficients() {
+        mu = CourseManager.getActiveCourse().getFriction();
+    }
+
+    public abstract void updateBall(Ball b,float dt);
+    
+    public float equation2Points(float dx, float dy, float xValue, float previousX, float previousY) {
+        return (dy/dx) * (xValue -  previousX) + previousY;
+    }
+
 
     /*
     Collision
@@ -66,24 +83,82 @@ public abstract class Physics {
         return false;
     }
 
-    /*
-    other
+
+        /*
+    Acceleration a = F/m = G + H
      */
 
-    public float equation2Points(float dx, float dy, float xValue, float previousX, float previousY) {
-        return (dy/dx) * (xValue -  previousX) + previousY;
+    public boolean calculateAcceleration(PhysicsGameObject obj) {
+        state.update(obj);
+        Vector3 gravity = gravityForce(state);
+        double grav = Math.sqrt(Math.pow(gravity.x,2)+ Math.pow(gravity.y,2));
+
+        Vector3 friction = frictionForce(state);
+        double fric = Math.sqrt(Math.pow(friction.x,2)+ Math.pow(friction.y,2));
+
+        objectAcceleration = new Vector3(friction.x + gravity.x,friction.y + gravity.y,0);
+
+        if(!obj.isMoving() && fric>grav){
+            return false;
+        }
+        return true;
     }
 
-    public void addMovableObject(PhysicsGameObject obj) {
-        movingObjects.add(obj);
+    public Vector3 acceleration(State s){
+        Vector3 gravity = gravityForce(s);
+        Vector3 friction = frictionForce(s);
+        return new Vector3(friction.x + gravity.x,friction.y + gravity.y,0);
     }
 
-    public static void updateCoefficients() {
-        mu = CourseManager.getActiveCourse().getFriction();
+    /*
+    Calculate H
+     */
+
+    public Vector3 frictionForce(State s){
+        float numeratorX = (-mu * g * s.getVx());
+        float numeratorY = (-mu * g * s.getVy());
+
+        float lengthOfVelocityVector = (float) (Math.pow(s.getVx(), 2) + Math.pow(s.getVy(), 2));
+        float denominator = (float) Math.sqrt(lengthOfVelocityVector);
+
+        return new Vector3(numeratorX/denominator,numeratorY/denominator,0);
     }
 
-    public abstract void updateBall(Ball b,float dt);
+    /*
+    Calculate G
+     */
 
-    public abstract boolean calculateAcceleration(PhysicsGameObject obj);
+    public Vector3 gravityForce(State s){
+        Vector3 partials = partialDerivatives(s);
+        float gx = -partials.x * g ;
+        float gy = -partials.y * g ;
+
+        partials.x = gx;
+        partials.y = gy;
+
+        return partials;
+
+    }
+
+    /*
+    Partial Derivatives
+     */
+
+    public Vector3 partialDerivatives(State s){
+        float x1 =  s.getX() + EPSILON;
+        float x2 =  x1 - 2 * EPSILON;
+        float yCur = s.getY();
+
+        float partialX = ((CourseManager.calculateHeight(x1, yCur) - CourseManager.calculateHeight(x2, yCur)) / 2 * EPSILON);
+
+        x1-=EPSILON;
+        yCur+=EPSILON;
+        float y2 = yCur - 2 * EPSILON;
+
+        float partialY = ((CourseManager.calculateHeight(x1, yCur) - CourseManager.calculateHeight(x1, y2)) / 2 * EPSILON);
+
+        return new Vector3(partialX,partialY,0);
+
+    }
 
 }
