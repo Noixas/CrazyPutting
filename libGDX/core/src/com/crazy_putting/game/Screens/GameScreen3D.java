@@ -56,9 +56,6 @@ public class GameScreen3D extends InputAdapter implements Screen {
             parser = new FormulaParser();
             this._game = pGame;
 
-            initTerrain();
-            _gameManager = new GameManager(pGame, pMode);
-
             //3D
             _cam3D = new PerspectiveCamera(67,Width3DScreen, Height2DScreen);
             _cam3D.position.add( new Vector3(0, 1300, 0));
@@ -66,6 +63,10 @@ public class GameScreen3D extends InputAdapter implements Screen {
             _cam3D.near = 1f;
             _cam3D.far = 15000f;
             _cam3D.update();
+
+            initTerrain();
+            _gameManager = new GameManager(pGame, pMode);
+
 
             camController = new CameraInputController(_cam3D);
             camController.translateUnits = 50;
