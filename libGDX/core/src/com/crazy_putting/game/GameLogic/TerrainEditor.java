@@ -2,6 +2,7 @@ package com.crazy_putting.game.GameLogic;
 
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.math.Intersector;
@@ -33,18 +34,6 @@ public class TerrainEditor extends InputAdapter {
     private boolean _splineEnabled;
     boolean print = false;
     private GameManager _observer;
-//    double[][] p = {{-10,90,90,0},
-//            {0,20,70,0},
-//            {0,60,30,0},
-//            {-10,-57,70,0}};
-//double[][] p = {{0,0,0,0},
-//        {90,90,0,0},
-//        {250,250,0,0},
-//        {160,160,0,0}};
-//double[][] p = {{-50,50,-50,50},
-//        {0,0,0,0},
-//        {0,0,0,0},
-//        {0,0,0,0}};
     double[][] p = {{-50},{50},{50},{50},
             {0},{0},{0},{0},
             {0},{0},{0},{0},
@@ -76,54 +65,17 @@ public class TerrainEditor extends InputAdapter {
     public void addObserver(GameManager pObserver) {
         _observer = pObserver;
     }
-    /*
-    Create spline points uniformly on the prev generated terrain
-     */
-//    private void createSplinePoints(Vector2 pTerrainSize, int pAmountPerSize){
-//        int dist2PointX = (int) pTerrainSize.x/(pAmountPerSize -1) ;
-//        int dist2PointY = (int) pTerrainSize.y/(pAmountPerSize -1);
-//        for(int i = 0; i < pAmountPerSize; i++)
-//            for(int j = 0; j < pAmountPerSize; j++)
-//            {
-//                Vector3 pos = getClosestVertex(new Vector3(dist2PointX*j - (int)(pTerrainSize.x/2), 20000,dist2PointY*i - (int)(pTerrainSize.y/2)));
-//                createControlPoint(pos);
-//                System.out.println("POINT CREATED AT: "+pos);
-//            }
-//    }
-//    /*
-//        Create spline points based on the given points
-//    */
-//    private void createSplinePoints(Vector2 pTerrainSize, double[][] pHeight){
-//        double[][] newP = {{-50,50},{-50,50}};
-//        int dist2PointX = (int) pTerrainSize.x/(newP.length -1) ;
-//        int dist2PointY = (int) pTerrainSize.y/(newP[0].length -1);
-//        for(int i = 0; i < newP.length; i++)
-//            for(int j = 0; j < newP.length; j++)
-//            {
-//                Vector3 pos = getClosestVertex(new Vector3(dist2PointX*j - (int)(pTerrainSize.x/2), 20000,dist2PointY*i - (int)(pTerrainSize.y/2)));
-//                createControlPoint(pos,new Vector2(j,i),newP[i][j]);
-//                System.out.println("POINT CREATED AT: "+pos);
-//            }
-//    }
-//    private void createControlPoint(Vector3 pPos,Vector2 pIndex, double pHeight){
-//        swapYandZ(pPos);
-//        pPos.z = (float)pHeight*10.0f;
-//        SplinePoint point = new SplinePoint(pPos, pIndex, pHeight);
-//        Graphics3DComponent pointGraphics = new Graphics3DComponent(2);
-//        point.addGraphicComponent(pointGraphics);
-//        _splinePoints.add(point);
-//
-//    }private void createControlPoint(Vector3 pPos){
-//        swapYandZ(pPos);
-//        SplinePoint point = new SplinePoint(pPos);
-//        Graphics3DComponent pointGraphics = new Graphics3DComponent(2);
-//        point.addGraphicComponent(pointGraphics);
-//        _splinePoints.add(point);
-//
-//    }
     public void setSplineEditActive(boolean pActive){
-        if(_splineEnabled)
-        _splineEdit = pActive;
+        if(_splineEnabled) {
+            _splineEdit = pActive;
+            showSplinePoints();
+        }
+    }
+    private void showSplinePoints(){
+        for (int i = 0; i < _splinePoints.length;i++) {
+            for (int j = 0; j < _splinePoints[0].length;j++) {
+                _splinePoints[i][j].enabled = _splineEdit;
+            }}
     }
     private Vector3 getClosestVertex(Vector3 pos){
         Vector3 intersection = new Vector3();
@@ -222,9 +174,17 @@ public class TerrainEditor extends InputAdapter {
 
       //  System.out.println(pNode);
     //    System.out.println(vert.length);
+        for(int i = 0; i <14; i ++) {
+            System.out.println(vert[i]);
+        }
         for(int i = 1; i < vert.length; i +=7)
         {
+            boolean aboveWater = vert[i]>=-1;
             vert[i] = spline.getHeightAt(new Vector2(vert[i-1],vert[i+1]));
+            if(vert[i] < -1 && aboveWater)
+                vert[i+2] = Color.toFloatBits(Color.BLUE.r,Color.BLUE.g,Color.BLUE.b,Color.BLUE.a);
+            else if(aboveWater == false && vert[i]>=-1)
+                vert[i+2] = Color.toFloatBits(Color.GREEN.r,Color.GREEN.g,Color.GREEN.b,Color.GREEN.a);
             triangles.get(count + offset).y = vert[i];
             count++;
         }
