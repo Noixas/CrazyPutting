@@ -31,6 +31,7 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
     private Label speedText;
     private Label ball_position;
     private Label turnCount;
+    private Label maxSpeed;
     Viewport view;
     private CheckBox _splineEdit;
 
@@ -85,13 +86,19 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         int y = (int)_gameManager.getBall().getPosition().y;
         int height = (int)CourseManager.calculateHeight(x,y);
         ball_position = new Label("Ball Position\n" + "height: " + height + "\nx:" + x + " y: " + y,skin);
+
+
         turnCount = new Label("Turns: " + _gameManager.getTurns(),skin);
+        maxSpeed = new Label("Max speed: " + CourseManager.getMaxSpeed()+"\n",skin);
+
         table.setDebug(true);
        // table.setSize(GameScreen3D.Width2DScreen,);
         Label ne = new Label("TEST TABLE this is longer",skin);
         //Label ne2 = new Label("TEST TA2222222222222E this is longer",skin);
         System.out.println(table.getY()+"X OF TABLE");
 
+        table.add(maxSpeed);
+        table.row();
         table.add(speedText);
         table.row();
         table.add(ball_position);
@@ -124,6 +131,7 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         Vector3 unprojectBallX = _cam2D.unproject(new Vector3(GameScreen3D.Width3DScreen, 70,0));
         Vector3 unprojectBallY = _cam2D.unproject(new Vector3(GameScreen3D.Width3DScreen, 100,0));
         Vector3 unprojectTurn = _cam2D.unproject(new Vector3(GameScreen3D.Width3DScreen, 130,0));
+        maxSpeed.setText("Max speed: " + CourseManager.getMaxSpeed());
         speedText.setText("Speed: " + (int) (_gameManager.getBall().getVelocity().getSpeed()));
         int x = (int)ball.getPosition().x;
         int y = (int)ball.getPosition().y;
