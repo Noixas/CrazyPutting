@@ -32,7 +32,7 @@ public class TerrainEditor extends InputAdapter {
     private GameObject _draggingPoint;
     private boolean _splineEnabled;
     boolean print = false;
-
+    private GameManager _observer;
 //    double[][] p = {{-10,90,90,0},
 //            {0,20,70,0},
 //            {0,60,30,0},
@@ -72,6 +72,9 @@ public class TerrainEditor extends InputAdapter {
         //createSplinePoints(terrainSize, 4);
     }
 
+    }
+    public void addObserver(GameManager pObserver) {
+        _observer = pObserver;
     }
     /*
     Create spline points uniformly on the prev generated terrain
@@ -290,6 +293,7 @@ public class TerrainEditor extends InputAdapter {
             System.out.println(_draggingPoint.getPosition());
                 gp.setColor(3);
                // printArray(p);
+                _observer.updateObjectPos();
                 return true;
             }
         //    _screen3D.setCamControllerEnabled(true);
