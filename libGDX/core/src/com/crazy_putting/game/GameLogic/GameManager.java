@@ -6,7 +6,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Bot.Bot;
-import com.crazy_putting.game.Bot.BotTest;
 import com.crazy_putting.game.Bot.GeneticAlgorithm;
 import com.crazy_putting.game.Components.Graphics2DComponent;
 import com.crazy_putting.game.Components.Graphics3DComponent;
@@ -241,9 +240,9 @@ public class GameManager {
                 //_ball = GA.getTheBestBall();
             }
             if(Gdx.input.isKeyJustPressed(Input.Keys.T) && !_ball.isMoving()){
-                BotTest test = new BotTest(CourseManager.getCourseList(),);
-                test.runTest();
-                test.printResults();
+                //BotTest test = new BotTest(CourseManager.getCourseList(),);
+               // test.runTest();
+                //test.printResults();
             }
         }
     }
