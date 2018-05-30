@@ -10,6 +10,7 @@ import com.crazy_putting.game.Bot.GeneticAlgorithm;
 import com.crazy_putting.game.Components.Graphics2DComponent;
 import com.crazy_putting.game.Components.Graphics3DComponent;
 import com.crazy_putting.game.GameObjects.Ball;
+import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.Others.InputData;
 import com.crazy_putting.game.Others.Velocity;
@@ -245,6 +246,7 @@ public class GameManager {
         }
         else if (_mode == 3){
             if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !_ball.isMoving()){
+                bot = new Bot(_ball,_hole, CourseManager.getActiveCourse());
                 Velocity computedVelocity = bot.computeOptimalVelocity();
                 Gdx.app.log("Ball","Position x "+ _ball.getPosition().x+" position y "+_ball.getPosition().y);
                 checkConstrainsAndSetVelocity(computedVelocity.speed, computedVelocity.angle);
