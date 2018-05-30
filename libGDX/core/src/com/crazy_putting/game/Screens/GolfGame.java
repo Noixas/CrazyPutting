@@ -36,7 +36,6 @@ public class GolfGame extends Game {
         environment.add(new DirectionalLight().set(0.2251f, 0.4f, 0.072f, -.3f, -.3f, -.2f));
         batch3D = new ModelBatch();
         GraphicsManager.set3DEnvironment(environment);
-        CourseManager.loadFile("courses.txt");
     }
 
     @Override

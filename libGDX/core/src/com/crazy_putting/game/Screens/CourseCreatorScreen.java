@@ -44,6 +44,10 @@ public class CourseCreatorScreen implements Screen {
     private Table table;
 
     public CourseCreatorScreen(GolfGame game){
+        if(MenuScreen.Spline3D == false)
+        CourseManager.loadFile("courses.txt");
+        else CourseManager.loadFile("coursesSpline.txt");
+
         this.game = game;
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);

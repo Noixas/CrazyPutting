@@ -34,6 +34,8 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
     private Label maxSpeed;
     Viewport view;
     private CheckBox _splineEdit;
+    private CheckBox _changeBallPos;
+    private  CheckBox _changeHolePos;
     private boolean _spline;
 
     public GUI(GolfGame pGame, GameManager pGameManager, Camera pCam2D, FitViewport viewPort, boolean pSpline)
@@ -56,10 +58,13 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 CourseManager.saveCourseSpline();
+                _gameManager.saveBallAndHolePos();
                 CourseManager.reWriteCourse();
             }
         });
         _splineEdit = new CheckBox("Spline Editor", _skin);
+        _changeBallPos = new CheckBox("Change Ball Position", _skin);
+        _changeHolePos = new CheckBox("Change Hole Position", _skin);
 
         initUI();
         System.out.println("VIEWPORT POS "+ view.getScreenY()   );
@@ -98,6 +103,11 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         Label ne = new Label("TEST TABLE this is longer",skin);
         //Label ne2 = new Label("TEST TA2222222222222E this is longer",skin);
         System.out.println(table.getY()+"X OF TABLE");
+        ButtonGroup buttonGroup = new ButtonGroup(_splineEdit, _changeBallPos, _changeHolePos);
+//next set the max and min amount to be checked
+        buttonGroup.setMaxCheckCount(1);
+        buttonGroup.setMinCheckCount(0);
+        buttonGroup.uncheckAll();
 
         table.add(maxSpeed);
         table.row();
@@ -111,6 +121,10 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
             table.add(saveSplines);
             table.row();
             table.add(_splineEdit);
+            table.row();
+            table.add(_changeBallPos);
+            table.row();
+            table.add(_changeHolePos);
         }
         Vector3 unprojectSpeed = _cam2D.unproject(new Vector3(GameScreen3D.Width3DScreen, 10,0));
         Vector3 unprojectHeight =_cam2D.unproject(new Vector3(GameScreen3D.Width3DScreen, 40,0));
@@ -165,6 +179,15 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
     public boolean isSplineEditActive()
     {
         return _splineEdit.isChecked();
+    }
+    public boolean isChangeBallActive()
+    {
+
+        return _changeBallPos.isChecked();
+    }
+    public boolean isChangeHoleActive()
+    {
+        return _changeHolePos.isChecked();
     }
 
 }

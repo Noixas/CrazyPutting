@@ -93,12 +93,19 @@ public class GameScreen3D extends InputAdapter implements Screen {
         }
 
         private void retrieveGUIState(){
-            boolean state =_gui.isSplineEditActive();
-          _terrainEditor.setSplineEditActive(state);
-          if(state) {
+            boolean stateSpline =_gui.isSplineEditActive();
+       //   _terrainEditor.setSplineEditActive(stateSpline);
+            boolean changeBall = _gui.isChangeBallActive();
+            boolean changeHole = _gui.isChangeHoleActive();
+            _terrainEditor.updateGUIState(stateSpline,changeBall,changeHole);
+            if(stateSpline ||changeBall||changeHole) {
+                if(_inputMain.getProcessors().contains(_terrainEditor,true) == false)
               _inputMain.addProcessor(1, _terrainEditor);
           }else
               _inputMain.removeProcessor(_terrainEditor);
+       }
+       private void updateSpline(){
+
        }
         public void setCamControllerEnabled(boolean enabled){
             if(enabled ) _inputMain.addProcessor(camController);//TODO: May need to check if the input is already there to avoid copies? Prioritizing spline deployment atm.
