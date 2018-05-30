@@ -118,6 +118,9 @@ public class GameManager {
     }
     public void Update(float pDelta)
     {
+        if(pDelta > 0.03){
+            pDelta = 0.00166f;
+        }
        handleInput(_game.input);
         _ball.update(pDelta);
         Physics.physics.update(pDelta);

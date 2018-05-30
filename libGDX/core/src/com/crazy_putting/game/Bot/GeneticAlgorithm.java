@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 
 import com.crazy_putting.game.GameLogic.CourseManager;
+import com.crazy_putting.game.GameLogic.GameManager;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.GameObjects.Hole;
@@ -74,6 +75,7 @@ public class GeneticAlgorithm {
         createPopulation();
 
         for(int i = 0; i < MAX_ITER;i++){
+
 
             unFixAllTheBall();
 
@@ -159,13 +161,13 @@ public class GeneticAlgorithm {
                 float randomNum = -1 + rand.nextFloat()*2;
 
                 if (u > 0.5) {
-                    float newSpeed = speed2 + randomNum*10;
-                    float newAngle = angle2 + randomNum*10;
+                    float newSpeed = speed2 + randomNum*5;
+                    float newAngle = angle2 + randomNum*5;
                     iterativeBall.setVelocityGA((newSpeed), newAngle);
                     iterativeBall.setVelocity((newSpeed), newAngle);
                 } else {
-                    float newSpeed = speed1 + randomNum*10;
-                    float newAngle = angle1 + randomNum*10;
+                    float newSpeed = speed1 + randomNum*5;
+                    float newAngle = angle1 + randomNum*5;
                     iterativeBall.setVelocityGA((newSpeed), newAngle);
                     iterativeBall.setVelocity((newSpeed), newAngle);
                 }
