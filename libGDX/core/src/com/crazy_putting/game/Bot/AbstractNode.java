@@ -38,6 +38,8 @@ public abstract class AbstractNode {
         this.yPosition = y;
     }
 
+
+
     public int getxPosition() {
         return xPosition;
     }
@@ -115,6 +117,13 @@ public abstract class AbstractNode {
         this.hCosts = hCosts;
     }
 
+    public int calculateHcosts(int goalX, int goalY)
+    {
+        int currentX, currentY;
+        currentX = this.xPosition;
+        currentY = this.yPosition;
+        return (int)Math.sqrt((currentX-goalX)*(currentX-goalX)+(currentY-goalY)*(currentY-goalY));
+    }
 
     public abstract void setCosts(AbstractNode endAbstractNode);
 

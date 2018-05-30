@@ -58,7 +58,7 @@ public class Map<T extends AbstractNode> {
         done = false;
         T current;
         while (!done) {
-            current = lowestFInOpen();
+            current = lowestFInOpen(newX, newY);
             closedList.add(current);
             openList.remove(current);
 
@@ -109,10 +109,10 @@ public class Map<T extends AbstractNode> {
     }
 
 
-    private T lowestFInOpen() {
+    private T lowestFInOpen(int goalX, int goalY) {
         T cheapest = openList.get(0);
         for (int i = 0; i < openList.size(); i++) {
-            if (openList.get(i).getfCosts() < cheapest.getfCosts()) {
+            if (openList.get(i).calculateHcosts(goalX, goalY) < cheapest.gethCosts()) {
                 cheapest = openList.get(i);
             }
         }
@@ -126,6 +126,7 @@ public class Map<T extends AbstractNode> {
         List<T> adj = new LinkedList<T>();
 
         T temp;
+            // WEST WEST WEST
         if (x > 0) {
             temp = this.getNode((x - 1), y);
             if (temp.isWalkable() && !closedList.contains(temp)) {
@@ -133,7 +134,7 @@ public class Map<T extends AbstractNode> {
                 adj.add(temp);
             }
         }
-
+            // EAST EAST EAST
         if (x < width) {
             temp = this.getNode((x + 1), y);
             if (temp.isWalkable() && !closedList.contains(temp)) {
@@ -141,7 +142,7 @@ public class Map<T extends AbstractNode> {
                 adj.add(temp);
             }
         }
-
+            // SOUTH SOUTH SOUTH
         if (y > 0) {
             temp = this.getNode(x, (y - 1));
             if (temp.isWalkable() && !closedList.contains(temp)) {
@@ -149,7 +150,7 @@ public class Map<T extends AbstractNode> {
                 adj.add(temp);
             }
         }
-
+            // NORTH NORTH NORTH
         if (y < length) {
             temp = this.getNode(x, (y + 1));
             if (temp.isWalkable() && !closedList.contains(temp)) {
@@ -157,7 +158,7 @@ public class Map<T extends AbstractNode> {
                 adj.add(temp);
             }
         }
-
+            // NORTH EAST NORTH EAST NORTH EAST
         if (x < width && y < length) {
             temp = this.getNode((x + 1), (y + 1));
             if (temp.isWalkable() && !closedList.contains(temp)) {
@@ -165,7 +166,7 @@ public class Map<T extends AbstractNode> {
                 adj.add(temp);
             }
         }
-
+            // SOUTH WEST SOUTH WEST SOUTH WEST
         if (x > 0 && y > 0) {
             temp = this.getNode((x - 1), (y - 1));
             if (temp.isWalkable() && !closedList.contains(temp)) {
@@ -173,7 +174,7 @@ public class Map<T extends AbstractNode> {
                 adj.add(temp);
             }
         }
-
+            // NORTH WEST NORTH WEST NORTH WEST
         if (x > 0 && y < length) {
             temp = this.getNode((x - 1), (y + 1));
             if (temp.isWalkable() && !closedList.contains(temp)) {
@@ -181,7 +182,7 @@ public class Map<T extends AbstractNode> {
                 adj.add(temp);
             }
         }
-
+            // SOUTH EAST SOUTH EAST SOUTH EAST
         if (x < width && y > 0) {
             temp = this.getNode((x + 1), (y - 1));
             if (temp.isWalkable() && !closedList.contains(temp)) {

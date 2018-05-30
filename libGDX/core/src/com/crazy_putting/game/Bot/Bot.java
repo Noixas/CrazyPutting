@@ -51,11 +51,34 @@ public class Bot {
         this.lineGoal = lineGoal(lineStartGoal);
         Gdx.app.log("Log",lineGoal.getA()+" "+lineGoal.getB());
 
-        Map<Node> myMap = new Map<Node>(1000, 1000, new ExampleFactory());
-        path = (ArrayList<Node>) myMap.findPath((int)CourseManager.getStartPosition().x, (int)CourseManager.getStartPosition().y, (int)CourseManager.getGoalStartPosition().x, (int)CourseManager.getGoalStartPosition().y);
+        int startX = (int)CourseManager.getStartPosition().x;
+        int startY = (int)CourseManager.getStartPosition().y;
+        int goalX = (int)CourseManager.getGoalStartPosition().x;
+        int goalY = (int)CourseManager.getGoalStartPosition().y;
+        int xAbsDiff = Math.abs(startX-goalX);
+        int yAbsDiff = Math.abs(startY-goalY);
+
+        Map<Node> nodeMap = new Map<Node>(xAbsDiff + 1, yAbsDiff + 1, new ExampleFactory());
+        List<Node> path;
+
+        if(startX > goalX) {
+            if(startY > goalY){
+                path = nodeMap.findPath( xAbsDiff , yAbsDiff , 0, 0); // START X > GOAL X          START Y > GOAL Y
+            }
+            else path = nodeMap.findPath(xAbsDiff , 0, 0, yAbsDiff ); // START X > GOAL X           START Y < GOAL Y
+        }
+        else if(startY < goalY){
+            path = nodeMap.findPath(0, 0, xAbsDiff , yAbsDiff );      // START X < GOAL X            START Y < GOAL Y
+        }
+        else
+            path = nodeMap.findPath(0, yAbsDiff , xAbsDiff , 0);     // START X < GOAL X            START Y > GOAL Y
+
+
+        // path = (ArrayList<Node>) nodeMap.findPath((int)CourseManager.getStartPosition().x, (int)CourseManager.getStartPosition().y, (int)CourseManager.getGoalStartPosition().x, (int)CourseManager.getGoalStartPosition().y);
 
         for (int i = 0; i < path.size(); i++) {
-            System.out.print("(" + path.get(i).getxPosition() + ", " + path.get(i).getyPosition() + ") -> ");
+            if(i!=path.size()-1) System.out.print("(" + path.get(i).getxPosition() + ", " + path.get(i).getyPosition() + ") -> ");
+            else System.out.println("(" + path.get(i).getxPosition() + ", " + path.get(i).getyPosition() + ") -> DONE");
         }
     }
 
