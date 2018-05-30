@@ -3,6 +3,7 @@ package com.crazy_putting.game.Bot;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 
+import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.GameObjects.Hole;
@@ -25,12 +26,12 @@ public class GeneticAlgorithm {
 
     private Vector3 initial_Position;
 
-    public final int POPULATION_SIZE = 200;
+    private final int POPULATION_SIZE = 200;
     private final double ELITE_RATE = 0.1;
     private final double MUTATION_RATE = 0.3;
     private static final int MAX_ITER = 80;
     public int  nrOfGenerationsProduced;
-    public int fails;
+    //public int fails;
     private Ball bestBall;
 
     private static DecimalFormat df2 = new DecimalFormat(".##");
@@ -46,18 +47,18 @@ public class GeneticAlgorithm {
         this.allBalls = new ArrayList<Ball>();
         this.firstIteration = new ArrayList<Ball>();
         this.initial_Position = new Vector3();
-        fails=0;
+        //fails=0;
 
         createBallObjects();
-        nrOfGenerationsProduced = run();
 
+        run();
 
         bestBall = allBalls.get(0);
         printBestBall();
     }
 
     //main method for the algorithm
-    public int run(){
+    public void run(){
 
         //create 5xPopulationSize list
         randomizeBallInput();
@@ -87,7 +88,7 @@ public class GeneticAlgorithm {
             if(allBalls.get(0).getFitnessValue() == 0){
                 System.out.println("Success");
 
-                return i+1;
+                return;
             }
 
             children = null;
@@ -95,8 +96,7 @@ public class GeneticAlgorithm {
             allBalls = crossOver();
 
         }
-        fails++;
-        return 0;
+
     }
 
     public void printBestBall(){
@@ -170,7 +170,7 @@ public class GeneticAlgorithm {
                     iterativeBall.setVelocity((newSpeed), newAngle);
                 }
             }
-                iterativeBall.setPosition(course.getStartBall());
+                iterativeBall.setPosition(CourseManager.getStartPosition());
 
                 children.add(iterativeBall);
             }
@@ -234,7 +234,7 @@ public class GeneticAlgorithm {
 
 
     private void createBallObjects(){
-        this.initial_Position = course.getStartBall();
+        this.initial_Position = CourseManager.getStartPosition();
         for(int i = 0 ; i < POPULATION_SIZE * 5; i++){
 
             Ball addBall = new Ball();

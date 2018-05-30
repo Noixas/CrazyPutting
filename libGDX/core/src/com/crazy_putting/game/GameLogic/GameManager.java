@@ -199,12 +199,20 @@ public class GameManager {
 
         }
             if(_mode == 1) {
+
                 if (Gdx.input.isKeyJustPressed(Input.Keys.G) && !_ball.isMoving()){
+                    System.out.println(_ball.getPosition().x + "  " + _ball.getPosition().y);
 
-                    GeneticAlgorithm GA = new GeneticAlgorithm(_hole,CourseManager.getActiveCourse());
-                    //_ball = GA.getTheBestBall();
+                    GeneticAlgorithm GA = new GeneticAlgorithm(_hole, CourseManager.getActiveCourse());
+
+                    Ball b = GA.getBestBall();
+                    float speed = b.getVelocityGA().speed;
+                    float angle = b.getVelocityGA().angle;
+                    _ball.setVelocity(speed,angle);
+                    _ball.fix(false);
+
+
                 }
-
 
 
                 if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !_ball.isMoving()) {
@@ -281,7 +289,7 @@ public class GameManager {
         }
         increaseTurnCount();
 
-        Gdx.app.log("Ball2","Position x "+ _ball.getPosition().x+" position y "+_ball.getPosition().y);
+       // Gdx.app.log("Ball2","Position x "+ _ball.getPosition().x+" position y "+_ball.getPosition().y);
         _ball.setVelocity(speed, inputAngle);
         _ball.fix(false);
     }
