@@ -74,10 +74,10 @@ public class TerrainEditor extends InputAdapter {
             _changeBall = ball;
             _changeHole = hole;
 
-            System.out.println("Ball "+ball);
-            System.out.println("Hole "+hole);
-            System.out.println("Edit "+pSpline);
-            System.out.println();
+          //  System.out.println("Ball "+ball);
+           // System.out.println("Hole "+hole);
+           // System.out.println("Edit "+pSpline);
+           // System.out.println();
         }
 
     }
@@ -99,7 +99,7 @@ public class TerrainEditor extends InputAdapter {
 
         System.out.println(_changeBall);
        if(_splineEdit) {
-           System.out.println("SplineEdit");
+           //System.out.println("SplineEdit");
 
            _dragging = false;
         _draggingPoint = intersectSplinePoint(screenX,screenY);
@@ -112,12 +112,12 @@ public class TerrainEditor extends InputAdapter {
            return true;
         }
        }else if(_changeBall){
-           System.out.println("Ball");
+           //System.out.println("Ball");
             Vector3 pos = getObject(screenX,screenY);
             changeBallPos(pos);
        }
        else if(_changeHole){
-           System.out.println("Hole");
+           //System.out.println("Hole");
            Vector3 pos = getObject(screenX,screenY);
            changeHolePos(pos);
        }
