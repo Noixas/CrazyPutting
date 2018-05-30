@@ -102,7 +102,7 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
        // table.setSize(GameScreen3D.Width2DScreen,);
         Label ne = new Label("TEST TABLE this is longer",skin);
         //Label ne2 = new Label("TEST TA2222222222222E this is longer",skin);
-        System.out.println(table.getY()+"X OF TABLE");
+     //   System.out.println(table.getY()+"X OF TABLE");
         ButtonGroup buttonGroup = new ButtonGroup(_splineEdit, _changeBallPos, _changeHolePos);
 //next set the max and min amount to be checked
         buttonGroup.setMaxCheckCount(1);

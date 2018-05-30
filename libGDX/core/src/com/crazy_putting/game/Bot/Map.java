@@ -1,6 +1,6 @@
 package com.crazy_putting.game.Bot;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Map<T extends AbstractNode> {
@@ -51,14 +51,14 @@ public class Map<T extends AbstractNode> {
     private boolean done = false;
 
     public final List<T> findPath(int oldX, int oldY, int newX, int newY) {
-        openList = new LinkedList<T>();
-        closedList = new LinkedList<T>();
+        openList = new ArrayList<T>();
+        closedList = new ArrayList<T>();
         openList.add(nodes[oldX][oldY]);
 
         done = false;
         T current;
         while (!done) {
-            current = lowestFInOpen();
+            current = lowestFInOpen(newX, newY);
             closedList.add(current);
             openList.remove(current);
 
@@ -84,7 +84,7 @@ public class Map<T extends AbstractNode> {
             }
 
             if (openList.isEmpty()) {
-                return new LinkedList<T>();
+                return new ArrayList<T>();
             }
         }
         return null;
@@ -93,12 +93,12 @@ public class Map<T extends AbstractNode> {
 
     private List<T> calcPath(T start, T goal) {
         // TODO if invalid nodes are given (eg cannot find from goal to start, this method will result in an infinite loop!)
-        LinkedList<T> path = new LinkedList<T>();
+        ArrayList<T> path = new ArrayList<T>();
 
         T curr = goal;
         boolean done = false;
         while (!done) {
-            path.addFirst(curr);
+            path.add(0,curr);
             curr = (T) curr.getPrevious();
 
             if (curr.equals(start)) {
@@ -109,10 +109,10 @@ public class Map<T extends AbstractNode> {
     }
 
 
-    private T lowestFInOpen() {
+    private T lowestFInOpen(int goalX, int goalY) {
         T cheapest = openList.get(0);
         for (int i = 0; i < openList.size(); i++) {
-            if (openList.get(i).getfCosts() < cheapest.getfCosts()) {
+            if (openList.get(i).calculateHcosts(goalX, goalY) < cheapest.gethCosts()) {
                 cheapest = openList.get(i);
             }
         }
@@ -123,9 +123,10 @@ public class Map<T extends AbstractNode> {
     private List<T> getAdjacent(T node) {
         int x = node.getxPosition();
         int y = node.getyPosition();
-        List<T> adj = new LinkedList<T>();
+        List<T> adj = new ArrayList<T>();
 
         T temp;
+            // WEST WEST WEST
         if (x > 0) {
             temp = this.getNode((x - 1), y);
             if (temp.isWalkable() && !closedList.contains(temp)) {
@@ -133,7 +134,7 @@ public class Map<T extends AbstractNode> {
                 adj.add(temp);
             }
         }
-
+            // EAST EAST EAST
         if (x < width) {
             temp = this.getNode((x + 1), y);
             if (temp.isWalkable() && !closedList.contains(temp)) {
@@ -141,7 +142,7 @@ public class Map<T extends AbstractNode> {
                 adj.add(temp);
             }
         }
-
+            // SOUTH SOUTH SOUTH
         if (y > 0) {
             temp = this.getNode(x, (y - 1));
             if (temp.isWalkable() && !closedList.contains(temp)) {
@@ -149,7 +150,7 @@ public class Map<T extends AbstractNode> {
                 adj.add(temp);
             }
         }
-
+            // NORTH NORTH NORTH
         if (y < length) {
             temp = this.getNode(x, (y + 1));
             if (temp.isWalkable() && !closedList.contains(temp)) {
@@ -157,7 +158,7 @@ public class Map<T extends AbstractNode> {
                 adj.add(temp);
             }
         }
-
+            // NORTH EAST NORTH EAST NORTH EAST
         if (x < width && y < length) {
             temp = this.getNode((x + 1), (y + 1));
             if (temp.isWalkable() && !closedList.contains(temp)) {
@@ -165,7 +166,7 @@ public class Map<T extends AbstractNode> {
                 adj.add(temp);
             }
         }
-
+            // SOUTH WEST SOUTH WEST SOUTH WEST
         if (x > 0 && y > 0) {
             temp = this.getNode((x - 1), (y - 1));
             if (temp.isWalkable() && !closedList.contains(temp)) {
@@ -173,7 +174,7 @@ public class Map<T extends AbstractNode> {
                 adj.add(temp);
             }
         }
-
+            // NORTH WEST NORTH WEST NORTH WEST
         if (x > 0 && y < length) {
             temp = this.getNode((x - 1), (y + 1));
             if (temp.isWalkable() && !closedList.contains(temp)) {
@@ -181,7 +182,7 @@ public class Map<T extends AbstractNode> {
                 adj.add(temp);
             }
         }
-
+            // SOUTH EAST SOUTH EAST SOUTH EAST
         if (x < width && y > 0) {
             temp = this.getNode((x + 1), (y - 1));
             if (temp.isWalkable() && !closedList.contains(temp)) {
