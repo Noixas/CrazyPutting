@@ -2,7 +2,6 @@ package com.crazy_putting.game.Bot;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameLogic.GameManager;
 import com.crazy_putting.game.GameObjects.Ball;
@@ -11,9 +10,7 @@ import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.Others.Velocity;
 import com.crazy_putting.game.Physics.Physics;
 
-import javax.swing.text.Position;
 import java.util.ArrayList;
-import java.util.List;
 
 /* TODO
     -save a heightmap as a texture/image file after computing it to reuse next time you choose this course and add to
@@ -59,19 +56,19 @@ public class Bot {
         int yAbsDiff = Math.abs(startY-goalY);
 
         Map<Node> nodeMap = new Map<Node>(xAbsDiff + 1, yAbsDiff + 1, new ExampleFactory());
-        List<Node> path;
+
 
         if(startX > goalX) {
             if(startY > goalY){
-                path = nodeMap.findPath( xAbsDiff , yAbsDiff , 0, 0); // START X > GOAL X          START Y > GOAL Y
+                path = (ArrayList<Node>)nodeMap.findPath( xAbsDiff , yAbsDiff , 0, 0); // START X > GOAL X          START Y > GOAL Y
             }
-            else path = nodeMap.findPath(xAbsDiff , 0, 0, yAbsDiff ); // START X > GOAL X           START Y < GOAL Y
+            else path = (ArrayList<Node>)nodeMap.findPath(xAbsDiff , 0, 0, yAbsDiff ); // START X > GOAL X           START Y < GOAL Y
         }
         else if(startY < goalY){
-            path = nodeMap.findPath(0, 0, xAbsDiff , yAbsDiff );      // START X < GOAL X            START Y < GOAL Y
+            path = (ArrayList<Node>)nodeMap.findPath(0, 0, xAbsDiff , yAbsDiff );      // START X < GOAL X            START Y < GOAL Y
         }
         else
-            path = nodeMap.findPath(0, yAbsDiff , xAbsDiff , 0);     // START X < GOAL X            START Y > GOAL Y
+            path = (ArrayList<Node>)nodeMap.findPath(0, yAbsDiff , xAbsDiff , 0);     // START X < GOAL X            START Y > GOAL Y
 
 
         // path = (ArrayList<Node>) nodeMap.findPath((int)CourseManager.getStartPosition().x, (int)CourseManager.getStartPosition().y, (int)CourseManager.getGoalStartPosition().x, (int)CourseManager.getGoalStartPosition().y);
@@ -233,6 +230,7 @@ public class Bot {
                 }
                 else if(speed<course.getMaxSpeed()){
                     speed +=speed*speedRate;
+                    System.out.println("isit working");
                     // if crossed the line
 //                    angle +=angleRate*angle;
                 }

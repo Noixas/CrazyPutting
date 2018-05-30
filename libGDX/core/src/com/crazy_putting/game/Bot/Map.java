@@ -1,6 +1,6 @@
 package com.crazy_putting.game.Bot;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Map<T extends AbstractNode> {
@@ -51,8 +51,8 @@ public class Map<T extends AbstractNode> {
     private boolean done = false;
 
     public final List<T> findPath(int oldX, int oldY, int newX, int newY) {
-        openList = new LinkedList<T>();
-        closedList = new LinkedList<T>();
+        openList = new ArrayList<T>();
+        closedList = new ArrayList<T>();
         openList.add(nodes[oldX][oldY]);
 
         done = false;
@@ -84,7 +84,7 @@ public class Map<T extends AbstractNode> {
             }
 
             if (openList.isEmpty()) {
-                return new LinkedList<T>();
+                return new ArrayList<T>();
             }
         }
         return null;
@@ -93,12 +93,12 @@ public class Map<T extends AbstractNode> {
 
     private List<T> calcPath(T start, T goal) {
         // TODO if invalid nodes are given (eg cannot find from goal to start, this method will result in an infinite loop!)
-        LinkedList<T> path = new LinkedList<T>();
+        ArrayList<T> path = new ArrayList<T>();
 
         T curr = goal;
         boolean done = false;
         while (!done) {
-            path.addFirst(curr);
+            path.add(0,curr);
             curr = (T) curr.getPrevious();
 
             if (curr.equals(start)) {
@@ -123,7 +123,7 @@ public class Map<T extends AbstractNode> {
     private List<T> getAdjacent(T node) {
         int x = node.getxPosition();
         int y = node.getyPosition();
-        List<T> adj = new LinkedList<T>();
+        List<T> adj = new ArrayList<T>();
 
         T temp;
             // WEST WEST WEST
