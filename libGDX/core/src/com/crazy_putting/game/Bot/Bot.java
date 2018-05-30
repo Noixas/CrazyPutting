@@ -54,6 +54,7 @@ public class Bot {
         int goalY = (int)CourseManager.getGoalStartPosition().y;
         int xAbsDiff = Math.abs(startX-goalX);
         int yAbsDiff = Math.abs(startY-goalY);
+        //System.out.println("X DIFFERENCE: " + xAbsDiff + " Y DIFFERENCE: " + yAbsDiff);
 
         Map<Node> nodeMap = new Map<Node>(xAbsDiff + 1, yAbsDiff + 1, new ExampleFactory());
 
@@ -70,13 +71,48 @@ public class Bot {
         else
             path = (ArrayList<Node>)nodeMap.findPath(0, yAbsDiff , xAbsDiff , 0);     // START X < GOAL X            START Y > GOAL Y
 
-
-        // path = (ArrayList<Node>) nodeMap.findPath((int)CourseManager.getStartPosition().x, (int)CourseManager.getStartPosition().y, (int)CourseManager.getGoalStartPosition().x, (int)CourseManager.getGoalStartPosition().y);
-
+        System.out.println("START");
+        System.out.print(" (" + startX + ", " + startY + ") -> ");
         for (int i = 0; i < path.size(); i++) {
+            int nodeCoordinateX = path.get(i).getxPosition();
+            int nodeCoordinateY = path.get(i).getyPosition();
+
+            if(startX > goalX) {
+                // START X > GOAL X
+                // START Y > GOAL Y
+                if(startY > goalY){
+                    nodeCoordinateX += goalX;
+                    nodeCoordinateY += goalY;
+
+                }
+                // START X > GOAL X
+                // START Y < GOAL Y
+                else {
+                    nodeCoordinateX += goalX;
+                    nodeCoordinateY += startY;
+                }
+            }
+            // START X < GOAL X
+            // START Y < GOAL Y
+            else if(startY < goalY){
+                nodeCoordinateX += startX;
+                nodeCoordinateY += startY;
+            }
+            // START X < GOAL X
+            // START Y > GOAL Y
+            else {
+                nodeCoordinateX += startX;
+                nodeCoordinateY += goalY;
+            }
+            path.get(i).setCoordinates(nodeCoordinateX, nodeCoordinateY);
             if(i!=path.size()-1) System.out.print("(" + path.get(i).getxPosition() + ", " + path.get(i).getyPosition() + ") -> ");
-            else System.out.println("(" + path.get(i).getxPosition() + ", " + path.get(i).getyPosition() + ") -> DONE");
+            else System.out.println("(" + path.get(i).getxPosition() + ", " + path.get(i).getyPosition() + ")");
+
+
         }
+        System.out.println("DONE");
+
+
     }
 
     /**

@@ -3,6 +3,8 @@ package com.crazy_putting.game.Bot;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 
+import com.crazy_putting.game.GameLogic.CourseManager;
+import com.crazy_putting.game.GameLogic.GameManager;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.GameObjects.Hole;
@@ -28,8 +30,9 @@ public class GeneticAlgorithm {
     private final int POPULATION_SIZE = 200;
     private final double ELITE_RATE = 0.1;
     private final double MUTATION_RATE = 0.3;
-    private static final int MAX_ITER = 50;
-    private int  nrOfGenerationsProduced;
+    private static final int MAX_ITER = 80;
+    public int  nrOfGenerationsProduced;
+    //public int fails;
     private Ball bestBall;
 
     private static DecimalFormat df2 = new DecimalFormat(".##");
@@ -45,9 +48,9 @@ public class GeneticAlgorithm {
         this.allBalls = new ArrayList<Ball>();
         this.firstIteration = new ArrayList<Ball>();
         this.initial_Position = new Vector3();
-        nrOfGenerationsProduced = 0;
-        createBallObjects();
+        //fails=0;
 
+        createBallObjects();
 
         run();
 
@@ -56,7 +59,7 @@ public class GeneticAlgorithm {
     }
 
     //main method for the algorithm
-    private void run(){
+    public void run(){
 
         //create 5xPopulationSize list
         randomizeBallInput();
@@ -72,6 +75,7 @@ public class GeneticAlgorithm {
         createPopulation();
 
         for(int i = 0; i < MAX_ITER;i++){
+
 
             unFixAllTheBall();
 
@@ -93,9 +97,8 @@ public class GeneticAlgorithm {
 
             allBalls = crossOver();
 
-
-
         }
+
     }
 
     public void printBestBall(){
@@ -132,7 +135,7 @@ public class GeneticAlgorithm {
 
         chooseElite(eliteSize);
 
-        for(int i = eliteSize; i<POPULATION_SIZE;i++){
+        for(int i = eliteSize; i<POPULATION_SIZE;i++) {
 
             //first ball from the elites
             int i1 = (int) (Math.random() * eliteSize);
@@ -150,23 +153,32 @@ public class GeneticAlgorithm {
 
             // Whole arithmetic recombination with random u
             double u = Math.random();
-            iterativeBall.setVelocityGA((float)((((1-u)*speed1+u*speed2))/1f),((float)((1-u)*angle1+u*angle2)/1));
-            iterativeBall.setVelocity((((float)((1-u)*speed1+u*speed2))/1f),((float)((1-u)*angle1+u*angle2)/1));
+            iterativeBall.setVelocityGA((float) ((((1 - u) * speed1 + u * speed2)) / 1f), ((float) ((1 - u) * angle1 + u * angle2) / 1));
+            iterativeBall.setVelocity((((float) ((1 - u) * speed1 + u * speed2)) / 1f), ((float) ((1 - u) * angle1 + u * angle2) / 1));
 
 
-            if(rand.nextFloat()<MUTATION_RATE){
-                float newSpeed = rand.nextFloat()*course.getMaxSpeed();
-                iterativeBall.setVelocityGA((newSpeed), ((float)((1-u)*angle1+u*angle2)/1));
-                iterativeBall.setVelocity((newSpeed),((float)((1-u)*angle1+u*angle2)/1));
+            if (rand.nextFloat() < MUTATION_RATE) {
+                float randomNum = -1 + rand.nextFloat()*2;
+
+                if (u > 0.5) {
+                    float newSpeed = speed2 + randomNum*5;
+                    float newAngle = angle2 + randomNum*5;
+                    iterativeBall.setVelocityGA((newSpeed), newAngle);
+                    iterativeBall.setVelocity((newSpeed), newAngle);
+                } else {
+                    float newSpeed = speed1 + randomNum*5;
+                    float newAngle = angle1 + randomNum*5;
+                    iterativeBall.setVelocityGA((newSpeed), newAngle);
+                    iterativeBall.setVelocity((newSpeed), newAngle);
+                }
             }
-            iterativeBall.setPosition(course.getStartBall());
+                iterativeBall.setPosition(CourseManager.getStartPosition());
 
-            children.add(iterativeBall);
-        }
+                children.add(iterativeBall);
+            }
+
 
         return children;
-
-
     }
 
 
@@ -224,7 +236,7 @@ public class GeneticAlgorithm {
 
 
     private void createBallObjects(){
-        this.initial_Position = course.getStartBall();
+        this.initial_Position = CourseManager.getStartPosition();
         for(int i = 0 ; i < POPULATION_SIZE * 5; i++){
 
             Ball addBall = new Ball();

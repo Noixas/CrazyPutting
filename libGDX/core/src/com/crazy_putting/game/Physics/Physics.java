@@ -5,7 +5,6 @@ import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameLogic.GraphicsManager;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.PhysicsGameObject;
-import com.crazy_putting.game.Others.Velocity;
 
 import java.util.ArrayList;
 
@@ -52,7 +51,10 @@ public abstract class Physics {
 
     public void dealCollision(PhysicsGameObject obj){
         obj.setPosition(CourseManager.getStartPosition());
+
         obj.fix(true);
+
+        obj.setVelocity(0.00001f,0.000001f);
 
        // Gdx.app.log("Message","Ball collided");
     }

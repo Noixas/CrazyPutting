@@ -122,8 +122,10 @@ public abstract class AbstractNode {
         int currentX, currentY;
         currentX = this.xPosition;
         currentY = this.yPosition;
-        return (int)Math.sqrt((currentX-goalX)*(currentX-goalX)+(currentY-goalY)*(currentY-goalY));
+        setCosts((int)Math.sqrt((currentX-goalX)*(currentX-goalX)+(currentY-goalY)*(currentY-goalY)));
+        return gethCosts();
     }
+
 
     public abstract void setCosts(AbstractNode endAbstractNode);
 
