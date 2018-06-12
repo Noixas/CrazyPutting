@@ -116,7 +116,7 @@ public class GameManager {
     public void updateHolePos(Vector3 pos){
         _hole.setPosition(pos);
     }
-    public void Update(float pDelta)
+    public void update(float pDelta)
     {
         if(pDelta > 0.03){
             pDelta = 0.00166f;

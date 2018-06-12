@@ -4,8 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -20,11 +22,9 @@ Handles the graphics of the in-Game screen, which is the 3D cam and 2D cam for t
  */
 public class GameScreen3D extends InputAdapter implements Screen {
         final GolfGame _game;
-        FormulaParser parser;
-        private Texture texture;
+        private FormulaParser _parser;
         private GameManager _gameManager;
         private Camera _cam3D;
-        private TerrainEditor _terraineditor;
         private Camera _cam2D;
         private GUI _gui;
         public static int Width3DScreen;
@@ -35,88 +35,64 @@ public class GameScreen3D extends InputAdapter implements Screen {
         private TerrainEditor _terrainEditor;
         private InputMultiplexer _inputMain;
         private int _mode;
-
-
-       public static ModelInstance boxInstance;
-
-
-    public CameraInputController camController;
-
-        public GameScreen3D(GolfGame pGame, int pMode) {
-            _mode = pMode;
-            Width2DScreen = 300;
-            Width3DScreen = Gdx.graphics.getWidth() - Width2DScreen;
-            Height2DScreen = Height3DScreen = GraphicsManager.WINDOW_HEIGHT;
-            _cam2D = new OrthographicCamera();
-            _hudViewport = new FitViewport(Width2DScreen, Height2DScreen,_cam2D);
-           _cam2D.update();
-            parser = new FormulaParser();
-            this._game = pGame;
-
-            //3D
-            _cam3D = new PerspectiveCamera(67,Width3DScreen, Height2DScreen);
-            _cam3D.position.add( new Vector3(0, 1300, 0));
-            _cam3D.lookAt(0,0,0);
-            _cam3D.near = 1f;
-            _cam3D.far = 15000f;
-            _cam3D.update();
-
-            initTerrain();
-            _gameManager = new GameManager(pGame, pMode);
-            _terrainEditor.addObserver(_gameManager);
-
-            camController = new CameraInputController(_cam3D);
-            camController.translateUnits = 50;
-
-
-            _gui = new GUI(_game, _gameManager, _cam2D, _hudViewport, MenuScreen.Spline3D);
-
-            initInput();
-
-
-        }
-
-    private void initInput()
-    {
-        _inputMain = new InputMultiplexer(this);
-        _inputMain.addProcessor(_gui.getUIInputProcessor());
-        _inputMain.addProcessor(camController);
-        Gdx.input.setInputProcessor(_inputMain);
+        private CameraInputController _camController;
+    public GameScreen3D(GolfGame pGame, int pMode) {
+        _mode = pMode;
+        this._game = pGame;
+        initCameras();
+        initTerrain();
+        _gameManager = new GameManager(pGame, pMode);
+        _terrainEditor.addObserver(_gameManager);
+        _gui = new GUI(_game, _gameManager,  _hudViewport, MenuScreen.Spline3D);
+        initInput();
     }
-        private void initTerrain()
-        {
-            //GameObject axis = new GameObject();
-           // axis.addGraphicComponent  (new Graphics3DComponent(DebugAxesGenerator.generateAxes()));
+    private void initCameras(){
+        Width2DScreen = 300;
+        Width3DScreen = Gdx.graphics.getWidth() - Width2DScreen;
+        Height2DScreen = Height3DScreen = GraphicsManager.WINDOW_HEIGHT;
+        _cam2D = new OrthographicCamera();
+        _hudViewport = new FitViewport(Width2DScreen, Height2DScreen,_cam2D);
+        _cam2D.update();
+        _parser = new FormulaParser();
+
+        //3D
+        _cam3D = new PerspectiveCamera(67,Width3DScreen, Height2DScreen);
+        _cam3D.position.add( new Vector3(0, 1300, 0));
+        _cam3D.lookAt(0,0,0);
+        _cam3D.near = 1f;
+        _cam3D.far = 15000f;
+        _cam3D.update();
+        _camController = new CameraInputController(_cam3D);
+        _camController.translateUnits = 50;
+    }
+    private void initTerrain() {
             if(MenuScreen.Spline3D)_terrainEditor = new TerrainEditor(_cam3D,true);
             else _terrainEditor = new TerrainEditor(_cam3D,false);
 
-        }
+    }
+    private void initInput(){
+        _inputMain = new InputMultiplexer(this);
+        _inputMain.addProcessor(_gui.getUIInputProcessor());
+        _inputMain.addProcessor(_camController);
+        Gdx.input.setInputProcessor(_inputMain);
+    }
 
         private void retrieveGUIState(){
             boolean stateSpline =_gui.isSplineEditActive();
-       //   _terrainEditor.setSplineEditActive(stateSpline);
             boolean changeBall = _gui.isChangeBallActive();
             boolean changeHole = _gui.isChangeHoleActive();
             _terrainEditor.updateGUIState(stateSpline,changeBall,changeHole);
-            if(stateSpline ||changeBall||changeHole) {
-                if(_inputMain.getProcessors().contains(_terrainEditor,true) == false)
-              _inputMain.addProcessor(1, _terrainEditor);
+            if((stateSpline ||changeBall||changeHole)&& !_inputMain.getProcessors().contains(_terrainEditor,true)) {
+                     _inputMain.addProcessor(1, _terrainEditor);
           }else
               _inputMain.removeProcessor(_terrainEditor);
        }
-       private void updateSpline(){
 
-       }
-        public void setCamControllerEnabled(boolean enabled){
-            if(enabled ) _inputMain.addProcessor(camController);//TODO: May need to check if the input is already there to avoid copies? Prioritizing spline deployment atm.
-            else _inputMain.removeProcessor(camController);
-        }
         @Override
         public void render(float delta) {
-
             retrieveGUIState();
-            camController.update();//Input
-            _gameManager.Update(delta);//Logic
+            _camController.update();//Input
+            _gameManager.update(delta);//Logic
             updateCamera();
             GraphicsManager.render3D(_game.batch3D, _cam3D);
             _hudViewport.apply();
@@ -142,7 +118,6 @@ public class GameScreen3D extends InputAdapter implements Screen {
            // _cam3D.viewportHeight = _cam3D.viewportWidth * height/width;
             _cam3D.update();
         }
-
         @Override
         public void show() {
         }

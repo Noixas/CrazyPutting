@@ -217,7 +217,7 @@ public class ChooseCoursesScreen implements Screen{
     }
 
     /*
-        Update labels if user clicked on a new course.
+        update labels if user clicked on a new course.
      */
     public void updateCourseInfo()
     {
