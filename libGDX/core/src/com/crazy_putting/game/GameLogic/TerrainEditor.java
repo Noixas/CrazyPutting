@@ -37,28 +37,28 @@ public class TerrainEditor extends InputAdapter {
     private boolean _splineEnabled;
     private GameManager _observer;
     double[][] p = {{-50},{50},{50},{50},
-            {0},{0},{0},{0},
-            {0},{0},{0},{0},
-            {0},{0},{0},{0}};
+                     {0},{0},{0},{0},
+                     {0},{0},{0},{0},
+                     {0},{0},{0},{0}};
     public TerrainEditor(Camera pCam3D, boolean pSplines) {
         _splineEnabled = pSplines;
-        if(pSplines) {
-            _cam3D = pCam3D;
-            GameObject terrain = new GameObject();
-            Graphics3DComponent terrainGraphics = new CustomGraphics3DComponent(TerrainGenerator.generateModelTerrain(true, p));
-            terrain.addGraphicComponent(terrainGraphics);
-            _terrainInstance = terrainGraphics.getInstance();
-            BiCubicSpline spline = TerrainGenerator.getSpline();
-            _splinePoints = spline.getSplinePoints();
-            CourseManager.setBiCubicSpline(spline);//change CourseManager to use splines instead of formula height
-    }  else {
         _cam3D = pCam3D;
         GameObject terrain = new GameObject();
-        Graphics3DComponent terrainGraphics = new CustomGraphics3DComponent(TerrainGenerator.generateModelTerrain());
+        Graphics3DComponent terrainGraphics = initTerrain();
         terrain.addGraphicComponent(terrainGraphics);
         _terrainInstance = terrainGraphics.getInstance();
     }
-
+    private Graphics3DComponent initTerrain(){
+        Graphics3DComponent terrainGraphics;
+        if(_splineEnabled) {
+            terrainGraphics = new CustomGraphics3DComponent(TerrainGenerator.generateModelTerrain(true, p));
+            BiCubicSpline spline = TerrainGenerator.getSpline();
+            _splinePoints = spline.getSplinePoints();
+            CourseManager.setBiCubicSpline(spline);//change CourseManager to use splines instead of formula height
+        }  else {
+            terrainGraphics = new CustomGraphics3DComponent(TerrainGenerator.generateModelTerrain());
+        }
+        return terrainGraphics;
     }
     public void addObserver(GameManager pObserver) {
         _observer = pObserver;
