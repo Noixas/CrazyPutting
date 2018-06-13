@@ -28,6 +28,8 @@ public abstract class Physics {
 
     public abstract void update(double dt);
 
+    public abstract void updateObject(PhysicsGameObject obj, double dt);
+
     /*
     other
      */

@@ -2,9 +2,7 @@
 package com.crazy_putting.game.Physics;
 
 import com.badlogic.gdx.math.Vector3;
-import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.PhysicsGameObject;
-import com.crazy_putting.game.Others.Velocity;
 
 
 public class Midpoint extends Physics{
@@ -26,10 +24,6 @@ public class Midpoint extends Physics{
         }
     }
 
-    @Override
-    public void updateBall(Ball ball, float dt){
-        updateObject(ball,dt);
-    }
 
     public void updateObject(PhysicsGameObject obj, double dt){
         // System.out.println("here");
@@ -66,9 +60,7 @@ public class Midpoint extends Physics{
         float Vx = (float) (obj.getVelocity().Vx + dvxdt*dt);
         float Vy = (float) (obj.getVelocity().Vy + dvydt*dt);
 
-        obj.setPositionX(x);
-        obj.setPositionY(y);
-        obj.updateHeight();
+        obj.setPositionXYZ(x,y);
         obj.setVelocityComponents(Vx,Vy);
     }
 

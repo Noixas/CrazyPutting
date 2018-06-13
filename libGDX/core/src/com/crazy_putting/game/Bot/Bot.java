@@ -322,11 +322,11 @@ public class Bot {
         // After each simulation the ball should get its initial position (since we want to restart the shot from the
         // beginning with different speed
         float newClosestDistToHole = (float) euclideanDistance(ball.getPosition(),course.getGoalPosition());
-        while(Physics.physics.calculateAcceleration(ball)||firstIteration){
+        while(Physics.physics.isGoingToStop(ball)||firstIteration){
             firstIteration = false;
             ball.fix(false);
 //            ball.update(Gdx.graphics.getDeltaTime());
-            Physics.physics.updateBall(ball,Gdx.graphics.getDeltaTime());
+            Physics.physics.updateObject(ball,Gdx.graphics.getDeltaTime());
             //&&euclideanDistance(ball.getPosition(),hole.getPosition())>hole.getRadius()
             if(ballPassedByHole()){
                 Gdx.app.log("Log","Ball reached goal line");
