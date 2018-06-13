@@ -21,14 +21,14 @@ public class Velocity {
         setAngle(angle);
         setSpeed(speed);
         updateVelocityComponents();
-//        System.out.println("Speed "+speed+" angle "+angle);
-//        System.out.println("Initial Vel: " + Vx + " " + Vy);
     }
 
 
     //getters and setters for speed components
     public void setSpeed(float speed){
         this.speed = speed;
+        // shouldn't we always update the vel components?
+        updateVelocityComponents();
     }
 
     public float getSpeed(){
@@ -43,7 +43,4 @@ public class Velocity {
     public void setAngle(float angle){
         this.angle = angle;
     }
-
-
-
 }
