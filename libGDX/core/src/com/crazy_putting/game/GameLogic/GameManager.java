@@ -38,26 +38,23 @@ public class GameManager {
         Physics.physics.updateCoefficients();
     }
     private void initGameObjects(){
-        _ball = new Ball("golfBall.png");
-        _ball.setPosition(CourseManager.getStartPosition());
-        _hole = new Hole((int) CourseManager.getActiveCourse().getGoalRadius());
-        _hole.setPosition(CourseManager.getGoalStartPosition());
+        _ball = new Ball(CourseManager.getStartPosition());
+        _hole = new Hole((int) CourseManager.getActiveCourse().getGoalRadius(), CourseManager.getGoalStartPosition());
         if(MenuScreen.Mode3D ) {//3D Logic
             _ball.addGraphicComponent(new SphereGraphics3DComponent(40, Color.WHITE));
             _hole.addGraphicComponent(new SphereGraphics3DComponent(40,Color.BLACK));
         }
         else{//2D Logic
-            _ball.addGraphicComponent(new Graphics2DComponent(_ball.getTexture()));
+            _ball.addGraphicComponent(new Graphics2DComponent(new Texture("golfBall.png")));
             _hole.addGraphicComponent(new Graphics2DComponent(new Texture("hole.png"), _hole.getRadius() * 2, _hole.getRadius() * 2));
         }
     }
-
     public void update(float pDelta){
         if(pDelta > 0.03){
             pDelta = 0.00166f;
         }
        handleInput(_game.input);
-        _ball.update(pDelta);
+
         Physics.physics.update(pDelta);
         if(printMessage){
             updateGameLogic(pDelta);
