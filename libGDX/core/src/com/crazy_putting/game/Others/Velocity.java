@@ -9,8 +9,7 @@ public class Velocity {
     public Velocity(){
         setAngle(0);
         setSpeed(0);
-//      updateVelocityComponents();
-        //System.out.println("Initial Vel: " + Vx + " " + Vy);
+
     }
 
     public void updateVelocityComponents(){

@@ -3,7 +3,6 @@ package com.crazy_putting.game.Physics;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameLogic.GraphicsManager;
-import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.PhysicsGameObject;
 
 import java.util.ArrayList;
@@ -13,10 +12,13 @@ public abstract class Physics {
     protected final float g = 9.806f;
     protected float EPSILON = 1;
     protected static float mu;
+
     protected ArrayList<PhysicsGameObject> movingObjects = new ArrayList<PhysicsGameObject>();
 
-    protected Vector3 objectAcceleration;
+
     protected State state = new State();
+
+
 
     public static Physics physics = new RK4();
 
@@ -38,9 +40,8 @@ public abstract class Physics {
         mu = CourseManager.getActiveCourse().getFriction();
     }
 
-    public abstract void updateBall(Ball b,float dt);
-    
-    public float equation2Points(float dx, float dy, float xValue, float previousX, float previousY) {
+
+    private float equation2Points(float dx, float dy, float xValue, float previousX, float previousY) {
         return (dy/dx) * (xValue -  previousX) + previousY;
     }
 
@@ -49,7 +50,7 @@ public abstract class Physics {
     Collision
      */
 
-    public void dealCollision(PhysicsGameObject obj){
+    void dealCollision(PhysicsGameObject obj){
         obj.setPosition(CourseManager.getStartPosition());
 
         obj.fix(true);
@@ -61,11 +62,14 @@ public abstract class Physics {
 
     public boolean collided(PhysicsGameObject obj ){
 
-        float xCur = obj.getPosition().x;
-        float yCur = obj.getPosition().y;
+
+        float xCur = state.getX();
+        float yCur = state.getY();
+
 
         float xPrev = obj.getPreviousPosition().x;
         float yPrev = obj.getPreviousPosition().y;
+
 
         if(xCur > GraphicsManager.WORLD_WIDTH / 2 || xCur < GraphicsManager.WORLD_WIDTH / 2 * (-1) ||
                 yCur > GraphicsManager.WORLD_HEIGHT / 2 || yCur < GraphicsManager.WORLD_HEIGHT / 2 * (-1) ){
@@ -90,26 +94,22 @@ public abstract class Physics {
     Acceleration a = F/m = G + H
      */
 
-    public boolean calculateAcceleration(PhysicsGameObject obj) {
+    public boolean isGoingToStop(PhysicsGameObject obj) {
         state.update(obj);
+
         Vector3 gravity = gravityForce(state);
         double grav = Math.sqrt(Math.pow(gravity.x,2)+ Math.pow(gravity.y,2));
 
         Vector3 friction = frictionForce(state);
         double fric = Math.sqrt(Math.pow(friction.x,2)+ Math.pow(friction.y,2));
 
-        objectAcceleration = new Vector3(friction.x + gravity.x,friction.y + gravity.y,0);
-
-        if(!obj.isMoving() && fric>grav){
-            return false;
-        }
-        return true;
+        return obj.isSlow() || !(fric > grav);
     }
 
     public Vector3 acceleration(State s){
-        Vector3 gravity = gravityForce(s);
-        Vector3 friction = frictionForce(s);
-        return new Vector3(friction.x + gravity.x,friction.y + gravity.y,0);
+
+
+        return new Vector3(frictionForce(s).x + gravityForce(s).x,frictionForce(s).y + gravityForce(s).y,0);
     }
 
     /*
@@ -151,13 +151,13 @@ public abstract class Physics {
         float x2 =  x1 - 2 * EPSILON;
         float yCur = s.getY();
 
-        float partialX = ((CourseManager.calculateHeight(x1, yCur) - CourseManager.calculateHeight(x2, yCur)) / 2 * EPSILON);
+        float partialX = 2 * ((CourseManager.calculateHeight(x1, yCur) - CourseManager.calculateHeight(x2, yCur)) / 2 * EPSILON);
 
         x1-=EPSILON;
         yCur+=EPSILON;
         float y2 = yCur - 2 * EPSILON;
 
-        float partialY = ((CourseManager.calculateHeight(x1, yCur) - CourseManager.calculateHeight(x1, y2)) / 2 * EPSILON);
+        float partialY = 2* ((CourseManager.calculateHeight(x1, yCur) - CourseManager.calculateHeight(x1, y2)) / 2 * EPSILON);
 
         return new Vector3(partialX,partialY,0);
 

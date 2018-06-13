@@ -14,7 +14,6 @@ public abstract class PhysicsGameObject extends GameObject {
     public abstract void setPositionY(float y);
     public abstract void setVelocity(float speed, float angle);
     public abstract void setSpeed(float speed);
-    public abstract boolean inTheWater();
     public abstract Vector3 getPreviousPosition();
     public abstract float getSpeed();
     public abstract boolean isFixed();
