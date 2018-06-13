@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
+import com.crazy_putting.game.Components.Graphics.BoxGraphics3DComponent;
 import com.crazy_putting.game.Components.Graphics.CustomGraphics3DComponent;
 import com.crazy_putting.game.Components.Graphics.Graphics3DComponent;
 import com.crazy_putting.game.GameLogic.Splines.BiCubicSpline;
@@ -28,6 +29,7 @@ public class TerrainEditor extends InputAdapter {
     private boolean _splineEdit = false;
     private boolean _changeBall = false;
     private boolean _changeHole = false;
+    private boolean _addObjects = false;
     private Vector2 _buttonDownCoord = new Vector2();
     private Vector2 _buttonDragCoord = new Vector2();
     private boolean _dragging = false;
@@ -63,13 +65,13 @@ public class TerrainEditor extends InputAdapter {
     public void addObserver(GameManager pObserver) {
         _observer = pObserver;
     }
-    public void updateGUIState(boolean pSpline, boolean ball, boolean hole){
+    public void updateGUIState(boolean pSpline, boolean ball, boolean hole, boolean addObj){
         if(_splineEnabled) {
-            _splineEdit = pSpline;
             showSplinePoints();
+            _splineEdit = pSpline;
             _changeBall = ball;
             _changeHole = hole;
-
+            _addObjects =  addObj;
         }
     }
     private void showSplinePoints(){
@@ -104,7 +106,11 @@ public class TerrainEditor extends InputAdapter {
        else if(_changeHole){
            Vector3 pos = getObject(screenX,screenY);
            changeHolePos(pos);
-            }
+       }
+       else if(_addObjects){
+           Vector3 pos = getObject(screenX,screenY);
+           addBox(pos);
+       }
         return _selecting >= 0;
     }
     public boolean isDragging(){
@@ -123,6 +129,14 @@ public class TerrainEditor extends InputAdapter {
         pPos.y = cachePos.z;
         pPos.z = cachePos.y;
         _observer.updateHolePos(pPos);
+    }
+    private void addBox(Vector3 pPos){
+        if(pPos == null) return;
+        Vector3 cachePos = new Vector3(pPos);
+        pPos.y = cachePos.z;
+        pPos.z = cachePos.y;
+        GameObject obstacle  = new GameObject(pPos);
+        obstacle.addGraphicComponent(new BoxGraphics3DComponent(new Vector3(100,100,100),Color.DARK_GRAY));
     }
     private SplinePoint intersectSplinePoint(int screenX, int screenY ){
         Ray ray = _cam3D.getPickRay(screenX,screenY,0,0, _cam3D.viewportWidth,_cam3D.viewportHeight);//Done:Get the WindowsWidth -300 from a constant variable somewhere in graphics, dont hardcode
