@@ -50,10 +50,11 @@ public abstract class Physics {
      */
 
     public void dealCollision(PhysicsGameObject obj){
+
+        System.out.println("Collided "+obj.getPosition().x+" "+obj.getPosition().y);
         obj.setPosition(CourseManager.getStartPosition());
 
         obj.fix(true);
-
         obj.setVelocity(0.00001f,0.000001f);
 
        // Gdx.app.log("Message","Ball collided");
@@ -67,8 +68,9 @@ public abstract class Physics {
         float xPrev = obj.getPreviousPosition().x;
         float yPrev = obj.getPreviousPosition().y;
 
-        if(xCur > GraphicsManager.WORLD_WIDTH / 2 || xCur < GraphicsManager.WORLD_WIDTH / 2 * (-1) ||
-                yCur > GraphicsManager.WORLD_HEIGHT / 2 || yCur < GraphicsManager.WORLD_HEIGHT / 2 * (-1) ){
+        // TODO
+        if(xCur > 2000 / 2 || xCur < 2000 / 2 * (-1) ||
+                yCur > 2000 / 2 || yCur < 2000 / 2 * (-1) ){
 
             return true;
         }

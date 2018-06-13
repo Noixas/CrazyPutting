@@ -56,6 +56,12 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
         velocityGA.setSpeed(speed);
     }
 
+    public void setVelocity(float speed, float angle){
+        this.velocity.setAngle(angle);
+        this.velocity.setSpeed(speed);
+        this.velocity.updateVelocityComponents();
+    }
+
     public Vector3 getPreviousPosition(){
         return previousPosition;
     }
@@ -109,11 +115,7 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
 
 
 
-    public void setVelocity(float speed, float angle){
-        this.velocity.setAngle(angle);
-        this.velocity.setSpeed(speed);
-        this.velocity.updateVelocityComponents();
-    }
+
 
     public float getMass(){
         return this.MASS;
@@ -174,7 +176,13 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
         newBall.velocity = new Velocity();
         newBall.velocity.speed = velocity.speed;
         newBall.velocity.angle = velocity.angle;
+        newBall.velocity.updateVelocityComponents();
+        newBall.velocityGA = new Velocity();
+        newBall.velocityGA.speed = velocityGA.speed;
+        newBall.velocityGA.angle = velocityGA.angle;
         newBall._isFixed = _isFixed;
+        newBall.fitnessValue = fitnessValue;
+        newBall._isMoving = _isMoving;
         return newBall;
 
     }
