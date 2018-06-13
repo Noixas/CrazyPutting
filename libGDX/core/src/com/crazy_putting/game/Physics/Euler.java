@@ -26,16 +26,14 @@ public class Euler extends Physics{
 
 
     public void updateObject(PhysicsGameObject obj, double dt){
-        // System.out.println("here");
+
         if(obj.isFixed()) return;
 
         if (collided(obj)){
             dealCollision(obj);
             return;
         }
-
         updateComponents(obj, dt);
-
     }
 
     public void updateComponents(PhysicsGameObject obj, double dt){
@@ -49,13 +47,15 @@ public class Euler extends Physics{
 
         //v(t+h) = v(t) + h*a
         Vector3 a = acceleration(state);
+
+        obj.getPreviousPosition().x = state.getX();
+        obj.getPreviousPosition().y = state.getY();
+
         float newVelX = (float) (state.getVx() + dt * a.x );
         float newVelY = (float) (state.getVy() + dt * a.y );
 
         obj.setPositionXYZ(newX,newY);
         obj.setVelocityComponents(newVelX, newVelY);
-
-
     }
 
 
