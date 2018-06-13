@@ -3,12 +3,13 @@ package com.crazy_putting.game.GameLogic;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Bot.Bot;
 import com.crazy_putting.game.Bot.GeneticAlgorithm;
 import com.crazy_putting.game.Components.Graphics2DComponent;
-import com.crazy_putting.game.Components.Graphics3DComponent;
+import com.crazy_putting.game.Components.SphereGraphics3DComponent;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.Others.InputData;
@@ -42,8 +43,8 @@ public class GameManager {
         _hole = new Hole((int) CourseManager.getActiveCourse().getGoalRadius());
         _hole.setPosition(CourseManager.getGoalStartPosition());
         if(MenuScreen.Mode3D ) {//3D Logic
-            _ball.addGraphicComponent(new Graphics3DComponent(1));
-            _hole.addGraphicComponent(new Graphics3DComponent(0));
+            _ball.addGraphicComponent(new SphereGraphics3DComponent(40, Color.WHITE));
+            _hole.addGraphicComponent(new SphereGraphics3DComponent(40,Color.BLACK));
         }
         else{//2D Logic
             _ball.addGraphicComponent(new Graphics2DComponent(_ball.getTexture()));
@@ -51,8 +52,7 @@ public class GameManager {
         }
     }
 
-    public void update(float pDelta)
-    {
+    public void update(float pDelta){
         if(pDelta > 0.03){
             pDelta = 0.00166f;
         }
@@ -62,7 +62,6 @@ public class GameManager {
         if(printMessage){
             updateGameLogic(pDelta);
         }
-
     }
     //TODO blazej or Simon, is here where we stop the ball? otherwise we can erase this
     public void updateGameLogic(float pDelta){

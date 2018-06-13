@@ -1,10 +1,12 @@
 package com.crazy_putting.game.GameLogic.Splines;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Components.Graphics3DComponent;
+import com.crazy_putting.game.Components.SphereGraphics3DComponent;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameObjects.SplinePoint;
 
@@ -42,7 +44,7 @@ public class BiCubicSpline {
                 float height = coursePoints[i][j];
                 SplinePoint point = new SplinePoint(new Vector3(pScale*(posStart.x+verticesPerSide*i),pScale*(posStart.y+verticesPerSide*j),height));
                 point.enabled = false;
-                Graphics3DComponent pointGraphics = new Graphics3DComponent(2);
+                Graphics3DComponent pointGraphics = new SphereGraphics3DComponent(40, Color.RED);
                 point.addGraphicComponent(pointGraphics);
                 _splinePoints[i][j] = point;
             }

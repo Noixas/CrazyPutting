@@ -93,7 +93,7 @@ public class TerrainEditor extends InputAdapter {
            _buttonDownCoord.set(screenX,screenY);
           if(_draggingPoint != null) {
              Graphics3DComponent gp = (Graphics3DComponent)_draggingPoint.getGraphicComponent();
-             gp.setColor(3);
+             gp.setColor(Color.FIREBRICK);
              return true;
           }
        }else if(_changeBall){
@@ -202,7 +202,7 @@ public class TerrainEditor extends InputAdapter {
         if(_dragging){
                 Graphics3DComponent gp = (Graphics3DComponent)_draggingPoint.getGraphicComponent();
             System.out.println(_draggingPoint.getPosition());
-                gp.setColor(3);
+                gp.setColor(Color.RED);
                 _observer.updateObjectPos();
                 return true;
             }
