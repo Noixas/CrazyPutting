@@ -26,7 +26,6 @@ public class Midpoint extends Physics{
 
 
     public void updateObject(PhysicsGameObject obj, double dt){
-        // System.out.println("here");
         if(obj.isFixed()) return;
 
         if (super.collided(obj)){
@@ -44,6 +43,9 @@ public class Midpoint extends Physics{
 
     public void updateComponents(PhysicsGameObject obj, /*float t,*/ double dt) {
         state.update(obj);
+
+        obj.getPreviousPosition().x = state.getX();
+        obj.getPreviousPosition().y = state.getY();
 
         Derivative k1 = derivative(0.0f, state, new Derivative());
         Derivative half_k1 = new Derivative(0.5f*k1.getDx(), 0.5f*k1.getDy(), 0.5f*k1.getDvx(), 0.5f*k1.getDvy());

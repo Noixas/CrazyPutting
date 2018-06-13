@@ -28,8 +28,9 @@ public class Verlet extends Physics{
 
 
     public void updateObject(PhysicsGameObject obj, double dt){
-            // System.out.println("here");
-            if(obj.isFixed()) return;
+            if(obj.isFixed()){
+                return;
+            }
 
             if (collided(obj)){
                 dealCollision(obj);
@@ -46,6 +47,9 @@ public class Verlet extends Physics{
 
         Vector3 a = acceleration(state);
 
+        obj.getPreviousPosition().x = state.getX();
+        obj.getPreviousPosition().y = state.getY();
+
         // x(t+h) = x(t) + h*Vx(t) + h^2/2 * Ax;
         // y(t+h) = y(t) + h*Vy(t) + h^2/2 * Ay;
         float newX = (float) ( state.getX() + (dt * state.getVx()) + (dt*a.x * dt / 2) );
@@ -56,6 +60,7 @@ public class Verlet extends Physics{
         float newVelY = (float) (state.getVy() + dt * a.y );
 
         obj.setPositionXYZ(newX,newY);
+
         obj.setVelocityComponents(newVelX, newVelY);
 
     }

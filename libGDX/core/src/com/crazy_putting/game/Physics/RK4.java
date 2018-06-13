@@ -31,9 +31,7 @@ public class RK4 extends Physics{
                 dealCollision(obj);
             return;
         }
-
         updateComponents(obj,dt);
-
     }
 
     /*
@@ -42,6 +40,9 @@ public class RK4 extends Physics{
 
     public void updateComponents(PhysicsGameObject obj, double dt) {
         state.update(obj);
+
+        obj.getPreviousPosition().x = state.getX();
+        obj.getPreviousPosition().y = state.getY();
 
         Derivative k1 = derivative(0.0f, state, new Derivative());
         Derivative half_k1 = new Derivative(0.5f*k1.getDx(), 0.5f*k1.getDy(), 0.5f*k1.getDvx(), 0.5f*k1.getDvy());

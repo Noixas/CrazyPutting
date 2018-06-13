@@ -1,5 +1,6 @@
 package com.crazy_putting.game.Physics;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameLogic.GraphicsManager;
@@ -55,15 +56,16 @@ public abstract class Physics {
     void dealCollision(PhysicsGameObject obj){
         obj.setPosition(CourseManager.getStartPosition());
 
+
         obj.fix(true);
 
         obj.setVelocity(0.00001f,0.000001f);
 
-       // Gdx.app.log("Message","Ball collided");
+        //Gdx.app.log("Message","Ball collided");
     }
 
     public boolean collided(PhysicsGameObject obj ){
-
+        state.update(obj);
 
         float xCur = state.getX();
         float yCur = state.getY();
