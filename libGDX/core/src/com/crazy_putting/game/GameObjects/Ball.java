@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Others.Velocity;
+import com.crazy_putting.game.Physics.Physics;
 
 public class Ball extends PhysicsGameObject implements Comparable<Ball> {
 
@@ -25,15 +26,15 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
         velocity = new Velocity();
         velocityGA = new Velocity();
         _isFixed=true;
+        Physics.physics.addMovableObject(this);
     }
     public Ball(String filename){
         texture = new Texture(filename);
-       // position = new Vector3();
         previousPosition = new Vector3();
         velocity = new Velocity();
         velocityGA = new Velocity();
         _isFixed=true;
-        //setVelocity(.1f,90);
+        Physics.physics.addMovableObject(this);
     }
 
 //    public Vector3 getPosition() {

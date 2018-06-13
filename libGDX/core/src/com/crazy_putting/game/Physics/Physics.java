@@ -31,7 +31,8 @@ public abstract class Physics {
      */
 
     public void addMovableObject(PhysicsGameObject obj) {
-        movingObjects.add(obj);
+        if(!movingObjects.contains(obj))
+            movingObjects.add(obj);
     }
 
     public static void updateCoefficients() {
