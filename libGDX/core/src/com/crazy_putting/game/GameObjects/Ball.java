@@ -1,6 +1,5 @@
 package com.crazy_putting.game.GameObjects;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Others.Velocity;
 import com.crazy_putting.game.Physics.Physics;
@@ -10,25 +9,22 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
     private final float MASS = (float) 0.04593;
 
     private Vector3 previousPosition;
-    //private Vector3 position;
     private Velocity velocity;
     private Velocity velocityGA;
-    private Texture texture;
     private boolean _isMoving = false;
     private boolean _isFixed;
 
     private int fitnessValue;
 
+    public Ball(Vector3 pPosition){
+        initBall();
+        setPosition(pPosition);
+    }
 
     public Ball(){
-        previousPosition = new Vector3();
-        velocity = new Velocity();
-        velocityGA = new Velocity();
-        _isFixed=true;
-        Physics.physics.addMovableObject(this);
+        initBall();
     }
-    public Ball(String filename){
-        texture = new Texture(filename);
+    private void initBall(){
         previousPosition = new Vector3();
         velocity = new Velocity();
         velocityGA = new Velocity();
@@ -36,9 +32,6 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
         Physics.physics.addMovableObject(this);
     }
 
-//    public Vector3 getPosition() {
-//        return position;
-//    }
     public int getFitnessValue(){
         return this.fitnessValue;
     }
@@ -89,13 +82,6 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
         this.updateHeight();
     }
 
-
-
-
-    public Texture getTexture() {
-        return texture;
-    }
-
     public Velocity getVelocity() {
         return velocity;
     }
@@ -114,15 +100,6 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
         return getSpeed()>0.5f;
     }
 
-    /**
-     * Every delta time checks if the ball is moving or not.
-     */
-    public void update(float  dt){
-        if(getVelocity().getSpeed() < 0.5f){
-            _isMoving = false;
-        }
-        else _isMoving = true;
-    }
 
     public void fix(boolean tf){
         if(tf){
@@ -146,9 +123,9 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
 
     @Override
     public Ball clone(){
-        Ball newBall = new Ball();
-        newBall.texture = texture;
-        newBall.setPosition(getPosition());
+        Ball newBall = new Ball(getPosition());
+        //  newBall.setPosition(getPosition());
+
         newBall.previousPosition = new Vector3(previousPosition);
         newBall.velocity = new Velocity();
         newBall.velocity.speed = velocity.speed;
