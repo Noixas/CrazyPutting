@@ -127,7 +127,6 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
     @Override
     public Ball clone(){
         Ball newBall = new Ball(getPosition());
-      //  newBall.setPosition(getPosition());
         newBall.previousPosition = new Vector3(previousPosition);
         newBall.velocity = new Velocity();
         newBall.velocity.speed = velocity.speed;
