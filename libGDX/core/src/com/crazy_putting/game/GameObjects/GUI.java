@@ -32,6 +32,7 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
     private CheckBox _splineEdit;
     private CheckBox _changeBallPos;
     private  CheckBox _changeHolePos;
+    private  CheckBox _addObjects;
     private boolean _spline;
 
     public GUI(GolfGame pGame, GameManager pGameManager,  FitViewport viewPort, boolean pSpline)
@@ -60,6 +61,7 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         _splineEdit = new CheckBox("Spline Editor", _skin);
         _changeBallPos = new CheckBox("Change Ball Position", _skin);
         _changeHolePos = new CheckBox("Change Hole Position", _skin);
+        _addObjects = new CheckBox("Add Objects", _skin);
 
         initUI();
         System.out.println("VIEWPORT POS "+ view.getScreenY()   );
@@ -84,7 +86,7 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         turnCount = new Label("Turns: " + _gameManager.getTurns(),skin);
         maxSpeed = new Label("Max speed: " + CourseManager.getMaxSpeed()+"\n",skin);
 
-        ButtonGroup buttonGroup = new ButtonGroup(_splineEdit, _changeBallPos, _changeHolePos);
+        ButtonGroup buttonGroup = new ButtonGroup(_splineEdit, _changeBallPos, _changeHolePos,_addObjects);
         //next set the max and min amount to be checked
         buttonGroup.setMaxCheckCount(1);
         buttonGroup.setMinCheckCount(0);
@@ -106,6 +108,8 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
             table.add(_changeBallPos);
             table.row();
             table.add(_changeHolePos);
+            table.row();
+            table.add(_addObjects);
         }
 
         UIStage.addActor(table);
@@ -144,6 +148,11 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
     public boolean isChangeHoleActive()
     {
         return _changeHolePos.isChecked();
+    }
+
+    public boolean isAddObjectsActive()
+    {
+        return _addObjects.isChecked();
     }
 
 }

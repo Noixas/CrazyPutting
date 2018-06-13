@@ -100,6 +100,8 @@ public class GameManager {
                     float angle = Float.parseFloat(data[1]);
                     input.clearText();//important to clear text or it will overwrite every frame
                     checkConstrainsAndSetVelocity(speed, angle);
+                  //  input.clearText();//important to clear text or it will overwrite every frame
+
                 }
                 catch (NumberFormatException e) {
                     // later on this will be added on the game screen so that it wasn't printed multiple times
