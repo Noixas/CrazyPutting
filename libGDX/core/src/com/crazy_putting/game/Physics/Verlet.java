@@ -27,9 +27,6 @@ public class Verlet extends Physics{
             }
         }
 
-        public void updateBall(Ball ball, float dt){
-            updateObject(ball,dt);
-        }
 
         public void updateObject(PhysicsGameObject obj, double dt){
             // System.out.println("here");
