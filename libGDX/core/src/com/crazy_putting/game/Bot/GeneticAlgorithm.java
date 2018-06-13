@@ -241,7 +241,7 @@ public class GeneticAlgorithm {
 
         b.setFitnessValue(distance);
         int lastDistance = 0;
-        while (Physics.physics.calculateAcceleration(b) && !b.isFixed()){
+        while (Physics.physics.isGoingToStop(b) && !b.isFixed()){
             if (b.isSlow()) {
                 distance = calcToHoleDistance(b);
                 if (distance < hole.getRadius()) {
@@ -260,7 +260,7 @@ public class GeneticAlgorithm {
 //                return;
 //            }
             lastDistance = calcToHoleDistance(b);
-            Physics.physics.updateBall(b,Gdx.graphics.getDeltaTime());
+            Physics.physics.updateObject(b,Gdx.graphics.getDeltaTime());
 
         }
 

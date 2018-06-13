@@ -2,10 +2,7 @@
 package com.crazy_putting.game.Physics;
 
 import com.badlogic.gdx.math.Vector3;
-import com.crazy_putting.game.GameLogic.CourseManager;
-import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.PhysicsGameObject;
-import com.crazy_putting.game.Others.Velocity;
 
 
 public class Euler extends Physics{
@@ -27,9 +24,6 @@ public class Euler extends Physics{
         }
     }
 
-    public void updateBall(Ball ball, float dt){
-        updateObject(ball,dt);
-    }
 
     public void updateObject(PhysicsGameObject obj, double dt){
         // System.out.println("here");
@@ -58,9 +52,7 @@ public class Euler extends Physics{
         float newVelX = (float) (state.getVx() + dt * a.x );
         float newVelY = (float) (state.getVy() + dt * a.y );
 
-        obj.setPositionX(newX);
-        obj.setPositionY(newY);
-        obj.updateHeight();
+        obj.setPositionXYZ(newX,newY);
         obj.setVelocityComponents(newVelX, newVelY);
 
 

@@ -204,8 +204,7 @@ public class RKDraft {
         float Vx = (float) (obj.getVelocity().Vx + d.getDvx()*dt);
         float Vy = (float) (obj.getVelocity().Vy + d.getDvy()*dt);
 
-        obj.setPositionX(x);
-        obj.setPositionY(y);
+        obj.setPositionXYZ(x,y);
         obj.setVelocityComponents(Vx,Vy);
 
         float dx = Vx;
@@ -237,8 +236,7 @@ public class RKDraft {
         float Vx = (float) (obj.getVelocity().Vx + dvxdt*dt);
         float Vy = (float) (obj.getVelocity().Vy + dvydt*dt);
 
-        obj.setPositionX(x);
-        obj.setPositionY(y);
+        obj.setPositionXYZ(x,y);
         obj.setVelocityComponents(Vx,Vy);
     }
 }

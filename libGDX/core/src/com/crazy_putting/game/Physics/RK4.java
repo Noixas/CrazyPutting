@@ -40,7 +40,7 @@ public class RK4 extends Physics{
     RK4
      */
 
-    public void updateComponents(PhysicsGameObject obj, /*float t,*/ double dt) {
+    public void updateComponents(PhysicsGameObject obj, double dt) {
         state.update(obj);
 
         Derivative k1 = derivative(0.0f, state, new Derivative());
@@ -62,9 +62,7 @@ public class RK4 extends Physics{
         float Vx = (float) (obj.getVelocity().Vx + dvxdt*dt);
         float Vy = (float) (obj.getVelocity().Vy + dvydt*dt);
 
-        obj.setPositionX(x);
-        obj.setPositionY(y);
-        obj.updateHeight();
+        obj.setPositionXYZ(x,y);
         obj.setVelocityComponents(Vx,Vy);
     }
 

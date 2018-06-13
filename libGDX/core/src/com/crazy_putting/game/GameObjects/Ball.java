@@ -1,6 +1,5 @@
 package com.crazy_putting.game.GameObjects;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Others.Velocity;
 import com.crazy_putting.game.Physics.Physics;
@@ -18,9 +17,10 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
     private int fitnessValue;
 
     public Ball(Vector3 pPosition){
-       initBall();
-       setPosition(pPosition);
+        initBall();
+        setPosition(pPosition);
     }
+
     public Ball(){
         initBall();
     }
@@ -31,6 +31,7 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
         _isFixed=true;
         Physics.physics.addMovableObject(this);
     }
+
     public int getFitnessValue(){
         return this.fitnessValue;
     }
@@ -47,53 +48,45 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
         velocityGA.setAngle(angle);
         velocityGA.setSpeed(speed);
     }
+
     public void setVelocity(float speed, float angle){
         this.velocity.setAngle(angle);
         this.velocity.setSpeed(speed);
         this.velocity.updateVelocityComponents();
     }
+
     public Vector3 getPreviousPosition(){
         return previousPosition;
     }
+
     @Override
     public float getSpeed() {
         float result = (float) Math.sqrt(Math.pow(velocity.Vx,2) + Math.pow(velocity.Vy,2));
         return result;
     }
+
     @Override
     public boolean isFixed() {
         return this._isFixed;
     }
 
-    public void setPosition(Vector2 position) {
-        getPosition().x = position.x;
-        getPosition().y = position.y;
-        this.previousPosition.x = position.x;
-        this.previousPosition.y = position.y;
-
-        _position.x = position.x;
-        _position.y = position.y;
-    }
     public void setPosition(Vector3 position) {
-        _position =  new Vector3(position);
-        previousPosition = new Vector3(position);
-    }
-    public void setPositionX(float x){
-        _position.x = x;
+          _position =  new Vector3(position);
+       previousPosition = new Vector3(position);
     }
 
-    public void setPositionY(float y){
+    @Override
+    public void setPositionXYZ(float x, float y) {
+        _position.x = x;
         _position.y = y;
+        this.updateHeight();
     }
 
     public Velocity getVelocity() {
         return velocity;
     }
 
-    public void setSpeed(float speed){
 
-        this.velocity.setSpeed(speed);
-    }
     public float getMass(){
         return this.MASS;
     }
@@ -107,6 +100,7 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
         return getSpeed()>0.5f;
     }
 
+
     public void fix(boolean tf){
         if(tf){
             this.velocity.Vx = (float) 0.01;
@@ -114,19 +108,24 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
         }
         this._isFixed=tf;
     }
+
     public void setVelocityComponents(float Vx, float Vy){
         this.velocity.Vx = Vx;
         this.velocity.Vy = Vy;
-        setSpeed((float)(Math.sqrt(Math.pow(getVelocity().Vx,2)+Math.pow(getVelocity().Vy,2))));
+        this.velocity.speed = (float) Math.sqrt(Math.pow(getVelocity().Vx,2)+Math.pow(getVelocity().Vy,2));
     }
+
     @Override
     public boolean isSlow() {
         return getSpeed() < 3;
     }
 
+
     @Override
     public Ball clone(){
         Ball newBall = new Ball(getPosition());
+        //  newBall.setPosition(getPosition());
+
         newBall.previousPosition = new Vector3(previousPosition);
         newBall.velocity = new Velocity();
         newBall.velocity.speed = velocity.speed;
