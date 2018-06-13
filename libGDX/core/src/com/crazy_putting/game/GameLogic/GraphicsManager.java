@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
-import com.crazy_putting.game.Components.Graphics2DComponent;
-import com.crazy_putting.game.Components.Graphics3DComponent;
+import com.crazy_putting.game.Components.Graphics.Graphics2DComponent;
+import com.crazy_putting.game.Components.Graphics.Graphics3DComponent;
 
 import java.util.ArrayList;
 import java.util.List;

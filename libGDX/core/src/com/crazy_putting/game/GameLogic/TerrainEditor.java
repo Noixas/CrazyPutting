@@ -9,7 +9,8 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
-import com.crazy_putting.game.Components.Graphics3DComponent;
+import com.crazy_putting.game.Components.Graphics.CustomGraphics3DComponent;
+import com.crazy_putting.game.Components.Graphics.Graphics3DComponent;
 import com.crazy_putting.game.GameLogic.Splines.BiCubicSpline;
 import com.crazy_putting.game.GameLogic.Splines.SplineInfo;
 import com.crazy_putting.game.GameObjects.GameObject;
@@ -44,7 +45,7 @@ public class TerrainEditor extends InputAdapter {
         if(pSplines) {
             _cam3D = pCam3D;
             GameObject terrain = new GameObject();
-            Graphics3DComponent terrainGraphics = new Graphics3DComponent(TerrainGenerator.generateModelTerrain(true, p));
+            Graphics3DComponent terrainGraphics = new CustomGraphics3DComponent(TerrainGenerator.generateModelTerrain(true, p));
             terrain.addGraphicComponent(terrainGraphics);
             _terrainInstance = terrainGraphics.getInstance();
             BiCubicSpline spline = TerrainGenerator.getSpline();
@@ -53,7 +54,7 @@ public class TerrainEditor extends InputAdapter {
     }  else {
         _cam3D = pCam3D;
         GameObject terrain = new GameObject();
-        Graphics3DComponent terrainGraphics = new Graphics3DComponent(TerrainGenerator.generateModelTerrain());
+        Graphics3DComponent terrainGraphics = new CustomGraphics3DComponent(TerrainGenerator.generateModelTerrain());
         terrain.addGraphicComponent(terrainGraphics);
         _terrainInstance = terrainGraphics.getInstance();
     }

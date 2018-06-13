@@ -1,4 +1,4 @@
-package com.crazy_putting.game.Components;
+package com.crazy_putting.game.Components.Graphics;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.VertexAttributes;
@@ -22,8 +22,6 @@ public class SphereGraphics3DComponent extends Graphics3DComponent {
     private void initSphere(){
         GraphicsManager.addGraphics3DComponent(this);
         ModelBuilder modelBuilder = new ModelBuilder();
-
-        _radius = 40f;//hardcoded for testing, erase asap
         _model = modelBuilder.createSphere(_radius, _radius, _radius, 24, 24,new Material(ColorAttribute.createDiffuse(_color)), VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
         _instance = new ModelInstance(_model);
     }
