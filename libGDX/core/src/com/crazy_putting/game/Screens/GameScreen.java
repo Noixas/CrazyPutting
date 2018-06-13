@@ -97,7 +97,7 @@ public class GameScreen extends InputAdapter implements Screen {
     @Override
     public void render(float delta) {
 
-        _gameManager.Update(delta);
+        _gameManager.update(delta);
         updateCamera();
 
         /*

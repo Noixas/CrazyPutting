@@ -116,9 +116,8 @@ public class CourseManager {
         return -1;
     }
         try{
-            if(_spline != null){ //Spline height{
-               float h = _spline.getHeightAt(new Vector2(x, y));
-                return h;
+            if(_spline != null){//Spline mode Height
+                return _spline.getHeightAt(new Vector2(x, y));
             }else {//Formula function
                 if (expr == null) {
                     expr = parser.parse(_activeCourse.getHeight());

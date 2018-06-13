@@ -1,10 +1,12 @@
 package com.crazy_putting.game.GameLogic.Splines;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.crazy_putting.game.Components.Graphics3DComponent;
+import com.crazy_putting.game.Components.Graphics.Graphics3DComponent;
+import com.crazy_putting.game.Components.Graphics.SphereGraphics3DComponent;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameObjects.SplinePoint;
 
@@ -29,11 +31,10 @@ public class BiCubicSpline {
                                 {-6 ,    6 ,    6,    -6 ,   -4,    -2,     4,     2,   -3,     3 ,   -3 ,    3 ,   -2,    -1,    -2,    -1},
                                 {4  ,  -4 ,   -4,     4 ,    2,     2,    -2,    -2 ,    2,    -2  ,   2 ,   -2  ,   1 ,    1,     1,     1}};
     private List<SplineInfo> _splineList = new ArrayList<SplineInfo>();
-    private List<Rectangle> _rect = new ArrayList<Rectangle>();
     private SplinePoint[][] _splinePoints = new SplinePoint[6][6];
     private Vector2 _dimensions;
     public BiCubicSpline( Vector2 posStart, float verticesPerSide, float pScale){
-     //   int verticesPerSide = 40;
+
         int sizeSide =200;
         _dimensions = new Vector2(sizeSide *pScale,sizeSide*pScale);
         float[][] coursePoints = CourseManager.getActiveCourse().getSplinePoints();
@@ -43,28 +44,18 @@ public class BiCubicSpline {
                 float height = coursePoints[i][j];
                 SplinePoint point = new SplinePoint(new Vector3(pScale*(posStart.x+verticesPerSide*i),pScale*(posStart.y+verticesPerSide*j),height));
                 point.enabled = false;
-                Graphics3DComponent pointGraphics = new Graphics3DComponent(2);
+                Graphics3DComponent pointGraphics = new SphereGraphics3DComponent(40, Color.RED);
                 point.addGraphicComponent(pointGraphics);
                 _splinePoints[i][j] = point;
-            }}
-//        _splinePoints[0][0].getPosition().z += 500;
-//        _splinePoints[0][5].getPosition().z += 500;
-//        _splinePoints[5][0].getPosition().z += 250;
-//        _splinePoints[5][5].getPosition().z += 500;
-//
-//        _splinePoints[0][0].sstHeight(500);
-//        _splinePoints[0][5].sstHeight(500);
-//        _splinePoints[5][0].sstHeight(250);
-//        _splinePoints[5][5].sstHeight(500);
-//
-//        _splinePoints[3][3].sstHeight(500);
+            }
+        }
     }
     public SplineInfo createSplineBlock(int[][] points, Vector2 posStart, Vector2 pDimensions, float pScale, Node pNode){
         SplineInfo spline =new SplineInfo(posStart,pDimensions,pScale, pNode);
 
         _splineList.add(spline);
         updateSplineCoeff(spline,points);
-    return spline;
+      return spline;
     }
 
     public Vector2 getDimensions() {
@@ -83,11 +74,6 @@ public class BiCubicSpline {
         }
 
         double[][] out = new double[aRows][bColumns];
-//        for (int i = 0; i < aRows; i++) {
-//            for (int j = 0; j < bColumns; j++) {
-//                out[i][j] = 0.00000;
-//            }
-//        }
         for (int i = 0; i < aRows; i++) { // aRow
             for (int j = 0; j < bColumns; j++) { // bColumn
                 for (int k = 0; k < aColumns; k++) { // aColumn
@@ -108,8 +94,6 @@ public class BiCubicSpline {
                 {cache[3][0], cache[7][0], cache[11][0], cache[15][0]}};
         info.setCoeff(newCoeff,pPoints);
 
-       // System.out.println("PPPPOINTS");
-        //printArray(newCoeff);
         //normalize spline lenght
         //f(x,y) = [1,x,x2,x3] * coeff * [1;y;y2;y3]
         return info;
@@ -122,9 +106,6 @@ public class BiCubicSpline {
                 {cache[2][0], cache[6][0], cache[10][0], cache[14][0]},
                 {cache[3][0], cache[7][0], cache[11][0], cache[15][0]}};
         info.setCoeff(newCoeff,info.getPoints());
-       // System.out.println(info.getPoints());
-       // System.out.println("NEWPPPPOINTS");
-        //printArray(newCoeff);
         //normalize spline lenght
         //f(x,y) = [1,x,x2,x3] * coeff * [1;y;y2;y3]
         return info;
@@ -147,8 +128,8 @@ public class BiCubicSpline {
     }
     public float[][] getSplinePointsHeight(){
         float[][] points = new float[_splinePoints.length][_splinePoints[0].length];
-        for(int i = 0; i<_splinePoints.length; i++)
-        {for(int j = 0; j<_splinePoints[0].length; j++) {
+        for(int i = 0; i<_splinePoints.length; i++) {
+            for(int j = 0; j<_splinePoints[0].length; j++){
             points[i][j] = (float)_splinePoints[i][j].getSplineHeight();
         }
         }
@@ -158,15 +139,13 @@ public class BiCubicSpline {
     public float getHeightAt(Vector2 pPos, SplineInfo spline){
         Vector2 posLocal = spline.normPos(pPos);
 
-      //  System.out.println("INFO PSO LOCAL");
-     //   System.out.println(posLocal);
         if(checkInBoundaries(pPos,spline)== false)
             System.out.println("ERROR IS HEEEEREREREEERERRER "+pPos);
 
         double[][] x = {{1,posLocal.x,Math.pow(posLocal.x,2),Math.pow(posLocal.x,3)}};
         double[][] y = {{1},{posLocal.y},{Math.pow(posLocal.y,2)},{Math.pow(posLocal.y,3)}};
         double[][] out = mulMat(x, mulMat(spline.getCoeff(),y));
-      // printArray(out);
+
         return (float)out[0][0];
     }
     private boolean checkInBoundaries(Vector2 pPos, SplineInfo spline){
@@ -181,18 +160,7 @@ public class BiCubicSpline {
         }
 
     }
-    private void printArray(double[][] array)
-    {
-        String out = "\n";
-        for(int i = 0; i<array.length; i++)
-        {for(int j = 0; j<array.length; j++)
-        {
-            out += array[i][j]+"  ";
-        }
-            out+="\n";
-        }
-        System.out.println(out);
-    }
+
     public void printPoints(){
         String out = "";
         for(int i = 0; i<_splinePoints.length; i++)
@@ -203,25 +171,10 @@ public class BiCubicSpline {
             out+="\n";
         }
         System.out.println(out);
-
     }
-    private void printArray(int[][] array)
-    {
-        String out = "\n";
-        for(int i = 0; i<array.length; i++)
-        {for(int j = 0; j<array[0].length; j++)
-        {
-            out += array[i][j]+"  ";
-        }
-            out+="\n";
-        }
-        System.out.println(out);
-    }
-
     public SplinePoint[][] getSplinePoints() {
         return _splinePoints;
     }
-
     public List<SplineInfo> getSplineList() {
         return _splineList;
     }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Others.Velocity;
+import com.crazy_putting.game.Physics.Physics;
 
 public class Ball extends PhysicsGameObject implements Comparable<Ball> {
 
@@ -25,15 +26,15 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
         velocity = new Velocity();
         velocityGA = new Velocity();
         _isFixed=true;
+        Physics.physics.addMovableObject(this);
     }
     public Ball(String filename){
         texture = new Texture(filename);
-       // position = new Vector3();
         previousPosition = new Vector3();
         velocity = new Velocity();
         velocityGA = new Velocity();
         _isFixed=true;
-        //setVelocity(.1f,90);
+        Physics.physics.addMovableObject(this);
     }
 
 //    public Vector3 getPosition() {
@@ -54,6 +55,12 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
     public void setVelocityGA(float speed, float angle){
         velocityGA.setAngle(angle);
         velocityGA.setSpeed(speed);
+    }
+
+    public void setVelocity(float speed, float angle){
+        this.velocity.setAngle(angle);
+        this.velocity.setSpeed(speed);
+        this.velocity.updateVelocityComponents();
     }
 
     public Vector3 getPreviousPosition(){
@@ -109,11 +116,7 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
 
 
 
-    public void setVelocity(float speed, float angle){
-        this.velocity.setAngle(angle);
-        this.velocity.setSpeed(speed);
-        this.velocity.updateVelocityComponents();
-    }
+
 
     public float getMass(){
         return this.MASS;
@@ -174,7 +177,13 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
         newBall.velocity = new Velocity();
         newBall.velocity.speed = velocity.speed;
         newBall.velocity.angle = velocity.angle;
+        newBall.velocity.updateVelocityComponents();
+        newBall.velocityGA = new Velocity();
+        newBall.velocityGA.speed = velocityGA.speed;
+        newBall.velocityGA.angle = velocityGA.angle;
         newBall._isFixed = _isFixed;
+        newBall.fitnessValue = fitnessValue;
+        newBall._isMoving = _isMoving;
         return newBall;
 
     }

@@ -1,4 +1,4 @@
-package com.crazy_putting.game.Components;
+package com.crazy_putting.game.Components.Graphics;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -12,14 +12,14 @@ public class Graphics2DComponent extends GraphicsComponent {
     protected int _width;
     protected int _height;
 
-    public Graphics2DComponent( Texture pTexture) {
+    public Graphics2DComponent(Texture pTexture) {
         GraphicsManager.addGraphics2DComponent(this);
         _texture = pTexture;
         _width = 15;
         _height = 15;
     }
 
-    public Graphics2DComponent( Texture pTexture, int pWidth, int pHeight) {
+    public Graphics2DComponent(Texture pTexture, int pWidth, int pHeight) {
         GraphicsManager.addGraphics2DComponent(this);
         _texture = pTexture;
 

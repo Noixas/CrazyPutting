@@ -2,7 +2,7 @@ package com.crazy_putting.game.GameObjects;
 
 
 import com.badlogic.gdx.math.Vector3;
-import com.crazy_putting.game.Components.GraphicsComponent;
+import com.crazy_putting.game.Components.Graphics.GraphicsComponent;
 import com.crazy_putting.game.GameLogic.CourseManager;
 
 public class GameObject {
@@ -13,19 +13,14 @@ public class GameObject {
     {
         _position = pPosition;
     }
-    public GameObject()
-    {}
-
-    public void addGraphicComponent(GraphicsComponent pGC)
-    {
+    public GameObject(){}
+    public void addGraphicComponent(GraphicsComponent pGC){
         _graphicComponent = pGC;
         _graphicComponent.setOwner(this);
     }
-
     public GraphicsComponent getGraphicComponent() {
         return _graphicComponent;
     }
-
     public Vector3 getPosition(){
         return _position;
     }
@@ -33,7 +28,6 @@ public class GameObject {
     {
         _position.z = CourseManager.calculateHeight(_position.x,_position.y);
     }
-
     @Override
     public String toString() {
         return _position.toString();
