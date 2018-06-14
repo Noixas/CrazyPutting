@@ -13,9 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GraphicsManager {
-    // for 2D world dimensions should be 1500 and 1500 but this works for 3D
-    public final static int WORLD_WIDTH = 2000;
-    public final static int WORLD_HEIGHT = 2000;
+    public final static int WORLD_WIDTH = 1500;
+    public final static int WORLD_HEIGHT = 1500;
     public final static int WINDOW_WIDTH = 1920;
     public final static int WINDOW_HEIGHT = 1080;
     private static List<Graphics2DComponent> _graphics2DComponentList = new ArrayList<Graphics2DComponent>();

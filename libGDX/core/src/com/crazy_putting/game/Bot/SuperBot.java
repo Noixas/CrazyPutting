@@ -9,6 +9,7 @@ import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.Others.Velocity;
 import com.crazy_putting.game.Physics.Physics;
 
+import java.awt.image.AreaAveragingScaleFilter;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -104,11 +105,11 @@ public class SuperBot {
         balls.add(x2);
         balls.add(x3);
         System.out.println("b2 "+x2.getFitnessValue());
-        bestBall = findRoot(balls);
+        findRoot(balls);
         Gdx.app.log("Log - simplex ball",bestBall.getVelocity().speed+" "+bestBall.getVelocity().angle);
     }
 
-    public Ball findRoot(ArrayList<Ball> balls){
+    public void findRoot(ArrayList<Ball> balls) {
         Collections.sort(balls);
         System.out.println("Fitness values");
         for(Ball ball:balls){
@@ -118,8 +119,13 @@ public class SuperBot {
         // TODO run simulations for point
 
         System.out.println(balls.get(0).getFitnessValue());
-
-        if(balls.size()==0||balls.get(0).getFitnessValue()!=0){
+        if(balls.get(0).getFitnessValue()==balls.get(1).getFitnessValue()&&balls.get(0).getFitnessValue()==balls.get(2).getFitnessValue()){
+            bruteForce(balls);
+        }
+        if(balls.size()==0){
+            System.out.println("Balls size is 0");
+        }
+        else if(balls.get(0).getFitnessValue()!=0){
             Ball x1 = balls.get(0).clone();
             Ball x2 = balls.get(1).clone();
             Ball x3 = balls.get(2).clone();
@@ -138,7 +144,7 @@ public class SuperBot {
             xr.setVelocity(speedR,angleR);
             xr.setVelocityGA(speedR,angleR);
             simulateShot(xr);
-            System.out.println(xr.getFitnessValue());
+            System.out.println("here"+balls.size()+xr.getFitnessValue());
             if(x1.getFitnessValue()<xr.getFitnessValue()&&xr.getFitnessValue()<x2.getFitnessValue()){
                 balls.clear();
                 balls.add(x1);
@@ -147,7 +153,8 @@ public class SuperBot {
                 System.out.println("x1, x2, xr1");
                 findRoot(balls);
             }
-            else if(xr.getFitnessValue()<x1.getFitnessValue()){
+            else if(xr.getFitnessValue()<=x1.getFitnessValue()){
+
                 Ball xe = new Ball();
                 xe.setPosition(initial_Position);
                 xe.fix(false);
@@ -254,12 +261,43 @@ public class SuperBot {
             }
         }
         System.out.println("Ball found"+balls.get(0).getVelocityGA().speed+" "+balls.get(0).getVelocityGA().angle);
-        return balls.get(0);
+        if(bestBall.getFitnessValue()>balls.get(0).getFitnessValue()){
+            bestBall = balls.get(0);
+        }
     }
 
     public void printBestBall(){
         System.out.println("The best ball that is found");
         System.out.println("Speed: " + df2.format(bestBall.getVelocityGA().speed));
         System.out.println("Angle: " + df2.format(bestBall.getVelocityGA().angle));
+    }
+    public void bruteForce(ArrayList<Ball> balls){
+        float currentSpeed = balls.get(0).getVelocityGA().speed;
+        float currentAngle = balls.get(0).getVelocityGA().angle;
+        int range = 2;
+        Ball newBall = new Ball();
+        newBall.setPosition(initial_Position);
+        newBall.fix(false);
+        float[] bestTry ={currentSpeed,currentAngle,balls.get(0).getFitnessValue()};
+        System.out.println("Start");
+        for(int i = -range;i<range+1;i++){
+            for(int j = -range;j<range+1;j++){
+                newBall.setVelocity(currentSpeed+i,currentAngle+j);
+                newBall.setVelocityGA(currentSpeed+i,currentAngle+j);
+                simulateShot(newBall);
+                System.out.println("simulate "+newBall.getFitnessValue());
+                if(bestTry[2]>newBall.getFitnessValue()){
+                    bestTry[0] = newBall.getVelocityGA().speed;
+                    bestTry[1] = newBall.getVelocityGA().angle;
+                    bestTry[2] = newBall.getFitnessValue();
+                    if(newBall.getFitnessValue()==0){
+                        bestBall = newBall;
+                        System.out.println("ball found");
+                        return;
+                    }
+                }
+
+            }
+        }
     }
 }

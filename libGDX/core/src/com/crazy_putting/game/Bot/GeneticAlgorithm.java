@@ -78,7 +78,7 @@ public class GeneticAlgorithm extends SuperBot{
 //            Collections.shuffle(allBalls);
             children = null;
 
-            allBalls = tournamentCrossover();
+            allBalls = elitistCrossover();
 
         }
         printBestBall();

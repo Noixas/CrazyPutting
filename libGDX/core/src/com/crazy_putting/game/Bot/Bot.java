@@ -317,7 +317,7 @@ public class Bot extends SuperBot{
         newBalls.add(a);
         newBalls.add(b);
         newBalls.add(c);
-        super.startSimplex(newBalls);
+        startSimplex(newBalls);
         return new Velocity(speed, angle);
     }
 
