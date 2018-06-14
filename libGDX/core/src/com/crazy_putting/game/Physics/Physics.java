@@ -1,6 +1,5 @@
 package com.crazy_putting.game.Physics;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameLogic.GraphicsManager;
@@ -106,13 +105,10 @@ public abstract class Physics {
 
         Vector3 friction = frictionForce(state);
         double fric = Math.sqrt(Math.pow(friction.x,2)+ Math.pow(friction.y,2));
-
-        return obj.isSlow() || !(fric > grav);
+        return obj.isSlow()&&fric>grav;
     }
 
     public Vector3 acceleration(State s){
-
-
         return new Vector3(frictionForce(s).x + gravityForce(s).x,frictionForce(s).y + gravityForce(s).y,0);
     }
 

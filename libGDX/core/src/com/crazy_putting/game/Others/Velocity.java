@@ -15,6 +15,7 @@ public class Velocity {
     public void updateVelocityComponents(){
         this.Vx = (float) (speed * Math.cos(Math.toRadians(angle)));
         this.Vy = (float) (speed * Math.sin(Math.toRadians(angle)));
+
     }
 
     public Velocity(float speed, float angle){
@@ -43,6 +44,15 @@ public class Velocity {
     public void setAngle(float angle){
         this.angle = angle;
     }
+
+    public float getActualAngle(){
+        return (float) Math.toDegrees(Math.acos(Vx/getActualSpeed()));
+    }
+
+    public float getActualSpeed(){
+        return (float) Math.sqrt(Math.pow(Vx,2) + Math.pow(Vy,2));
+    }
+
 
 
 
