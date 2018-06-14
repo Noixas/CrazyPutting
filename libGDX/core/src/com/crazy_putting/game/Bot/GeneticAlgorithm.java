@@ -50,7 +50,7 @@ public class GeneticAlgorithm {
         this.rand = new Random();
         this.allBalls = new ArrayList<Ball>();
         this.firstIteration = new ArrayList<Ball>();
-        this.initial_Position = new Vector3();
+        this.initial_Position = CourseManager.getStartPosition();
         //fails=0;
 
 //        createBallObjects();
@@ -234,14 +234,11 @@ public class GeneticAlgorithm {
         }
     }
 
-    private void simulateShot(Ball b){
-
-
+    public void simulateShot(Ball b){
         int distance = 4000;
-
         b.setFitnessValue(distance);
         int lastDistance = 0;
-        while (Physics.physics.isGoingToStop(b) && !b.isFixed()){
+        while (!Physics.physics.isGoingToStop(b) && !b.isFixed()){
             if (b.isSlow()) {
                 distance = calcToHoleDistance(b);
                 if (distance < hole.getRadius()) {
@@ -251,18 +248,12 @@ public class GeneticAlgorithm {
                     b.setVelocity(b.getVelocityGA().speed,b.getVelocityGA().angle);
                     return;
                 }
-
-
             }
-//            System.out.println("Here");
-//            if(calcToHoleDistance(b)==0){
-//                b.setFitnessValue(0);
-//                return;
-//            }
             lastDistance = calcToHoleDistance(b);
             Physics.physics.updateObject(b,Gdx.graphics.getDeltaTime());
-
+//            System.out.println("Ball"+" position "+b.getPosition().x+" "+b.getPosition().y);
         }
+        System.out.println("Going to stop or fixed "+b.getVelocity().speed);
 
         if (b.isFixed ()) {
             b.setFitnessValue(3000+lastDistance);
@@ -274,7 +265,8 @@ public class GeneticAlgorithm {
         else{
             distance = calcToHoleDistance(b);
             b.setFitnessValue(distance);
-            System.out.println("Fitness value finished"+b.getFitnessValue()+" position "+b.getPosition().x+" "+b.getPosition().y);
+            System.out.println("Fitness value finished"+b.getFitnessValue()+" position "+b.getPosition().x+" "+b.getPosition().y+" is fixed"+b.getVelocityGA().speed+" "+b.getVelocityGA().angle+
+                    " "+b.getVelocity().speed+" "+b.getVelocity().angle);
 
             b.setPosition(initial_Position);
             b.setVelocity(b.getVelocityGA().speed,b.getVelocityGA().angle);
@@ -307,7 +299,6 @@ public class GeneticAlgorithm {
 
 
     private void createBallObjects(){
-        this.initial_Position = CourseManager.getStartPosition();
         for(int i = 0 ; i < POPULATION_SIZE * 5; i++){
 
             Ball addBall = new Ball();

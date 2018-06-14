@@ -212,7 +212,7 @@ public class Bot {
         this.bestSpeed = 0;
         this.closestDistToHole = (float) euclideanDistance(ball.getPosition(),course.getGoalPosition());
         ArrayList<Ball> balls = new ArrayList<Ball>();
-        for(int i=0;i<80;i++){
+        for(int i=0;i<8;i++){
         // should be closest distance to hole for each simulation
 //            if(closestDistToHole>10f){
 //                speedRate = 0.1f*(float)(closestDistToHole/euclideanDistance(new Vector2(initialX,initialY),hole.getPosition()));
@@ -305,10 +305,29 @@ public class Bot {
         }
         Collections.sort(balls);
         ArrayList<Ball> newBalls = new ArrayList<Ball>();
-        newBalls.add(balls.get(0));
-        newBalls.add(balls.get(10));
-        newBalls.add(balls.get(20));
+        // TODO test with example balls, normally a, b, c should be found by the bot
+        Ball a = balls.get(0);
+        Ball b = balls.get(1);
+        Ball c = balls.get(2);
+        a.fix(false);
+        b.fix(false);
+        c.fix(false);
+        a.setVelocity(140,132);
+        a.setVelocityGA(140,132);
+        b.setVelocity(150, 129);
+        b.setVelocityGA(150,129);
+        c.setVelocity(160, 130);
+        c.setVelocityGA(160, 130);
+        // end of test
         GeneticAlgorithm ga = new GeneticAlgorithm(hole,course);
+        ga.simulateShot(a);
+        ga.simulateShot(b);
+        ga.simulateShot(c);
+        System.out.println(a.getFitnessValue()+" "+b.getFitnessValue()+" "+c.getFitnessValue());
+        newBalls.add(a);
+        newBalls.add(b);
+        newBalls.add(c);
+
         ga.startSimplex(newBalls);
         return new Velocity(speed, angle);
     }
@@ -347,16 +366,20 @@ public class Bot {
             }
             // this is a quick and dirty way to check if the ball collided
             if(ball.isFixed()){
+                currentState = State.COLLIDED;
                 break;
             }
-            if(!ball.isMoving(speedTolerance)&&!ballPassedByHole()&&!ballRolledThroughTheHole){
+            if(!ball.isMoving(speedTolerance)){
                 Gdx.app.log("Log","Ball stopped moving");
                 currentState = State.STOPPED;
-                break;
             }
-            if(Physics.physics.collided(ball)){
-                currentState = State.COLLIDED;
-            }
+//            if(!ball.isMoving(speedTolerance)&&!ballPassedByHole()&&!ballRolledThroughTheHole){
+//                Gdx.app.log("Log","Ball stopped moving");
+//                currentState = State.STOPPED;
+//            }
+//            if(Physics.physics.collided(ball)){
+//                currentState = State.COLLIDED;
+//            }
         }
         if(newClosestDistToHole<closestDistToHole){
             closestDistToHole = newClosestDistToHole;

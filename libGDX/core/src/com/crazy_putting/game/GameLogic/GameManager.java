@@ -135,17 +135,16 @@ public class GameManager {
             if (Gdx.input.isKeyJustPressed(Input.Keys.G) && !_ball.isMoving()){
 
                 GeneticAlgorithm GA = new GeneticAlgorithm(_hole,CourseManager.getActiveCourse());
-                //_ball = GA.getTheBestBall();
-            }
-            if(Gdx.input.isKeyJustPressed(Input.Keys.T) && !_ball.isMoving()){
-                //BotTest test = new BotTest(CourseManager.getCourseList(),);
-               // test.runTest();
-                //test.printResults();
+                Ball b = GA.getBestBall();
+                float speed = b.getVelocityGA().speed;
+                float angle = b.getVelocityGA().angle;
+                _ball.setVelocity(speed,angle);
+                _ball.fix(false);
             }
         }
     }
     public static boolean isBallInTheHole(Ball ball, Hole hole){
-        if(Math.sqrt(Math.pow(ball.getPosition().x -hole.getPosition().x,2) +Math.pow((ball.getPosition().y - hole.getPosition().y),2))< hole.getRadius()){
+        if(Math.sqrt(Math.pow(ball.getPosition().x -hole.getPosition().x,2) +Math.pow((ball.getPosition().y - hole.getPosition().y),2)+Math.pow((ball.getPosition().z - hole.getPosition().z),2))< hole.getRadius()){
             return true;
         }
         return false;

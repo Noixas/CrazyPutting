@@ -137,6 +137,7 @@ public class TerrainEditor extends InputAdapter {
         pPos.z = cachePos.y;
         GameObject obstacle  = new GameObject(pPos);
         obstacle.addGraphicComponent(new BoxGraphics3DComponent(new Vector3(100,100,100),Color.DARK_GRAY));
+      //  obstacle.addColliderComponent(ColliderComponent);
     }
     private SplinePoint intersectSplinePoint(int screenX, int screenY ){
         Ray ray = _cam3D.getPickRay(screenX,screenY,0,0, _cam3D.viewportWidth,_cam3D.viewportHeight);//Done:Get the WindowsWidth -300 from a constant variable somewhere in graphics, dont hardcode
@@ -221,7 +222,6 @@ public class TerrainEditor extends InputAdapter {
                 _observer.updateObjectPos();
                 return true;
             }
-
         return false;
     }
     public Vector3 getObject (int screenX, int screenY) {
