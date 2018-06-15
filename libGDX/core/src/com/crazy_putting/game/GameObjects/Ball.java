@@ -11,7 +11,6 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
     private Vector3 previousPosition;
     private Velocity velocity;
     private Velocity velocityGA;
-    private boolean _isMoving = false;
     private boolean _isFixed;
 
     private int fitnessValue;
@@ -24,6 +23,7 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
     public Ball(){
         initBall();
     }
+
     private void initBall(){
         previousPosition = new Vector3();
         velocity = new Velocity();
@@ -127,6 +127,8 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
         //  newBall.setPosition(getPosition());
 
         newBall.previousPosition = new Vector3(previousPosition);
+        newBall._position = _position;
+        newBall.setPositionXYZ(getPosition().x,getPosition().y);
         newBall.velocity = new Velocity();
         newBall.velocity.speed = velocity.speed;
         newBall.velocity.angle = velocity.angle;
@@ -136,7 +138,6 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
         newBall.velocityGA.angle = velocityGA.angle;
         newBall._isFixed = _isFixed;
         newBall.fitnessValue = fitnessValue;
-        newBall._isMoving = _isMoving;
         return newBall;
 
     }
