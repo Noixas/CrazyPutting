@@ -123,12 +123,12 @@ public class BiCubicSpline {
             if(spline.getRec().contains(pPos))
                 return getHeightAt(pPos,spline);
         }
-        try{
-            throw new Exception();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+//        try{
+//            throw new Exception();
+//        }
+//        catch (Exception e){
+//            e.printStackTrace();
+//        }
         return Float.NaN;
 
     }

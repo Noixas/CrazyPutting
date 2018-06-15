@@ -206,7 +206,7 @@ public class Bot extends SuperBot{
         this.bestSpeed = 0;
         this.closestDistToHole = (float) euclideanDistance(ball.getPosition(),course.getGoalPosition());
         ArrayList<Ball> balls = new ArrayList<Ball>();
-        for(int i=0;i<7;i++){
+        for(int i=0;i<130;i++){
         // should be closest distance to hole for each simulation
 //            if(closestDistToHole>10f){
 //                speedRate = 0.1f*(float)(closestDistToHole/euclideanDistance(new Vector2(initialX,initialY),hole.getPosition()));
@@ -251,7 +251,7 @@ public class Bot extends SuperBot{
                         Gdx.app.log("Log","Ball rolled through the hole");
 
                     }
-
+                    System.out.println("Ball passed by the hole");
                     if(currentState==State.LEFT){
                         angle -= angleRate*angle;
                     }
@@ -303,12 +303,12 @@ public class Bot extends SuperBot{
         a.fix(false);
         b.fix(false);
         c.fix(false);
-        a.setVelocity(140,132);
-        a.setVelocityGA(140,132);
-        b.setVelocity(150, 129);
-        b.setVelocityGA(150,129);
-        c.setVelocity(160, 130);
-        c.setVelocityGA(160, 130);
+//        a.setVelocity(80,214);
+//        a.setVelocityGA(80,214);
+//        b.setVelocity(70, 200);
+//        b.setVelocityGA(70,200);
+//        c.setVelocity(90, 214);
+//        c.setVelocityGA(90, 214);
         // end of test
         super.simulateShot(a);
         super.simulateShot(b);

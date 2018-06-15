@@ -32,12 +32,17 @@ public class SuperBot {
         int distance = 4000;
         b.setFitnessValue(distance);
         int lastDistance = 0;
-        while (!Physics.physics.isGoingToStop(b) && !b.isFixed()){
+        boolean firstIteration = true;
+        while ((!Physics.physics.isGoingToStop(b) && !b.isFixed())||firstIteration){
+            // not sure if firstIteration needed
+
+            firstIteration = false;
             if (b.isSlow()) {
                 distance = calcToHoleDistance(b);
+//                System.out.println(hole.getRadius()+" distance "+distance);
                 if (distance < hole.getRadius()) {
                     b.setFitnessValue(0);
-                    System.out.println("Fitness value "+b.getFitnessValue()+" position "+b.getPosition().x+" "+b.getPosition().y);
+//                    System.out.println("Fitness value "+b.getFitnessValue()+" position "+b.getPosition().x+" "+b.getPosition().y);
                     b.setPosition(initial_Position);
                     b.setVelocity(b.getVelocityGA().speed,b.getVelocityGA().angle);
                     return;
@@ -47,20 +52,30 @@ public class SuperBot {
             Physics.physics.updateObject(b, Gdx.graphics.getDeltaTime());
 //            System.out.println("Ball"+" position "+b.getPosition().x+" "+b.getPosition().y);
         }
-        System.out.println("Going to stop or fixed "+b.getVelocity().speed);
+//        System.out.println("Going to stop or fixed "+b.getVelocity().speed);
 
         if (b.isFixed ()) {
             b.setFitnessValue(3000+lastDistance);
-            System.out.println("Fitness value fixed"+b.getFitnessValue()+" position "+b.getPosition().x+" "+b.getPosition().y);
+//            System.out.println("Fitness value fixed"+b.getFitnessValue()+" position "+b.getPosition().x+" "+b.getPosition().y);
             b.setPosition(initial_Position);
             b.setVelocity(b.getVelocityGA().speed,b.getVelocityGA().angle);
             return;
         }
         else{
+
             distance = calcToHoleDistance(b);
+            if (distance < hole.getRadius()) {
+                System.out.println("Found in simulation");
+                b.setFitnessValue(0);
+//                    System.out.println("Fitness value "+b.getFitnessValue()+" position "+b.getPosition().x+" "+b.getPosition().y);
+                b.setPosition(initial_Position);
+                b.setVelocity(b.getVelocityGA().speed,b.getVelocityGA().angle);
+                return;
+            }
             b.setFitnessValue(distance);
-            System.out.println("Fitness value finished"+b.getFitnessValue()+" position "+b.getPosition().x+" "+b.getPosition().y+" is fixed"+b.getVelocityGA().speed+" "+b.getVelocityGA().angle+
-                    " "+b.getVelocity().speed+" "+b.getVelocity().angle);
+            
+//            System.out.println("Fitness value finished"+b.getFitnessValue()+" position "+b.getPosition().x+" "+b.getPosition().y+" is fixed"+b.getVelocityGA().speed+" "+b.getVelocityGA().angle+
+//                    " "+b.getVelocity().speed+" "+b.getVelocity().angle);
 
             b.setPosition(initial_Position);
             b.setVelocity(b.getVelocityGA().speed,b.getVelocityGA().angle);
@@ -102,6 +117,7 @@ public class SuperBot {
         simulateShot(x2);
         simulateShot(x3);
         balls.add(x1);
+        // TODO come back to previous position of updateBall
         balls.add(x2);
         balls.add(x3);
         System.out.println("b2 "+x2.getFitnessValue());
@@ -119,10 +135,10 @@ public class SuperBot {
         // TODO run simulations for point
 
         System.out.println(balls.get(0).getFitnessValue());
-        if(balls.get(0).getFitnessValue()==balls.get(1).getFitnessValue()&&balls.get(0).getFitnessValue()==balls.get(2).getFitnessValue()){
+        if(balls.get(0).getFitnessValue()<60&&balls.get(0).getFitnessValue()==balls.get(1).getFitnessValue()&&balls.get(0).getFitnessValue()==balls.get(2).getFitnessValue()){
             bruteForce(balls);
         }
-        if(balls.size()==0){
+        else if(balls.size()==0){
             System.out.println("Balls size is 0");
         }
         else if(balls.get(0).getFitnessValue()!=0){
@@ -272,27 +288,30 @@ public class SuperBot {
         System.out.println("Angle: " + df2.format(bestBall.getVelocityGA().angle));
     }
     public void bruteForce(ArrayList<Ball> balls){
+        // TODO make brutforce recursive and tak a signle ball as input
         float currentSpeed = balls.get(0).getVelocityGA().speed;
         float currentAngle = balls.get(0).getVelocityGA().angle;
-        int range = 2;
+        System.out.println("current "+currentSpeed+" "+currentAngle);
+        float range = 1;
         Ball newBall = new Ball();
         newBall.setPosition(initial_Position);
         newBall.fix(false);
         float[] bestTry ={currentSpeed,currentAngle,balls.get(0).getFitnessValue()};
         System.out.println("Start");
-        for(int i = -range;i<range+1;i++){
-            for(int j = -range;j<range+1;j++){
+        for(float i = -range;i<range+1;i+=0.1){
+            for(float j = -range;j<range+1;j+=0.1){
+                newBall.fix(false);
                 newBall.setVelocity(currentSpeed+i,currentAngle+j);
                 newBall.setVelocityGA(currentSpeed+i,currentAngle+j);
                 simulateShot(newBall);
-                System.out.println("simulate "+newBall.getFitnessValue());
+                System.out.println("simulate "+newBall.getFitnessValue()+" "+(currentSpeed+i)+" "+(currentAngle+j));
                 if(bestTry[2]>newBall.getFitnessValue()){
                     bestTry[0] = newBall.getVelocityGA().speed;
                     bestTry[1] = newBall.getVelocityGA().angle;
                     bestTry[2] = newBall.getFitnessValue();
                     if(newBall.getFitnessValue()==0){
                         bestBall = newBall;
-                        System.out.println("ball found");
+                        System.out.println("ball found "+newBall.getVelocityGA().speed+" "+newBall.getVelocityGA().angle);
                         return;
                     }
                 }

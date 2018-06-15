@@ -74,6 +74,10 @@ public class GeneticAlgorithm extends SuperBot{
 
                 return;
             }
+            if(allBalls.get(0).getFitnessValue()<60){
+//                bruteForce(allBalls);
+                startSimplex(allBalls);
+            }
             // why is that here?
 //            Collections.shuffle(allBalls);
             children = null;
