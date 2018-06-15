@@ -114,7 +114,7 @@ public class Bot extends SuperBot{
     /**
      * Compute velocity(speed and angle) for a flat terrain to score a hole-in-one.
      */
-    public Velocity computeOptimalVelocity(){
+    public void computeOptimalVelocity(){
         float angle = 0;
         float speed = 0;
         Velocity newVelocity = new Velocity(angle,speed);
@@ -123,10 +123,9 @@ public class Bot extends SuperBot{
             angle = computeInitialAngle();
             // only for testing
 //            angle = 340;
-            newVelocity = computeVelocity(angle);
+            computeVelocity(angle);
             Gdx.app.log("Log - computed velocity","Speed "+String.valueOf(newVelocity.getSpeed())+" Angle "+String.valueOf(newVelocity.getAngle()));
         }
-        return newVelocity;
     }
 
     private boolean canBallStopInTheHole()  {
@@ -195,7 +194,7 @@ public class Bot extends SuperBot{
         return dist;
     }
 
-    public Velocity computeVelocity(float angle){
+    public void computeVelocity(float angle){
         // Initial speed, maybe it would be better to replace it with a random float
         // 100 works for course 7
         float speed = 80;
@@ -222,7 +221,8 @@ public class Bot extends SuperBot{
             // TODO where to put previousVelocity and condition?
             if(GameManager.isBallInTheHole(ball,hole)){
                 System.out.println("Found");
-                return new Velocity(speed, angle);
+                bestBall.setVelocity(speed, angle);
+                bestBall.setVelocityGA(speed, angle);
             }
             // if the speed was too big
             else{
@@ -236,38 +236,43 @@ public class Bot extends SuperBot{
                     Gdx.app.log("Average result","speed "+speed+" angle "+angle);
                     previousVelocity = new Velocity(oldSpeed,oldAngle);
                     Gdx.app.log("Left or right",String.valueOf(leftRight()==currentState)+" "+leftRight().toString()+" "+currentState.toString());
-                }
-                else if(currentState==State.COLLIDED){
-                    if(leftRight()==State.LEFT){
-                        angle -= angleRate*angle;
-                    }
-                    else{
-                        angle += angleRate*angle;
-                    }
-                }
-                else if(ballPassedByHole()||ballRolledThroughTheHole){
-                    speed -= speed*speedRate;
-                    if(ballRolledThroughTheHole){
-                        Gdx.app.log("Log","Ball rolled through the hole");
-
-                    }
-                    System.out.println("Ball passed by the hole");
-                    if(currentState==State.LEFT){
-                        angle -= angleRate*angle;
-                    }
-                    else{
-                        Gdx.app.log("Log:","Angle changed");
-                        angle += angleRate*angle;
-                    }
-                    Gdx.app.log("Left or right",String.valueOf(leftRight()==currentState)+" "+leftRight().toString()+" "+currentState.toString());
 
                 }
-                else if(speed<course.getMaxSpeed()){
-                    speed +=speed*speedRate;
-                    System.out.println("isit working");
-                    // if crossed the line
+                else{
+
+                    if(currentState==State.COLLIDED){
+                        if(leftRight()==State.LEFT){
+                            angle -= angleRate*angle;
+                        }
+                        else{
+                            angle += angleRate*angle;
+                        }
+                    }
+                    if(ballPassedByHole()||ballRolledThroughTheHole){
+                        speed -= speed*speedRate;
+                        if(ballRolledThroughTheHole){
+                            Gdx.app.log("Log","Ball rolled through the hole");
+
+                        }
+                        System.out.println("Ball passed by the hole");
+                        if(currentState==State.LEFT){
+                            angle -= angleRate*angle;
+                        }
+                        else{
+                            Gdx.app.log("Log:","Angle changed");
+                            angle += angleRate*angle;
+                        }
+                        Gdx.app.log("Left or right",String.valueOf(leftRight()==currentState)+" "+leftRight().toString()+" "+currentState.toString());
+
+                    }
+                    else if(speed<course.getMaxSpeed()){
+                        speed +=speed*speedRate;
+                        System.out.println("isit working");
+                        // if crossed the line
 //                    angle +=angleRate*angle;
+                    }
                 }
+
 
                 previousVelocity = new Velocity(oldSpeed,oldAngle);
             }
@@ -318,7 +323,7 @@ public class Bot extends SuperBot{
         newBalls.add(b);
         newBalls.add(c);
         startSimplex(newBalls);
-        return new Velocity(speed, angle);
+        return;
     }
 
 

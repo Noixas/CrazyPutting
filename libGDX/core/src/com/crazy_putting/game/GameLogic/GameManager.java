@@ -127,7 +127,8 @@ public class GameManager {
         else if (_mode == 3){
             if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !_ball.isMoving()){
                 bot = new Bot(_ball,_hole, CourseManager.getActiveCourse());
-                Velocity computedVelocity = bot.computeOptimalVelocity();
+                bot.computeOptimalVelocity();
+                Velocity computedVelocity = bot.getBestBall().getVelocity();
                 Gdx.app.log("Ball","Position x "+ _ball.getPosition().x+" position y "+_ball.getPosition().y);
                 checkConstrainsAndSetVelocity(computedVelocity.speed, computedVelocity.angle);
                 Gdx.app.log("Manager","speed "+computedVelocity.speed+" angle "+computedVelocity.angle);
