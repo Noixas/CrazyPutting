@@ -76,7 +76,14 @@ public class Map<T extends AbstractNode> {
                     currentAdj.setgCosts(current);
                     openList.add(currentAdj);
                 } else {
-                    if (currentAdj.getgCosts() > currentAdj.calculategCosts(current)) {
+                        if(LineOfSight(current.getPrevious().getxPosition(), current.getPrevious().getyPosition(), currentAdj.getxPosition(), currentAdj.getyPosition())){
+                            if(current.getPrevious().getgCosts()+calculateStraight(current.getPrevious().getxPosition(), current.getPrevious().getyPosition(), currentAdj.getxPosition(), currentAdj.getyPosition())<currentAdj.calculategCosts(currentAdj))
+                            {
+                                currentAdj.setPrevious(current.getPrevious());
+                                currentAdj.setgCosts(current, calculateStraight(current.getxPosition(), current.getyPosition(), currentAdj.getxPosition(), currentAdj.getyPosition()));
+                            }
+                        }
+                        else if (currentAdj.getgCosts() < currentAdj.calculategCosts(currentAdj)) {
                         currentAdj.setPrevious(current);
                         currentAdj.setgCosts(current);
                     }
@@ -193,6 +200,53 @@ public class Map<T extends AbstractNode> {
 
         return adj;
     }
+    private boolean LineOfSight(int x1, int y1, int x2, int y2)
+    {
+        int dx,dy;
+        int f = 0;
+        int sx, sy; // direction of movement
+        dx = x2 - x1;
+        dy = y2 - y1;
+        if(dx < 0){
+            dx = -dx;
+            sx = -1;
+        }
+        else sx = 1;
+        if(dy < 0){
+            dy = -dy;
+            sy = -1;
+        }
+        else sy = 1;
+        if(dx > dy){
+            while(x1 != x2){
+                f += dy;
+                if(f >= dx){
 
-
+                    if(nodes[x1 + ((sx - 1) / 2)][y1 + ((sy - 1) / 2)].isWalkable()){return false;}
+                    y1 += sy;
+                    f -= dx;
+                }
+                if(f != 0 && nodes[x1+((sx-1)/2)][y1+((sy-1)/2)].isWalkable()){return false;}
+                if(dy == 0 && nodes[x1+((dx-1)/2)][y1].isWalkable() && nodes[x1 + ((sx - 1) / 2)][y1 - 1].isWalkable()){return false;}
+                x1 += sx;
+            }
+        }
+        else{
+            while(y1 != y2) {
+            f += dx;
+            if(f >= dy){
+                if(nodes[x1 + ((sx - 1) / 2)][y1 + ((sy - 1) / 2)].isWalkable()){return false;}
+                x1 += sx;
+                f -= dy;
+            }
+            if(f != 0 && nodes[x1 + ((sx - 1) / 2)][ y1 + ((sy - 1) / 2)].isWalkable() ){return false;}
+            if(dx == 0 && nodes[x1][y1 + ((sy - 1) / 2)].isWalkable() && nodes[x1 - 1][y1 + ((sy - 1) / 2)].isWalkable() ){return false;}
+            y1 += sy;
+            }
+        }
+        return true;
+    }
+    private int calculateStraight(int x1, int y1, int x2, int y2){
+        return (int)Math.sqrt(Math.pow(x2 - x1 , 2) + Math.pow(y2 - y1 , 2));
+    }
 }
