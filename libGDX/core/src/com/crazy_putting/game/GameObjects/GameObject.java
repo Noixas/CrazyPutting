@@ -5,10 +5,12 @@ import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Components.Colliders.ColliderComponent;
 import com.crazy_putting.game.Components.Graphics.GraphicsComponent;
 import com.crazy_putting.game.GameLogic.CourseManager;
+import com.crazy_putting.game.Others.Velocity;
 
 public class GameObject {
     private GraphicsComponent _graphicComponent;
     private ColliderComponent _colliderComponent;
+
     protected Vector3 _position = new Vector3();//= Vector3.Zero;
     public boolean enabled = true;
     public GameObject(Vector3 pPosition)
@@ -41,4 +43,6 @@ public class GameObject {
     public ColliderComponent getColliderComponent() {
         return _colliderComponent;
     }
+
+
 }

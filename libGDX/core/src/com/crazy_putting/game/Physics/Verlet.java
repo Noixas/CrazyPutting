@@ -2,6 +2,7 @@
 package com.crazy_putting.game.Physics;
 
 import com.badlogic.gdx.math.Vector3;
+import com.crazy_putting.game.Components.Colliders.Contact;
 import com.crazy_putting.game.GameObjects.PhysicsGameObject;
 
 
@@ -36,7 +37,17 @@ public class Verlet extends Physics{
                 dealCollision(obj);
                 return;
             }
-            testCollision();
+            if(testCollision()){
+                Contact contact = getCont();
+                obj.setPosition(contact.object1.getPosition());
+                System.out.println("VX:" + contact.object1.getVelocity().Vx);
+                float newVx = contact.object1.getVelocity().Vx;
+                System.out.println("VY: " + contact.object1.getVelocity().Vy);
+                float newVy = contact.object1.getVelocity().Vy;
+
+                obj.setVelocityComponents(newVx,newVy);
+
+            }
 
             updateComponents(obj, dt);
 
@@ -51,7 +62,7 @@ public class Verlet extends Physics{
         obj.getPreviousPosition().x = state.getX();
         obj.getPreviousPosition().y = state.getY();
 
-        updateSphere(obj);
+        updateSphere(obj,state);
 
         // x(t+h) = x(t) + h*Vx(t) + h^2/2 * Ax;
         // y(t+h) = y(t) + h*Vy(t) + h^2/2 * Ay;

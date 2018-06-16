@@ -1,5 +1,7 @@
 package com.crazy_putting.game.Others;
 
+import com.badlogic.gdx.math.Vector3;
+
 public class Velocity {
     public float Vx;
     public float Vy;
@@ -30,6 +32,7 @@ public class Velocity {
     //getters and setters for speed components
     public void setSpeed(float speed){
         this.speed = speed;
+        updateVelocityComponents();
     }
 
     public float getSpeed(){
@@ -54,6 +57,20 @@ public class Velocity {
     }
 
 
+    public void add(Velocity velocity){
+        this.Vx += velocity.Vx;
+        this.Vy += velocity.Vy;
+    }
 
+    public float multiply(Vector3 vector){
+        float xAxis = this.Vx * vector.x;
+        float yAxis = this.Vy*vector.y;
+        return xAxis + yAxis;
+    }
+
+    public void sub(Velocity velocity){
+        this.Vx -= velocity.Vx;
+        this.Vy -= velocity.Vy;
+    }
 
 }
