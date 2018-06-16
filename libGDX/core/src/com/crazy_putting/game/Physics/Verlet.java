@@ -36,6 +36,7 @@ public class Verlet extends Physics{
                 dealCollision(obj);
                 return;
             }
+            testCollision();
 
             updateComponents(obj, dt);
 
@@ -49,6 +50,8 @@ public class Verlet extends Physics{
 
         obj.getPreviousPosition().x = state.getX();
         obj.getPreviousPosition().y = state.getY();
+
+        updateSphere(obj);
 
         // x(t+h) = x(t) + h*Vx(t) + h^2/2 * Ax;
         // y(t+h) = y(t) + h*Vy(t) + h^2/2 * Ay;

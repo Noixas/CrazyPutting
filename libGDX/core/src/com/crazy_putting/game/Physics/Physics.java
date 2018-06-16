@@ -1,8 +1,12 @@
 package com.crazy_putting.game.Physics;
 
 import com.badlogic.gdx.math.Vector3;
+import com.crazy_putting.game.Components.Colliders.AABB;
+import com.crazy_putting.game.Components.Colliders.CollisionDetector;
+import com.crazy_putting.game.Components.Colliders.Sphere;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameLogic.GraphicsManager;
+import com.crazy_putting.game.GameObjects.GameObject;
 import com.crazy_putting.game.GameObjects.PhysicsGameObject;
 
 import java.util.ArrayList;
@@ -17,6 +21,10 @@ public abstract class Physics {
 
 
     protected State state = new State();
+
+    protected Sphere sphere;
+    protected  AABB box;
+    protected CollisionDetector detector = new CollisionDetector();
 
 
 
@@ -161,6 +169,24 @@ public abstract class Physics {
 
         return new Vector3(partialX,partialY,0);
 
+    }
+    public void addSphere(Sphere sphere){
+        this.sphere = sphere;
+
+    }
+    public void addBox(AABB box){
+        this.box = box;
+    }
+
+
+    public void testCollision() {
+        if (this.box != null && this.sphere != null) {
+            detector.SphereWithAABB(sphere,box);
+        }
+    }
+
+    public void updateSphere(GameObject obj){
+        this.sphere.setPosition(obj.getPosition());
     }
 
 }

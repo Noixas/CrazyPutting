@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector3;
 
 public class CollisionDetector {
 
+
     public boolean AABBwithAABB(AABB box1, AABB box2){
         if(Math.abs(box1.getCenter().x - box2.getCenter().x) > (box1.getHalfSizes().x + box2.getHalfSizes().x)) {
             return false;
@@ -24,47 +25,98 @@ public class CollisionDetector {
         return (distance <= radiusSum);
     }
 
-    public boolean SphereWithAABB(Sphere sphere, AABB box){
-        float distance = distanceToAABB(sphere.getPosition(),box);
-
-        return distance<=sphere.getRadius();
-    }
 
 
-    private float distanceToAABB(Vector3 pPosition,AABB bBox){
-        Vector3 mins = bBox.getCenter().cpy().sub(bBox.getHalfSizes());
-        Vector3 maxs = bBox.getCenter().cpy().add(bBox.getHalfSizes());
-        System.out.println("msx " + maxs);
-        System.out.println("min " + mins);
-        float distance = 0.0f;
-        System.out.println(pPosition);
+
+    public Contact SphereWithAABB(Sphere sphere, AABB bBox){
+        
+        Vector3 pPosition = sphere.getPosition();
+        Vector3 max = bBox.getCenter().cpy().add(bBox.getHalfSizes());
+        System.out.println("Max" + max);
+        Vector3 min = bBox.getCenter().cpy().sub(bBox.getHalfSizes());
+        System.out.println("Min " + min);
+
+        System.out.println("Sphere position: " + pPosition);
+        System.out.println("Box pos: " + bBox.getCenter());
+
+        Vector3 closestPoint = new Vector3(0,0,0);
+
 
         //test the bounds against the points on X axis
-        if(pPosition.x < mins.x){
-            distance += Math.abs(mins.x-pPosition.x);
+        float distance = pPosition.x;
+
+
+        if(distance < min.x){
+            distance = min.x;
         }
-        if(pPosition.x > maxs.x){
-            distance += Math.abs(pPosition.x - maxs.x);
+        if(distance > max.x){
+            distance = max.x;
         }
+        System.out.println("Distance x: " + distance);
+        closestPoint.x = distance;
 
         //test for Y axes
-        if(pPosition.y < mins.y){
-            distance += Math.abs(mins.y-pPosition.y);
+
+        distance = pPosition.y;
+        if(distance < min.y){
+            distance = min.y;
         }
-        if(pPosition.y>maxs.y){
-            distance += Math.abs(pPosition.y - maxs.y);
+        if(distance > max.y){
+            distance = max.y;
         }
+        System.out.println("Distance y: " + distance);
+        closestPoint.y = distance;
 
         //test for Z axes
-        if(pPosition.z < mins.z){
-            distance += Math.abs(mins.z-pPosition.z);
+        distance = pPosition.z;
+        if(distance < min.z){
+            distance = min.z;
         }
-        if(pPosition.z>maxs.z){
-            distance += Math.abs(pPosition.z - maxs.z);
+        if(distance > max.z){
+            distance = max.z;
         }
-        return distance;
+        closestPoint.z = distance;
+        System.out.println("Distance z: " + distance);
 
+        //Check we're in contact
+        System.out.println("Closest point: " + closestPoint);
+        System.out.println("Shpere position: " + pPosition);
+        distance = closestPoint.cpy().sub(pPosition).len2();
+        System.out.println("Distance: " + distance);
+        //System.out.println("Distance: " + distance);
+
+
+
+        Contact contact = new Contact();
+        if(distance > sphere.getRadius() * sphere.getRadius()) {
+            System.out.println("nothing");
+        }
+        else{
+            //we are in contact
+            System.out.println();
+            System.out.println();
+            System.out.println();
+            System.out.println("WE ARE IN CONTACT MAFAKA");
+            System.out.println();
+            System.out.println();
+            System.out.println();
+            contact.contactNormal = (pPosition.sub(closestPoint)).nor();
+
+            contact.contactPoint = closestPoint;
+
+            contact.penetration = (float) (sphere.getRadius()-Math.sqrt(distance));
+
+            contact.object1 = sphere;
+            contact.object2 = bBox;
+
+            return contact;
+        }
+
+        return null;
     }
+
+
+
 
 
     public float calculateImpulse(Sphere sphere, AABB box){
