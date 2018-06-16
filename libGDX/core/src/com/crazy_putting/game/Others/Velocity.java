@@ -49,7 +49,7 @@ public class Velocity {
         return (float) Math.toDegrees(Math.acos(Vx/getActualSpeed()));
     }
 
-    private float getActualSpeed(){
+    public float getActualSpeed(){
         return (float) Math.sqrt(Math.pow(Vx,2) + Math.pow(Vy,2));
     }
 

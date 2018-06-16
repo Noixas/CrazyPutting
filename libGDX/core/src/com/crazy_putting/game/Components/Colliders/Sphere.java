@@ -2,7 +2,7 @@ package com.crazy_putting.game.Components.Colliders;
 
 import com.badlogic.gdx.math.Vector3;
 
-public class Sphere implements Collidable {
+public class Sphere {
 
     private Vector3 position;
     private float radius;
