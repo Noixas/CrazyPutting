@@ -12,5 +12,5 @@ public interface Collidable {
     void makeNonStatic();
     Velocity getVelocity();
     void setVeloctiy(Velocity velocity);
-    float getInversemass();
+    float getInverseMass();
 }

@@ -3,23 +3,15 @@ package com.crazy_putting.game.Components.Colliders;
 import com.badlogic.gdx.math.Vector3;
 
 public class Contact {
-    /*
-    Holds the position of the contact
-     */
 
+    //Holds the position of the contact
     public Vector3 contactPoint;
 
-    /*
-    Holds the direction of the contact
-     */
-
+    //Holds the direction of the contact
     public Vector3 contactNormal;
 
-    /*
-    Holds the depth of penetration at the contact point
-     */
+    //Holds the depth of penetration at the contact point
     public float penetration;
-
 
     public Collidable object1;
     public Collidable object2;
@@ -32,9 +24,8 @@ public class Contact {
         this.object1=obj1;
         this.object2=obj2;
     }
-    public Contact(){
+
+    public Contact() {
 
     }
-
-
 }

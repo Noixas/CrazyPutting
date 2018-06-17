@@ -62,7 +62,7 @@ public class AABB  implements Collidable{
     }
 
     @Override
-    public float getInversemass() {
+    public float getInverseMass() {
         return 1.0f/this.MASS;
     }
 

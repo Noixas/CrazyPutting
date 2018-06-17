@@ -11,7 +11,9 @@ public class CollisionManager {
 
         resolveVelocity(contact);
         resolvePenetration(contact);
+
     }
+
 
     private void resolveVelocity(Contact contact){
         float separatingVelocity = calculateSeparatingVelocity(contact);
@@ -24,17 +26,18 @@ public class CollisionManager {
 
         float deltavelocity = realSeparatingVelocity - separatingVelocity;
 
-        float totalMass = contact.object1.getMass() +contact.object2.getMass();
+        float totalInverseMass = contact.object1.getInverseMass() +contact.object2.getInverseMass();
 
-        float impulse = deltavelocity * totalMass;
+
+        float impulse = deltavelocity / totalInverseMass;
 
         Vector3 impulsePerMass = contact.contactNormal.cpy().scl(impulse);
 
-        contact.object1.getVelocity().Vx +=impulsePerMass.x * contact.object1.getMass();
-        contact.object1.getVelocity().Vy +=impulsePerMass.y * contact.object1.getMass();
+        contact.object1.getVelocity().Vx +=impulsePerMass.x * contact.object1.getInverseMass();
+        contact.object1.getVelocity().Vy +=impulsePerMass.y * contact.object1.getInverseMass();
 
-        contact.object2.getVelocity().Vx +=impulsePerMass.x * contact.object2.getMass();
-        contact.object2.getVelocity().Vy +=impulsePerMass.y * contact.object2.getMass();
+        contact.object2.getVelocity().Vx +=impulsePerMass.x * contact.object2.getInverseMass();
+        contact.object2.getVelocity().Vy +=impulsePerMass.y * contact.object2.getInverseMass();
 
 
 
@@ -43,16 +46,16 @@ public class CollisionManager {
 
     private float calculateSeparatingVelocity(Contact contact) {
         Velocity relativeVelocity;
-        if (!contact.object1.isStatic()) {
-            relativeVelocity = contact.object1.getVelocity();
-        }
-        else{
-            relativeVelocity = new Velocity();
-        }
-        if(!contact.object2.isStatic()){
-            relativeVelocity.sub(contact.object2.getVelocity());
-        }
-        return relativeVelocity.multiply(contact.contactNormal);
+        //if (!contact.object1.isStatic()) {
+        relativeVelocity = contact.object1.getVelocity();
+        //}
+        //if(!contact.object2.isStatic()){
+        relativeVelocity.sub(contact.object2.getVelocity());
+        //}
+
+        float result = relativeVelocity.multiply(contact.contactNormal);
+
+        return result;
     }
 
     private void resolvePenetration(Contact contact){
@@ -61,8 +64,8 @@ public class CollisionManager {
         Vector3 changeInPosition1 = contact.contactNormal.scl((contact.object1.getMass()/totalMass)*contact.penetration);
         Vector3 changeInPosition2 = contact.contactNormal.scl((-contact.object2.getMass()/totalMass)*contact.penetration);
 
-        contact.object1.setPosition(contact.object1.getPosition().add(changeInPosition1));
-        contact.object1.setPosition(contact.object2.getPosition().add(changeInPosition2));
+        contact.object1.setPosition(contact.object1.getPosition().cpy().add(changeInPosition1));
+        contact.object2.setPosition(contact.object2.getPosition().cpy().add(changeInPosition2));
     }
 
 

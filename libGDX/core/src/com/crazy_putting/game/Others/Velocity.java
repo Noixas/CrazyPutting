@@ -73,4 +73,8 @@ public class Velocity {
         this.Vy -= velocity.Vy;
     }
 
+    public String toString(){
+        return "[" + this.Vx + ";" + this.Vy + "]";
+    }
+
 }

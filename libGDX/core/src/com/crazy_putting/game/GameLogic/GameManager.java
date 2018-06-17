@@ -45,7 +45,6 @@ public class GameManager {
         if(MenuScreen.Mode3D ) {//3D Logic
             _ball.addGraphicComponent(new SphereGraphics3DComponent(40, Color.WHITE));
             Sphere sphere = new Sphere(CourseManager.getStartPosition(),20);
-            Physics.physics.addSphere(sphere);
             _hole.addGraphicComponent(new SphereGraphics3DComponent(40,Color.BLACK));
         }
         else{//2D Logic

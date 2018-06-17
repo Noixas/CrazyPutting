@@ -7,7 +7,6 @@ import com.crazy_putting.game.GameLogic.GraphicsManager;
 import com.crazy_putting.game.GameObjects.GameObject;
 import com.crazy_putting.game.GameObjects.PhysicsGameObject;
 import com.crazy_putting.game.Others.Velocity;
-import org.apache.velocity.runtime.parser.node.MathUtils;
 
 import java.util.ArrayList;
 
@@ -27,8 +26,6 @@ public abstract class Physics {
     protected Sphere sphere;
     protected  AABB box;
     protected CollisionDetector detector = new CollisionDetector();
-
-    protected Contact cont;
 
 
 
@@ -173,110 +170,6 @@ public abstract class Physics {
 
         return new Vector3(partialX,partialY,0);
 
-    }
-    public void addSphere(Sphere sphere){
-        this.sphere = sphere;
-
-    }
-    public void addBox(AABB box){
-        this.box = box;
-    }
-
-
-    public boolean testCollision() {
-        if (this.box != null && this.sphere != null) {
-            float result = detector.SphereWithAABB(sphere,box);
-            if(result ==1){
-                Contact contact = detector.getContact();
-                dealCollision(contact);
-                return true;
-            }
-        }
-        return false;
-
-    }
-
-    public void updateSphere(GameObject obj, State state){
-        this.sphere.setPosition(obj.getPosition());
-        this.sphere.getVelocity().Vx = state.getVx();
-        this.sphere.getVelocity().Vy = state.getVy();
-    }
-
-    public void dealCollision(Contact contact){
-
-        resolveVelocity(contact);
-        resolvePenetration(contact);
-
-        this.cont = contact;
-    }
-
-    public Contact getCont() {
-        return cont;
-    }
-
-    private void resolveVelocity(Contact contact){
-        System.out.println("Sphere old Vx: " + contact.object1.getVelocity().Vx);
-        System.out.println("Sphere old Vy: " + contact.object1.getVelocity().Vy);
-        float separatingVelocity = calculateSeparatingVelocity(contact);
-
-        if(separatingVelocity > 0){
-            return;
-        }
-
-        float realSeparatingVelocity = -RESTITUTION * separatingVelocity;
-        System.out.println("realSeparatingVelocity" + realSeparatingVelocity);
-
-        float deltavelocity = realSeparatingVelocity - separatingVelocity;
-        System.out.println("deltaVelocity: " + deltavelocity);
-
-        float totalInverseMass = contact.object1.getInversemass() +contact.object2.getInversemass();
-
-
-        float impulse = deltavelocity / totalInverseMass;
-        System.out.println("impulse " + impulse);
-
-        Vector3 impulsePerMass = contact.contactNormal.cpy().scl(impulse);
-        System.out.println("Impulse vector: " + impulsePerMass);
-
-        contact.object1.getVelocity().Vx +=impulsePerMass.x * contact.object1.getInversemass();
-        contact.object1.getVelocity().Vy +=impulsePerMass.y * contact.object1.getInversemass();
-        System.out.println("Sphere new Vx: " + contact.object1.getVelocity().Vx);
-        System.out.println("Sphere new Vy: " + contact.object1.getVelocity().Vy);
-
-        contact.object2.getVelocity().Vx +=impulsePerMass.x * contact.object2.getMass();
-        contact.object2.getVelocity().Vy +=impulsePerMass.y * contact.object2.getMass();
-
-
-
-
-    }
-
-    private float calculateSeparatingVelocity(Contact contact) {
-        Velocity relativeVelocity;
-        //if (!contact.object1.isStatic()) {
-            relativeVelocity = contact.object1.getVelocity();
-        //}
-        //if(!contact.object2.isStatic()){
-            relativeVelocity.sub(contact.object2.getVelocity());
-        //}
-
-        float result = relativeVelocity.multiply(contact.contactNormal);
-
-        return result;
-    }
-
-    private void resolvePenetration(Contact contact){
-        System.out.println("old position" + contact.object1.getPosition() );
-        float totalMass = contact.object1.getMass() + contact.object2.getMass();
-
-        Vector3 changeInPosition1 = contact.contactNormal.scl((contact.object1.getMass()/totalMass)*contact.penetration);
-        System.out.println("Change in position1: " + changeInPosition1);
-        Vector3 changeInPosition2 = contact.contactNormal.scl((-contact.object2.getMass()/totalMass)*contact.penetration);
-        System.out.println("Change in position2: " + changeInPosition2);
-
-        contact.object1.setPosition(contact.object1.getPosition().cpy().add(changeInPosition1));
-        System.out.println("New position: " + contact.object1.getPosition());
-        contact.object2.setPosition(contact.object2.getPosition().cpy().add(changeInPosition2));
     }
 
 }
