@@ -6,7 +6,7 @@ import com.crazy_putting.game.Physics.Physics;
 
 public class Ball extends PhysicsGameObject implements Comparable<Ball> {
 
-    private final float MASS = (float) 0.04593;
+    private final float MASS =  0.04593f;
 
     private Vector3 previousPosition;
     private Velocity velocity;
