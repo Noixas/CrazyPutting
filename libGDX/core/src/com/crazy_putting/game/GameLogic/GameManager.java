@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Bot.Bot;
 import com.crazy_putting.game.Bot.GeneticAlgorithm;
+import com.crazy_putting.game.Components.Colliders.CollisionDetector;
+import com.crazy_putting.game.Components.Colliders.Sphere;
 import com.crazy_putting.game.Components.Graphics.Graphics2DComponent;
 import com.crazy_putting.game.Components.Graphics.SphereGraphics3DComponent;
 import com.crazy_putting.game.GameObjects.Ball;
@@ -74,10 +76,19 @@ public class GameManager {
         } while (!checkLegitimacy());
 
         if(MenuScreen.Mode3D ) {//3D Logic
-            for (int i = 0; i < nPlayers; i++) {
-                allBalls[i].addGraphicComponent(new SphereGraphics3DComponent(40, Color.WHITE));
-                allHoles[i].addGraphicComponent(new SphereGraphics3DComponent(40, Color.BLACK));
+            // if we are in multiplayer mode
+            if(_mode ==4){
+                for (int i = 0; i < nPlayers; i++) {
+                    allBalls[i].addGraphicComponent(new SphereGraphics3DComponent(40, Color.WHITE));
+                    allHoles[i].addGraphicComponent(new SphereGraphics3DComponent(40, Color.BLACK));
+                }
             }
+            else{
+                _ball.addGraphicComponent(new SphereGraphics3DComponent(40, Color.WHITE));
+                Sphere sphere = new Sphere(CourseManager.getStartPosition(),20);
+                _hole.addGraphicComponent(new SphereGraphics3DComponent(40,Color.BLACK));
+            }
+
         }
         else{//2D Logic
             for (int i = 0; i < nPlayers; i++) {
@@ -175,7 +186,8 @@ public class GameManager {
         else if (_mode == 3){
             if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !_ball.isMoving()){
                 bot = new Bot(_ball,_hole, CourseManager.getActiveCourse());
-                Velocity computedVelocity = bot.computeOptimalVelocity();
+                bot.computeOptimalVelocity();
+                Velocity computedVelocity = bot.getBestBall().getVelocity();
                 Gdx.app.log("Ball","Position x "+ _ball.getPosition().x+" position y "+_ball.getPosition().y);
                 allInput[0][0] = computedVelocity.speed;
                 allInput[0][1] = computedVelocity.angle;

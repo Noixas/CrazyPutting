@@ -23,12 +23,12 @@ COURSE:
 ID: 2
 Name: Course without name D:
 Height: (sin(x/100)+cos(y/100))*50+50
-Friction: 0.4
+Friction: 0.3
 Goal Pos: -150.0 -90.0
 Goal Radius: 25.0
-Ball Start Pos: 84.0 31.0
+Ball Start Pos: 84.0 331.0
 Max Speed: 200.0
-Spline Points: 6 6 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  
+Spline Points: 6 6 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0
 COURSE:
 ID: 3
 Name: Course without name D:

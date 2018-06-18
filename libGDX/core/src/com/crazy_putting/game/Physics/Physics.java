@@ -1,9 +1,12 @@
 package com.crazy_putting.game.Physics;
 
 import com.badlogic.gdx.math.Vector3;
+import com.crazy_putting.game.Components.Colliders.*;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameLogic.GraphicsManager;
+import com.crazy_putting.game.GameObjects.GameObject;
 import com.crazy_putting.game.GameObjects.PhysicsGameObject;
+import com.crazy_putting.game.Others.Velocity;
 
 import java.util.ArrayList;
 
@@ -13,10 +16,16 @@ public abstract class Physics {
     protected float EPSILON = 1;
     protected static float mu;
 
+    protected final float RESTITUTION = 0.95f;
+
     protected ArrayList<PhysicsGameObject> movingObjects = new ArrayList<PhysicsGameObject>();
 
 
     protected State state = new State();
+
+    protected Sphere sphere;
+    protected  AABB box;
+    protected CollisionDetector detector = new CollisionDetector();
 
 
 
@@ -148,16 +157,16 @@ public abstract class Physics {
 
     public Vector3 partialDerivatives(State s){
         float x1 =  s.getX() + EPSILON;
-        float x2 =  x1 - 2 * EPSILON;
+        float x2 =  x1 - EPSILON;
         float yCur = s.getY();
 
-        float partialX = 2 * ((CourseManager.calculateHeight(x1, yCur) - CourseManager.calculateHeight(x2, yCur)) / 2 * EPSILON);
+        float partialX = ((CourseManager.calculateHeight(x1, yCur) - CourseManager.calculateHeight(x2, yCur)) / EPSILON);
 
         x1-=EPSILON;
         yCur+=EPSILON;
-        float y2 = yCur - 2 * EPSILON;
+        float y2 = yCur -EPSILON;
 
-        float partialY = 2* ((CourseManager.calculateHeight(x1, yCur) - CourseManager.calculateHeight(x1, y2)) / 2 * EPSILON);
+        float partialY = ((CourseManager.calculateHeight(x1, yCur) - CourseManager.calculateHeight(x1, y2)) / EPSILON);
 
         return new Vector3(partialX,partialY,0);
 
