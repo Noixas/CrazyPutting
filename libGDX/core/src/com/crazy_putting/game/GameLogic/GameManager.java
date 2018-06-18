@@ -13,6 +13,7 @@ import com.crazy_putting.game.Components.Graphics.SphereGraphics3DComponent;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.Others.InputData;
+import com.crazy_putting.game.Others.MultiplayerSettings;
 import com.crazy_putting.game.Others.Velocity;
 import com.crazy_putting.game.Parser.ReadAndAnalyse;
 import com.crazy_putting.game.Physics.Physics;
@@ -28,46 +29,88 @@ public class GameManager {
     private int _mode;
     private Bot bot;
     private boolean printMessage = true;
+
+    private int nPlayers;
+    private int allowedDistance;
+    private Ball[] allBalls;
+    private Hole[] allHoles;
+    private float[][] allInput;
+    private double[][] distancesMatrix;
+    private Ball[] stimulateBalls;
+
     public GameManager(GolfGame pGame, int pMode){
         _mode = pMode;
         _game = pGame;
+        if (_mode == 4) {
+            nPlayers = MultiplayerSettings.PlayerAmount;
+            allowedDistance = MultiplayerSettings.AllowedDistance;
+        }
+        else {
+            nPlayers = 1;
+        }
         if (_mode == 2)
             ReadAndAnalyse.calculate("myFile.txt");
         initGameObjects();
         _turns = 0;
         Physics.physics.updateCoefficients();
     }
+
     private void initGameObjects(){
-        _ball = new Ball(CourseManager.getStartPosition());
-        _hole = new Hole((int) CourseManager.getActiveCourse().getGoalRadius(), CourseManager.getGoalStartPosition());
+        allBalls = new Ball[nPlayers];
+        allHoles = new Hole[nPlayers];
+        allInput = new float[nPlayers][2];
+        distancesMatrix = new double[nPlayers][nPlayers];
+        stimulateBalls = new Ball[nPlayers];
+        do {
+            for (int i = 0; i < nPlayers; i++) {
+                allBalls[i] = new Ball(createPosition(CourseManager.getStartPosition()));
+                allHoles[i] = new Hole((int) CourseManager.getActiveCourse().getGoalRadius(), createPosition(CourseManager.getGoalStartPosition()));
+                Physics.physics.addMovableObject(allBalls[i]);
+            }
+        } while (!checkDistances());
+
         if(MenuScreen.Mode3D ) {//3D Logic
-            _ball.addGraphicComponent(new SphereGraphics3DComponent(40, Color.WHITE));
-            _hole.addGraphicComponent(new SphereGraphics3DComponent(40,Color.BLACK));
+            for (int i = 0; i < nPlayers; i++) {
+                allBalls[i].addGraphicComponent(new SphereGraphics3DComponent(40, Color.WHITE));
+                allHoles[i].addGraphicComponent(new SphereGraphics3DComponent(40, Color.BLACK));
+            }
         }
         else{//2D Logic
-            _ball.addGraphicComponent(new Graphics2DComponent(new Texture("golfBall.png")));
-            _hole.addGraphicComponent(new Graphics2DComponent(new Texture("hole.png"), _hole.getRadius() * 2, _hole.getRadius() * 2));
+            for (int i = 0; i < nPlayers; i++) {
+                allBalls[i].addGraphicComponent(new Graphics2DComponent(new Texture("golfBall.png")));
+                allHoles[i].addGraphicComponent(new Graphics2DComponent(new Texture("hole.png"), allHoles[i].getRadius() * 2, allHoles[i].getRadius() * 2));
+            }
         }
+        _ball = allBalls[0];
+        _hole = allHoles[0];
     }
+
     public void update(float pDelta){
         if(pDelta > 0.03){
             pDelta = 0.00166f;
         }
-       handleInput(_game.input);
-
+        handleInput(_game.input);
+        while (!simulate(pDelta)) {
+            handleInput(_game.input);
+        }
         Physics.physics.update(pDelta);
         if(printMessage){
             updateGameLogic(pDelta);
         }
     }
+
     //TODO blazej or Simon, is here where we stop the ball? otherwise we can erase this
     public void updateGameLogic(float pDelta){
-        if(isBallInTheHole(_ball,_hole) && _ball.isSlow()) {
-            printMessage = false;
-            _ball.fix(true);
-            _ball.setVelocityComponents(0,0);
-            System.out.println("Ball in goal");
-            _ball.fix(true);
+        for (int i=0; i<nPlayers; i++) {
+            _ball = allBalls[i];
+            _hole = allHoles[i];
+            if (isBallInTheHole(_ball, _hole) && _ball.isSlow()) {
+                printMessage = false;
+                _ball.fix(true);
+                _ball.setVelocityComponents(0, 0);
+                System.out.println("Ball in goal");
+                _ball.fix(true);
+            }
         }
     }
 
@@ -75,23 +118,23 @@ public class GameManager {
     //TODO fix GA in AI mode
     public void handleInput(InputData input){
         // later on it should be if speed of the ball is zero (ball is not moving, then input data)
-            if(_mode == 1) {
+        if(_mode == 1) {
 
-                if (Gdx.input.isKeyJustPressed(Input.Keys.G) && !_ball.isMoving()){
-                    System.out.println(_ball.getPosition().x + "  " + _ball.getPosition().y);
+            if (Gdx.input.isKeyJustPressed(Input.Keys.G) && !_ball.isMoving()){
+                System.out.println(_ball.getPosition().x + "  " + _ball.getPosition().y);
 
-                    GeneticAlgorithm GA = new GeneticAlgorithm(_hole, CourseManager.getActiveCourse());
+                GeneticAlgorithm GA = new GeneticAlgorithm(_hole, CourseManager.getActiveCourse());
 
-                    Ball b = GA.getBestBall();
-                    float speed = b.getVelocityGA().speed;
-                    float angle = b.getVelocityGA().angle;
-                    _ball.setVelocity(speed,angle);
-                    _ball.fix(false);
+                Ball b = GA.getBestBall();
+                float speed = b.getVelocityGA().speed;
+                float angle = b.getVelocityGA().angle;
+                _ball.setVelocity(speed,angle);
+                _ball.fix(false);
 
-                }
-                if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !_ball.isMoving()) {
-              //CourseManager.reWriteCourse();//TODO: CHECK WHY THIS IS HERE
-              Gdx.input.getTextInput(input, "Input data", "", "Input speed and direction separated with space");
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !_ball.isMoving()) {
+                //CourseManager.reWriteCourse();//TODO: CHECK WHY THIS IS HERE
+                Gdx.input.getTextInput(input, "Input data", "", "Input speed and direction separated with space");
             }
             if (input.getText() != null) {
                 try {
@@ -100,7 +143,7 @@ public class GameManager {
                     float angle = Float.parseFloat(data[1]);
                     input.clearText();//important to clear text or it will overwrite every frame
                     checkConstrainsAndSetVelocity(speed, angle);
-                  //  input.clearText();//important to clear text or it will overwrite every frame
+                    //  input.clearText();//important to clear text or it will overwrite every frame
 
                 }
                 catch (NumberFormatException e) {
@@ -120,7 +163,7 @@ public class GameManager {
                     increaseTurnCount();
                 }
                 else if(_turns>=ReadAndAnalyse.getN()){
-                  System.out.println("No more moves...");
+                    System.out.println("No more moves...");
                 }
             }
         }
@@ -142,6 +185,39 @@ public class GameManager {
                 _ball.fix(false);
             }
         }
+        else if(_mode == 4 || _mode == 1) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !anyBallIsMoving()) {
+                Gdx.input.getTextInput(input, "Input data", "", "For all Players: input speed and direction separated with space");
+            }
+            if (input.getText() != null) {
+                try {
+                    String[] data = input.getText().split(" ");
+                    for (int i=0; i<nPlayers; i++) {
+                        float speed = Float.parseFloat(data[i*2]);
+                        float angle = Float.parseFloat(data[i*2+1]);
+                        allInput[i][0] = speed;
+                        allInput[i][1] = angle;
+                        input.clearText();//important to clear text or it will overwrite every frame
+                        checkConstrainsAndSetVelocity(allInput);
+                        //  input.clearText();//important to clear text or it will overwrite every frame
+                    }
+                }
+                catch (NumberFormatException e) {
+                    // later on this will be added on the game screen so that it wasn't printed multiple times
+                    // after doing this change, delete printing stack trace
+                    Gdx.app.error("Exception: ", "You must input numbers");
+                    e.getStackTrace();
+                }
+            }
+        }
+    }
+    public boolean anyBallIsMoving(){
+        for (int i=0; i<nPlayers; i++) {
+            if (allBalls[i].isMoving()) {
+                return true;
+            }
+        }
+        return false;
     }
     public static boolean isBallInTheHole(Ball ball, Hole hole){
         if(Math.sqrt(Math.pow(ball.getPosition().x -hole.getPosition().x,2) +Math.pow((ball.getPosition().y - hole.getPosition().y),2)+Math.pow((ball.getPosition().z - hole.getPosition().z),2))< hole.getRadius()){
@@ -150,15 +226,17 @@ public class GameManager {
         return false;
     }
 
-    public void checkConstrainsAndSetVelocity(float inputSpeed, float inputAngle) {
-        float speed = checkMaxSpeedConstrain(inputSpeed);
-        if(speed==0) {
-            speed=0.000001f;
+    public void checkConstrainsAndSetVelocity(float[][] input) {
+        for (int i=0; i<nPlayers; i++) {
+            float speed = checkMaxSpeedConstrain(input[i][0]);
+            float angle = input[i][1];
+            if (speed == 0) {
+                speed = 0.000001f;
+            }
+            allBalls[i].setVelocity(speed, angle);
+            allBalls[i].fix(false);
         }
         increaseTurnCount();
-
-        _ball.setVelocity(speed, inputAngle);
-        _ball.fix(false);
     }
 
     public float checkMaxSpeedConstrain(float speed){
@@ -190,16 +268,22 @@ public class GameManager {
      * Overwrite the position of ball and hole when saving the new coordinates of the edited course by spplines
      */
     public void saveBallAndHolePos(){
-        CourseManager.getActiveCourse().setBallStartPos(_ball.getPosition());
-        CourseManager.getActiveCourse().setGoalPosition(_hole.getPosition());
+        for (int i=0; i<nPlayers; i++) {
+            CourseManager.getActiveCourse().setBallStartPos(allBalls[i].getPosition());
+            CourseManager.getActiveCourse().setGoalPosition(allHoles[i].getPosition());
+        }
     }
 
     /**
      *  Updates the height position of the ball and hole after the course changed using spline editor
      */
     public void updateObjectPos(){
-        _ball.getPosition().z = CourseManager.calculateHeight(_ball.getPosition().x,_ball.getPosition().y);
-        _hole.getPosition().z = CourseManager.calculateHeight(_hole.getPosition().x,_hole.getPosition().y);
+        for (int i=0; i<nPlayers; i++) {
+            Ball _ball = allBalls[i];
+            Hole _hole = allHoles[i];
+            _ball.getPosition().z = CourseManager.calculateHeight(_ball.getPosition().x, _ball.getPosition().y);
+            _hole.getPosition().z = CourseManager.calculateHeight(_hole.getPosition().x, _hole.getPosition().y);
+        }
     }
 
     /**
@@ -207,7 +291,11 @@ public class GameManager {
      * @param pos
      */
     public void updateBallPos(Vector3 pos){
+
+        Vector3 cache = _ball.getPosition();
         _ball.setPosition(pos);
+        if(checkDistances()==false)
+            _ball.setPosition(cache);
     }
 
     /**
@@ -215,7 +303,76 @@ public class GameManager {
      * @param pos
      */
     public void updateHolePos(Vector3 pos){
+        Vector3 cache = _hole.getPosition();
         _hole.setPosition(pos);
+        if(checkDistances()==false)
+            _hole.setPosition(cache);
     }
 
+    /////////////////////////////////////////////////////////////////////
+    //////////Methods for multiple players Mode//////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+
+    public Vector3 createPosition(Vector3 p) {
+        float size = GraphicsManager.WORLD_WIDTH / 2;
+        float x;
+        float y;
+        do {
+            x = (float) (p.x + Math.random() * allowedDistance/2);
+            y = (float) (p.y + Math.random() * allowedDistance/2);
+        } while (x<-1*size || x>size || y<-1*size || y>size);
+        float z = CourseManager.calculateHeight(x, y);
+        return new Vector3(x, y, z);
+    }
+
+    public boolean checkDistances(){
+        if (nPlayers==1)
+            return true;
+        for (int i=0; i<nPlayers; i++){
+            for (int j=0; j<nPlayers; j++) {
+                double d = euclideanDistance(allBalls[i].getPosition(), allBalls[j].getPosition());
+                distancesMatrix[i][j] = d;
+                if (distancesMatrix[i][j] > allowedDistance)
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean checkDistancesSimulation(){
+        if (nPlayers==1)
+            return true;
+        for (int i=0; i<nPlayers; i++){
+            for (int j=0; j<nPlayers; j++) {
+                double d = euclideanDistance(allBalls[i].getPosition(), allBalls[j].getPosition());
+                distancesMatrix[i][j] = d;
+                if (distancesMatrix[i][j] > allowedDistance)
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    public double euclideanDistance(Vector3 start, Vector3 goal){
+        double d = (float) Math.sqrt(Math.pow(start.x-goal.x,2)+Math.pow(start.y-goal.y,2)+Math.pow(start.z-goal.z,2));
+        return d;
+    }
+
+    public boolean simulate(double pDelta){
+        for (int i=0; i<nPlayers; i++){
+            stimulateBalls[i] = allBalls[i].clone();
+            Physics.physics.updateObject(stimulateBalls[i],pDelta);
+        }
+        if (!checkDistances()){
+            System.out.println("Exceeding the allowed distance from each other. Please try again.");
+            return false;
+        }
+        return true;
+    }
+
+    public void changeActiveBallandHole(int n){
+        if (n >= allBalls.length) return;
+        _ball = allBalls[n];
+        _hole = allHoles[n];
+    }
 }

@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.crazy_putting.game.GameLogic.CourseManager;
+import com.crazy_putting.game.Others.MultiplayerSettings;
 
 import static com.crazy_putting.game.GameLogic.GraphicsManager.WINDOW_HEIGHT;
 import static com.crazy_putting.game.GameLogic.GraphicsManager.WINDOW_WIDTH;
@@ -32,7 +33,6 @@ public class ChooseCoursesScreen implements Screen{
     private SelectBox<String> selectBox;
     private Skin skin;
 
-
     private Label heightValue;
     private Label frictionValue;
     private Label startValue;
@@ -42,10 +42,13 @@ public class ChooseCoursesScreen implements Screen{
     private TextButton confirmButton;
     private Label splines;
 
+    private TextField playersNumberField;
+    private TextField allowedDistanceField;
+    private Label errorLabel;
+
     private SpriteBatch batch;
     private Sprite sprite;
     private Table table;
-
 
     public ChooseCoursesScreen(GolfGame game, int pMode) {
         if(MenuScreen.Spline3D == false)
@@ -146,6 +149,25 @@ public class ChooseCoursesScreen implements Screen{
          */
         updateCourseInfo();
         table = new Table();
+
+        // For multiple players.
+        if(MenuScreen.Multiplayer) {
+            Label playersNumberLabel = new Label("Number of players",skin);
+            playersNumberField = new TextField("", skin);
+            Label allowedDistanceLabel = new Label("Allowed distance",skin);
+            allowedDistanceField = new TextField("", skin);
+            table.add(playersNumberLabel).align(Align.left);
+            table.add(playersNumberField).align(Align.left);
+            table.row();
+            table.add(allowedDistanceLabel).align(Align.left);
+            table.add(allowedDistanceField).align(Align.left);
+            table.row();
+            errorLabel = new Label("", skin);
+            errorLabel.setSize(200,50);
+            errorLabel.setPosition(300,500);
+            stage.addActor(errorLabel);
+        }
+
         table.setWidth(stage.getWidth());
         table.align(Align.center|Align.top);
         table.setPosition(0, Gdx.graphics.getHeight());
@@ -153,7 +175,6 @@ public class ChooseCoursesScreen implements Screen{
         //table.setWidth(WINDOW_WIDTH);
         //table.align(Align.center);
         //table.setPosition(10,WINDOW_HEIGHT*0.5f);
-
         table.add(courseProperties).align(Align.left);
         table.row();
         table.add(heightLabel).align(Align.left);
@@ -195,8 +216,6 @@ public class ChooseCoursesScreen implements Screen{
             }
         });
         confirmButton.setColor(Color.WHITE);
-
-
 
         /*
             Add all actors to stage so that they are displayed.
@@ -266,17 +285,39 @@ public class ChooseCoursesScreen implements Screen{
 
     public void confirmButtonClicked(){
 
+        if (MenuScreen.Multiplayer){
+            updateMultiplayer();
+        }
+
         CourseManager.setActiveCourseWithIndex(selectBox.getSelectedIndex());
         if(selectBox.getSelectedIndex() != CourseManager.getIndexActive())//IMPORTANT: if is a different course from the active one then we need to parse height formula again
             CourseManager.reParseHeightFormula(selectBox.getSelectedIndex());
 
         if(MenuScreen.Mode3D ==false)
-        game.setScreen(new GameScreen(game,_mode));
-        else{
+            game.setScreen(new GameScreen(game,_mode));
+        else
             game.setScreen(new GameScreen3D(game,_mode));
 
-        }
+    }
 
+    private void updateMultiplayer()
+    {
+        try{
+            int playersNumber = Integer.parseInt(playersNumberField.getText());
+            int allowedDistance = Integer.parseInt(allowedDistanceField.getText());
+            new MultiplayerSettings(playersNumber, allowedDistance);
+        }catch(Exception e)
+        {
+            System.out.println(e.toString());
+            errorLabel.setText("You must input values in text fields");
+            confirmButton.addListener(new ClickListener(){
+
+                @Override
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                    confirmButtonClicked();
+                }
+            });
+        }
     }
 
     @Override
