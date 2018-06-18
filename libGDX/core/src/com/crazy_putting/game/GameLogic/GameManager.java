@@ -11,6 +11,7 @@ import com.crazy_putting.game.Bot.GeneticAlgorithm;
 import com.crazy_putting.game.Components.Graphics.Graphics2DComponent;
 import com.crazy_putting.game.Components.Graphics.SphereGraphics3DComponent;
 import com.crazy_putting.game.GameObjects.Ball;
+import com.crazy_putting.game.GameObjects.GameObject;
 import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.Others.InputData;
 import com.crazy_putting.game.Others.MultiplayerSettings;
@@ -36,7 +37,7 @@ public class GameManager {
     private Hole[] allHoles;
     private float[][] allInput;
     private double[][] distancesMatrix;
-    private Ball[] stimulateBalls;
+    private Ball[] cacheBalls;
 
     public GameManager(GolfGame pGame, int pMode){
         _mode = pMode;
@@ -60,14 +61,17 @@ public class GameManager {
         allHoles = new Hole[nPlayers];
         allInput = new float[nPlayers][2];
         distancesMatrix = new double[nPlayers][nPlayers];
-        stimulateBalls = new Ball[nPlayers];
+        cacheBalls = new Ball[nPlayers];
         do {
+            System.out.println("Setup");
             for (int i = 0; i < nPlayers; i++) {
                 allBalls[i] = new Ball(createPosition(CourseManager.getStartPosition()));
                 allHoles[i] = new Hole((int) CourseManager.getActiveCourse().getGoalRadius(), createPosition(CourseManager.getGoalStartPosition()));
                 Physics.physics.addMovableObject(allBalls[i]);
+                System.out.println("Balls "+allBalls[i].getPosition().x+" "+allBalls[i].getPosition().y);
+                System.out.println("Hole "+allHoles[i].getPosition().x+" "+allHoles[i].getPosition().y);
             }
-        } while (!checkDistances());
+        } while (!checkLegitimacy());
 
         if(MenuScreen.Mode3D ) {//3D Logic
             for (int i = 0; i < nPlayers; i++) {
@@ -90,9 +94,8 @@ public class GameManager {
             pDelta = 0.00166f;
         }
         handleInput(_game.input);
-        while (!simulate(pDelta)) {
-            handleInput(_game.input);
-        }
+        if (_mode == 4)
+            multiPlayerUpdate(pDelta);
         Physics.physics.update(pDelta);
         if(printMessage){
             updateGameLogic(pDelta);
@@ -141,8 +144,10 @@ public class GameManager {
                     String[] data = input.getText().split(" ");
                     float speed = Float.parseFloat(data[0]);
                     float angle = Float.parseFloat(data[1]);
+                    allInput[0][0] = speed;
+                    allInput[0][1] = angle;
                     input.clearText();//important to clear text or it will overwrite every frame
-                    checkConstrainsAndSetVelocity(speed, angle);
+                    checkConstrainsAndSetVelocity(allInput);
                     //  input.clearText();//important to clear text or it will overwrite every frame
 
                 }
@@ -172,7 +177,9 @@ public class GameManager {
                 bot = new Bot(_ball,_hole, CourseManager.getActiveCourse());
                 Velocity computedVelocity = bot.computeOptimalVelocity();
                 Gdx.app.log("Ball","Position x "+ _ball.getPosition().x+" position y "+_ball.getPosition().y);
-                checkConstrainsAndSetVelocity(computedVelocity.speed, computedVelocity.angle);
+                allInput[0][0] = computedVelocity.speed;
+                allInput[0][1] = computedVelocity.angle;
+                checkConstrainsAndSetVelocity(allInput);
                 Gdx.app.log("Manager","speed "+computedVelocity.speed+" angle "+computedVelocity.angle);
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.G) && !_ball.isMoving()){
@@ -185,7 +192,7 @@ public class GameManager {
                 _ball.fix(false);
             }
         }
-        else if(_mode == 4 || _mode == 1) {
+        else if(_mode == 4) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !anyBallIsMoving()) {
                 Gdx.input.getTextInput(input, "Input data", "", "For all Players: input speed and direction separated with space");
             }
@@ -198,9 +205,9 @@ public class GameManager {
                         allInput[i][0] = speed;
                         allInput[i][1] = angle;
                         input.clearText();//important to clear text or it will overwrite every frame
-                        checkConstrainsAndSetVelocity(allInput);
-                        //  input.clearText();//important to clear text or it will overwrite every frame
                     }
+                    copyPreviousPosition();
+                    checkConstrainsAndSetVelocity(allInput);
                 }
                 catch (NumberFormatException e) {
                     // later on this will be added on the game screen so that it wasn't printed multiple times
@@ -294,7 +301,7 @@ public class GameManager {
 
         Vector3 cache = _ball.getPosition();
         _ball.setPosition(pos);
-        if(checkDistances()==false)
+        if(checkDistances(allBalls)==false)
             _ball.setPosition(cache);
     }
 
@@ -305,7 +312,7 @@ public class GameManager {
     public void updateHolePos(Vector3 pos){
         Vector3 cache = _hole.getPosition();
         _hole.setPosition(pos);
-        if(checkDistances()==false)
+        if(checkDistances(allHoles)==false)
             _hole.setPosition(cache);
     }
 
@@ -325,26 +332,12 @@ public class GameManager {
         return new Vector3(x, y, z);
     }
 
-    public boolean checkDistances(){
+    public boolean checkDistances(GameObject[] balls){
         if (nPlayers==1)
             return true;
         for (int i=0; i<nPlayers; i++){
             for (int j=0; j<nPlayers; j++) {
-                double d = euclideanDistance(allBalls[i].getPosition(), allBalls[j].getPosition());
-                distancesMatrix[i][j] = d;
-                if (distancesMatrix[i][j] > allowedDistance)
-                    return false;
-            }
-        }
-        return true;
-    }
-
-    public boolean checkDistancesSimulation(){
-        if (nPlayers==1)
-            return true;
-        for (int i=0; i<nPlayers; i++){
-            for (int j=0; j<nPlayers; j++) {
-                double d = euclideanDistance(allBalls[i].getPosition(), allBalls[j].getPosition());
+                double d = euclideanDistance(balls[i].getPosition(), balls[j].getPosition());
                 distancesMatrix[i][j] = d;
                 if (distancesMatrix[i][j] > allowedDistance)
                     return false;
@@ -358,21 +351,44 @@ public class GameManager {
         return d;
     }
 
-    public boolean simulate(double pDelta){
-        for (int i=0; i<nPlayers; i++){
-            stimulateBalls[i] = allBalls[i].clone();
-            Physics.physics.updateObject(stimulateBalls[i],pDelta);
-        }
-        if (!checkDistances()){
-            System.out.println("Exceeding the allowed distance from each other. Please try again.");
-            return false;
-        }
-        return true;
-    }
-
     public void changeActiveBallandHole(int n){
         if (n >= allBalls.length) return;
         _ball = allBalls[n];
         _hole = allHoles[n];
     }
+
+    public void multiPlayerUpdate(double pDelta){
+        if (!anyBallIsMoving() && !checkDistances(allBalls)) {
+            returnToPreviousPosition();
+            System.out.println("Exceeding the allowed distance from each other. Please try again.");
+            // TODO: display UI massage
+        }
+    }
+
+    public void copyPreviousPosition(){
+        for (int i=0; i<nPlayers; i++){
+            cacheBalls[i] = allBalls[i].clone();
+        }
+    }
+
+    public void returnToPreviousPosition(){
+        allBalls = cacheBalls;
+    }
+
+    public boolean checkLegitimacy(){
+        if (checkDistances(allBalls)==false || checkDistances(allHoles)==false)
+            return false;
+        int a = 0;
+        for (Hole element: allHoles){
+            for (Hole element2: allHoles){
+                a++;
+                double d = euclideanDistance(element.getPosition(),element2.getPosition());
+                if ( d>0 && d < element.getRadius()*2)
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
 }

@@ -305,7 +305,8 @@ public class ChooseCoursesScreen implements Screen{
         try{
             int playersNumber = Integer.parseInt(playersNumberField.getText());
             int allowedDistance = Integer.parseInt(allowedDistanceField.getText());
-            new MultiplayerSettings(playersNumber, allowedDistance);
+            //boolean simultaneous =
+            new MultiplayerSettings(playersNumber, allowedDistance, true);
         }catch(Exception e)
         {
             System.out.println(e.toString());

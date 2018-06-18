@@ -305,29 +305,10 @@ public class Bot {
         }
         Collections.sort(balls);
         ArrayList<Ball> newBalls = new ArrayList<Ball>();
-        // TODO test with example balls, normally a, b, c should be found by the bot
-        Ball a = balls.get(0);
-        Ball b = balls.get(1);
-        Ball c = balls.get(2);
-        a.fix(false);
-        b.fix(false);
-        c.fix(false);
-        a.setVelocity(140,132);
-        a.setVelocityGA(140,132);
-        b.setVelocity(150, 129);
-        b.setVelocityGA(150,129);
-        c.setVelocity(160, 130);
-        c.setVelocityGA(160, 130);
-        // end of test
+        newBalls.add(balls.get(0));
+        newBalls.add(balls.get(10));
+        newBalls.add(balls.get(20));
         GeneticAlgorithm ga = new GeneticAlgorithm(hole,course);
-        ga.simulateShot(a);
-        ga.simulateShot(b);
-        ga.simulateShot(c);
-        System.out.println(a.getFitnessValue()+" "+b.getFitnessValue()+" "+c.getFitnessValue());
-        newBalls.add(a);
-        newBalls.add(b);
-        newBalls.add(c);
-
         ga.startSimplex(newBalls);
         return new Velocity(speed, angle);
     }
