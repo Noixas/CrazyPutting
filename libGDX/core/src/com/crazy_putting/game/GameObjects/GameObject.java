@@ -35,7 +35,9 @@ public class GameObject {
         return _position.toString();
     }
     public void addColliderComponent(ColliderComponent pCollider){
+
         _colliderComponent = pCollider;
+        _colliderComponent.setOwner(this);
     }
 
     public ColliderComponent getColliderComponent() {
