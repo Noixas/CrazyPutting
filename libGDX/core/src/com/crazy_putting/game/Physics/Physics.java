@@ -157,16 +157,16 @@ public abstract class Physics {
 
     public Vector3 partialDerivatives(State s){
         float x1 =  s.getX() + EPSILON;
-        float x2 =  x1 - 2 * EPSILON;
+        float x2 =  x1 - EPSILON;
         float yCur = s.getY();
 
-        float partialX = 2 * ((CourseManager.calculateHeight(x1, yCur) - CourseManager.calculateHeight(x2, yCur)) / 2 * EPSILON);
+        float partialX = ((CourseManager.calculateHeight(x1, yCur) - CourseManager.calculateHeight(x2, yCur)) / EPSILON);
 
         x1-=EPSILON;
         yCur+=EPSILON;
-        float y2 = yCur - 2 * EPSILON;
+        float y2 = yCur -EPSILON;
 
-        float partialY = 2* ((CourseManager.calculateHeight(x1, yCur) - CourseManager.calculateHeight(x1, y2)) / 2 * EPSILON);
+        float partialY = ((CourseManager.calculateHeight(x1, yCur) - CourseManager.calculateHeight(x1, y2)) / EPSILON);
 
         return new Vector3(partialX,partialY,0);
 

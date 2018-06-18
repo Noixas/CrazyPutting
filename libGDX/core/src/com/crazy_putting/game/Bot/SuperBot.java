@@ -21,6 +21,10 @@ public class SuperBot {
     protected Ball bestBall;
     protected static DecimalFormat df2 = new DecimalFormat(".##");
 
+    public Ball getBestBall() {
+        return bestBall;
+    }
+
     public SuperBot(Hole hole, Course course){
         this.hole = hole;
         this.course = course;
@@ -122,7 +126,7 @@ public class SuperBot {
         balls.add(x3);
         System.out.println("b2 "+x2.getFitnessValue());
         findRoot(balls);
-        Gdx.app.log("Log - simplex ball",bestBall.getVelocity().speed+" "+bestBall.getVelocity().angle);
+        Gdx.app.log("Log - simplex ball",bestBall.getVelocityGA().speed+" "+bestBall.getVelocityGA().angle);
     }
 
     public void findRoot(ArrayList<Ball> balls) {
@@ -131,12 +135,11 @@ public class SuperBot {
         for(Ball ball:balls){
             System.out.println(ball.getFitnessValue()+" "+ball.getVelocity().speed+" "+ball.getVelocity().angle+" "+ball.isFixed());
         }
-        // TODO set positions of a, x2, x3
-        // TODO run simulations for point
 
         System.out.println(balls.get(0).getFitnessValue());
         if(balls.get(0).getFitnessValue()<60&&balls.get(0).getFitnessValue()==balls.get(1).getFitnessValue()&&balls.get(0).getFitnessValue()==balls.get(2).getFitnessValue()){
             bruteForce(balls);
+            return;
         }
         else if(balls.size()==0){
             System.out.println("Balls size is 0");
@@ -160,7 +163,6 @@ public class SuperBot {
             xr.setVelocity(speedR,angleR);
             xr.setVelocityGA(speedR,angleR);
             simulateShot(xr);
-            System.out.println("here"+balls.size()+xr.getFitnessValue());
             if(x1.getFitnessValue()<xr.getFitnessValue()&&xr.getFitnessValue()<x2.getFitnessValue()){
                 balls.clear();
                 balls.add(x1);
@@ -168,6 +170,7 @@ public class SuperBot {
                 balls.add(xr);
                 System.out.println("x1, x2, xr1");
                 findRoot(balls);
+                return;
             }
             else if(xr.getFitnessValue()<=x1.getFitnessValue()){
 
@@ -187,6 +190,7 @@ public class SuperBot {
                     balls.add(xe);
                     System.out.println("x1, x2, xe");
                     findRoot(balls);
+                    return;
                 }
                 else {
                     balls.clear();
@@ -195,7 +199,7 @@ public class SuperBot {
                     balls.add(xr);
                     System.out.println("x1, x2, xr");
                     findRoot(balls);
-
+                    return;
                 }
             }
             else if(xr.getFitnessValue()>=x2.getFitnessValue()) {
@@ -216,6 +220,7 @@ public class SuperBot {
                     balls.add(xc);
                     System.out.println("x1, x2, xc");
                     findRoot(balls);
+                    return;
                 }
                 else{
 
@@ -245,6 +250,7 @@ public class SuperBot {
                     balls.add(x3);
                     System.out.println("x1, x2, x3 1");
                     findRoot(balls);
+                    return;
                 }
             }
             else{
@@ -274,12 +280,14 @@ public class SuperBot {
                 balls.add(x3);
                 System.out.println("x1, x2, x3 2");
                 findRoot(balls);
+                return;
             }
         }
-        System.out.println("Ball found"+balls.get(0).getVelocityGA().speed+" "+balls.get(0).getVelocityGA().angle);
-        if(bestBall.getFitnessValue()>balls.get(0).getFitnessValue()){
-            bestBall = balls.get(0);
-        }
+//        if(bestBall.getFitnessValue()>balls.get(0).getFitnessValue()){
+            System.out.println("Ball found"+balls.get(0).getVelocityGA().speed+" "+balls.get(0).getVelocityGA().angle);
+            bestBall.setVelocity(balls.get(0).getVelocityGA().speed,balls.get(0).getVelocityGA().angle);
+            bestBall.setVelocityGA(balls.get(0).getVelocityGA().speed,balls.get(0).getVelocityGA().angle);
+//        }
     }
 
     public void printBestBall(){
