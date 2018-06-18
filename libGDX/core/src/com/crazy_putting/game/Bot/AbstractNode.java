@@ -38,8 +38,6 @@ public abstract class AbstractNode {
         this.yPosition = y;
     }
 
-
-
     public int getxPosition() {
         return xPosition;
     }
@@ -94,6 +92,7 @@ public abstract class AbstractNode {
     }
 
     public int calculategCosts(AbstractNode previousAbstractNode) {
+
         if (diagonally) {
             return (previousAbstractNode.getgCosts()
                     + DIAGONALMOVEMENTCOST + movementPenalty);
@@ -122,13 +121,11 @@ public abstract class AbstractNode {
         int currentX, currentY;
         currentX = this.xPosition;
         currentY = this.yPosition;
-        setCosts((int)Math.sqrt((currentX-goalX)*(currentX-goalX)+(currentY-goalY)*(currentY-goalY)));
+        setCosts((int)Math.sqrt(Math.pow( currentX - goalX , 2) + Math.pow(currentY - goalY , 2)));
         return gethCosts();
     }
 
-
     public abstract void setCosts(AbstractNode endAbstractNode);
-
 
     private int getMovementPenalty() {
         return movementPenalty;
@@ -157,6 +154,5 @@ public abstract class AbstractNode {
         }
         return true;
     }
-
 
 }
