@@ -9,6 +9,9 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
+import com.crazy_putting.game.Components.Colliders.AABB;
+import com.crazy_putting.game.Components.Colliders.ColliderComponent;
+import com.crazy_putting.game.Components.Colliders.Sphere;
 import com.crazy_putting.game.Components.Graphics.BoxGraphics3DComponent;
 import com.crazy_putting.game.Components.Graphics.CustomGraphics3DComponent;
 import com.crazy_putting.game.Components.Graphics.Graphics3DComponent;
@@ -17,6 +20,7 @@ import com.crazy_putting.game.GameLogic.Splines.SplineInfo;
 import com.crazy_putting.game.GameObjects.GameObject;
 import com.crazy_putting.game.GameObjects.SplinePoint;
 import com.crazy_putting.game.Graphics3D.TerrainGenerator;
+import com.crazy_putting.game.Physics.Physics;
 
 import java.util.List;
 
@@ -137,6 +141,9 @@ public class TerrainEditor extends InputAdapter {
         pPos.z = cachePos.y;
         GameObject obstacle  = new GameObject(pPos);
         obstacle.addGraphicComponent(new BoxGraphics3DComponent(new Vector3(100,100,100),Color.DARK_GRAY));
+        AABB box = new AABB(pPos,new Vector3(100,100,100));
+
+
       //  obstacle.addColliderComponent(ColliderComponent);
     }
     private SplinePoint intersectSplinePoint(int screenX, int screenY ){

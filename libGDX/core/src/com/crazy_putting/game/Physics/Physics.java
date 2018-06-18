@@ -1,9 +1,12 @@
 package com.crazy_putting.game.Physics;
 
 import com.badlogic.gdx.math.Vector3;
+import com.crazy_putting.game.Components.Colliders.*;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameLogic.GraphicsManager;
+import com.crazy_putting.game.GameObjects.GameObject;
 import com.crazy_putting.game.GameObjects.PhysicsGameObject;
+import com.crazy_putting.game.Others.Velocity;
 
 import java.util.ArrayList;
 
@@ -13,10 +16,16 @@ public abstract class Physics {
     protected float EPSILON = 1;
     protected static float mu;
 
+    protected final float RESTITUTION = 0.95f;
+
     protected ArrayList<PhysicsGameObject> movingObjects = new ArrayList<PhysicsGameObject>();
 
 
     protected State state = new State();
+
+    protected Sphere sphere;
+    protected  AABB box;
+    protected CollisionDetector detector = new CollisionDetector();
 
 
 

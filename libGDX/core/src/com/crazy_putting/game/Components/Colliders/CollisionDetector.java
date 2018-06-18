@@ -3,72 +3,120 @@ package com.crazy_putting.game.Components.Colliders;
 import com.badlogic.gdx.math.Vector3;
 
 public class CollisionDetector {
+    Contact contact ;
 
-    public boolean AABBwithAABB(AABB box1, AABB box2){
-        if(Math.abs(box1.getCenter().x - box2.getCenter().x) > (box1.getHalfSizes().x + box2.getHalfSizes().x)) {
-            return false;
+
+    public float AABBwithAABB(AABB box1, AABB box2){
+        if(Math.abs(box1.getPosition().x - box2.getPosition().x) > (box1.getHalfSizes().x + box2.getHalfSizes().x)) {
+            return 0;
         }
-        if(Math.abs(box1.getCenter().y - box2.getCenter().y) > (box1.getHalfSizes().y + box2.getHalfSizes().y)) {
-            return false;
+        if(Math.abs(box1.getPosition().y - box2.getPosition().y) > (box1.getHalfSizes().y + box2.getHalfSizes().y)) {
+            return 0;
         }
-        if(Math.abs(box1.getCenter().z - box2.getCenter().z) > (box1.getHalfSizes().z + box2.getHalfSizes().z)) {
-            return false;
+        if(Math.abs(box1.getPosition().z - box2.getPosition().z) > (box1.getHalfSizes().z + box2.getHalfSizes().z)) {
+            return 0;
         }
-        return true;
+        return 1;
     }
 
-    public boolean SphereWithSphere(Sphere sphere1, Sphere sphere2){
-        float distance =sphere1.getPosition().dst(sphere2.getPosition());
-        float radiusSum = sphere1.getRadius() + sphere2.getRadius();
+    public float SphereWithSphere(Sphere sphere1, Sphere sphere2){
+        //store the centres of 2 spheres
+        Vector3 centre1 = sphere1.getPosition();
+        Vector3 centre2 = sphere2.getPosition();
 
-        return (distance <= radiusSum);
+        //Vector between the objects
+        Vector3 midline = centre1.cpy().sub(centre2);
+
+        float distance = midline.len();
+
+        if(distance <=0.0f || distance >= sphere1.getRadius() + sphere2.getRadius()){
+            return 0;
+        }
+
+        // if we are here,then 2 spheres collides
+
+        Vector3 normal = midline.cpy().scl(1.0f/distance);
+
+        contact = new Contact();
+        contact.contactNormal = normal;
+        contact.contactPoint = centre1.cpy().add(midline.cpy().scl(0.5f));
+        contact.penetration = sphere1.getRadius() + sphere2.getRadius() - distance;
+
+        contact.object1 = sphere1;
+        contact.object2 = sphere2;
+
+        return 1;
     }
 
-    public boolean SphereWithAABB(Sphere sphere, AABB box){
-        float distance = distanceToAABB(sphere.getPosition(),box);
-
-        return distance<=sphere.getRadius();
-    }
 
 
-    private float distanceToAABB(Vector3 pPosition,AABB bBox){
-        Vector3 mins = bBox.getCenter().cpy().sub(bBox.getHalfSizes());
-        Vector3 maxs = bBox.getCenter().cpy().add(bBox.getHalfSizes());
-        System.out.println("msx " + maxs);
-        System.out.println("min " + mins);
-        float distance = 0.0f;
-        System.out.println(pPosition);
+
+    public float SphereWithAABB(Sphere sphere, AABB bBox){
+        
+        Vector3 pPosition = sphere.getPosition();
+
+        Vector3 max = bBox.getPosition().cpy().add(bBox.getHalfSizes());
+        Vector3 min = bBox.getPosition().cpy().sub(bBox.getHalfSizes());
+
+
+        Vector3 closestPoint = new Vector3(0,0,0);
+
 
         //test the bounds against the points on X axis
-        if(pPosition.x < mins.x){
-            distance += Math.abs(mins.x-pPosition.x);
+        float distance = pPosition.x;
+
+        if(distance < min.x){
+            distance = min.x;
         }
-        if(pPosition.x > maxs.x){
-            distance += Math.abs(pPosition.x - maxs.x);
+        if(distance > max.x){
+            distance = max.x;
         }
+        closestPoint.x = distance;
 
         //test for Y axes
-        if(pPosition.y < mins.y){
-            distance += Math.abs(mins.y-pPosition.y);
+        distance = pPosition.y;
+        if(distance < min.y){
+            distance = min.y;
         }
-        if(pPosition.y>maxs.y){
-            distance += Math.abs(pPosition.y - maxs.y);
+        if(distance > max.y){
+            distance = max.y;
         }
+        closestPoint.y = distance;
 
         //test for Z axes
-        if(pPosition.z < mins.z){
-            distance += Math.abs(mins.z-pPosition.z);
+        distance = pPosition.z;
+        if(distance < min.z){
+            distance = min.z;
         }
-        if(pPosition.z>maxs.z){
-            distance += Math.abs(pPosition.z - maxs.z);
+        if(distance > max.z){
+            distance = max.z;
         }
-        return distance;
+        closestPoint.z = distance;
 
+        //Check we're in contact
+        distance = closestPoint.cpy().sub(pPosition).len2();
+
+        if(distance > sphere.getRadius() * sphere.getRadius()) {
+            return 0;
+        }
+        System.out.println("Distance: " + distance);
+
+            //we are in contact
+            contact = new Contact();
+
+            //System.out.println("WE ARE IN CONTACT MAFAKA");
+
+            contact.contactNormal = (pPosition.cpy().sub(closestPoint)).nor();
+            contact.contactPoint = closestPoint;
+            contact.penetration = (float) (sphere.getRadius()-Math.sqrt(distance));
+            contact.object1 = sphere;
+            contact.object2 = bBox;
+
+            return 1;
     }
 
-
-    public float calculateImpulse(Sphere sphere, AABB box){
-        return 0.0f;
+    public Contact getContact(){
+        return this.contact;
     }
 
 
