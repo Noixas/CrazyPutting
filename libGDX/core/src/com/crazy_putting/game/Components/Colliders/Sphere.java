@@ -1,11 +1,16 @@
 package com.crazy_putting.game.Components.Colliders;
 
 import com.badlogic.gdx.math.Vector3;
+import com.crazy_putting.game.Others.Velocity;
 
-public class Sphere {
+public class Sphere implements Collidable {
 
     private Vector3 position;
     private float radius;
+    private final float MASS = 0.04593f;
+    private boolean isStatic = false;
+
+    private Velocity velocity = new Velocity();
 
 
     public Sphere(Vector3 center,float radius){
@@ -22,6 +27,38 @@ public class Sphere {
     }
 
     public void setPosition(Vector3 pos){
-        this.position = new Vector3(pos);
+        this.position = pos;
+    }
+
+    @Override
+    public float getMass() {
+        return this.MASS;
+    }
+
+    public void makeStatic(){
+        this.isStatic = true;
+    }
+
+    public void makeNonStatic(){
+        this.isStatic = false;
+    }
+
+    @Override
+    public Velocity getVelocity() {
+        return this.velocity;
+    }
+
+    @Override
+    public void setVeloctiy(Velocity velocity) {
+        this.velocity = velocity;
+    }
+
+    @Override
+    public float getInverseMass() {
+        return 1.0f/this.MASS;
+    }
+
+    public boolean isStatic(){
+        return this.isStatic;
     }
 }
