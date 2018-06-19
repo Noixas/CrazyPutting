@@ -5,15 +5,10 @@ import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Components.Colliders.*;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameLogic.GraphicsManager;
-<<<<<<< HEAD
-import com.crazy_putting.game.GameObjects.Ball;
-import com.crazy_putting.game.GameObjects.GameObject;
+
 import com.crazy_putting.game.GameObjects.PhysicsGameObject;
 import com.crazy_putting.game.Others.MultiplayerSettings;
-import com.crazy_putting.game.Others.Velocity;
-=======
-import com.crazy_putting.game.GameObjects.PhysicsGameObject;
->>>>>>> ff530ca3d3fab5423c27067388897a72ca0132b7
+
 
 import java.util.ArrayList;
 
@@ -29,14 +24,7 @@ public abstract class Physics {
 
     protected State state = new State();
 
-<<<<<<< HEAD
-    protected Sphere sphere;
-    protected  AABB box;
-    protected CollisionDetector detector = new CollisionDetector();
 
-
-=======
->>>>>>> ff530ca3d3fab5423c27067388897a72ca0132b7
     public static Physics physics = new RK4();
 
     /*
@@ -70,7 +58,7 @@ public abstract class Physics {
      */
 
     void dealCollision(PhysicsGameObject obj){
-<<<<<<< HEAD
+
         // For multiple players
         if (MultiplayerSettings.PlayerAmount > 1 && MultiplayerSettings.Simultaneous==true) {
             for (int i = 0; i < movingObjects.size(); i++) {
@@ -88,17 +76,7 @@ public abstract class Physics {
             obj.setVelocity(0.00001f, 0.000001f);
         }
         Gdx.app.log("Message","Ball collided");
-=======
-        obj.setPosition(CourseManager.getStartPosition());
 
-
-        obj.fix(true);
-
-        obj.setVelocity(0.00001f,0.000001f);
-
-        Gdx.app.log("Message","Ball collided");
-       
->>>>>>> ff530ca3d3fab5423c27067388897a72ca0132b7
     }
 
     public boolean collided(PhysicsGameObject obj ){

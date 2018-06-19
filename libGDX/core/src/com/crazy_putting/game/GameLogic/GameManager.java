@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Bot.Bot;
 import com.crazy_putting.game.Bot.GeneticAlgorithm;
 import com.crazy_putting.game.Components.Colliders.CollisionDetector;
-import com.crazy_putting.game.Components.Colliders.Sphere;
+import com.crazy_putting.game.Components.Colliders.SphereCollider;
 import com.crazy_putting.game.Components.Graphics.Graphics2DComponent;
 import com.crazy_putting.game.Components.Graphics.SphereGraphics3DComponent;
 import com.crazy_putting.game.GameObjects.Ball;
@@ -77,17 +77,14 @@ public class GameManager {
 
         if(MenuScreen.Mode3D ) {//3D Logic
             // if we are in multiplayer mode
-            if(_mode ==4){
+
                 for (int i = 0; i < nPlayers; i++) {
                     allBalls[i].addGraphicComponent(new SphereGraphics3DComponent(40, Color.WHITE));
+                    SphereCollider sphere = new SphereCollider(CourseManager.getStartPosition(),20);
+                    allBalls[i].addColliderComponent(sphere);
                     allHoles[i].addGraphicComponent(new SphereGraphics3DComponent(40, Color.BLACK));
                 }
-            }
-            else{
-                _ball.addGraphicComponent(new SphereGraphics3DComponent(40, Color.WHITE));
-                Sphere sphere = new Sphere(CourseManager.getStartPosition(),20);
-                _hole.addGraphicComponent(new SphereGraphics3DComponent(40,Color.BLACK));
-            }
+
 
         }
         else{//2D Logic
