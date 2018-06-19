@@ -5,7 +5,7 @@ import com.crazy_putting.game.Components.BaseComponent;
 import com.crazy_putting.game.GameObjects.PhysicsGameObject;
 import com.crazy_putting.game.Others.Velocity;
 
-public class ColliderComponent extends BaseComponent {
+public abstract class ColliderComponent extends BaseComponent {
 
 
 
@@ -70,6 +70,7 @@ public class ColliderComponent extends BaseComponent {
         }
         return 1.0f/100;
     }
+    public abstract boolean containsPoint(Vector3 pPoint);
 
     public void setRestitution(float restitution){
         this.restitution = restitution;

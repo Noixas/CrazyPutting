@@ -281,7 +281,7 @@ public class ChooseCoursesScreen implements Screen{
     }
     @Override
     public void render(float delta) {
-        updateSliderValues();
+       if(MenuScreen.Multiplayer) updateSliderValues();
 
         /*
             Background

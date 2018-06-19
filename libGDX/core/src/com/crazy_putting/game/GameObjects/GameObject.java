@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Components.Colliders.ColliderComponent;
 import com.crazy_putting.game.Components.Graphics.GraphicsComponent;
 import com.crazy_putting.game.GameLogic.CourseManager;
-import com.crazy_putting.game.Others.Velocity;
 
 public class GameObject {
     private GraphicsComponent _graphicComponent;
