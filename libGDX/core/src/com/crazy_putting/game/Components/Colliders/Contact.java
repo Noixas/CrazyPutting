@@ -13,11 +13,11 @@ public class Contact {
     //Holds the depth of penetration at the contact point
     public float penetration;
 
-    public Collidable object1;
-    public Collidable object2;
+    public ColliderComponent object1;
+    public ColliderComponent object2;
 
 
-    public Contact(Vector3 point, Vector3 normal, float penetration, Collidable obj1,Collidable obj2){
+    public Contact(Vector3 point, Vector3 normal, float penetration, ColliderComponent obj1,ColliderComponent obj2){
         this.contactNormal=normal;
         this.contactPoint=point;
         this.penetration=penetration;
@@ -27,5 +27,10 @@ public class Contact {
 
     public Contact() {
 
+    }
+
+    public String toString(){
+        String result = "ContactPoint: " + contactPoint +"\nContactNormal: " + contactNormal + "\nPenetration: " + penetration;
+        return result;
     }
 }
