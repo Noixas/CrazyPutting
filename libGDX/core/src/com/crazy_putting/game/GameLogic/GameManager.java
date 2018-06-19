@@ -8,8 +8,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Bot.Bot;
 import com.crazy_putting.game.Bot.GeneticAlgorithm;
-import com.crazy_putting.game.Components.Colliders.CollisionDetector;
-import com.crazy_putting.game.Components.Colliders.Sphere;
+import com.crazy_putting.game.Components.Colliders.CollisionManager;
+import com.crazy_putting.game.Components.Colliders.SphereCollider;
 import com.crazy_putting.game.Components.Graphics.Graphics2DComponent;
 import com.crazy_putting.game.Components.Graphics.SphereGraphics3DComponent;
 import com.crazy_putting.game.GameObjects.Ball;
@@ -44,7 +44,11 @@ public class GameManager {
         _hole = new Hole((int) CourseManager.getActiveCourse().getGoalRadius(), CourseManager.getGoalStartPosition());
         if(MenuScreen.Mode3D ) {//3D Logic
             _ball.addGraphicComponent(new SphereGraphics3DComponent(40, Color.WHITE));
-            Sphere sphere = new Sphere(CourseManager.getStartPosition(),20);
+
+            //Idk why but exact radius of the ball is 20,not 40.
+            SphereCollider sphereCollider = new SphereCollider(CourseManager.getStartPosition(),20);
+            sphereCollider.setStatic(false);
+            _ball.addColliderComponent(sphereCollider);
             _hole.addGraphicComponent(new SphereGraphics3DComponent(40,Color.BLACK));
         }
         else{//2D Logic
@@ -56,7 +60,8 @@ public class GameManager {
         if(pDelta > 0.03){
             pDelta = 0.00166f;
         }
-       handleInput(_game.input);
+        handleInput(_game.input);
+        CollisionManager.update();
 
         Physics.physics.update(pDelta);
         if(printMessage){

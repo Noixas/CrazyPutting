@@ -1,12 +1,11 @@
 package com.crazy_putting.game.Physics;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Components.Colliders.*;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameLogic.GraphicsManager;
-import com.crazy_putting.game.GameObjects.GameObject;
 import com.crazy_putting.game.GameObjects.PhysicsGameObject;
-import com.crazy_putting.game.Others.Velocity;
 
 import java.util.ArrayList;
 
@@ -22,12 +21,6 @@ public abstract class Physics {
 
 
     protected State state = new State();
-
-    protected Sphere sphere;
-    protected  AABB box;
-    protected CollisionDetector detector = new CollisionDetector();
-
-
 
     public static Physics physics = new RK4();
 
@@ -69,7 +62,8 @@ public abstract class Physics {
 
         obj.setVelocity(0.00001f,0.000001f);
 
-        //Gdx.app.log("Message","Ball collided");
+        Gdx.app.log("Message","Ball collided");
+       
     }
 
     public boolean collided(PhysicsGameObject obj ){
@@ -92,7 +86,7 @@ public abstract class Physics {
         float dx = xCur-xPrev;
         float dy = yCur-yPrev;
 
-        for (int i = 1; i < 4; i++){
+        for (int i = 1; i < 5; i++){
             float height = CourseManager.calculateHeight(xPrev + dx / i, equation2Points(dx, dy, xPrev + dx / i, xPrev, yPrev));
             if (height < 0){
                 return true;

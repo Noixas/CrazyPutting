@@ -11,6 +11,8 @@ public class GameObject {
     private GraphicsComponent _graphicComponent;
     private ColliderComponent _colliderComponent;
 
+
+
     protected Vector3 _position = new Vector3();//= Vector3.Zero;
     public boolean enabled = true;
     public GameObject(Vector3 pPosition)
@@ -38,11 +40,21 @@ public class GameObject {
     }
     public void addColliderComponent(ColliderComponent pCollider){
         _colliderComponent = pCollider;
+        _colliderComponent.setOwner(this);
     }
 
     public ColliderComponent getColliderComponent() {
         return _colliderComponent;
     }
+    public void setPosition(Vector3 position){
+        this._position = position;
+        if(_colliderComponent!=null){
+            _colliderComponent.setPosition(new Vector3(position));
+        }
+    }
+
+
+
 
 
 }
