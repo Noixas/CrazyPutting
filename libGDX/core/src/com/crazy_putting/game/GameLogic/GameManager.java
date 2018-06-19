@@ -105,26 +105,29 @@ public class GameManager {
             pDelta = 0.00166f;
         }
         handleInput(_game.input);
-        if (_mode == 4)
-            multiPlayerUpdate(pDelta);
         Physics.physics.update(pDelta);
         if(printMessage){
             updateGameLogic(pDelta);
         }
+        if (_mode == 4)
+            multiPlayerUpdate(pDelta);
     }
 
     //TODO blazej or Simon, is here where we stop the ball? otherwise we can erase this
     public void updateGameLogic(float pDelta){
-        for (int i=0; i<nPlayers; i++) {
-            _ball = allBalls[i];
-            _hole = allHoles[i];
-            if (isBallInTheHole(_ball, _hole) && _ball.isSlow()) {
+        int i=0;
+        while (i<nPlayers && printMessage) {
+            if (isBallInTheHole(allBalls[i], allHoles[i]) && allBalls[i].isSlow()) {
                 printMessage = false;
-                _ball.fix(true);
-                _ball.setVelocityComponents(0, 0);
+                //allBalls[i].fix(true);
+                allBalls[i].setVelocityComponents(0, 0);
                 System.out.println("Ball in goal");
-                _ball.fix(true);
+                //allBalls[i].fix(true);
+                for (int n=0; i<nPlayers; n++){
+                    allBalls[n].fix(true);
+                }
             }
+            i++;
         }
     }
 
@@ -230,14 +233,7 @@ public class GameManager {
             }
         }
     }
-    public boolean anyBallIsMoving(){
-        for (int i=0; i<nPlayers; i++) {
-            if (allBalls[i].isMoving()) {
-                return true;
-            }
-        }
-        return false;
-    }
+
     public static boolean isBallInTheHole(Ball ball, Hole hole){
         if(Math.sqrt(Math.pow(ball.getPosition().x -hole.getPosition().x,2) +Math.pow((ball.getPosition().y - hole.getPosition().y),2)+Math.pow((ball.getPosition().z - hole.getPosition().z),2))< hole.getRadius()){
             return true;
@@ -264,6 +260,7 @@ public class GameManager {
         }
         return speed;
     }
+
     public void increaseTurnCount(){
         _turns++;
     }
@@ -279,6 +276,7 @@ public class GameManager {
     public Hole getHole() {
         return _hole;
     }
+
     /////////////////////////////////////////////////////////////////////
     //////////Methods for spline Edit Mode//////////////////////////////
     ////////////////////////////////////////////////////////////////////
@@ -332,18 +330,6 @@ public class GameManager {
     //////////Methods for multiple players Mode//////////////////////////////
     ////////////////////////////////////////////////////////////////////
 
-    public Vector3 createPosition(Vector3 p) {
-        float size = GraphicsManager.WORLD_WIDTH / 2;
-        float x;
-        float y;
-        do {
-            x = (float) (p.x + Math.random() * allowedDistance/2);
-            y = (float) (p.y + Math.random() * allowedDistance/2);
-        } while (x<-1*size || x>size || y<-1*size || y>size);
-        float z = CourseManager.calculateHeight(x, y);
-        return new Vector3(x, y, z);
-    }
-
     public boolean checkDistances(GameObject[] balls){
         if (nPlayers==1)
             return true;
@@ -363,6 +349,15 @@ public class GameManager {
         return d;
     }
 
+    public boolean anyBallIsMoving(){
+        for (int i=0; i<nPlayers; i++) {
+            if (allBalls[i].isMoving()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void changeActiveBallandHole(int n){
         if (n >= allBalls.length) return;
         _ball = allBalls[n];
@@ -370,9 +365,16 @@ public class GameManager {
     }
 
     public void multiPlayerUpdate(double pDelta){
-        if (!anyBallIsMoving() && !checkDistances(allBalls)) {
+        /*
+        if (!anyBallIsMoving() && MultiplayerSettings.CollisionHappened) {
+            System.out.println("The ball fell to the water or out of the world. Please try again.");
+            MultiplayerSettings.CollisionHappened = false;
             returnToPreviousPosition();
+            // TODO: display UI massage
+        }*/
+        if (!anyBallIsMoving() && !checkDistances(allBalls)){
             System.out.println("Exceeding the allowed distance from each other. Please try again.");
+            returnToPreviousPosition();
             // TODO: display UI massage
         }
     }
@@ -384,7 +386,22 @@ public class GameManager {
     }
 
     public void returnToPreviousPosition(){
-        allBalls = cacheBalls;
+        for (int i=0; i<nPlayers; i++){
+            allBalls[i] = cacheBalls[i].clone();
+            //allBalls[i].fix(true);
+        }
+    }
+
+    public Vector3 createPosition(Vector3 p) {
+        float size = GraphicsManager.WORLD_WIDTH / 2;
+        float x;
+        float y;
+        do {
+            x = (float) (p.x + Math.random() * allowedDistance/2);
+            y = (float) (p.y + Math.random() * allowedDistance/2);
+        } while (x<-1*size || x>size || y<-1*size || y>size);
+        float z = CourseManager.calculateHeight(x, y);
+        return new Vector3(x, y, z);
     }
 
     public boolean checkLegitimacy(){
@@ -399,7 +416,6 @@ public class GameManager {
                     return false;
             }
         }
-
         return true;
     }
 

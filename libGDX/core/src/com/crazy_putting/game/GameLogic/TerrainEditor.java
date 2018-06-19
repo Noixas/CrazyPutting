@@ -10,8 +10,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 import com.crazy_putting.game.Components.Colliders.AABB;
-import com.crazy_putting.game.Components.Colliders.ColliderComponent;
-import com.crazy_putting.game.Components.Colliders.Sphere;
 import com.crazy_putting.game.Components.Graphics.BoxGraphics3DComponent;
 import com.crazy_putting.game.Components.Graphics.CustomGraphics3DComponent;
 import com.crazy_putting.game.Components.Graphics.Graphics3DComponent;
@@ -20,7 +18,6 @@ import com.crazy_putting.game.GameLogic.Splines.SplineInfo;
 import com.crazy_putting.game.GameObjects.GameObject;
 import com.crazy_putting.game.GameObjects.SplinePoint;
 import com.crazy_putting.game.Graphics3D.TerrainGenerator;
-import com.crazy_putting.game.Physics.Physics;
 
 import java.util.List;
 

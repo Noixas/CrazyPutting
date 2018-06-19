@@ -8,6 +8,7 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
 
     private final float MASS =  0.04593f;
 
+
     private Vector3 previousPosition;
     private Velocity velocity;
     private Velocity velocityGA;
@@ -18,6 +19,7 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
     public Ball(Vector3 pPosition){
         initBall();
         setPosition(pPosition);
+        _startPosition = new Vector3(pPosition);
     }
 
     public Ball(){
@@ -25,6 +27,7 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
     }
 
     private void initBall(){
+        _startPosition = new Vector3();
         previousPosition = new Vector3();
         velocity = new Velocity();
         velocityGA = new Velocity();
@@ -113,6 +116,10 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
         this.velocity.Vx = Vx;
         this.velocity.Vy = Vy;
         this.velocity.speed = (float) Math.sqrt(Math.pow(getVelocity().Vx,2)+Math.pow(getVelocity().Vy,2));
+    }
+
+    public Vector3 getStartPosition() {
+        return _startPosition;
     }
 
     @Override

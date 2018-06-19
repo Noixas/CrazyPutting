@@ -1,11 +1,14 @@
 package com.crazy_putting.game.Physics;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Components.Colliders.*;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameLogic.GraphicsManager;
+import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.GameObject;
 import com.crazy_putting.game.GameObjects.PhysicsGameObject;
+import com.crazy_putting.game.Others.MultiplayerSettings;
 import com.crazy_putting.game.Others.Velocity;
 
 import java.util.ArrayList;
@@ -20,13 +23,11 @@ public abstract class Physics {
 
     protected ArrayList<PhysicsGameObject> movingObjects = new ArrayList<PhysicsGameObject>();
 
-
     protected State state = new State();
 
     protected Sphere sphere;
     protected  AABB box;
     protected CollisionDetector detector = new CollisionDetector();
-
 
 
     public static Physics physics = new RK4();
@@ -62,14 +63,23 @@ public abstract class Physics {
      */
 
     void dealCollision(PhysicsGameObject obj){
-        obj.setPosition(CourseManager.getStartPosition());
-
-
-        obj.fix(true);
-
-        obj.setVelocity(0.00001f,0.000001f);
-
-        //Gdx.app.log("Message","Ball collided");
+        // For multiple players
+        if (MultiplayerSettings.PlayerAmount > 1 && MultiplayerSettings.Simultaneous==true) {
+            for (int i = 0; i < movingObjects.size(); i++) {
+                obj.setPosition(CourseManager.getStartPosition());
+                obj.fix(true);
+                PhysicsGameObject ball = movingObjects.get(i);
+                ball.setPosition(ball.getStartPosition());
+                ball.fix(true);
+            }
+        }
+        // For single player
+        else {
+            obj.setPosition(CourseManager.getStartPosition());
+            obj.fix(true);
+            obj.setVelocity(0.00001f, 0.000001f);
+        }
+        Gdx.app.log("Message","Ball collided");
     }
 
     public boolean collided(PhysicsGameObject obj ){

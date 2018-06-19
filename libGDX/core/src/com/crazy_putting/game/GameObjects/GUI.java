@@ -35,7 +35,7 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
     private  CheckBox _addObjects;
     private boolean _spline;
 
-    public GUI(GolfGame pGame, GameManager pGameManager,  FitViewport viewPort, boolean pSpline)
+    public GUI(GolfGame pGame, GameManager pGameManager, FitViewport viewPort, boolean pSpline)
     {
         _game = pGame;
         _spline = pSpline;
