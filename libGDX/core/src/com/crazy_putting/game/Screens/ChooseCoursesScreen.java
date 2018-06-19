@@ -43,12 +43,16 @@ public class ChooseCoursesScreen implements Screen{
     private Label splines;
 
     private TextField playersNumberField;
-    private TextField allowedDistanceField;
     private Label errorLabel;
+    private Label allowedDistanceLabel;
 
     private SpriteBatch batch;
     private Sprite sprite;
     private Table table;
+
+    private Slider allowedDistanceSlider;
+    private Button[] multiplayerAmount;
+    private ButtonGroup multButtonGroup;
 
     public ChooseCoursesScreen(GolfGame game, int pMode) {
         if(MenuScreen.Spline3D == false)
@@ -77,6 +81,9 @@ public class ChooseCoursesScreen implements Screen{
         Vector2 labelSize = new Vector2(50, 50);
         label.setSize(labelSize.x, labelSize.y);
         label.setPosition(200, WINDOW_HEIGHT*0.9f-100);
+        /*
+            Multiplayer options
+        */
 
         /*
             Set up the drop-down menu (select box).
@@ -154,13 +161,31 @@ public class ChooseCoursesScreen implements Screen{
         if(MenuScreen.Multiplayer) {
             Label playersNumberLabel = new Label("Number of players",skin);
             playersNumberField = new TextField("", skin);
-            Label allowedDistanceLabel = new Label("Allowed distance",skin);
-            allowedDistanceField = new TextField("", skin);
+            allowedDistanceSlider = new Slider(50,1000,10,false,skin);
+            allowedDistanceSlider.setValue(400);
+            allowedDistanceSlider.setWidth(400);
+            allowedDistanceLabel = new Label("Allowed distance "+ allowedDistanceSlider.getValue(),skin);
+
             table.add(playersNumberLabel).align(Align.left);
-            table.add(playersNumberField).align(Align.left);
+            multiplayerAmount = new Button[4];
+            multButtonGroup = new ButtonGroup();
+            Table buttonsTable = new Table();//HAd to create this table because buttons werent aligning properly
+            for(int i = 0; i < multiplayerAmount.length; i++){
+                multiplayerAmount[i] = new CheckBox(i+1+"",skin);
+                multiplayerAmount[i].setScale(1.5f);
+                multButtonGroup.add(multiplayerAmount[i]);
+                buttonsTable.add(multiplayerAmount[i]).align(Align.right);
+
+            }
+            table.add(buttonsTable).align(Align.left);
+            multButtonGroup.uncheckAll();
+            multButtonGroup.setChecked("1");
+            multButtonGroup.setMinCheckCount(1);
+            multButtonGroup.setMaxCheckCount(1);
+
             table.row();
             table.add(allowedDistanceLabel).align(Align.left);
-            table.add(allowedDistanceField).align(Align.left);
+            table.add(allowedDistanceSlider).align(Align.left);
             table.row();
             errorLabel = new Label("", skin);
             errorLabel.setSize(200,50);
@@ -256,16 +281,7 @@ public class ChooseCoursesScreen implements Screen{
     }
     @Override
     public void render(float delta) {
-        /*
-            Prepare background.
-         */
-        /*
-        int red = 34;
-        int green = 137;
-        int blue = 34;
-        Gdx.gl.glClearColor((float)(red/255.0), (float)(green/255.0), (float)(blue/255.0), 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        */
+        updateSliderValues();
 
         /*
             Background
@@ -282,7 +298,10 @@ public class ChooseCoursesScreen implements Screen{
         stage.draw();
 
     }
-
+    private void updateSliderValues(){
+        if(allowedDistanceSlider.isDragging())
+            allowedDistanceLabel.setText("Allowed distance "+ allowedDistanceSlider.getValue());
+    }
     public void confirmButtonClicked(){
 
         if (MenuScreen.Multiplayer){
@@ -303,9 +322,9 @@ public class ChooseCoursesScreen implements Screen{
     private void updateMultiplayer()
     {
         try{
-            int playersNumber = Integer.parseInt(playersNumberField.getText());
-            int allowedDistance = Integer.parseInt(allowedDistanceField.getText());
-            //boolean simultaneous =
+            TextButton button = (TextButton)multButtonGroup.getChecked();
+            int playersNumber = Integer.parseInt(button.getText().toString());
+           int allowedDistance = (int)allowedDistanceSlider.getValue();
             new MultiplayerSettings(playersNumber, allowedDistance, true);
         }catch(Exception e)
         {
