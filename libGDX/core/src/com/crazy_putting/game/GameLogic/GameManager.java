@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Bot.Bot;
 import com.crazy_putting.game.Bot.GeneticAlgorithm;
-import com.crazy_putting.game.Components.Colliders.CollisionDetector;
+import com.crazy_putting.game.Components.Colliders.CollisionManager;
 import com.crazy_putting.game.Components.Colliders.SphereCollider;
 import com.crazy_putting.game.Components.Graphics.Graphics2DComponent;
 import com.crazy_putting.game.Components.Graphics.SphereGraphics3DComponent;
@@ -103,6 +103,7 @@ public class GameManager {
         }
         handleInput(_game.input);
         Physics.physics.update(pDelta);
+        CollisionManager.update();
         if(printMessage){
             updateGameLogic(pDelta);
         }
