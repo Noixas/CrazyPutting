@@ -7,11 +7,27 @@ public class Velocity {
     public float Vy;
     public float speed;
     public float angle;
+    private static Velocity instance;
+
+
+    public static Velocity instance(){
+        if(instance==null){
+            instance = new Velocity();
+        }
+        return instance;
+    }
 
     public Velocity(){
         setAngle(0);
         setSpeed(0);
 
+    }
+
+    public void setVelocity(Velocity velocity){
+        this.Vx = velocity.Vx;
+        this.Vy = velocity.Vy;
+        this.angle = velocity.angle;
+        this.speed = (float) Math.sqrt(Math.pow(Vx,2) + Math.pow(Vy,2));
     }
 
     public void updateVelocityComponents(){

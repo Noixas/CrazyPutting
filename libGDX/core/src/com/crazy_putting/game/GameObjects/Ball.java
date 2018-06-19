@@ -58,6 +58,12 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
         this.velocity.updateVelocityComponents();
     }
 
+    @Override
+    public void setVelocity(Velocity vel) {
+        this.velocity.Vx=vel.Vx;
+        this.velocity.Vy=vel.Vy;
+    }
+
     public Vector3 getPreviousPosition(){
         return previousPosition;
     }
@@ -74,7 +80,7 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
     }
 
     public void setPosition(Vector3 position) {
-          _position =  new Vector3(position);
+        super.setPosition(position);
        previousPosition = new Vector3(position);
     }
 
@@ -87,6 +93,11 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
 
     public Velocity getVelocity() {
         return velocity;
+    }
+
+    @Override
+    public float getInverseMass() {
+        return 1.0f/this.MASS;
     }
 
 

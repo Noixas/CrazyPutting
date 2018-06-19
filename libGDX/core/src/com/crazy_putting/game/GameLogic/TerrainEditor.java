@@ -138,7 +138,8 @@ public class TerrainEditor extends InputAdapter {
         pPos.z = cachePos.y;
         GameObject obstacle  = new GameObject(pPos);
         obstacle.addGraphicComponent(new BoxGraphics3DComponent(new Vector3(100,100,100),Color.DARK_GRAY));
-        AABB box = new AABB(pPos,new Vector3(100,100,100));
+        BoxCollider box = new BoxCollider(pPos,new Vector3(100,100,100));
+        obstacle.addColliderComponent(box);
 
 
       //  obstacle.addColliderComponent(ColliderComponent);

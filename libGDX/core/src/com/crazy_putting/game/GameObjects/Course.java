@@ -69,7 +69,7 @@ public class Course {
     }
 
     public Vector3 getStartBall() {
-        return _startBall;
+        return new Vector3(_startBall);
     }
 
     public void setMaxSpeed(float pMax)
