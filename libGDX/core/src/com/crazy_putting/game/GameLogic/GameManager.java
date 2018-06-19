@@ -73,7 +73,7 @@ public class GameManager {
                 System.out.println("Balls "+allBalls[i].getPosition().x+" "+allBalls[i].getPosition().y);
                 System.out.println("Hole "+allHoles[i].getPosition().x+" "+allHoles[i].getPosition().y);
             }
-        } while (!checkLegitimacy());
+        } while (!checkLegitimacy() && _mode==4);
 
         if(MenuScreen.Mode3D ) {//3D Logic
             // if we are in multiplayer mode
@@ -391,7 +391,7 @@ public class GameManager {
     }
 
     public Vector3 createPosition(Vector3 p) {
-        float size = GraphicsManager.WORLD_WIDTH / 2;
+        float size = CourseManager.getCourseDimensions().x / 2;
         float x;
         float y;
         do {

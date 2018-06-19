@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GraphicsManager {
-    public final static int WORLD_WIDTH = 1500;
+    public final static int WORLD_WIDTH = 1500;//DONT USE THIS IF YOU WANT THE in-GAME WORLD DIMENSIONS, use CourseManager.getCourseDimensions() instead
     public final static int WORLD_HEIGHT = 1500;
     public final static int WINDOW_WIDTH = 1920;
     public final static int WINDOW_HEIGHT = 1080;
