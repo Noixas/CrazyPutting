@@ -105,9 +105,7 @@ public class GameManager {
         handleInput(_game.input);
         Physics.physics.update(pDelta);
         CollisionManager.update();
-        if(printMessage){
-            updateGameLogic(pDelta);
-        }
+        updateGameLogic(pDelta);
         if (_mode == 4)
             multiPlayerUpdate(pDelta);
     }
@@ -139,7 +137,7 @@ public class GameManager {
             if (Gdx.input.isKeyJustPressed(Input.Keys.G) && !_ball.isMoving()){
                 System.out.println(_ball.getPosition().x + "  " + _ball.getPosition().y);
 
-                    GeneticAlgorithm GA = new GeneticAlgorithm(_hole, CourseManager.getActiveCourse(),CourseManager.getStartPosition());
+                GeneticAlgorithm GA = new GeneticAlgorithm(_hole, CourseManager.getActiveCourse(),CourseManager.getStartPosition());
 
                 Ball b = GA.getBestBall();
                 float speed = b.getVelocityGA().speed;
