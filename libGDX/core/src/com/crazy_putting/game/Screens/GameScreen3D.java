@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.crazy_putting.game.FormulaParser.FormulaParser;
+import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameLogic.GameManager;
 import com.crazy_putting.game.GameLogic.GraphicsManager;
 import com.crazy_putting.game.GameLogic.TerrainEditor;
@@ -45,6 +46,7 @@ public class GameScreen3D extends InputAdapter implements Screen {
         _terrainEditor.addObserver(_gameManager);
         _gui = new GUI(_game, _gameManager,  _hudViewport, MenuScreen.Spline3D);
         initInput();
+
     }
     private void initCameras(){
         Width2DScreen = 300;
@@ -82,8 +84,9 @@ public class GameScreen3D extends InputAdapter implements Screen {
             boolean changeBall = _gui.isChangeBallActive();
             boolean changeHole = _gui.isChangeHoleActive();
             boolean addObject = _gui.isAddObjectsActive();
-            _terrainEditor.updateGUIState(stateSpline,changeBall,changeHole,addObject);
-            if((stateSpline ||changeBall||changeHole||addObject)&& !_inputMain.getProcessors().contains(_terrainEditor,true)) {
+            boolean eraseObject = _gui.isEraseObjectsActive();
+            _terrainEditor.updateGUIState(stateSpline,changeBall,changeHole,addObject, eraseObject);
+            if((stateSpline ||changeBall||changeHole||addObject ||eraseObject)&& !_inputMain.getProcessors().contains(_terrainEditor,true)) {
                      _inputMain.addProcessor(1, _terrainEditor);
           }else
               _inputMain.removeProcessor(_terrainEditor);

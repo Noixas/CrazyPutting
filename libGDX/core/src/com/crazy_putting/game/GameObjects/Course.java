@@ -23,7 +23,7 @@ public class Course {
     private float _maxSpeed;
     private float[][] _splinePoints = new float[6][6];
     private List<GameObject> _obstacles = new ArrayList<GameObject>();
-    private ObstacleData cacheData;
+    private List<ObstacleData> cacheDataList = new ArrayList<ObstacleData>();
 
     public void setID(int pID)
     {
@@ -95,6 +95,9 @@ public class Course {
     }
     public void setSplinePoints(float[][] points){
         _splinePoints = points;
+    }
+    public void initObstacles(){
+createObstacle();
     }
     public String toStringSplinePoints()    {
         String out = ""+_splinePoints.length +" "+ _splinePoints[0].length+" ";
@@ -196,23 +199,24 @@ public class Course {
         switch (line){
             case 0:
                 value = value.replace("Collider type: ","");
-                cacheData = new ObstacleData();
-                cacheData.type = Integer.parseInt(value);
+                cacheDataList.add(new ObstacleData());
+                cacheDataList.get(cacheDataList.size()-1).type = Integer.parseInt(value);
                 break;
             case 1:
                 value = value.replace("Position: ","");
                 String[] pos = value.trim().split("\\s+");
-               cacheData.position = new Vector3(Float.parseFloat(pos[0]), Float.parseFloat(pos[1]),Float.parseFloat(pos[2]));
+                cacheDataList.get(cacheDataList.size()-1).position = new Vector3(Float.parseFloat(pos[0]), Float.parseFloat(pos[1]),Float.parseFloat(pos[2]));
                break;
             case 2:
                 value = value.replace("Dimensions: ","");
                 String[] dim = value.trim().split("\\s+");
-                cacheData.dimensions = new Vector3(Float.parseFloat(dim[0]), Float.parseFloat(dim[1]),Float.parseFloat(dim[2]));
-                createObstacle();
+                cacheDataList.get(cacheDataList.size()-1).dimensions = new Vector3(Float.parseFloat(dim[0]), Float.parseFloat(dim[1]),Float.parseFloat(dim[2]));
+                //createObstacle();
                 break;
         }
     }
     private void createObstacle(){
+        for(ObstacleData cacheData:  cacheDataList){
         GameObject obj = new GameObject(cacheData.position);
         switch (cacheData.type){
             case 1:
@@ -229,5 +233,10 @@ public class Course {
                 break;
         }
         addObstacleToList(obj);
+    }
+    }
+
+    public List<GameObject> getObstaclesList() {
+        return _obstacles;
     }
 }

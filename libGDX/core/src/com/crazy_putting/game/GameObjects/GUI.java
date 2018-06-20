@@ -33,6 +33,7 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
     private CheckBox _changeBallPos;
     private  CheckBox _changeHolePos;
     private  CheckBox _addObjects;
+    private CheckBox _eraseObject;
     private boolean _spline;
 
     public GUI(GolfGame pGame, GameManager pGameManager, FitViewport viewPort, boolean pSpline)
@@ -62,6 +63,7 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         _changeBallPos = new CheckBox("Change Ball Position", _skin);
         _changeHolePos = new CheckBox("Change Hole Position", _skin);
         _addObjects = new CheckBox("Add Objects", _skin);
+        _eraseObject = new CheckBox("Erase Objects", _skin);
 
         initUI();
         System.out.println("VIEWPORT POS "+ view.getScreenY()   );
@@ -86,7 +88,7 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         turnCount = new Label("Turns: " + _gameManager.getTurns(),skin);
         maxSpeed = new Label("Max speed: " + CourseManager.getMaxSpeed()+"\n",skin);
 
-        ButtonGroup buttonGroup = new ButtonGroup(_splineEdit, _changeBallPos, _changeHolePos,_addObjects);
+        ButtonGroup buttonGroup = new ButtonGroup(_splineEdit, _changeBallPos, _changeHolePos,_addObjects,_eraseObject);
         //next set the max and min amount to be checked
         buttonGroup.setMaxCheckCount(1);
         buttonGroup.setMinCheckCount(0);
@@ -110,6 +112,8 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
             table.add(_changeHolePos);
             table.row();
             table.add(_addObjects);
+            table.row();
+            table.add(_eraseObject);
         }
 
         UIStage.addActor(table);
@@ -154,5 +158,5 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
     {
         return _addObjects.isChecked();
     }
-
+    public boolean isEraseObjectsActive(){ return  _eraseObject.isChecked();}
 }

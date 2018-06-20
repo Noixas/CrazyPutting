@@ -43,7 +43,9 @@ public class CourseManager {
         }
 
     }
-
+    public static void initObstacles(){
+        _activeCourse.initObstacles();
+    }
     public static List<Course> getCourseList() {
         return _courseList;
     }
