@@ -13,7 +13,16 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
     private Velocity velocityGA;
     private boolean _isFixed;
 
+    public Vector3 getEndPosition() {
+        return endPosition;
+    }
+
+    private Vector3 endPosition;
     private int fitnessValue;
+
+    public void setEndPosition(Vector3 vector){
+        endPosition = vector;
+    }
 
     public Ball(Vector3 pPosition){
         initBall();

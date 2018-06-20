@@ -32,13 +32,13 @@ public class Bot extends SuperBot{
     private ArrayList<Node> path;
 
 
-    public Bot(Ball ball, Hole hole, Course course){
-        super(hole,course);
+    public Bot(Ball ball, Hole hole, Course course, Vector3 initial_position){
+        super(hole,course,initial_position);
         this.ball = ball.clone();
         ball.setPosition(initial_Position);
         // TODO it's possible that we should use setPositionXYZ in the line above
         this.bestSpeed = 0;
-        this.closestDistToHole = (float) euclideanDistance(ball.getPosition(),course.getGoalPosition());
+        this.closestDistToHole = (float) euclideanDistance(ball.getPosition(),initial_Position);
         this.lineStartGoal = lineStartGoal();
         Gdx.app.log("Log",lineStartGoal.getA()+" "+lineStartGoal.getB());
         this.lineGoal = lineGoal(lineStartGoal);
@@ -203,7 +203,7 @@ public class Bot extends SuperBot{
         float speedRate = 0.01f;
         float angleRate = 0.01f;
         this.bestSpeed = 0;
-        this.closestDistToHole = (float) euclideanDistance(ball.getPosition(),course.getGoalPosition());
+        this.closestDistToHole = (float) euclideanDistance(ball.getPosition(),initial_Position);
         ArrayList<Ball> balls = new ArrayList<Ball>();
         for(int i=0;i<130;i++){
         // should be closest distance to hole for each simulation
@@ -334,7 +334,7 @@ public class Bot extends SuperBot{
         boolean firstIteration=true;
         // After each simulation the ball should get its initial position (since we want to restart the shot from the
         // beginning with different speed
-        float newClosestDistToHole = (float) euclideanDistance(ball.getPosition(),course.getGoalPosition());
+        float newClosestDistToHole = (float) euclideanDistance(ball.getPosition(),initial_Position);
         while(!Physics.physics.isGoingToStop(ball)||firstIteration){
             firstIteration = false;
             ball.fix(false);
@@ -346,8 +346,8 @@ public class Bot extends SuperBot{
                 currentState = leftRight();
                 break;
             }
-            if(newClosestDistToHole>(float)euclideanDistance(ball.getPosition(),course.getGoalPosition())){
-                newClosestDistToHole = (float) euclideanDistance(ball.getPosition(),course.getGoalPosition());
+            if(newClosestDistToHole>(float)euclideanDistance(ball.getPosition(),initial_Position)){
+                newClosestDistToHole = (float) euclideanDistance(ball.getPosition(),initial_Position);
             }
             if(GameManager.isBallInTheHole(ball,hole)){
                 ballRolledThroughTheHole = true;

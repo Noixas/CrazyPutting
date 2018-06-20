@@ -9,6 +9,7 @@ import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.Others.Velocity;
 import com.crazy_putting.game.Physics.Physics;
 
+import javax.swing.text.Position;
 import java.awt.image.AreaAveragingScaleFilter;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -20,15 +21,20 @@ public class SuperBot {
     protected Vector3 initial_Position;
     protected Ball bestBall;
     protected static DecimalFormat df2 = new DecimalFormat(".##");
+    private Vector3 endPosition;
 
     public Ball getBestBall() {
         return bestBall;
     }
 
-    public SuperBot(Hole hole, Course course){
+    public Vector3 getEndPosition(){
+        Gdx.app.log("Log","End position: "+endPosition.x+" "+endPosition.y);
+        return endPosition;
+    }
+    public SuperBot(Hole hole, Course course, Vector3 initial_position){
         this.hole = hole;
         this.course = course;
-        this.initial_Position = CourseManager.getStartPosition();
+        this.initial_Position = initial_position;
         this.bestBall = new Ball();
     }
 
@@ -47,6 +53,8 @@ public class SuperBot {
                 if (distance < hole.getRadius()) {
                     b.setFitnessValue(0);
 //                    System.out.println("Fitness value "+b.getFitnessValue()+" position "+b.getPosition().x+" "+b.getPosition().y);
+                    System.out.println("End point speed and angle "+b.getVelocityGA().speed+" "+b.getVelocityGA().angle+" "+b.getPosition().x+" "+b.getPosition().y);
+                    b.setEndPosition(b.getPosition());
                     b.setPosition(initial_Position);
                     b.setVelocity(b.getVelocityGA().speed,b.getVelocityGA().angle);
                     return;
@@ -69,9 +77,10 @@ public class SuperBot {
 
             distance = calcToHoleDistance(b);
             if (distance < hole.getRadius()) {
-                System.out.println("Found in simulation");
+//                System.out.println("Found in simulation");
                 b.setFitnessValue(0);
-//                    System.out.println("Fitness value "+b.getFitnessValue()+" position "+b.getPosition().x+" "+b.getPosition().y);
+                System.out.println("End point speed and angle "+b.getVelocityGA().speed+" "+b.getVelocityGA().angle+" "+b.getPosition().x+" "+b.getPosition().y);
+                b.setEndPosition(b.getPosition());
                 b.setPosition(initial_Position);
                 b.setVelocity(b.getVelocityGA().speed,b.getVelocityGA().angle);
                 return;
@@ -326,5 +335,9 @@ public class SuperBot {
 
             }
         }
+    }
+
+    public void setEndPosition(Vector3 endPosition) {
+        this.endPosition = endPosition;
     }
 }

@@ -62,6 +62,7 @@ public abstract class Physics {
      */
 
     void dealCollision(PhysicsGameObject obj){
+        // TODO change for mazelike courses
         obj.setPosition(CourseManager.getStartPosition());
 
 

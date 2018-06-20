@@ -11,6 +11,7 @@ import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.Others.Velocity;
 import com.crazy_putting.game.Physics.Physics;
 
+import javax.swing.text.Position;
 import java.awt.image.AreaAveragingScaleFilter;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -31,8 +32,8 @@ public class GeneticAlgorithm extends SuperBot{
 
 
 
-    public GeneticAlgorithm(Hole hole, Course course){
-        super(hole,course);
+    public GeneticAlgorithm(Hole hole, Course course, Vector3 initial_position){
+        super(hole,course,initial_position);
         // TODO decreaded population size and generations
         this.rand = new Random();
         this.allBalls = new ArrayList<Ball>();
@@ -71,13 +72,13 @@ public class GeneticAlgorithm extends SuperBot{
 
             if(allBalls.get(0).getFitnessValue() == 0){
                 System.out.println("Success");
-
+                setEndPosition(allBalls.get(0).getEndPosition());
                 return;
             }
-            if(allBalls.get(0).getFitnessValue()<60){
-//                bruteForce(allBalls);
-                startSimplex(allBalls);
-            }
+//            if(allBalls.get(0).getFitnessValue()<60){
+////                bruteForce(allBalls);
+//                startSimplex(allBalls);
+//            }
             // why is that here?
 //            Collections.shuffle(allBalls);
             children = null;
@@ -109,30 +110,30 @@ public class GeneticAlgorithm extends SuperBot{
         }
     }
 
-    private ArrayList<Ball> tournamentCrossover(){
-        // TODO finish
-        children = new ArrayList<Ball>();
-        for(int i=0;i<allBalls.size();i++){
-            ArrayList<Ball> tournamentList = new ArrayList<Ball>();
-            for(int j=0;j<3;j++){
-                tournamentList.add(allBalls.get((int)(Math.random()*allBalls.size())));
-            }
-            Collections.sort(tournamentList);
-            System.out.println("Tournament");
-            for(Ball b:tournamentList){
-                System.out.println(b.getFitnessValue());
-            }
-            Ball father = tournamentList.get(0).clone();
-            tournamentList.clear();
-            for(int j=0;j<3;j++){
-                tournamentList.add(allBalls.get((int)(Math.random()*allBalls.size())));
-            }
-            Collections.sort(tournamentList);
-            Ball mother = tournamentList.get(0).clone();
-            reproduce(father,mother,i);
-        }
-        return children;
-    }
+//    private ArrayList<Ball> tournamentCrossover(){
+//        // TODO finish
+//        children = new ArrayList<Ball>();
+//        for(int i=0;i<allBalls.size();i++){
+//            ArrayList<Ball> tournamentList = new ArrayList<Ball>();
+//            for(int j=0;j<3;j++){
+//                tournamentList.add(allBalls.get((int)(Math.random()*allBalls.size())));
+//            }
+//            Collections.sort(tournamentList);
+//            System.out.println("Tournament");
+//            for(Ball b:tournamentList){
+//                System.out.println(b.getFitnessValue());
+//            }
+//            Ball father = tournamentList.get(0).clone();
+//            tournamentList.clear();
+//            for(int j=0;j<3;j++){
+//                tournamentList.add(allBalls.get((int)(Math.random()*allBalls.size())));
+//            }
+//            Collections.sort(tournamentList);
+//            Ball mother = tournamentList.get(0).clone();
+//            reproduce(father,mother,i);
+//        }
+//        return children;
+//    }
 
     private ArrayList<Ball> elitistCrossover(){
         int eliteSize = (int) (POPULATION_SIZE*ELITE_RATE);
@@ -179,7 +180,7 @@ public class GeneticAlgorithm extends SuperBot{
                 iterativeBall.setVelocity(Math.round(newSpeed), Math.round(newAngle));
             }
         }
-        iterativeBall.setPosition(CourseManager.getStartPosition());
+        iterativeBall.setPosition(initial_Position);
 
         children.add(iterativeBall);
     }
@@ -193,9 +194,7 @@ public class GeneticAlgorithm extends SuperBot{
 
 
     private void randomizeBallInput(){
-
         if(!firstIteration.isEmpty()){
-
             for(Ball ball : firstIteration){
                 float random = randomFloat();
                 float speed = random * course.getMaxSpeed();

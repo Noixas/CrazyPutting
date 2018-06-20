@@ -8,11 +8,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Bot.Bot;
 import com.crazy_putting.game.Bot.GeneticAlgorithm;
+import com.crazy_putting.game.Bot.MazeBot;
 import com.crazy_putting.game.Components.Colliders.CollisionDetector;
 import com.crazy_putting.game.Components.Colliders.Sphere;
 import com.crazy_putting.game.Components.Graphics.Graphics2DComponent;
 import com.crazy_putting.game.Components.Graphics.SphereGraphics3DComponent;
 import com.crazy_putting.game.GameObjects.Ball;
+import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.Others.InputData;
 import com.crazy_putting.game.Others.Velocity;
@@ -83,7 +85,7 @@ public class GameManager {
                 if (Gdx.input.isKeyJustPressed(Input.Keys.G) && !_ball.isMoving()){
                     System.out.println(_ball.getPosition().x + "  " + _ball.getPosition().y);
 
-                    GeneticAlgorithm GA = new GeneticAlgorithm(_hole, CourseManager.getActiveCourse());
+                    GeneticAlgorithm GA = new GeneticAlgorithm(_hole, CourseManager.getActiveCourse(),CourseManager.getStartPosition());
 
                     Ball b = GA.getBestBall();
                     float speed = b.getVelocityGA().speed;
@@ -129,7 +131,7 @@ public class GameManager {
         }
         else if (_mode == 3){
             if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !_ball.isMoving()){
-                bot = new Bot(_ball,_hole, CourseManager.getActiveCourse());
+                bot = new Bot(_ball,_hole, CourseManager.getActiveCourse(), CourseManager.getStartPosition());
                 bot.computeOptimalVelocity();
                 Velocity computedVelocity = bot.getBestBall().getVelocity();
                 Gdx.app.log("Ball","Position x "+ _ball.getPosition().x+" position y "+_ball.getPosition().y);
@@ -137,16 +139,11 @@ public class GameManager {
                 Gdx.app.log("Manager","speed "+computedVelocity.speed+" angle "+computedVelocity.angle);
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.G) && !_ball.isMoving()){
-
-                GeneticAlgorithm GA = new GeneticAlgorithm(_hole,CourseManager.getActiveCourse());
-                Ball b = GA.getBestBall();
-                float speed = b.getVelocityGA().speed;
-                float angle = b.getVelocityGA().angle;
-                _ball.setVelocity(speed,angle);
-                _ball.fix(false);
+                MazeBot mazeBot = new MazeBot(_ball,_hole,CourseManager.getActiveCourse());
             }
         }
     }
+
     public static boolean isBallInTheHole(Ball ball, Hole hole){
         if(Math.sqrt(Math.pow(ball.getPosition().x -hole.getPosition().x,2) +Math.pow((ball.getPosition().y - hole.getPosition().y),2)+Math.pow((ball.getPosition().z - hole.getPosition().z),2))< hole.getRadius()){
             return true;
