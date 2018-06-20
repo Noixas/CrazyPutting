@@ -2,16 +2,32 @@ package com.crazy_putting.game.Others;
 
 import com.badlogic.gdx.math.Vector3;
 
-public class Velocity {
+public class Velocity{
     public float Vx;
     public float Vy;
     public float speed;
     public float angle;
+    private static Velocity instance;
+
+
+    public static Velocity instance(){
+        if(instance==null){
+            instance = new Velocity();
+        }
+        return instance;
+    }
 
     public Velocity(){
         setAngle(0);
         setSpeed(0);
 
+    }
+
+    public void setVelocity(Velocity velocity){
+        this.Vx = velocity.Vx;
+        this.Vy = velocity.Vy;
+        this.angle = velocity.angle;
+        this.speed = (float) Math.sqrt(Math.pow(Vx,2) + Math.pow(Vy,2));
     }
 
     public void updateVelocityComponents(){
@@ -77,4 +93,12 @@ public class Velocity {
         return "[" + this.Vx + ";" + this.Vy + "]";
     }
 
+    public Velocity clone(){
+        Velocity output = new Velocity();
+        output.Vx =this.Vx;
+        output.Vy = this.Vy;
+        output.angle = this.angle;
+        output.speed = this.speed;
+        return output;
+    }
 }

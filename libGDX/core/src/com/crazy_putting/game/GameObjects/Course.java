@@ -1,6 +1,12 @@
 package com.crazy_putting.game.GameObjects;
 
 import com.badlogic.gdx.math.Vector3;
+import com.crazy_putting.game.Components.Colliders.BoxCollider;
+import com.crazy_putting.game.Components.Colliders.ColliderComponent;
+import com.crazy_putting.game.Components.Colliders.SphereCollider;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Course {
     private int _ID;
@@ -12,6 +18,9 @@ public class Course {
     private  Vector3 _startBall;
     private float _maxSpeed;
     private float[][] _splinePoints = new float[6][6];
+    private List<GameObject> _obstacles = new ArrayList<GameObject>();
+
+
     public void setID(int pID)
     {
         _ID = pID;
@@ -69,7 +78,7 @@ public class Course {
     }
 
     public Vector3 getStartBall() {
-        return _startBall;
+        return new Vector3(_startBall);
     }
 
     public void setMaxSpeed(float pMax)
@@ -104,6 +113,22 @@ public class Course {
             out+="\n";
         }
         return out;
+    }
+    public void addObstacle(GameObject pObstacle){
+        _obstacles.add(pObstacle);
+    }
+    public boolean checkObstaclesAt(Vector3 pPosition){
+        for (GameObject obstacle:_obstacles) {
+           ColliderComponent colliderComponent = obstacle.getColliderComponent();
+           if(colliderComponent instanceof SphereCollider){
+               SphereCollider sphere = (SphereCollider)colliderComponent;
+                    if(sphere.containsPoint(pPosition))return true;
+           }else if(colliderComponent instanceof BoxCollider){
+               BoxCollider box = (BoxCollider)colliderComponent;
+                if( box.containsPoint(pPosition)) return true;
+           }
+        }
+        return false;
     }
     public float getMaxSpeed() {
         return _maxSpeed;

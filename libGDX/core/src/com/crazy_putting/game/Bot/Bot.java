@@ -2,7 +2,6 @@ package com.crazy_putting.game.Bot;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
-import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameLogic.GameManager;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Course;
@@ -11,7 +10,6 @@ import com.crazy_putting.game.Others.Velocity;
 import com.crazy_putting.game.Physics.Physics;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 /* TODO

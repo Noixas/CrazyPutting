@@ -5,11 +5,17 @@ import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Others.Velocity;
 
 public abstract class PhysicsGameObject extends GameObject {
+    Vector3 _startPosition;
+    protected PhysicsGameObject(){
+        _startPosition = new Vector3(_position);
+    }
+    public abstract Vector3 getStartPosition();
     public abstract Velocity getVelocity();
-    public abstract float getMass();
-    public abstract void setPosition(Vector3 position);
+    public abstract float getInverseMass();
+    //public abstract void setPosition(Vector3 position);
     public abstract void setPositionXYZ(float x,float y);
     public abstract void setVelocity(float speed, float angle);
+    public abstract void setVelocity(Velocity vel);
     public abstract Vector3 getPreviousPosition();
     public abstract float getSpeed();
     public abstract boolean isFixed();

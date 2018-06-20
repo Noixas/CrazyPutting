@@ -8,4 +8,6 @@ public abstract class BaseComponent {
     {
         _owner = pGameObj;
     }
+
+
 }

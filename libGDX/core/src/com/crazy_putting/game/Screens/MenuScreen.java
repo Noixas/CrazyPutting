@@ -35,6 +35,7 @@ public class MenuScreen implements Screen {
     private TextButton soloButton;
     private TextButton fileButton;
     private TextButton aiButton;
+    private TextButton multiplePlayersButton;
     private TextButton courseCreatorButton;
     //private Label heading;
     //private BitmapFont font;
@@ -52,7 +53,7 @@ public class MenuScreen implements Screen {
 
     public static boolean Mode3D = true; //TODO:Check if its better to implement this somewhere else
     public static boolean Spline3D = false; //TODO:Check if its better to implement this somewhere else
-
+    public static boolean Multiplayer = false;
     public MenuScreen(final GolfGame golfGame) {
 
         this.golfGame = golfGame;
@@ -94,6 +95,15 @@ public class MenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 golfGame.setScreen(new ChooseCoursesScreen(golfGame,3)); // go to "ModesScreen" screen
+            }
+        });
+
+        multiplePlayersButton = new TextButton("Multiple players mode", skin);
+        multiplePlayersButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Multiplayer = true;
+                golfGame.setScreen(new ChooseCoursesScreen(golfGame,4)); // go to "ModesScreen" screen
             }
         });
 
@@ -209,6 +219,8 @@ public class MenuScreen implements Screen {
         table.add(fileButton).size(300, 50).padBottom(20);
         table.row();
         table.add(aiButton).size(300, 50).padBottom(20);
+        table.row();
+        table.add(multiplePlayersButton).size(300, 50).padBottom(20);
         table.row();
         table.add(courseCreatorButton).size(300, 50);;
 

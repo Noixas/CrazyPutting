@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.crazy_putting.game.GameLogic.CourseManager;
+import com.crazy_putting.game.Others.MultiplayerSettings;
 
 import static com.crazy_putting.game.GameLogic.GraphicsManager.WINDOW_HEIGHT;
 import static com.crazy_putting.game.GameLogic.GraphicsManager.WINDOW_WIDTH;
@@ -32,7 +33,6 @@ public class ChooseCoursesScreen implements Screen{
     private SelectBox<String> selectBox;
     private Skin skin;
 
-
     private Label heightValue;
     private Label frictionValue;
     private Label startValue;
@@ -42,10 +42,17 @@ public class ChooseCoursesScreen implements Screen{
     private TextButton confirmButton;
     private Label splines;
 
+    private TextField playersNumberField;
+    private Label errorLabel;
+    private Label allowedDistanceLabel;
+
     private SpriteBatch batch;
     private Sprite sprite;
     private Table table;
 
+    private Slider allowedDistanceSlider;
+    private Button[] multiplayerAmount;
+    private ButtonGroup multButtonGroup;
 
     public ChooseCoursesScreen(GolfGame game, int pMode) {
         if(MenuScreen.Spline3D == false)
@@ -74,6 +81,9 @@ public class ChooseCoursesScreen implements Screen{
         Vector2 labelSize = new Vector2(50, 50);
         label.setSize(labelSize.x, labelSize.y);
         label.setPosition(200, WINDOW_HEIGHT*0.9f-100);
+        /*
+            Multiplayer options
+        */
 
         /*
             Set up the drop-down menu (select box).
@@ -146,6 +156,43 @@ public class ChooseCoursesScreen implements Screen{
          */
         updateCourseInfo();
         table = new Table();
+
+        // For multiple players.
+        if(MenuScreen.Multiplayer) {
+            Label playersNumberLabel = new Label("Number of players",skin);
+            playersNumberField = new TextField("", skin);
+            allowedDistanceSlider = new Slider(50,1000,10,false,skin);
+            allowedDistanceSlider.setValue(400);
+            allowedDistanceSlider.setWidth(400);
+            allowedDistanceLabel = new Label("Allowed distance "+ allowedDistanceSlider.getValue(),skin);
+
+            table.add(playersNumberLabel).align(Align.left);
+            multiplayerAmount = new Button[4];
+            multButtonGroup = new ButtonGroup();
+            Table buttonsTable = new Table();//HAd to create this table because buttons werent aligning properly
+            for(int i = 0; i < multiplayerAmount.length; i++){
+                multiplayerAmount[i] = new CheckBox(i+1+"",skin);
+                multiplayerAmount[i].setScale(1.5f);
+                multButtonGroup.add(multiplayerAmount[i]);
+                buttonsTable.add(multiplayerAmount[i]).align(Align.right);
+
+            }
+            table.add(buttonsTable).align(Align.left);
+            multButtonGroup.uncheckAll();
+            multButtonGroup.setChecked("1");
+            multButtonGroup.setMinCheckCount(1);
+            multButtonGroup.setMaxCheckCount(1);
+
+            table.row();
+            table.add(allowedDistanceLabel).align(Align.left);
+            table.add(allowedDistanceSlider).align(Align.left);
+            table.row();
+            errorLabel = new Label("", skin);
+            errorLabel.setSize(200,50);
+            errorLabel.setPosition(300,500);
+            stage.addActor(errorLabel);
+        }
+
         table.setWidth(stage.getWidth());
         table.align(Align.center|Align.top);
         table.setPosition(0, Gdx.graphics.getHeight());
@@ -153,7 +200,6 @@ public class ChooseCoursesScreen implements Screen{
         //table.setWidth(WINDOW_WIDTH);
         //table.align(Align.center);
         //table.setPosition(10,WINDOW_HEIGHT*0.5f);
-
         table.add(courseProperties).align(Align.left);
         table.row();
         table.add(heightLabel).align(Align.left);
@@ -196,8 +242,6 @@ public class ChooseCoursesScreen implements Screen{
         });
         confirmButton.setColor(Color.WHITE);
 
-
-
         /*
             Add all actors to stage so that they are displayed.
          */
@@ -237,16 +281,7 @@ public class ChooseCoursesScreen implements Screen{
     }
     @Override
     public void render(float delta) {
-        /*
-            Prepare background.
-         */
-        /*
-        int red = 34;
-        int green = 137;
-        int blue = 34;
-        Gdx.gl.glClearColor((float)(red/255.0), (float)(green/255.0), (float)(blue/255.0), 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        */
+       if(MenuScreen.Multiplayer) updateSliderValues();
 
         /*
             Background
@@ -263,20 +298,46 @@ public class ChooseCoursesScreen implements Screen{
         stage.draw();
 
     }
-
+    private void updateSliderValues(){
+        if(allowedDistanceSlider.isDragging())
+            allowedDistanceLabel.setText("Allowed distance "+ allowedDistanceSlider.getValue());
+    }
     public void confirmButtonClicked(){
+
+        if (MenuScreen.Multiplayer){
+            updateMultiplayer();
+        }
 
         CourseManager.setActiveCourseWithIndex(selectBox.getSelectedIndex());
         if(selectBox.getSelectedIndex() != CourseManager.getIndexActive())//IMPORTANT: if is a different course from the active one then we need to parse height formula again
             CourseManager.reParseHeightFormula(selectBox.getSelectedIndex());
 
         if(MenuScreen.Mode3D ==false)
-        game.setScreen(new GameScreen(game,_mode));
-        else{
+            game.setScreen(new GameScreen(game,_mode));
+        else
             game.setScreen(new GameScreen3D(game,_mode));
 
-        }
+    }
 
+    private void updateMultiplayer()
+    {
+        try{
+            TextButton button = (TextButton)multButtonGroup.getChecked();
+            int playersNumber = Integer.parseInt(button.getText().toString());
+           int allowedDistance = (int)allowedDistanceSlider.getValue();
+            new MultiplayerSettings(playersNumber, allowedDistance, true);
+        }catch(Exception e)
+        {
+            System.out.println(e.toString());
+            errorLabel.setText("You must input values in text fields");
+            confirmButton.addListener(new ClickListener(){
+
+                @Override
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                    confirmButtonClicked();
+                }
+            });
+        }
     }
 
     @Override
