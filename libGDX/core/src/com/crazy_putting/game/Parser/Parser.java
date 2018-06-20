@@ -99,7 +99,6 @@ public class Parser {
         for(int i = 0; i < pLines.size(); i++) {
             String line = pLines.get(i);
             line.trim();
-            System.out.println(line.compareTo(_endCourse) +"Compare");
             if (line.compareTo(_endCourse) == 0) {
              //   setCourseProperty(newCourse, line, lineCount);
                 courses.add(newCourse);
