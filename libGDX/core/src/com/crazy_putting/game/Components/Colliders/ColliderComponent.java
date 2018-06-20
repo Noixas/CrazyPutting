@@ -68,7 +68,7 @@ public class ColliderComponent extends BaseComponent {
             PhysicsGameObject obj = (PhysicsGameObject) _owner;
             return obj.getInverseMass();
         }
-        return 1.0f/100;
+        return 1.0f/500;
     }
 
     public void setRestitution(float restitution){
@@ -78,4 +78,5 @@ public class ColliderComponent extends BaseComponent {
     public float getRestitution(){
         return this.restitution;
     }
+
 }

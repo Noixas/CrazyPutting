@@ -90,9 +90,9 @@ public abstract class Physics {
         float yPrev = obj.getPreviousPosition().y;
 
 
-        if(xCur > GraphicsManager.WORLD_WIDTH / 2 || xCur < GraphicsManager.WORLD_WIDTH / 2 * (-1) ||
-                yCur > GraphicsManager.WORLD_HEIGHT / 2 || yCur < GraphicsManager.WORLD_HEIGHT / 2 * (-1) ){
-
+        if(xCur > CourseManager.getCourseDimensions().x/ 2 || xCur < CourseManager.getCourseDimensions().x / 2 * (-1) ||
+                yCur > CourseManager.getCourseDimensions().y / 2 || yCur < CourseManager.getCourseDimensions().y / 2 * (-1) ){
+            System.out.println("Out of the world");
             return true;
         }
 
@@ -102,6 +102,7 @@ public abstract class Physics {
         for (int i = 1; i < 5; i++){
             float height = CourseManager.calculateHeight(xPrev + dx / i, equation2Points(dx, dy, xPrev + dx / i, xPrev, yPrev));
             if (height < 0){
+                System.out.println("In the water");
                 return true;
             }
         }

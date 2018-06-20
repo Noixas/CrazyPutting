@@ -33,4 +33,20 @@ public class Contact {
         String result = "ContactPoint: " + contactPoint +"\nContactNormal: " + contactNormal + "\nPenetration: " + penetration;
         return result;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Contact) {
+            Contact cont = (Contact) o;
+
+            if (this.object1.equals(cont.object1) && this.object2.equals(cont.object2)) {
+                return true;
+            }
+            if (this.object1.equals(cont.object2) && this.object2.equals(cont.object1)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

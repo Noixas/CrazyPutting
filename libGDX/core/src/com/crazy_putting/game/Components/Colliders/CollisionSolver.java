@@ -1,7 +1,6 @@
 package com.crazy_putting.game.Components.Colliders;
 
 import com.badlogic.gdx.math.Vector3;
-import com.crazy_putting.game.Others.Velocity;
 
 public final class CollisionSolver {
     private static final float RESTITUTION = 0.9f;
@@ -18,7 +17,6 @@ public final class CollisionSolver {
     private static void resolveVelocity(Contact contact){
         float separatingVelocity = calculateSeparatingVelocity(contact);
 
-
         //objects are moving away from each other
         if(separatingVelocity > 0){
             return;
@@ -30,49 +28,35 @@ public final class CollisionSolver {
 
         float totalInverseMass = contact.object1.getInverseMass() +contact.object2.getInverseMass();
 
-
         float impulse = deltaVelocity / totalInverseMass;
 
         Vector3 impulsePerMass = contact.contactNormal.cpy().scl(impulse);
 
-
         contact.object1.getVelocity().Vx += impulsePerMass.x * contact.object1.getInverseMass();
         contact.object1.getVelocity().Vy += impulsePerMass.y * contact.object1.getInverseMass();
 
-
-        contact.object2.getVelocity().Vx +=impulsePerMass.x * contact.object2.getInverseMass();
-        contact.object2.getVelocity().Vy +=impulsePerMass.y * contact.object2.getInverseMass();
-
-
+        contact.object2.getVelocity().Vx +=impulsePerMass.x * (-1*contact.object2.getInverseMass());
+        contact.object2.getVelocity().Vy +=impulsePerMass.y * (-1*contact.object2.getInverseMass());
     }
 
     private static float calculateSeparatingVelocity(Contact contact) {
-        Velocity relativeVelocity;
-        //if (!contact.object1.isStatic()) {
-        relativeVelocity = contact.object1.getVelocity();
-        //}
-        //if(!contact.object2.isStatic()){
-        relativeVelocity.sub(contact.object2.getVelocity());
-        //}
+        Vector3 relativeVelocity = new Vector3(contact.object1.getVelocity().Vx,contact.object1.getVelocity().Vy,0);
+        Vector3 secondVelocity = new Vector3(contact.object2.getVelocity().Vx,contact.object2.getVelocity().Vy,0);
 
-        float result = relativeVelocity.multiply(contact.contactNormal);
+        Vector3 intermediateResult = relativeVelocity.cpy().sub(secondVelocity);
+        return intermediateResult.cpy().dot(contact.contactNormal);
 
-        return result;
+
     }
 
     private static void resolvePenetration(Contact contact){
         float totalInverseMass = 1/contact.object1.getInverseMass() + 1/contact.object2.getInverseMass();
 
-
-        Vector3 changeInPosition1 = contact.contactNormal.scl((contact.object1.getInverseMass()/totalInverseMass)*contact.penetration);
-        Vector3 changeInPosition2 = contact.contactNormal.scl((contact.object2.getInverseMass()/totalInverseMass)*contact.penetration);
+        Vector3 changeInPosition1 = contact.contactNormal.cpy().scl(((1/contact.object1.getInverseMass())/totalInverseMass)*contact.penetration);
+        Vector3 changeInPosition2 = contact.contactNormal.cpy().scl(-1*((1/contact.object2.getInverseMass())/totalInverseMass)*contact.penetration);
 
         contact.object1.setPosition(contact.object1.getPosition().cpy().add(changeInPosition1));
         contact.object2.setPosition(contact.object2.getPosition().cpy().add(changeInPosition2));
 
-        //contact.object1.synchronize();
-        //contact.object2.synchronize();
     }
-
-
 }
