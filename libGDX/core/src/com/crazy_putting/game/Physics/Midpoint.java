@@ -29,7 +29,7 @@ public class Midpoint extends Physics{
         if(obj.isFixed()) return;
 
         if (super.collided(obj)){
-            super.dealCollision(obj);
+            super.dealCollision();
             return;
         }
 

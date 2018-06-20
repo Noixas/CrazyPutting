@@ -3,6 +3,7 @@ package com.crazy_putting.game.GameObjects;
 
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Others.Velocity;
+import com.crazy_putting.game.Physics.Physics;
 
 public abstract class PhysicsGameObject extends GameObject {
     Vector3 _startPosition;
@@ -12,6 +13,9 @@ public abstract class PhysicsGameObject extends GameObject {
     public abstract Vector3 getStartPosition();
     public abstract Velocity getVelocity();
     public abstract float getInverseMass();
+    public void destroy(){
+        Physics.physics.removeMovableObject(this);
+    }
     //public abstract void setPosition(Vector3 position);
     public abstract void setPositionXYZ(float x,float y);
     public abstract void setVelocity(float speed, float angle);

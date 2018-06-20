@@ -41,16 +41,18 @@ public class GameManager {
     private double[][] distancesMatrix;
     private Ball[] cacheBalls;
 
+    private int _player;
+    private Ball _cacheBall;
+
     public GameManager(GolfGame pGame, int pMode){
         _mode = pMode;
         _game = pGame;
+        _player = 0;
         if (_mode == 4) {
             nPlayers = MultiplayerSettings.PlayerAmount;
             allowedDistance = MultiplayerSettings.AllowedDistance;
         }
-        else {
-            nPlayers = 1;
-        }
+        else { nPlayers = 1; }
         if (_mode == 2)
             ReadAndAnalyse.calculate("myFile.txt");
         initGameObjects();
@@ -61,23 +63,27 @@ public class GameManager {
     private void initGameObjects(){
         allBalls = new Ball[nPlayers];
         allHoles = new Hole[nPlayers];
-        allInput = new float[nPlayers][2];
         distancesMatrix = new double[nPlayers][nPlayers];
         cacheBalls = new Ball[nPlayers];
+        if (_mode==4 && MultiplayerSettings.Simultaneous)
+            allInput = new float[nPlayers][2];
+        else
+            allInput = new float[1][2];
         do {
             System.out.println("Setup");
             for (int i = 0; i < nPlayers; i++) {
+                if(allBalls[i] != null){
+                    allBalls[i].destroy();
+                }
                 allBalls[i] = new Ball(createPosition(CourseManager.getStartPosition()));
                 allHoles[i] = new Hole((int) CourseManager.getActiveCourse().getGoalRadius(), createPosition(CourseManager.getGoalStartPosition()));
-                Physics.physics.addMovableObject(allBalls[i]);
                 System.out.println("Balls "+allBalls[i].getPosition().x+" "+allBalls[i].getPosition().y);
                 System.out.println("Hole "+allHoles[i].getPosition().x+" "+allHoles[i].getPosition().y);
             }
         } while (!checkLegitimacy());
-
+        Physics.physics.addMovableObject(allBalls);
         if(MenuScreen.Mode3D ) {//3D Logic
             // if we are in multiplayer mode
-
                 for (int i = 0; i < nPlayers; i++) {
                     allBalls[i].addGraphicComponent(new SphereGraphics3DComponent(40, Color.WHITE));
                     SphereCollider sphere = new SphereCollider(CourseManager.getStartPosition(),20);
@@ -102,7 +108,11 @@ public class GameManager {
             pDelta = 0.00166f;
         }
         handleInput(_game.input);
-        Physics.physics.update(pDelta);
+        if (_mode == 4 && !MultiplayerSettings.Simultaneous)
+            Physics.physics.updateSpesificBall(_player, pDelta);
+        else
+            Physics.physics.update(pDelta);
+
         if(printMessage){
             updateGameLogic(pDelta);
         }
@@ -112,19 +122,26 @@ public class GameManager {
 
     //TODO blazej or Simon, is here where we stop the ball? otherwise we can erase this
     public void updateGameLogic(float pDelta){
-        int i=0;
-        while (i<nPlayers && printMessage) {
-            if (isBallInTheHole(allBalls[i], allHoles[i]) && allBalls[i].isSlow()) {
-                printMessage = false;
-                //allBalls[i].fix(true);
-                allBalls[i].setVelocityComponents(0, 0);
-                System.out.println("Ball in goal");
-                //allBalls[i].fix(true);
-                for (int n=0; i<nPlayers; n++){
-                    allBalls[n].fix(true);
+        if (_mode == 4 && MultiplayerSettings.Simultaneous){
+            int i = 0;
+            while (i < nPlayers && printMessage) {
+                if (isBallInTheHole(allBalls[i], allHoles[i]) && allBalls[i].isSlow()) {
+                    printMessage = false;
+                    System.out.println("Ball in goal");
+                    allBalls[i].setVelocityComponents(0, 0);
+                    allBalls[i].fix(true);
+                    _ball = allBalls[i];
                 }
+                i++;
             }
-            i++;
+        }
+        else{
+            if (isBallInTheHole(_ball, _hole) && _ball.isSlow()) {
+                printMessage = false;
+                System.out.println("Ball in goal");
+                _ball.setVelocityComponents(0, 0);
+                _ball.fix(true);
+            }
         }
     }
 
@@ -133,18 +150,15 @@ public class GameManager {
     public void handleInput(InputData input){
         // later on it should be if speed of the ball is zero (ball is not moving, then input data)
         if(_mode == 1) {
-
             if (Gdx.input.isKeyJustPressed(Input.Keys.G) && !_ball.isMoving()){
                 System.out.println(_ball.getPosition().x + "  " + _ball.getPosition().y);
 
                 GeneticAlgorithm GA = new GeneticAlgorithm(_hole, CourseManager.getActiveCourse());
-
                 Ball b = GA.getBestBall();
                 float speed = b.getVelocityGA().speed;
                 float angle = b.getVelocityGA().angle;
                 _ball.setVelocity(speed,angle);
                 _ball.fix(false);
-
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !_ball.isMoving()) {
                 //CourseManager.reWriteCourse();//TODO: CHECK WHY THIS IS HERE
@@ -204,7 +218,37 @@ public class GameManager {
                 _ball.fix(false);
             }
         }
-        else if(_mode == 4) {
+        else if(_mode == 4 && !MultiplayerSettings.Simultaneous) {
+            _ball = allBalls[_player];
+            _hole = allHoles[_player];
+            if (!isBallInTheHole(_ball, _hole)) {
+                if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !anyBallIsMoving()) {
+                    Gdx.input.getTextInput(input, "Input data", "", "For player " + (_player + 1) + ": input speed and direction separated with space");
+                }
+                if (input.getText() != null) {
+                    try {
+                        String[] data = input.getText().split(" ");
+                        float speed = Float.parseFloat(data[0]);
+                        float angle = Float.parseFloat(data[1]);
+                        allInput[0][0] = speed;
+                        allInput[0][1] = angle;
+                        input.clearText();//important to clear text or it will overwrite every frame
+                        copyPreviousPosition();
+                        checkConstrainsAndSetVelocity(allInput);
+                        if (_player+1 == nPlayers)
+                            _player = 0;
+                        else
+                            _player++;
+                    } catch (NumberFormatException e) {
+                        // later on this will be added on the game screen so that it wasn't printed multiple times
+                        // after doing this change, delete printing stack trace
+                        Gdx.app.error("Exception: ", "You must input numbers");
+                        e.getStackTrace();
+                    }
+                }
+            }
+        }
+        else if(_mode == 4 && MultiplayerSettings.Simultaneous) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !anyBallIsMoving()) {
                 Gdx.input.getTextInput(input, "Input data", "", "For all Players: input speed and direction separated with space");
             }
@@ -239,15 +283,23 @@ public class GameManager {
     }
 
     public void checkConstrainsAndSetVelocity(float[][] input) {
-        for (int i=0; i<nPlayers; i++) {
+        for (int i=0; i<input.length; i++) {
             float speed = checkMaxSpeedConstrain(input[i][0]);
             float angle = input[i][1];
             if (speed == 0) {
                 speed = 0.000001f;
             }
-            allBalls[i].setVelocity(speed, angle);
-            allBalls[i].fix(false);
+            if (_mode == 4 && MultiplayerSettings.Simultaneous) {
+                allBalls[i].setVelocity(speed, angle);
+                allBalls[i].fix(false);
+            }
+            else{
+                _ball.setVelocity(speed, angle);
+
+                _ball.fix(false);
+            }
         }
+        if (nPlayers==1 || MultiplayerSettings.Simultaneous || _player+1==nPlayers)
         increaseTurnCount();
     }
 
@@ -305,7 +357,6 @@ public class GameManager {
      * @param pos
      */
     public void updateBallPos(Vector3 pos){
-
         Vector3 cache = _ball.getPosition();
         _ball.setPosition(pos);
         if(checkDistances(allBalls)==false)
@@ -328,6 +379,7 @@ public class GameManager {
     ////////////////////////////////////////////////////////////////////
 
     public boolean checkDistances(GameObject[] balls){
+        //TODO: can improve the update depends if simultaneous or not
         if (nPlayers==1)
             return true;
         for (int i=0; i<nPlayers; i++){
@@ -355,37 +407,40 @@ public class GameManager {
         return false;
     }
 
-    public void changeActiveBallandHole(int n){
+    public void changeActiveBallAndHole(int n){
         if (n >= allBalls.length) return;
         _ball = allBalls[n];
         _hole = allHoles[n];
     }
 
     public void multiPlayerUpdate(double pDelta){
-        /*
-        if (!anyBallIsMoving() && MultiplayerSettings.CollisionHappened) {
-            System.out.println("The ball fell to the water or out of the world. Please try again.");
-            MultiplayerSettings.CollisionHappened = false;
-            returnToPreviousPosition();
-            // TODO: display UI massage
-        }*/
-        if (!anyBallIsMoving() && !checkDistances(allBalls)){
+        if (!anyBallIsMoving() && !checkDistances(allBalls) && _turns>0){
             System.out.println("Exceeding the allowed distance from each other. Please try again.");
             returnToPreviousPosition();
             // TODO: display UI massage
         }
+        // TODO: exceeding depends on simultaneous or not
     }
 
     public void copyPreviousPosition(){
-        for (int i=0; i<nPlayers; i++){
-            cacheBalls[i] = allBalls[i].clone();
+        if (MultiplayerSettings.Simultaneous) {
+            for (int i = 0; i < nPlayers; i++) {
+                cacheBalls[i] = allBalls[i].clone();
+            }
+        }
+        else{
+            _cacheBall = _ball.clone();
         }
     }
 
     public void returnToPreviousPosition(){
-        for (int i=0; i<nPlayers; i++){
-            allBalls[i] = cacheBalls[i].clone();
-            //allBalls[i].fix(true);
+        if (MultiplayerSettings.Simultaneous) {
+            for (int i = 0; i < nPlayers; i++) {
+                allBalls[i] = cacheBalls[i].clone();
+            }
+        }
+        else{
+            _ball = _cacheBall;
         }
     }
 
