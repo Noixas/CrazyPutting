@@ -140,7 +140,7 @@ public class TerrainEditor extends InputAdapter {
         obstacle.addGraphicComponent(new BoxGraphics3DComponent(new Vector3(100,100,100),Color.DARK_GRAY));
         BoxCollider box = new BoxCollider(pPos,new Vector3(100,100,100));
         obstacle.addColliderComponent(box);
-
+        CourseManager.addObstacle(obstacle);
 
       //  obstacle.addColliderComponent(ColliderComponent);
     }

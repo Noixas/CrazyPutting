@@ -1,7 +1,6 @@
 package com.crazy_putting.game.Components.Colliders;
 
 import com.badlogic.gdx.math.Vector3;
-import com.crazy_putting.game.Others.Velocity;
 
 public class SphereCollider extends ColliderComponent {
 
@@ -15,4 +14,9 @@ public class SphereCollider extends ColliderComponent {
         return this.radius;
     }
 
+    @Override
+    public boolean containsPoint(Vector3 pPoint) {
+        if(getPosition().dst(pPoint) <= radius)return true;
+        else return false;
+    }
 }

@@ -24,5 +24,10 @@ public class BoxCollider extends ColliderComponent{
     public Vector3 getHalfSizes(){
         return this.halfSizes;
     }
-
+    public boolean containsPoint(Vector3 pPoint){
+        if(getPosition().x-halfSizes.x <= pPoint.x && getPosition().x + halfSizes.x >= pPoint.x &&
+                getPosition().y-halfSizes.y <= pPoint.y && getPosition().y + halfSizes.y >= pPoint.y &&
+                getPosition().z-halfSizes.z <= pPoint.z && getPosition().z + halfSizes.z >= pPoint.z)return true;
+        else return  false;
+    }
 }
