@@ -9,6 +9,7 @@ public class SphereCollider extends ColliderComponent {
     public SphereCollider(Vector3 center, float radius){
         this.position = center;
         this.radius = radius;
+        dimensions = new Vector3(radius,radius,radius);
     }
     public float getRadius(){
         return this.radius;

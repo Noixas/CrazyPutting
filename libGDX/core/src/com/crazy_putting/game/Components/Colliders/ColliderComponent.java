@@ -12,7 +12,7 @@ public abstract class ColliderComponent extends BaseComponent {
     protected Vector3 position;
     protected boolean isStatic;
     protected float restitution = 0.9f;
-
+    protected Vector3 dimensions;
 
 
 
@@ -70,6 +70,11 @@ public abstract class ColliderComponent extends BaseComponent {
         }
         return 1.0f/500;
     }
+
+    public Vector3 getDimensions() {
+        return dimensions;
+    }
+
     public abstract boolean containsPoint(Vector3 pPoint);
 
     public void setRestitution(float restitution){

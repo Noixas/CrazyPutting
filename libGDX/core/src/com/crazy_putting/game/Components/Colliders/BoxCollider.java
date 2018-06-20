@@ -4,14 +4,12 @@ import com.badlogic.gdx.math.Vector3;
 
 public class BoxCollider extends ColliderComponent{
 
-    private Vector3 dimensions;
     private Vector3 halfSizes;
-
 
     public BoxCollider(Vector3 pos, Vector3 dim){
         this.position = pos;
-        this.dimensions = dim;
-        this.halfSizes = dim.scl(0.5f);
+        this.dimensions = new Vector3(dim);
+        this.halfSizes = new Vector3(dim).scl(0.5f);
         isStatic = true;
     }
 

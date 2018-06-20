@@ -1,13 +1,11 @@
 package com.crazy_putting.game.Parser;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.GameObjects.Course;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +14,8 @@ public class Parser {
     private static String _courseSeparator = "\nCOURSE:";
     private static String _fileNameCached = "";
     private static List<Course> _cacheFile = null;
+    private static String _endCourse = "Course End";
+    private static int _obstaclesAmount;
     public static void readCourse(String pFileName) throws  IOException
     {
         List<String> lines = Files.readAllLines(Paths.get(pFileName));
@@ -28,6 +28,7 @@ public class Parser {
         String out = "";
         for (int i = 0; i < pCourseList.size(); i++)
         out += generateStringFile(pFileName, pCourseList.get(i), i);
+
         try{
             writeToTextFile(pFileName, out);
         }catch(IOException e){
@@ -39,21 +40,25 @@ public class Parser {
     if(checkForCache() == false) cacheFile(pFileName);
        List<String> out = new ArrayList<String>();//= getCacheFile();
         out.add(_courseSeparator + "");
-        out.add( "\nID: " +  pIndex);//Set the next course ID
+        out.add("\nID: " +  pIndex);//Set the next course ID
         out.add("\nName: " + pCourse.getName());
         out.add("\nHeight: " + pCourse.getHeight());
         out.add("\nFriction: " +pCourse.getFriction());
         out.add("\nGoal Pos: "+ pCourse.getGoalPosition().x + " " + pCourse.getGoalPosition().y);
         out.add("\nGoal Radius: " + pCourse.getGoalRadius());
-        out.add( "\nBall Start Pos: " + pCourse.getStartBall().x + " " + pCourse.getStartBall().y);
+        out.add("\nBall Start Pos: " + pCourse.getStartBall().x + " " + pCourse.getStartBall().y);
         out.add("\nMax Speed: " + pCourse.getMaxSpeed());
         out.add("\nSpline Points: " + pCourse.toStringSplinePoints());
-       String finalFile = "";
+        List<String> obstacles = pCourse.getObstaclesStringList();
+        out.addAll(obstacles);
+        String finalFile = "";
         for(int i = 0; i < out.size(); i++) {
             finalFile += out.get(i);
         }
+        finalFile+= "\n" +_endCourse;
         return finalFile;
     }
+
     private static void writeToTextFile(String fileName, String content) throws IOException {
         Files.write(Paths.get(fileName), content.getBytes());
     }
@@ -94,8 +99,9 @@ public class Parser {
         for(int i = 0; i < pLines.size(); i++) {
             String line = pLines.get(i);
             line.trim();
-            if (lineCount == propertiesAmount) {
-                setCourseProperty(newCourse, line, lineCount);
+            System.out.println(line.compareTo(_endCourse) +"Compare");
+            if (line.compareTo(_endCourse) == 0) {
+             //   setCourseProperty(newCourse, line, lineCount);
                 courses.add(newCourse);
                 newCourse = null;
                 readingCourse = false;
@@ -155,7 +161,13 @@ public class Parser {
                     pProperty = pProperty.replace("Spline Points: ", "");
                     pCourse.setSplinePoints(generatePoints(pProperty));
                     break;
-
+                case 9:
+                    pProperty = pProperty.replace("Obstacles: ", "");
+                    _obstaclesAmount = Integer.parseInt(pProperty);
+                    break;
+                    default:
+                    pCourse.addObstacle((pLine-9 + 2)%3,pProperty);
+                        break;
             }
         }
     private static float[][] generatePoints(String line){
