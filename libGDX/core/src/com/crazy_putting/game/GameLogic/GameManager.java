@@ -31,7 +31,6 @@ public class GameManager {
     private int _turns;
     private int _mode;
     private Bot bot;
-    private boolean printMessage = true;
 
     private int nPlayers;
     private int allowedDistance;
@@ -80,23 +79,16 @@ public class GameManager {
                 System.out.println("Balls "+allBalls[i].getPosition().x+" "+allBalls[i].getPosition().y);
                 System.out.println("Hole "+allHoles[i].getPosition().x+" "+allHoles[i].getPosition().y);
             }
-<<<<<<< HEAD
-        } while (!checkLegitimacy());
+        } while (_mode==4 && !checkLegitimacy());
         Physics.physics.addMovableObject(allBalls);
-=======
-        } while (!checkLegitimacy() && _mode==4);
-
->>>>>>> 7989420d7889fc88c7ee62c4de1db16df37dd683
         if(MenuScreen.Mode3D ) {//3D Logic
-            // if we are in multiplayer mode
-                for (int i = 0; i < nPlayers; i++) {
+         // if we are in multiplayer mode
+            for (int i = 0; i < nPlayers; i++) {
                     allBalls[i].addGraphicComponent(new SphereGraphics3DComponent(40, Color.WHITE));
                     SphereCollider sphere = new SphereCollider(CourseManager.getStartPosition(),20);
                     allBalls[i].addColliderComponent(sphere);
                     allHoles[i].addGraphicComponent(new SphereGraphics3DComponent(40, Color.BLACK));
-                }
-
-
+            }
         }
         else{//2D Logic
             for (int i = 0; i < nPlayers; i++) {
@@ -113,19 +105,12 @@ public class GameManager {
             pDelta = 0.00166f;
         }
         handleInput(_game.input);
-<<<<<<< HEAD
         if (_mode == 4 && !MultiplayerSettings.Simultaneous)
             Physics.physics.updateSpesificBall(_player, pDelta);
         else
             Physics.physics.update(pDelta);
-
-=======
-        Physics.physics.update(pDelta);
         CollisionManager.update();
->>>>>>> 7989420d7889fc88c7ee62c4de1db16df37dd683
-        if(printMessage){
-            updateGameLogic(pDelta);
-        }
+        updateGameLogic(pDelta);
         if (_mode == 4)
             multiPlayerUpdate(pDelta);
     }
@@ -134,25 +119,26 @@ public class GameManager {
     public void updateGameLogic(float pDelta){
         if (_mode == 4 && MultiplayerSettings.Simultaneous){
             int i = 0;
-            while (i < nPlayers && printMessage) {
+            while (i < nPlayers) {
                 if (isBallInTheHole(allBalls[i], allHoles[i]) && allBalls[i].isSlow()) {
-                    printMessage = false;
-                    System.out.println("Ball in goal");
-                    allBalls[i].setVelocityComponents(0, 0);
-                    allBalls[i].fix(true);
-                    _ball = allBalls[i];
+                    ballIsDone(allBalls[i]);
                 }
                 i++;
             }
         }
         else{
             if (isBallInTheHole(_ball, _hole) && _ball.isSlow()) {
-                printMessage = false;
-                System.out.println("Ball in goal");
-                _ball.setVelocityComponents(0, 0);
-                _ball.fix(true);
+                ballIsDone(_ball);
             }
         }
+    }
+
+    private void ballIsDone(Ball ball){
+        System.out.println("Ball in goal");
+        ball.setVelocityComponents(0, 0);
+        ball.fix(true);
+        ball.enabled = false;
+        Physics.physics.removeMovableObject(ball);
     }
 
     //TODO move to input class?

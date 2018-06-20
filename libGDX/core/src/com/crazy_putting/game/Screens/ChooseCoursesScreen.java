@@ -231,7 +231,7 @@ public class ChooseCoursesScreen implements Screen{
          */
         confirmButton = new TextButton("Confirm", skin);
         Vector2 buttonSize = new Vector2(200,50);
-        confirmButton.setPosition(WINDOW_WIDTH/2-buttonSize.x/2, buttonSize.y*2);
+        confirmButton.setPosition(WINDOW_WIDTH/2-buttonSize.x/2 + 100, buttonSize.y*2 - 50);
         confirmButton.setSize(buttonSize.x,buttonSize.y);
         confirmButton.addListener(new ClickListener(){
 

@@ -17,7 +17,7 @@ public class CourseManager {
     private static  String _cacheFileName;
     private static int _indexActive = 0;
     private static BiCubicSpline _spline;
-    private static Vector2 _dimensions;
+    private static Vector2 _dimensions = new Vector2(2000,2000);
 
 
 //TODO call again the expressionNode if another course is selected
