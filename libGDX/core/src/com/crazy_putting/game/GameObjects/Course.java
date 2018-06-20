@@ -230,4 +230,8 @@ public class Course {
         }
         addObstacleToList(obj);
     }
+
+    public List<GameObject> getObstaclesList() {
+        return _obstacles;
+    }
 }
