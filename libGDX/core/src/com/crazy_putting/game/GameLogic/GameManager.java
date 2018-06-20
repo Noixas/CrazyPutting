@@ -64,6 +64,7 @@ public class GameManager {
         allInput = new float[nPlayers][2];
         distancesMatrix = new double[nPlayers][nPlayers];
         cacheBalls = new Ball[nPlayers];
+        CourseManager.initObstacles();
         do {
             System.out.println("Setup");
             for (int i = 0; i < nPlayers; i++) {

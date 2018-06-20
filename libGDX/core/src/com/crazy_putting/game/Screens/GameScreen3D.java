@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.crazy_putting.game.FormulaParser.FormulaParser;
+import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameLogic.GameManager;
 import com.crazy_putting.game.GameLogic.GraphicsManager;
 import com.crazy_putting.game.GameLogic.TerrainEditor;
@@ -45,6 +46,7 @@ public class GameScreen3D extends InputAdapter implements Screen {
         _terrainEditor.addObserver(_gameManager);
         _gui = new GUI(_game, _gameManager,  _hudViewport, MenuScreen.Spline3D);
         initInput();
+
     }
     private void initCameras(){
         Width2DScreen = 300;
