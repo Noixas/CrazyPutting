@@ -1,15 +1,14 @@
 package com.crazy_putting.game.Components.Colliders;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public final class CollisionManager {
 
-    private static List<ColliderComponent> colliders = new ArrayList<ColliderComponent>();
-    private static List<Contact> contacts = new ArrayList<Contact>();
+    private static ArrayList<ColliderComponent> colliders = new ArrayList<ColliderComponent>();
+    private static ArrayList<Contact> contacts = new ArrayList<Contact>();
 
 
-    public static List<ColliderComponent> getColliders(){
+    public static ArrayList<ColliderComponent> getColliders(){
         return colliders;
     }
 
@@ -50,7 +49,7 @@ public final class CollisionManager {
                 for(ColliderComponent anotherComponent : colliders){
                     if(!component.equals(anotherComponent)){
                         Contact contact = CollisionDetector.detectCollision(component,anotherComponent);
-                        if(contact!=null){
+                        if(contact!=null && !contacts.contains(contact)){
                             contacts.add(contact);
                         }
                     }

@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Bot.Bot;
 import com.crazy_putting.game.Bot.GeneticAlgorithm;
-import com.crazy_putting.game.Components.Colliders.CollisionDetector;
+import com.crazy_putting.game.Components.Colliders.CollisionManager;
 import com.crazy_putting.game.Components.Colliders.SphereCollider;
 import com.crazy_putting.game.Components.Graphics.Graphics2DComponent;
 import com.crazy_putting.game.Components.Graphics.SphereGraphics3DComponent;
@@ -80,8 +80,13 @@ public class GameManager {
                 System.out.println("Balls "+allBalls[i].getPosition().x+" "+allBalls[i].getPosition().y);
                 System.out.println("Hole "+allHoles[i].getPosition().x+" "+allHoles[i].getPosition().y);
             }
+<<<<<<< HEAD
         } while (!checkLegitimacy());
         Physics.physics.addMovableObject(allBalls);
+=======
+        } while (!checkLegitimacy() && _mode==4);
+
+>>>>>>> 7989420d7889fc88c7ee62c4de1db16df37dd683
         if(MenuScreen.Mode3D ) {//3D Logic
             // if we are in multiplayer mode
                 for (int i = 0; i < nPlayers; i++) {
@@ -108,11 +113,16 @@ public class GameManager {
             pDelta = 0.00166f;
         }
         handleInput(_game.input);
+<<<<<<< HEAD
         if (_mode == 4 && !MultiplayerSettings.Simultaneous)
             Physics.physics.updateSpesificBall(_player, pDelta);
         else
             Physics.physics.update(pDelta);
 
+=======
+        Physics.physics.update(pDelta);
+        CollisionManager.update();
+>>>>>>> 7989420d7889fc88c7ee62c4de1db16df37dd683
         if(printMessage){
             updateGameLogic(pDelta);
         }
@@ -445,7 +455,7 @@ public class GameManager {
     }
 
     public Vector3 createPosition(Vector3 p) {
-        float size = GraphicsManager.WORLD_WIDTH / 2;
+        float size = CourseManager.getCourseDimensions().x / 2;
         float x;
         float y;
         do {

@@ -2,7 +2,7 @@ package com.crazy_putting.game.Others;
 
 import com.badlogic.gdx.math.Vector3;
 
-public class Velocity {
+public class Velocity{
     public float Vx;
     public float Vy;
     public float speed;
@@ -93,4 +93,12 @@ public class Velocity {
         return "[" + this.Vx + ";" + this.Vy + "]";
     }
 
+    public Velocity clone(){
+        Velocity output = new Velocity();
+        output.Vx =this.Vx;
+        output.Vy = this.Vy;
+        output.angle = this.angle;
+        output.speed = this.speed;
+        return output;
+    }
 }

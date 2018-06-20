@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.FormulaParser.*;
 import com.crazy_putting.game.GameLogic.Splines.BiCubicSpline;
 import com.crazy_putting.game.GameObjects.Course;
+import com.crazy_putting.game.GameObjects.GameObject;
 import com.crazy_putting.game.Parser.Parser;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class CourseManager {
     private static int _indexActive = 0;
     private static BiCubicSpline _spline;
     private static Vector2 _dimensions;
+
 
 //TODO call again the expressionNode if another course is selected
     private static FormulaParser parser = new FormulaParser();
@@ -116,6 +118,7 @@ public class CourseManager {
         return -1;
     }
         try{
+        if(_activeCourse.checkObstaclesAt(new Vector3(x,y,0)))return -10;
             if(_spline != null){//Spline mode Height
                 return _spline.getHeightAt(new Vector2(x, y));
             }else {//Formula function
@@ -138,6 +141,9 @@ public class CourseManager {
             System.out.println(e.getMessage());
         }
         return 0;
+    }
+    public static void addObstacle(GameObject pObstacle){
+        _activeCourse.addObstacle(pObstacle);
     }
     public static Vector3 getGoalStartPosition()
     {

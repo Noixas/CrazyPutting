@@ -52,6 +52,7 @@ public class CollisionDetector {
         Vector3 centre1 = sphereCollider1.getPosition();
         Vector3 centre2 = sphereCollider2.getPosition();
 
+
         //Vector between the objects
         Vector3 midline = centre1.cpy().sub(centre2);
 
@@ -67,7 +68,11 @@ public class CollisionDetector {
 
         Contact contact = new Contact();
         contact.contactNormal = normal;
-        contact.contactPoint = centre1.cpy().add(midline.cpy().scl(0.5f));
+
+        Vector3 intermediate = midline.cpy().scl(0.5f);
+
+        contact.contactPoint = centre1.cpy().add(intermediate);
+
         contact.penetration = sphereCollider1.getRadius() + sphereCollider2.getRadius() - distance;
 
         contact.object1 = sphereCollider1;
@@ -82,14 +87,11 @@ public class CollisionDetector {
     public static Contact SphereWithAABB(SphereCollider sphereCollider, BoxCollider bBox){
         
         Vector3 pPosition = sphereCollider.getPosition();
-        //System.out.println("pPosition: " + pPosition);
 
         Vector3 max = bBox.getPosition().cpy().add(bBox.getHalfSizes());
         Vector3 min = bBox.getPosition().cpy().sub(bBox.getHalfSizes());
 
-
         Vector3 closestPoint = new Vector3(0,0,0);
-
 
         //test the bounds against the points on X axis
         float distance = pPosition.x;
@@ -124,7 +126,6 @@ public class CollisionDetector {
 
         //Check we're in contact
         distance = closestPoint.cpy().sub(pPosition).len2();
-        System.out.println("Distance: " + distance);
 
         if(distance > sphereCollider.getRadius() * sphereCollider.getRadius()) {
             return null;
@@ -133,16 +134,11 @@ public class CollisionDetector {
         else {
             Contact contact = new Contact();
 
-            System.out.println("WE ARE IN CONTACT MAFAKA");
-
-
             contact.contactNormal = (pPosition.cpy().sub(closestPoint)).nor();
             contact.contactPoint = closestPoint;
             contact.penetration = (float) (sphereCollider.getRadius() - Math.sqrt(distance));
             contact.object1 = sphereCollider;
             contact.object2 = bBox;
-
-            System.out.println(contact==null);
             return contact;
         }
     }
