@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 import com.crazy_putting.game.Components.Colliders.BoxCollider;
+import com.crazy_putting.game.Components.Colliders.ColliderComponent;
 import com.crazy_putting.game.Components.Graphics.BoxGraphics3DComponent;
 import com.crazy_putting.game.Components.Graphics.CustomGraphics3DComponent;
 import com.crazy_putting.game.Components.Graphics.Graphics3DComponent;
@@ -31,6 +32,7 @@ public class TerrainEditor extends InputAdapter {
     private boolean _changeBall = false;
     private boolean _changeHole = false;
     private boolean _addObjects = false;
+    private boolean _eraseObject = false;
     private Vector2 _buttonDownCoord = new Vector2();
     private Vector2 _buttonDragCoord = new Vector2();
     private boolean _dragging = false;
@@ -66,13 +68,14 @@ public class TerrainEditor extends InputAdapter {
     public void addObserver(GameManager pObserver) {
         _observer = pObserver;
     }
-    public void updateGUIState(boolean pSpline, boolean ball, boolean hole, boolean addObj){
+    public void updateGUIState(boolean pSpline, boolean ball, boolean hole, boolean addObj, boolean eraseObj){
         if(_splineEnabled) {
             showSplinePoints();
             _splineEdit = pSpline;
             _changeBall = ball;
             _changeHole = hole;
             _addObjects =  addObj;
+            _eraseObject = eraseObj;
         }
     }
     private void showSplinePoints(){
@@ -111,6 +114,9 @@ public class TerrainEditor extends InputAdapter {
        else if(_addObjects){
            Vector3 pos = getObject(screenX,screenY);
            addBox(pos);
+       }else if(_eraseObject){
+           eraseObject(screenX,screenY);
+
        }
         return _selecting >= 0;
     }
@@ -143,6 +149,20 @@ public class TerrainEditor extends InputAdapter {
         CourseManager.addObstacle(obstacle);
 
       //  obstacle.addColliderComponent(ColliderComponent);
+    }
+    private void eraseObject(int screenX, int screenY){
+        Ray ray = _cam3D.getPickRay(screenX, screenY,0,0, _cam3D.viewportWidth,_cam3D.viewportHeight);//TODO:Get the WindowsWidth -300 from a constant variable somewhere in graphics, dont hardcode
+        List<GameObject> obstacles = CourseManager.getActiveCourse().getObstaclesList();
+        for(GameObject obj: obstacles){
+            ColliderComponent col = obj.getColliderComponent();
+            Vector3 pos = new Vector3(obj.getPosition());
+            swapYandZ(pos);
+            if(Intersector.intersectRayBoundsFast(ray,pos,col.getDimensions())){
+                obj.enabled = false;
+                obstacles.remove(col);
+                return;
+            }
+        }
     }
     private SplinePoint intersectSplinePoint(int screenX, int screenY ){
         Ray ray = _cam3D.getPickRay(screenX,screenY,0,0, _cam3D.viewportWidth,_cam3D.viewportHeight);//Done:Get the WindowsWidth -300 from a constant variable somewhere in graphics, dont hardcode
@@ -180,8 +200,6 @@ public class TerrainEditor extends InputAdapter {
         for(SplineInfo sp: spline.getSplineList()){
             spline.updateSplineCoeff(sp);
         }
-
-
         updateTerrain();
     }
     private void updateTerrain(){
@@ -238,7 +256,6 @@ public class TerrainEditor extends InputAdapter {
         Vector3 intersectPos = new Vector3();
 
         if (Intersector.intersectRayTriangles(ray,TerrainGenerator.triangleList,intersectPos)) {
-
             System.out.println("Intersection point "+intersectPos);
             return intersectPos;
         }

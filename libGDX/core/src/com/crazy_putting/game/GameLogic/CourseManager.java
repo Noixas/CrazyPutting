@@ -43,7 +43,9 @@ public class CourseManager {
         }
 
     }
-
+    public static void initObstacles(){
+        _activeCourse.initObstacles();
+    }
     public static List<Course> getCourseList() {
         return _courseList;
     }
@@ -143,7 +145,7 @@ public class CourseManager {
         return 0;
     }
     public static void addObstacle(GameObject pObstacle){
-        _activeCourse.addObstacle(pObstacle);
+        _activeCourse.addObstacleToList(pObstacle);
     }
     public static Vector3 getGoalStartPosition()
     {

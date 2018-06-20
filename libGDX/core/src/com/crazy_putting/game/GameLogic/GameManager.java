@@ -68,6 +68,7 @@ public class GameManager {
             allInput = new float[nPlayers][2];
         else
             allInput = new float[1][2];
+        CourseManager.initObstacles();
         do {
             System.out.println("Setup");
             for (int i = 0; i < nPlayers; i++) {
