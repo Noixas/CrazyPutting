@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 import com.crazy_putting.game.Components.Colliders.BoxCollider;
 import com.crazy_putting.game.Components.Colliders.ColliderComponent;
+import com.crazy_putting.game.Components.Colliders.CollisionManager;
 import com.crazy_putting.game.Components.Graphics.BoxGraphics3DComponent;
 import com.crazy_putting.game.Components.Graphics.CustomGraphics3DComponent;
 import com.crazy_putting.game.Components.Graphics.Graphics3DComponent;
@@ -175,6 +176,7 @@ public class TerrainEditor extends InputAdapter {
             if(Intersector.intersectRayBoundsFast(ray,pos,col.getDimensions())){
                 obj.enabled = false;
                 obstacles.remove(col);
+                CollisionManager.deleteCollider(col);
                 return;
             }
         }

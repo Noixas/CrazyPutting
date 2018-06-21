@@ -14,12 +14,9 @@ public abstract class Physics {
     protected float EPSILON = 1;
     protected static float mu;
 
-    protected final float RESTITUTION = 0.95f;
-
     protected ArrayList<PhysicsGameObject> movingObjects = new ArrayList<PhysicsGameObject>();
 
     protected State state = new State();
-
 
     public static Physics physics = new RK4();
 
