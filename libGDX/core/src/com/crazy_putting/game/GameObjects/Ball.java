@@ -36,7 +36,7 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
     }
 
     private void initBall(){
-       // _startPosition = new Vector3();
+        _startPosition = new Vector3();
         previousPosition = new Vector3();
         velocity = new Velocity();
         velocityGA = new Velocity();

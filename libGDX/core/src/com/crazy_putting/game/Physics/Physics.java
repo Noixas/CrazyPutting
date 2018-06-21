@@ -80,6 +80,7 @@ public abstract class Physics {
         }
         // For single player
         else {
+            // TODO fix for maze-like courses
             obj.setPosition(CourseManager.getStartPosition());
             obj.fix(true);
             obj.setVelocity(0.00001f, 0.000001f);
@@ -108,6 +109,9 @@ public abstract class Physics {
         float dx = xCur-xPrev;
         float dy = yCur-yPrev;
 
+        if(dx==0&&dy==0){
+            return false;
+        }
         for (int i = 1; i < 5; i++){
             float height = CourseManager.calculateHeight(xPrev + dx / i, equation2Points(dx, dy, xPrev + dx / i, xPrev, yPrev));
             if (height < 0){
