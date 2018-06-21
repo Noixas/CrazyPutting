@@ -121,8 +121,8 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         playerSelectBox.setSize(selectBoxSize.x, selectBoxSize.y);
 
         String[] boxItems = new String[_gameManager.getAmountPlayers()];
-        for (int i =0; i < CourseManager.getCourseAmount(); i++){
-            boxItems[i] = "Player "+ i+1;
+        for (int i =0; i < _gameManager.getAmountPlayers(); i++){
+            boxItems[i] = "Player "+ (i+1);
         }
         playerSelectBox.setItems(boxItems);
         playerSelectBox.addListener(new EventListener() {
