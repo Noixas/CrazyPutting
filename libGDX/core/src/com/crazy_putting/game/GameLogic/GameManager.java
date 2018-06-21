@@ -68,9 +68,10 @@ public class GameManager {
         do {
             System.out.println("Setup");
             for (int i = 0; i < nPlayers; i++) {
+               if(allBalls[i]!= null) allBalls[i].destroy();
                 allBalls[i] = new Ball(createPosition(CourseManager.getStartPosition()));
                 allHoles[i] = new Hole((int) CourseManager.getActiveCourse().getGoalRadius(), createPosition(CourseManager.getGoalStartPosition()));
-                Physics.physics.addMovableObject(allBalls[i]);
+
                 System.out.println("Balls "+allBalls[i].getPosition().x+" "+allBalls[i].getPosition().y);
                 System.out.println("Hole "+allHoles[i].getPosition().x+" "+allHoles[i].getPosition().y);
             }
@@ -122,7 +123,7 @@ public class GameManager {
                 allBalls[i].setVelocityComponents(0, 0);
                 System.out.println("Ball in goal");
                 //allBalls[i].fix(true);
-                for (int n=0; i<nPlayers; n++){
+                for (int n=0; n<nPlayers; n++){
                     allBalls[n].fix(true);
                 }
             }

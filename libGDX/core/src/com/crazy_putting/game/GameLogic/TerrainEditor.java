@@ -16,6 +16,7 @@ import com.crazy_putting.game.Components.Graphics.CustomGraphics3DComponent;
 import com.crazy_putting.game.Components.Graphics.Graphics3DComponent;
 import com.crazy_putting.game.GameLogic.Splines.BiCubicSpline;
 import com.crazy_putting.game.GameLogic.Splines.SplineInfo;
+import com.crazy_putting.game.GameObjects.GUI;
 import com.crazy_putting.game.GameObjects.GameObject;
 import com.crazy_putting.game.GameObjects.SplinePoint;
 import com.crazy_putting.game.Graphics3D.TerrainGenerator;
@@ -40,6 +41,7 @@ public class TerrainEditor extends InputAdapter {
     private float _sPointRadius = 40f;
     private GameObject _draggingPoint;
     private boolean _splineEnabled;
+    private GUI _gui;
     private GameManager _observer;
     double[][] p = {{-50},{50},{50},{50},
                      {0},{0},{0},{0},
@@ -52,7 +54,19 @@ public class TerrainEditor extends InputAdapter {
         Graphics3DComponent terrainGraphics = initTerrain();
         terrain.addGraphicComponent(terrainGraphics);
         _terrainInstance = terrainGraphics.getInstance();
+        createBoundaries();
     }
+    public void setGUI(GUI pGUI){
+        _gui = pGUI;
+    }
+    private void createBoundaries(){
+      //  Vector2 dim = TerrainGenerator.getDimensions();
+       // dim.scl(0.5f);
+       // GameObject wall = new GameObject(new Vector3(-dim.x,dim.y,CourseManager.calculateHeight(-dim.x,dim.y)));
+       // BoxGraphics3DComponent wallGraph = new BoxGraphics3DComponent(new Vector3(dim.scl(2),100));
+       // BoxCollider wallColl = new BoxCollider(wall.getPosition(),im)
+    }
+
     private Graphics3DComponent initTerrain(){
         Graphics3DComponent terrainGraphics;
         if(_splineEnabled) {
@@ -143,7 +157,8 @@ public class TerrainEditor extends InputAdapter {
         pPos.y = cachePos.z;
         pPos.z = cachePos.y;
         GameObject obstacle  = new GameObject(pPos);
-        obstacle.addGraphicComponent(new BoxGraphics3DComponent(new Vector3(100,100,100),Color.DARK_GRAY));
+        Vector3 dim = _gui.getObstacleDimensions();
+        obstacle.addGraphicComponent(new BoxGraphics3DComponent(dim,Color.DARK_GRAY));
         BoxCollider box = new BoxCollider(pPos,new Vector3(100,100,100));
         obstacle.addColliderComponent(box);
         CourseManager.addObstacle(obstacle);

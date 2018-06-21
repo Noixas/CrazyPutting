@@ -27,14 +27,16 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
     }
 
     private void initBall(){
-        _startPosition = new Vector3();
+       // _startPosition = new Vector3();
         previousPosition = new Vector3();
         velocity = new Velocity();
         velocityGA = new Velocity();
         _isFixed=true;
         Physics.physics.addMovableObject(this);
     }
-
+    public void destroy(){
+        Physics.physics.removeMovableObject(this);
+    }
     public int getFitnessValue(){
         return this.fitnessValue;
     }
@@ -80,7 +82,9 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
     }
 
     public void setPosition(Vector3 position) {
+        if(_position == null)_startPosition=position;
         super.setPosition(position);
+
        previousPosition = new Vector3(position);
     }
 
