@@ -27,15 +27,28 @@ public abstract class Physics {
     public abstract void update(double dt);
 
     public abstract void updateObject(PhysicsGameObject obj, double dt);
-    public void removeMovableObject(PhysicsGameObject obj){
-        movingObjects.remove(obj);
-    }
+
+    public void updateSpesificBall(int i, double dt){
+        if(!movingObjects.isEmpty() && i<movingObjects.size()){
+                updateObject(movingObjects.get(i),dt);
+        }
+    };
+
     /*
     other
      */
 
     public void addMovableObject(PhysicsGameObject obj) {
         movingObjects.add(obj);
+    }
+
+    public void addMovableObject(PhysicsGameObject[] obj) {
+        for (int i=0; i<obj.length; i++)
+            movingObjects.add(obj[i]);
+    }
+
+    public void removeMovableObject(PhysicsGameObject obj){
+        movingObjects.remove(obj);
     }
 
     public static void updateCoefficients() {
@@ -52,24 +65,13 @@ public abstract class Physics {
     Collision
      */
 
-    void dealCollision(PhysicsGameObject obj){
-
-        // For multiple players
-        if (MultiplayerSettings.PlayerAmount > 1 && MultiplayerSettings.Simultaneous==true) {
-            for (int i = 0; i < movingObjects.size(); i++) {
+    void dealCollision(){
+        for (int i = 0; i < movingObjects.size(); i++) {
                 // TODO change for mazelike courses
-                obj.setPosition(CourseManager.getStartPosition());
-                obj.fix(true);
                 PhysicsGameObject ball = movingObjects.get(i);
                 ball.setPosition(ball.getStartPosition());
                 ball.fix(true);
-            }
-        }
-        // For single player
-        else {
-            obj.setPosition(CourseManager.getStartPosition());
-            obj.fix(true);
-            obj.setVelocity(0.00001f, 0.000001f);
+                ball.setVelocity(0.00001f, 0.000001f);
         }
         Gdx.app.log("Message","Ball collided");
 
