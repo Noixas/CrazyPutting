@@ -74,9 +74,10 @@ public class GameManager {
         do {
             System.out.println("Setup");
             for (int i = 0; i < nPlayers; i++) {
+               if(allBalls[i]!= null) allBalls[i].destroy();
                 allBalls[i] = new Ball(createPosition(CourseManager.getStartPosition()));
                 allHoles[i] = new Hole((int) CourseManager.getActiveCourse().getGoalRadius(), createPosition(CourseManager.getGoalStartPosition()));
-                Physics.physics.addMovableObject(allBalls[i]);
+
                 System.out.println("Balls "+allBalls[i].getPosition().x+" "+allBalls[i].getPosition().y);
                 System.out.println("Hole "+allHoles[i].getPosition().x+" "+allHoles[i].getPosition().y);
             }

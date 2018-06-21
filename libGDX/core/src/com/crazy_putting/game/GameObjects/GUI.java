@@ -2,10 +2,12 @@ package com.crazy_putting.game.GameObjects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.crazy_putting.game.GameLogic.CourseManager;
@@ -34,7 +36,18 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
     private  CheckBox _changeHolePos;
     private  CheckBox _addObjects;
     private CheckBox _eraseObject;
+    private CheckBox _editObject;
     private boolean _spline;
+
+    private Slider _widthObstacle;
+    private Slider _deepObstacle;
+    private Slider _heightObstacle;
+    private CheckBox _keepRatio;
+
+    private Label _widthObstacleLabel;
+    private Label _deepObstacleLabel;
+    private Label _heightObstacleLabel;
+
 
     public GUI(GolfGame pGame, GameManager pGameManager, FitViewport viewPort, boolean pSpline)
     {
@@ -50,7 +63,7 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         UIStage.setDebugAll(false);
         _gameManager = pGameManager;
         _skin = new Skin(Gdx.files.internal("skin/plain-james-ui.json"));
-        saveSplines = new TextButton("Save Splines", _skin);
+        saveSplines = new TextButton("Save Course", _skin);
         saveSplines.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -64,6 +77,7 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         _changeHolePos = new CheckBox("Change Hole Position", _skin);
         _addObjects = new CheckBox("Add Objects", _skin);
         _eraseObject = new CheckBox("Erase Objects", _skin);
+        _editObject = new CheckBox("Edit Object", _skin);
 
         initUI();
         System.out.println("VIEWPORT POS "+ view.getScreenY()   );
@@ -84,6 +98,21 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         int height = (int)CourseManager.calculateHeight(x,y);
         ball_position = new Label("Ball Position\n" + "height: " + height + "\nx:" + x + " y: " + y,skin);
 
+        _widthObstacle = new Slider(20,400,10,false,skin);
+        _deepObstacle = new Slider(20,400,10,false,skin);
+        _heightObstacle = new Slider(20,400,10,false,skin);
+        _widthObstacle.setValue(75);
+        Label obstacleDim = new Label("Obstacle Dimensions:",skin);
+        _widthObstacleLabel = new Label("Width: 75",skin);
+        _deepObstacle.setValue(75);
+        _deepObstacleLabel = new Label("Deep: 75",skin);
+        _heightObstacle.setValue(75);
+        _heightObstacleLabel = new Label("Height: 75",skin);
+
+        _keepRatio = new CheckBox("Same Dimensions",skin);
+        _keepRatio.setChecked(true);
+
+       //  allowedDistanceLabel = new Label("Allowed distance "+ allowedDistanceSlider.getValue(),skin);
 
         turnCount = new Label("Turns: " + _gameManager.getTurns(),skin);
         maxSpeed = new Label("Max speed: " + CourseManager.getMaxSpeed()+"\n",skin);
@@ -93,37 +122,78 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         buttonGroup.setMaxCheckCount(1);
         buttonGroup.setMinCheckCount(0);
         buttonGroup.uncheckAll();
-
-        table.add(maxSpeed);
+      //  table.top();
+        table.setDebug(true);
+        table.add(maxSpeed).colspan(2);;
         table.row();
-        table.add(speedText);
+        table.add(speedText).colspan(2);;
         table.row();
-        table.add(ball_position);
+        table.add(ball_position).colspan(2);
         table.row();
-        table.add(turnCount);
+        table.add(turnCount).colspan(2);
         if(_spline) {
             table.row();
-            table.add(saveSplines);
+            table.add(saveSplines).colspan(2);
             table.row();
-            table.add(_splineEdit);
+            table.add(_splineEdit).colspan(2);
             table.row();
-            table.add(_changeBallPos);
+            table.add(_changeBallPos).colspan(2);
             table.row();
-            table.add(_changeHolePos);
+            table.add(_changeHolePos).colspan(2);
             table.row();
-            table.add(_addObjects);
+            table.add(_addObjects).colspan(2);
             table.row();
-            table.add(_eraseObject);
+            table.add(_eraseObject).colspan(2);
+            table.row();
+            table.add(obstacleDim).colspan(2);
+            table.row();
+            table.add(_keepRatio).colspan(2);
+            table.row();
+            table.add(_widthObstacleLabel).align(Align.right);;
+            table.add(_widthObstacle).align(Align.left);;
+            table.row();
+            table.add(_deepObstacleLabel).align(Align.right);
+            table.add(_deepObstacle).align(Align.left);
+            table.row();
+            table.add(_heightObstacleLabel).align(Align.right);;
+            table.add(_heightObstacle).align(Align.left);;
+
         }
 
         UIStage.addActor(table);
-
-
-
     }
     public InputProcessor getUIInputProcessor()
     {
         return UIStage;
+    }
+    private void updateSliders(){
+        if(_widthObstacle.isDragging()) {
+            _widthObstacleLabel.setText("Width: " + _widthObstacle.getValue());
+            if(_keepRatio.isChecked())
+                updateSlidersWithRatio(_widthObstacle.getValue());
+        }
+        if(_deepObstacle.isDragging()){
+            _deepObstacleLabel.setText("Deep: "+ _deepObstacle.getValue());
+            if(_keepRatio.isChecked())
+                updateSlidersWithRatio(_deepObstacle.getValue());
+        }
+        if(_heightObstacle.isDragging()) {
+            _heightObstacleLabel.setText("Height: " + _heightObstacle.getValue());
+            if(_keepRatio.isChecked())
+                updateSlidersWithRatio(_heightObstacle.getValue());
+        }
+    }
+    public Vector3 getObstacleDimensions(){
+        return new Vector3(_widthObstacle.getValue(),_deepObstacle.getValue(),_heightObstacle.getValue());
+    }
+    private void updateSlidersWithRatio(float val){
+        _widthObstacle.setValue(val);
+        _widthObstacleLabel.setText("Width: " + _widthObstacle.getValue());
+        _deepObstacle.setValue(val);
+        _deepObstacleLabel.setText("Deep: "+ _deepObstacle.getValue());
+        _heightObstacle.setValue(val);
+        _heightObstacleLabel.setText("Height: " + _heightObstacle.getValue());
+
     }
     public void render()
     {
@@ -137,6 +207,7 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         ball_position.setText("Ball Position\n" + "height: " + height + "\nx:" + x + " y: " + y);
         turnCount.setText("Turns: " + _gameManager.getTurns());
 
+        if(_spline) updateSliders();
         UIStage.draw();
 
     }
@@ -144,16 +215,11 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
     {
         return _splineEdit.isChecked();
     }
-    public boolean isChangeBallActive()
-    {
-
-        return _changeBallPos.isChecked();
-    }
+    public boolean isChangeBallActive() { return _changeBallPos.isChecked(); }
     public boolean isChangeHoleActive()
     {
         return _changeHolePos.isChecked();
     }
-
     public boolean isAddObjectsActive()
     {
         return _addObjects.isChecked();
