@@ -18,6 +18,12 @@ public final class CollisionManager {
         }
     }
 
+    public static void deleteCollider(ColliderComponent component){
+        if(colliders.contains(component)){
+            colliders.remove(component);
+        }
+    }
+
     public static void update(){
         fillContactList();
         dealContacts();

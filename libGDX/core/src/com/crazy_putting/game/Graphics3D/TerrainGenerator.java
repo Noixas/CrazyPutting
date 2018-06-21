@@ -23,6 +23,7 @@ public class TerrainGenerator {
     private static Vector2 _terrainSize;
     public static List<Vector3> triangleList = new ArrayList<Vector3>();
     private static BiCubicSpline _spline;
+    private static Vector2 _dimensions;
 static double[][] p ;
         public static Model generateModelTerrain(){
 
@@ -41,8 +42,8 @@ static double[][] p ;
         int verticesPerSide = 40; //Amount of vertices per side of mesh part
         float scaleVertex = 10;  //scale amount
         _terrainSize = new Vector2(totalMeshLength*scaleVertex, totalMeshLength*scaleVertex);
-
-        _spline = new BiCubicSpline(new Vector2 (startPosX,startPosY), verticesPerSide, 10);
+        _dimensions = new Vector2(scaleVertex * totalMeshLength,scaleVertex*totalMeshLength);
+        _spline = new BiCubicSpline(new Vector2 (startPosX,startPosY), verticesPerSide, scaleVertex);
         ModelBuilder modelBuilder = new ModelBuilder();
         modelBuilder.begin();
         int amountNodes = totalMeshLength/verticesPerSide;
@@ -69,7 +70,9 @@ static double[][] p ;
             int[][] indexes = {{pi,pj},{pi+1,pj},{pi,pj+1},{pi+1,pj+1}};
             return  indexes;
     }
-
+    public static Vector2 getDimensions(){
+            return _dimensions;
+    }
    public static Vector2 getTerrainSize(){
        return _terrainSize;
    }

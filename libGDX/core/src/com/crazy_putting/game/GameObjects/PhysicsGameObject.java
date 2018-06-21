@@ -8,7 +8,7 @@ import com.crazy_putting.game.Physics.Physics;
 public abstract class PhysicsGameObject extends GameObject {
     Vector3 _startPosition;
     protected PhysicsGameObject(){
-        _startPosition = new Vector3(_position);
+        //_startPosition = new Vector3(_position);
     }
     public abstract Vector3 getStartPosition();
     public abstract Velocity getVelocity();
