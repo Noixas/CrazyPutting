@@ -90,7 +90,7 @@ public abstract class Physics {
 
         if(xCur > CourseManager.getCourseDimensions().x/ 2 || xCur < CourseManager.getCourseDimensions().x / 2 * (-1) ||
                 yCur > CourseManager.getCourseDimensions().y / 2 || yCur < CourseManager.getCourseDimensions().y / 2 * (-1) ){
-            System.out.println("Out of the world "+xCur+" "+yCur+" "+obj.getSpeed()+" "+Gdx.graphics.getDeltaTime());
+            System.out.println("Out of the world "+xCur+" "+yCur+" "+obj.getVelocity().speed+" "+Gdx.graphics.getDeltaTime());
             return true;
         }
 

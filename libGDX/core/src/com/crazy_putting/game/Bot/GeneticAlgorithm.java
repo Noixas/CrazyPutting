@@ -1,4 +1,5 @@
 package com.crazy_putting.game.Bot;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Course;
@@ -22,6 +23,7 @@ public class GeneticAlgorithm extends SuperBot{
 
     public GeneticAlgorithm(Hole hole, Course course, Vector3 initial_position){
         super(hole,course,initial_position);
+        Gdx.app.log("Log","Genetic started");
         // TODO decreaded population size and generations
         this.rand = new Random();
         this.allBalls = new ArrayList<Ball>();
