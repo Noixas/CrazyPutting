@@ -121,7 +121,7 @@ public class GameManager {
                 allBalls[i].setVelocityComponents(0, 0);
                 System.out.println("Ball in goal");
                 //allBalls[i].fix(true);
-                for (int n=0; i<nPlayers; n++){
+                for (int n=0; n<nPlayers; n++){
                     allBalls[n].fix(true);
                 }
             }
