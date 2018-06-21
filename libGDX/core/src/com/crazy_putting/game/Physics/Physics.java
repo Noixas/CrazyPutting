@@ -64,8 +64,19 @@ public abstract class Physics {
     Collision
      */
 
+<<<<<<< HEAD
     void dealCollision(){
         for (int i = 0; i < movingObjects.size(); i++) {
+=======
+    void dealCollision(PhysicsGameObject obj){
+
+        // For multiple players
+        if (MultiplayerSettings.PlayerAmount > 1 && MultiplayerSettings.Simultaneous==true) {
+            for (int i = 0; i < movingObjects.size(); i++) {
+                // TODO change for mazelike courses
+                obj.setPosition(CourseManager.getStartPosition());
+                obj.fix(true);
+>>>>>>> 9a82bc4de16d1e98dbca60d16ccaa7d3584abbf6
                 PhysicsGameObject ball = movingObjects.get(i);
                 ball.setPosition(ball.getStartPosition());
                 ball.fix(true);
@@ -87,7 +98,7 @@ public abstract class Physics {
 
         if(xCur > CourseManager.getCourseDimensions().x/ 2 || xCur < CourseManager.getCourseDimensions().x / 2 * (-1) ||
                 yCur > CourseManager.getCourseDimensions().y / 2 || yCur < CourseManager.getCourseDimensions().y / 2 * (-1) ){
-            System.out.println("Out of the world");
+            System.out.println("Out of the world "+xCur+" "+yCur+" "+obj.getVelocity().speed+" "+Gdx.graphics.getDeltaTime());
             return true;
         }
 
