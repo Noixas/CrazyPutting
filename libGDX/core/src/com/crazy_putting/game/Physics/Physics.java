@@ -56,11 +56,9 @@ public abstract class Physics {
         mu = CourseManager.getActiveCourse().getFriction();
     }
 
-
     private float equation2Points(float dx, float dy, float xValue, float previousX, float previousY) {
         return (dy/dx) * (xValue -  previousX) + previousY;
     }
-
 
     /*
     Collision

@@ -383,7 +383,7 @@ public class GameManager {
             for (int j=0; j<nPlayers; j++) {
                 double d = euclideanDistance(balls[i].getPosition(), balls[j].getPosition());
                 distancesMatrix[i][j] = d;
-                if (distancesMatrix[i][j] > allowedDistance)
+                if (distancesMatrix[i][j] > allowedDistance && allBalls[i].enabled && allBalls[j].enabled)
                     return false;
             }
         }
@@ -411,7 +411,7 @@ public class GameManager {
     }
 
     public void multiPlayerUpdate(double pDelta){
-        if (!anyBallIsMoving() && !checkDistances(allBalls) && _turns>0){
+        if (!anyBallIsMoving() && !checkDistances(allBalls)){
             System.out.println("Exceeding the allowed distance from each other. Please try again.");
             returnToPreviousPosition();
             // TODO: display UI massage
@@ -437,7 +437,7 @@ public class GameManager {
             }
         }
         else{
-            _ball = _cacheBall;
+            _ball = _cacheBall.clone();
         }
     }
 
