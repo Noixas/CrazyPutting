@@ -8,13 +8,16 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Bot.Bot;
 import com.crazy_putting.game.Bot.GeneticAlgorithm;
-import com.crazy_putting.game.Components.Colliders.CollisionManager;
-import com.crazy_putting.game.Components.Colliders.SphereCollider;
+import com.crazy_putting.game.Bot.MazeBot;
 import com.crazy_putting.game.Components.Graphics.Graphics2DComponent;
+import com.crazy_putting.game.Components.Graphics.Graphics3DComponent;
 import com.crazy_putting.game.Components.Graphics.SphereGraphics3DComponent;
 import com.crazy_putting.game.GameObjects.Ball;
+import com.crazy_putting.game.Components.Colliders.CollisionManager;
+import com.crazy_putting.game.Components.Colliders.SphereCollider;
 import com.crazy_putting.game.GameObjects.GameObject;
 import com.crazy_putting.game.GameObjects.Hole;
+import com.crazy_putting.game.GameObjects.SplinePoint;
 import com.crazy_putting.game.Others.InputData;
 import com.crazy_putting.game.Others.MultiplayerSettings;
 import com.crazy_putting.game.Others.Velocity;
@@ -22,6 +25,8 @@ import com.crazy_putting.game.Parser.ReadAndAnalyse;
 import com.crazy_putting.game.Physics.Physics;
 import com.crazy_putting.game.Screens.GolfGame;
 import com.crazy_putting.game.Screens.MenuScreen;
+
+import java.util.ArrayList;
 
 public class GameManager {
 
@@ -40,6 +45,7 @@ public class GameManager {
     private float[][] allInput;
     private double[][] distancesMatrix;
     private Ball[] cacheBalls;
+    private ArrayList<Velocity> mazeVelocities = new ArrayList<Velocity>();
 
     public GameManager(GolfGame pGame, int pMode){
         _mode = pMode;
@@ -103,12 +109,19 @@ public class GameManager {
         if(pDelta > 0.03){
             pDelta = 0.00166f;
         }
-        handleInput(_game.input);
+        if(mazeVelocities.size()==0){
+            handleInput(_game.input);
+        }
+        else{
+            if(!_ball.isMoving()){
+                _ball.setVelocity(mazeVelocities.get(0));
+                _ball.fix(false);
+                mazeVelocities.remove(0);
+            }
+        }
         Physics.physics.update(pDelta);
         CollisionManager.update();
-        if(printMessage){
-            updateGameLogic(pDelta);
-        }
+        updateGameLogic(pDelta);
         if (_mode == 4)
             multiPlayerUpdate(pDelta);
     }
@@ -140,7 +153,7 @@ public class GameManager {
             if (Gdx.input.isKeyJustPressed(Input.Keys.G) && !_ball.isMoving()){
                 System.out.println(_ball.getPosition().x + "  " + _ball.getPosition().y);
 
-                GeneticAlgorithm GA = new GeneticAlgorithm(_hole, CourseManager.getActiveCourse());
+                GeneticAlgorithm GA = new GeneticAlgorithm(_hole, CourseManager.getActiveCourse(),CourseManager.getStartPosition());
 
                 Ball b = GA.getBestBall();
                 float speed = b.getVelocityGA().speed;
@@ -188,7 +201,7 @@ public class GameManager {
         }
         else if (_mode == 3){
             if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !_ball.isMoving()){
-                bot = new Bot(_ball,_hole, CourseManager.getActiveCourse());
+                bot = new Bot(_ball,_hole, CourseManager.getActiveCourse(), CourseManager.getStartPosition());
                 bot.computeOptimalVelocity();
                 Velocity computedVelocity = bot.getBestBall().getVelocity();
                 Gdx.app.log("Ball","Position x "+ _ball.getPosition().x+" position y "+_ball.getPosition().y);
@@ -198,13 +211,9 @@ public class GameManager {
                 Gdx.app.log("Manager","speed "+computedVelocity.speed+" angle "+computedVelocity.angle);
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.G) && !_ball.isMoving()){
-
-                GeneticAlgorithm GA = new GeneticAlgorithm(_hole,CourseManager.getActiveCourse());
-                Ball b = GA.getBestBall();
-                float speed = b.getVelocityGA().speed;
-                float angle = b.getVelocityGA().angle;
-                _ball.setVelocity(speed,angle);
-                _ball.fix(false);
+                // TODO
+                MazeBot mazeBot = new MazeBot(_ball,_hole,CourseManager.getActiveCourse());
+                mazeVelocities = mazeBot.findSolution();
             }
         }
         else if(_mode == 4) {

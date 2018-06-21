@@ -3,6 +3,7 @@ package com.crazy_putting.game.Physics;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.GameLogic.CourseManager;
+import com.crazy_putting.game.GameLogic.GraphicsManager;
 import com.crazy_putting.game.GameObjects.PhysicsGameObject;
 import com.crazy_putting.game.Others.MultiplayerSettings;
 
@@ -38,9 +39,7 @@ public abstract class Physics {
     public void addMovableObject(PhysicsGameObject obj) {
         movingObjects.add(obj);
     }
-    public void removeMovableObject(PhysicsGameObject obj){
-        movingObjects.remove(obj);
-    }
+
     public static void updateCoefficients() {
         mu = CourseManager.getActiveCourse().getFriction();
     }
@@ -60,6 +59,7 @@ public abstract class Physics {
         // For multiple players
         if (MultiplayerSettings.PlayerAmount > 1 && MultiplayerSettings.Simultaneous==true) {
             for (int i = 0; i < movingObjects.size(); i++) {
+                // TODO change for mazelike courses
                 obj.setPosition(CourseManager.getStartPosition());
                 obj.fix(true);
                 PhysicsGameObject ball = movingObjects.get(i);
@@ -90,7 +90,7 @@ public abstract class Physics {
 
         if(xCur > CourseManager.getCourseDimensions().x/ 2 || xCur < CourseManager.getCourseDimensions().x / 2 * (-1) ||
                 yCur > CourseManager.getCourseDimensions().y / 2 || yCur < CourseManager.getCourseDimensions().y / 2 * (-1) ){
-            System.out.println("Out of the world" + xCur + " y "+ yCur);
+            System.out.println("Out of the world "+xCur+" "+yCur+" "+obj.getVelocity().speed+" "+Gdx.graphics.getDeltaTime());
             return true;
         }
 

@@ -47,7 +47,7 @@ public class GameObject {
         return _colliderComponent;
     }
     public void setPosition(Vector3 position){
-        this._position = position;
+        this._position = new Vector3(position);
         if(_colliderComponent!=null){
             _colliderComponent.setPosition(new Vector3(position));
         }
