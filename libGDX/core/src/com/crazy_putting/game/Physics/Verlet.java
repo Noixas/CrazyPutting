@@ -31,7 +31,7 @@ public class Verlet extends Physics{
             }
 
             if (collided(obj)){
-                dealCollision();
+                dealCollision(obj);
                 return;
             }
 

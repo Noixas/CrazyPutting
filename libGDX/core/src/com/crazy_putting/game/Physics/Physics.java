@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameObjects.PhysicsGameObject;
+import com.crazy_putting.game.Others.MultiplayerSettings;
 
 import java.util.ArrayList;
 
@@ -64,13 +65,24 @@ public abstract class Physics {
     Collision
      */
 
-    void dealCollision(){
-        for (int i = 0; i < movingObjects.size(); i++) {
+    void dealCollision(PhysicsGameObject obj){
+
+        // For multiple players
+        if (MultiplayerSettings.PlayerAmount > 1 && MultiplayerSettings.Simultaneous==true) {
+            for (int i = 0; i < movingObjects.size(); i++) {
                 // TODO change for mazelike courses
+                obj.setPosition(CourseManager.getStartPosition());
+                obj.fix(true);
                 PhysicsGameObject ball = movingObjects.get(i);
                 ball.setPosition(ball.getStartPosition());
                 ball.fix(true);
-                ball.setVelocity(0.00001f, 0.000001f);
+            }
+        }
+        // For single player
+        else {
+            obj.setPosition(CourseManager.getStartPosition());
+            obj.fix(true);
+            obj.setVelocity(0.00001f, 0.000001f);
         }
         Gdx.app.log("Message","Ball collided");
 
@@ -89,7 +101,7 @@ public abstract class Physics {
 
         if(xCur > CourseManager.getCourseDimensions().x/ 2 || xCur < CourseManager.getCourseDimensions().x / 2 * (-1) ||
                 yCur > CourseManager.getCourseDimensions().y / 2 || yCur < CourseManager.getCourseDimensions().y / 2 * (-1) ){
-            System.out.println("Out of the world "+xCur+" "+yCur+" "+obj.getVelocity().speed+" "+Gdx.graphics.getDeltaTime());
+            System.out.println("Out of the world "+xCur+" "+yCur);
             return true;
         }
 

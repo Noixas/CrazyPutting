@@ -28,7 +28,7 @@ public class RK4 extends Physics{
         if(obj.isFixed()) return;
 
         if (collided(obj)){
-                dealCollision();
+            dealCollision(obj);
             return;
         }
         updateComponents(obj,dt);
