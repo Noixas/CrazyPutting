@@ -86,7 +86,6 @@ public class GameManager {
                 System.out.println("Hole "+allHoles[i].getPosition().x+" "+allHoles[i].getPosition().y);
             }
         } while (_mode==4 && !checkLegitimacy());
-        Physics.physics.addMovableObject(allBalls);
         if(MenuScreen.Mode3D ) {//3D Logic
          // if we are in multiplayer mode
             for (int i = 0; i < nPlayers; i++) {
@@ -288,7 +287,9 @@ public class GameManager {
         }
         return false;
     }
-
+    public Ball getPlayer(int pPlayer){
+        return allBalls[pPlayer];
+    }
     public void checkConstrainsAndSetVelocity(float[][] input) {
         for (int i=0; i<input.length; i++) {
             float speed = checkMaxSpeedConstrain(input[i][0]);
@@ -419,7 +420,9 @@ public class GameManager {
         _ball = allBalls[n];
         _hole = allHoles[n];
     }
-
+    public int getAmountPlayers(){
+        return nPlayers;
+    }
     public void multiPlayerUpdate(double pDelta){
         if (!anyBallIsMoving() && !checkDistances(allBalls)){
             System.out.println("Exceeding the allowed distance from each other. Please try again.");
