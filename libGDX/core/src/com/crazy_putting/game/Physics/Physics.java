@@ -3,7 +3,6 @@ package com.crazy_putting.game.Physics;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.GameLogic.CourseManager;
-import com.crazy_putting.game.GameLogic.GraphicsManager;
 import com.crazy_putting.game.GameObjects.PhysicsGameObject;
 import com.crazy_putting.game.Others.MultiplayerSettings;
 
@@ -31,7 +30,9 @@ public abstract class Physics {
     public abstract void update(double dt);
 
     public abstract void updateObject(PhysicsGameObject obj, double dt);
-
+    public void removeMovableObject(PhysicsGameObject obj){
+        movingObjects.remove(obj);
+    }
     /*
     other
      */

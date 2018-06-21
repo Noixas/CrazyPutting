@@ -112,6 +112,7 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         _keepRatio = new CheckBox("Same Dimensions",skin);
         _keepRatio.setChecked(true);
 
+        _widthObstacle.setVisible(false);
        //  allowedDistanceLabel = new Label("Allowed distance "+ allowedDistanceSlider.getValue(),skin);
 
         turnCount = new Label("Turns: " + _gameManager.getTurns(),skin);

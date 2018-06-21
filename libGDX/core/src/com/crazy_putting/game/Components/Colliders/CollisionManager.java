@@ -30,6 +30,7 @@ public final class CollisionManager {
     private static void synchronizeColliders(){
         if(!colliders.isEmpty()){
             for(ColliderComponent collider : colliders){
+                if(collider.isEnabled())
                 collider.synchronize();
             }
         }

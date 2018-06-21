@@ -44,6 +44,7 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
         Physics.physics.addMovableObject(this);
     }
     public void destroy(){
+        enabled = false;
         Physics.physics.removeMovableObject(this);
     }
     public int getFitnessValue(){
