@@ -2,6 +2,7 @@ package com.crazy_putting.game.GameObjects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Event;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.crazy_putting.game.Components.Graphics.Graphics3DComponent;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameLogic.GameManager;
 import com.crazy_putting.game.Screens.GameScreen3D;
@@ -53,6 +55,7 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
     private Label _heightObstacleLabel;
 
     private SelectBox<String> playerSelectBox;
+    private Ball _activaBall;
 
     public GUI(GolfGame pGame, GameManager pGameManager, FitViewport viewPort, boolean pSpline)
     {
@@ -85,7 +88,9 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         _editObject = new CheckBox("Edit Object", _skin);
 
         initUI();
-        System.out.println("VIEWPORT POS "+ view.getScreenY()   );
+        System.out.println("VIEWPORT POS "+ view.getScreenY());
+        _activaBall = _gameManager.getBall();
+       updatePlayerActive();
 
     }
     private void initUI()
@@ -119,19 +124,26 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
       //  playerSelectBox.setPosition(300, WINDOW_HEIGHT*0.9f-130);
         Vector2 selectBoxSize = new Vector2(200, 50);
         playerSelectBox.setSize(selectBoxSize.x, selectBoxSize.y);
-
+      //  playerSelectBox.setColor(Color.OLIVE);
+        playerSelectBox.getStyle().fontColor = Color.PURPLE;
         String[] boxItems = new String[_gameManager.getAmountPlayers()];
-        for (int i =0; i < _gameManager.getAmountPlayers(); i++){
-            boxItems[i] = "Player "+ (i+1);
+        for (int i =0; i < _gameManager.getAmountPlayers(); i++)
+        {
+            boxItems[i] = "Player "+ i;
         }
         playerSelectBox.setItems(boxItems);
+
+        /*
+            Listener that triggers action if different option is chosen in select box.
+         */
         playerSelectBox.addListener(new EventListener() {
                                   @Override
                                   public boolean handle(Event event) {
                                       if (event instanceof ChangeListener.ChangeEvent) {
-                                          updateCurrentPlayerGUI();
+                                          updatePlayerActive();
+                                          return true;
                                       }
-                                      return true;
+                                    return false;
                                   }
                               }
         );
@@ -139,7 +151,7 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         _keepRatio = new CheckBox("Same Dimensions",skin);
         _keepRatio.setChecked(true);
 
-        _widthObstacle.setVisible(false);
+        _widthObstacle.setVisible(true);
        //  allowedDistanceLabel = new Label("Allowed distance "+ allowedDistanceSlider.getValue(),skin);
 
         turnCount = new Label("Turns: " + _gameManager.getTurns(),skin);
@@ -151,7 +163,7 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         buttonGroup.setMinCheckCount(0);
         buttonGroup.uncheckAll();
       //  table.top();
-        table.setDebug(true);
+        table.setDebug(false);
         table.add(maxSpeed).colspan(2);;
         table.row();
         table.add(speedText).colspan(2);;
@@ -160,7 +172,7 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         table.row();
         table.add(turnCount).colspan(2);
         table.row();
-        table.add(playerSelectBox);
+        table.add(playerSelectBox).colspan(2);
         if(_spline) {
             table.row();
             table.add(saveSplines).colspan(2);
@@ -192,8 +204,13 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
 
         UIStage.addActor(table);
     }
-    private void updateCurrentPlayerGUI(){
-
+    private void updatePlayerActive(){
+        Graphics3DComponent graphBall = (Graphics3DComponent)_activaBall.getGraphicComponent();
+        graphBall.setColor(Color.WHITE);
+        _activaBall = _gameManager.getPlayer(playerSelectBox.getSelectedIndex());
+        Graphics3DComponent graphBall2 = (Graphics3DComponent)_activaBall.getGraphicComponent();
+        graphBall2.setColor(Color.PURPLE);
+        System.out.println("test");
     }
     public InputProcessor getUIInputProcessor()
     {
@@ -242,6 +259,7 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
 
         if(_spline) updateSliders();
         UIStage.draw();
+        UIStage.act();
 
     }
     public boolean isSplineEditActive()

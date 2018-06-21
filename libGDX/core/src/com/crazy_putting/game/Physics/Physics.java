@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameObjects.PhysicsGameObject;
-import com.crazy_putting.game.Others.MultiplayerSettings;
 
 import java.util.ArrayList;
 
