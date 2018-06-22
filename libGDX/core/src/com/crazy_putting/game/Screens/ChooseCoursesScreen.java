@@ -271,8 +271,8 @@ public class ChooseCoursesScreen implements Screen{
         if(MenuScreen.Spline3D == false)
         heightValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getHeight());
         frictionValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getFriction()+"");
-        startValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getStartBall().toString());
-        goalValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getGoalPosition().toString());
+        startValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getStartBall(0).toString());
+        goalValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getGoalPosition(0).toString());
         radiusValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getGoalRadius()+"");
         maxVelocityValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getMaxSpeed()+"");
         if(MenuScreen.Spline3D)

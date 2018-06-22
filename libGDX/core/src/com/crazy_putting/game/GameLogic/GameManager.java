@@ -78,8 +78,8 @@ public class GameManager {
                 if(allBalls[i] != null){
                     allBalls[i].destroy();
                 }
-                allBalls[i] = new Ball(createPosition(CourseManager.getStartPosition(i)));
-                allHoles[i] = new Hole((int) CourseManager.getActiveCourse().getGoalRadius(), createPosition(CourseManager.getGoalStartPosition(i)));
+                allBalls[i] = new Ball((CourseManager.getStartPosition(i)));
+                allHoles[i] = new Hole((int) CourseManager.getActiveCourse().getGoalRadius(), (CourseManager.getGoalStartPosition(i)));
                 System.out.println("Balls "+allBalls[i].getPosition().x+" "+allBalls[i].getPosition().y);
                 System.out.println("Hole "+allHoles[i].getPosition().x+" "+allHoles[i].getPosition().y);
             }
@@ -362,22 +362,23 @@ public class GameManager {
      * Change the position of the ball when using the change ball position editor mode
      * @param pos
      */
-    public void updateBallPos(Vector3 pos){
-        Vector3 cache = _ball.getPosition();
-        _ball.setPosition(pos);
+    public void updateBallPos(Vector3 pos, int pPlayer){
+
+        Vector3 cache = allBalls[pPlayer].getPosition();
+        allBalls[pPlayer].setPosition(pos);
         if(checkDistances(allBalls)==false)
-            _ball.setPosition(cache);
+            allBalls[pPlayer].setPosition(cache);
     }
 
     /**
      * Change the position of the hole when using the change hole position editor mode
      * @param pos
      */
-    public void updateHolePos(Vector3 pos){
-        Vector3 cache = _hole.getPosition();
-        _hole.setPosition(pos);
+    public void updateHolePos(Vector3 pos, int pPlayer){
+        Vector3 cache = allHoles[pPlayer].getPosition();
+        allHoles[pPlayer].setPosition(pos);
         if(checkDistances(allHoles)==false)
-            _hole.setPosition(cache);
+            allHoles[pPlayer].setPosition(cache);
     }
 
     /////////////////////////////////////////////////////////////////////

@@ -143,14 +143,14 @@ public class TerrainEditor extends InputAdapter {
         Vector3 cachePos = new Vector3(pPos);
         pPos.y = cachePos.z;
         pPos.z = cachePos.y;
-        _observer.updateBallPos(pPos);
+        _observer.updateBallPos(pPos,_gui.getActiveBall());
     }
     private void changeHolePos(Vector3 pPos){
         if(pPos == null) return;;
         Vector3 cachePos = new Vector3(pPos);
         pPos.y = cachePos.z;
         pPos.z = cachePos.y;
-        _observer.updateHolePos(pPos);
+        _observer.updateHolePos(pPos, _gui.getActiveBall());
     }
     private void addBox(Vector3 pPos){
         if(pPos == null) return;

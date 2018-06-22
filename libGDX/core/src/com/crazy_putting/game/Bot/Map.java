@@ -1,7 +1,6 @@
 package com.crazy_putting.game.Bot;
 
 import com.crazy_putting.game.GameLogic.CourseManager;
-import com.crazy_putting.game.GameObjects.Course;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +12,7 @@ public class Map<T extends AbstractNode> {
     protected int width;
     protected int length;
     //Goal node coordinates
-    private final int GOAL_X = (int)CourseManager.getGoalStartPosition().x, GOAL_Y = (int)CourseManager.getGoalStartPosition().y;
+    private final int GOAL_X = (int)CourseManager.getGoalStartPosition(0).x, GOAL_Y = (int)CourseManager.getGoalStartPosition(0).y;
     private final int GOAL_NODE_X = GOAL_X + 1000, GOAL_NODE_Y = GOAL_Y + 1000;
     private final float GOAL_RADIUS = CourseManager.getActiveCourse().getGoalRadius();
 

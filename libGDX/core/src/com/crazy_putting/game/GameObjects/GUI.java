@@ -129,7 +129,7 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         String[] boxItems = new String[_gameManager.getAmountPlayers()];
         for (int i =0; i < _gameManager.getAmountPlayers(); i++)
         {
-            boxItems[i] = "Player "+ i;
+            boxItems[i] = "Player "+ (i+1);
         }
         playerSelectBox.setItems(boxItems);
 
@@ -274,6 +274,9 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
     public boolean isAddObjectsActive()
     {
         return _addObjects.isChecked();
+    }
+    public int getActiveBall(){
+        return playerSelectBox.getSelectedIndex();
     }
     public boolean isEraseObjectsActive(){ return  _eraseObject.isChecked();}
 }
