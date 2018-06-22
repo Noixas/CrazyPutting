@@ -119,7 +119,9 @@ public class GameManager {
         middle.y = middle.y/nPlayers;
         middle.z = middle.z/nPlayers;
         for(int i = 0; i<nPlayers;i++){
-            allBalls[i].setPosition(new Vector3(middle).add(new Vector3(middle).sub(allBalls[i].getPosition()).nor().scl(allowedDistance/2)));
+            allBalls[i].destroy();
+            allBalls[i] = new Ball(new Vector3(middle).add(new Vector3(middle).sub(allBalls[i].getPosition()).nor().scl(allowedDistance/2)));
+
         }
     }
     public void update(float pDelta){
