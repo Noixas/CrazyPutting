@@ -133,15 +133,17 @@ public class GameManager {
         }
     }
     public void update(float pDelta){
-        System.out.println("Position "+_ball.getPosition().x+" "+_ball.getPosition().y);
         if(pDelta > 0.03){
             pDelta = 0.00166f;
         }
         if(mazeVelocities.size()==0){
+
             handleInput(_game.input);
         }
         else{
+            System.out.println("Maze velocities");
             if(!_ball.isMoving()){
+                System.out.println("Ball starts maze move");
                 _ball.setVelocity(mazeVelocities.get(0));
                 _ball.fix(false);
                 mazeVelocities.remove(0);
@@ -188,6 +190,7 @@ public class GameManager {
     public void handleInput(InputData input){
         // later on it should be if speed of the ball is zero (ball is not moving, then input data)
         if(_mode == 1) {
+
             if (Gdx.input.isKeyJustPressed(Input.Keys.G) && !_ball.isMoving()){
                 System.out.println(_ball.getPosition().x + "  " + _ball.getPosition().y);
                 GeneticAlgorithm GA = new GeneticAlgorithm(_hole, CourseManager.getActiveCourse(),CourseManager.getStartPosition(0));
@@ -198,6 +201,7 @@ public class GameManager {
                 _ball.fix(false);
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !_ball.isMoving()) {
+                MazeBot mazeBot = new MazeBot(_ball,_hole,CourseManager.getActiveCourse());
                 //CourseManager.reWriteCourse();//TODO: CHECK WHY THIS IS HERE
                 Gdx.input.getTextInput(input, "Input data", "", "Input speed and direction separated with space");
             }
