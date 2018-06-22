@@ -94,9 +94,9 @@ public class CourseManager {
         if(_cacheFileName == null) return; //If we havent cache a filename then we should not proceed
         Parser.writeCourseList(_cacheFileName ,_courseList);
     }
-    public  static Vector3 getStartPosition()
+    public  static Vector3 getStartPosition(int pPlayer)
     {
-        Vector3 pos = _activeCourse.getStartBall();
+        Vector3 pos = _activeCourse.getStartBall(pPlayer);
         pos.z = calculateHeight(pos.x, pos.y);
         return pos;
     }
@@ -121,8 +121,20 @@ public class CourseManager {
     }
 
         try{
-        if(_activeCourse.checkObstaclesAt(new Vector3(x,y,0)))return -10;
+        if(_activeCourse.checkObstaclesAt(new Vector3(x,y,0))){
+            System.out.println("Boom");
+            return -10;
+        }
             if(_spline != null){//Spline mode Height
+                if(!(y<1000&&y>-1000)){
+                    try{
+                        throw new Exception();
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    System.out.println("Out 1");
+                }
                return _spline.getHeightAt(new Vector2(x, y));
             }else {//Formula function
                 if (expr == null) {
@@ -148,9 +160,9 @@ public class CourseManager {
     public static void addObstacle(GameObject pObstacle){
         _activeCourse.addObstacleToList(pObstacle);
     }
-    public static Vector3 getGoalStartPosition()
+    public static Vector3 getGoalStartPosition(int pPlayer)
     {
-        Vector3 pos = _activeCourse.getGoalPosition();
+        Vector3 pos = _activeCourse.getGoalPosition(pPlayer);
         pos.z = calculateHeight(pos.x, pos.y);
         return pos;
     }

@@ -126,6 +126,7 @@ public class BiCubicSpline {
             if(spline.getRec().contains(pPos))
                 return getHeightAt(pPos,spline);
         }
+        System.out.println("Out x "+pPos.x+" "+pPos.y);
         return -10;
 
     }

@@ -163,9 +163,9 @@ public class CourseCreatorScreen implements Screen {
                 newCourse.setHeight(heightText.getText());
                 newCourse.setFriction(Float.parseFloat(frictionText.getText()));
                 Vector3 ball_start_position = new Vector3(Float.parseFloat(startTextX.getText()), Float.parseFloat(startTextY.getText()),0);
-                newCourse.setBallStartPos(ball_start_position);
+                newCourse.setBallStartPos(ball_start_position,0);
                 Vector3 goalStartPosition = new Vector3(Float.parseFloat(goalTextX.getText()), Float.parseFloat(goalTextY.getText()),0);
-                newCourse.setGoalPosition(goalStartPosition);
+                newCourse.setGoalPosition(goalStartPosition,0);
                 newCourse.setGoalRadius(Float.parseFloat(radiusText.getText()));
                 newCourse.setMaxSpeed(Float.parseFloat(maxVelocityText.getText()));
                 if(!isBallOrGoalUnderWater(ball_start_position, goalStartPosition)) {

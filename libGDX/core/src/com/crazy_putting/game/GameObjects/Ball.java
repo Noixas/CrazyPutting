@@ -1,6 +1,7 @@
 package com.crazy_putting.game.GameObjects;
 
 import com.badlogic.gdx.math.Vector3;
+import com.crazy_putting.game.Components.Colliders.SphereCollider;
 import com.crazy_putting.game.Others.Velocity;
 import com.crazy_putting.game.Physics.Physics;
 
@@ -161,6 +162,10 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
         newBall.previousPosition = new Vector3(previousPosition);
         newBall._position = _position;
         newBall.setPositionXYZ(getPosition().x,getPosition().y);
+        if(getColliderComponent()!=null){
+            SphereCollider sp = new SphereCollider(newBall.getPosition(), 20);
+            newBall.addColliderComponent(sp);
+        }
         newBall.velocity = new Velocity();
         newBall.velocity.speed = velocity.speed;
         newBall.velocity.angle = velocity.angle;

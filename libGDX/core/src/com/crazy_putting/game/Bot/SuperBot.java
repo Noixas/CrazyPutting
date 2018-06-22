@@ -2,11 +2,13 @@ package com.crazy_putting.game.Bot;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
+import com.crazy_putting.game.Components.Colliders.SphereCollider;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.Others.Velocity;
 import com.crazy_putting.game.Physics.Physics;
+import javafx.scene.shape.Sphere;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -33,6 +35,8 @@ public class SuperBot {
         this.course = course;
         this.initial_Position = initial_position;
         this.bestBall = new Ball();
+        SphereCollider sp = new SphereCollider(bestBall.getPosition(),20);
+        bestBall.addColliderComponent(sp);
     }
 
     public void simulateShot(Ball b){
@@ -102,6 +106,7 @@ public class SuperBot {
         return (int) Math.sqrt(xDist + yDist + zDist);
     }
 
+    // TODO everywhere where you create a new ball you need to add a collider to it
     public void startSimplex(ArrayList<Ball> initialBalls){
         Gdx.app.log("Start","Simplex");
         ArrayList<Ball> balls = new ArrayList<Ball>();
