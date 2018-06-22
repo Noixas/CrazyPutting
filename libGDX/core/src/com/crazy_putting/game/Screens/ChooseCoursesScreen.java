@@ -205,7 +205,7 @@ public class ChooseCoursesScreen implements Screen{
             //next set the max and min amount to be checked
             buttonGroupSimultaneous.setMaxCheckCount(1);
             buttonGroupSimultaneous.setMinCheckCount(1);
-            buttonGroupSimultaneous.setChecked("Simultaneous");
+            buttonGroupSimultaneous.setChecked("One by one");
 
             table.row();
             table.add(allowedDistanceLabel).align(Align.left);
