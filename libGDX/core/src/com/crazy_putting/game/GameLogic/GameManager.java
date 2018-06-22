@@ -153,6 +153,9 @@ public class GameManager {
             Physics.physics.update(pDelta);
         CollisionManager.update();
         updateGameLogic(pDelta);
+        if(Gdx.input.isKeyPressed(Input.Keys.L)){
+            System.out.println("Ball POS" + allBalls[0]);
+        }
         if (_mode == 4)
             multiPlayerUpdate(pDelta);
     }

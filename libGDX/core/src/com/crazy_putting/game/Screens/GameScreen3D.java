@@ -36,6 +36,8 @@ public class GameScreen3D extends InputAdapter implements Screen {
         private InputMultiplexer _inputMain;
         private int _mode;
         private CameraInputController _camController;
+        private float _speedCache;
+        private boolean _speedPressing = false;
     public GameScreen3D(GolfGame pGame, int pMode) {
         _mode = pMode;
         this._game = pGame;
@@ -91,9 +93,27 @@ public class GameScreen3D extends InputAdapter implements Screen {
               _inputMain.removeProcessor(_terrainEditor);
 
        }
+    @Override
+    public boolean touchDown (int screenX, int screenY, int pointer, int button) {
+        _speedCache=0;
+        _speedPressing = true;
+    /*    System.out.println("Ball Pos "+ _gameManager.getPlayer(_gameManager.getActivePlayerIndex()).getPosition());
+        GameObject arrow = new GameObject((new Vector3(_gameManager.getPlayer(_gameManager.getActivePlayerIndex()).getPosition())));
+        System.out.println("ARROW POS "+arrow.getPosition());
+        ArrowGraphics3DComponent g = new ArrowGraphics3DComponent(new Vector3(_gameManager.getPlayer(_gameManager.getActivePlayerIndex()).getPosition()),_terrainEditor.getObject(screenX,screenY), Color.GOLD);
+        arrow.addGraphicComponent(g);*/
+        return false;
+    }
 
+    @Override
+    public boolean touchUp (int screenX, int screenY, int pointer, int button) {
+        System.out.println("Pressed speed "+_speedCache);
+        _speedPressing =false;
+          return false;
+    }
         @Override
         public void render(float delta) {
+        if(_speedPressing)_speedCache++;
             retrieveGUIState();
             _camController.update();//Input
             _gameManager.update(delta);//Logic
