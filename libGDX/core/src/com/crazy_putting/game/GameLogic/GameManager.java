@@ -119,7 +119,7 @@ public class GameManager {
             }
         }
         if (_mode == 4 && !MultiplayerSettings.Simultaneous)
-            Physics.physics.updateSpesificBall(_player, pDelta);
+            Physics.physics.updateObject(_ball, pDelta);
         else
             Physics.physics.update(pDelta);
         CollisionManager.update();
@@ -223,11 +223,12 @@ public class GameManager {
             }
         }
         else if(_mode == 4 && !MultiplayerSettings.Simultaneous) {
+            changePlayer();
             _ball = allBalls[_player];
             _hole = allHoles[_player];
-            if (!isBallInTheHole(_ball, _hole)) {
                 if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !anyBallIsMoving()) {
-                    Gdx.input.getTextInput(input, "Input data", "", "For player " + (_player + 1) + ": input speed and direction separated with space");
+                    if (!isBallInTheHole(_ball, _hole))
+                        Gdx.input.getTextInput(input, "Input data", "", "For player " + (_player + 1) + ": input speed and direction separated with space");
                 }
                 if (input.getText() != null) {
                     try {
@@ -239,10 +240,6 @@ public class GameManager {
                         input.clearText();//important to clear text or it will overwrite every frame
                         copyPreviousPosition();
                         checkConstrainsAndSetVelocity(allInput);
-                        if (_player+1 == nPlayers)
-                            _player = 0;
-                        else
-                            _player++;
                     } catch (NumberFormatException e) {
                         // later on this will be added on the game screen so that it wasn't printed multiple times
                         // after doing this change, delete printing stack trace
@@ -250,7 +247,6 @@ public class GameManager {
                         e.getStackTrace();
                     }
                 }
-            }
         }
         else if(_mode == 4 && MultiplayerSettings.Simultaneous) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !anyBallIsMoving()) {
@@ -477,6 +473,13 @@ public class GameManager {
             }
         }
         return true;
+    }
+
+    public void changePlayer(){
+        if (_player+1 == nPlayers)
+            _player = 0;
+        else
+            _player++;
     }
 
 }

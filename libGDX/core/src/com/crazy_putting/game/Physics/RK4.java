@@ -22,7 +22,6 @@ public class RK4 extends Physics{
         }
     }
 
-
     public void updateObject(PhysicsGameObject obj, double dt){
         // System.out.println("here");
         if(obj.isFixed()) return;
