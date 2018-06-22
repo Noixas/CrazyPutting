@@ -16,9 +16,6 @@ public class BoxCollider extends ColliderComponent{
     public Vector3 getDimensions(){
         return this.dimensions;
     }
-
-
-
     public Vector3 getHalfSizes(){
         return this.halfSizes;
     }

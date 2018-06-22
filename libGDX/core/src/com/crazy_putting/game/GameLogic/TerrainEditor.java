@@ -108,32 +108,36 @@ public class TerrainEditor extends InputAdapter {
     }*/
     @Override
     public boolean touchDown (int screenX, int screenY, int pointer, int button) {
-        System.out.println("Object");
-       if(_splineEdit) {
-           _dragging = false;
-           _draggingPoint = intersectSplinePoint(screenX,screenY);
-           _buttonDownCoord.set(screenX,screenY);
-          if(_draggingPoint != null) {
-             Graphics3DComponent gp = (Graphics3DComponent)_draggingPoint.getGraphicComponent();
-             gp.setColor(Color.FIREBRICK);
-             return true;
-          }
-       }else if(_changeBall){
+        if(_splineEdit) {
+            _dragging = false;
+            _draggingPoint = intersectSplinePoint(screenX,screenY);
+            _buttonDownCoord.set(screenX,screenY);
+            if(_draggingPoint != null) {
+                Graphics3DComponent gp = (Graphics3DComponent)_draggingPoint.getGraphicComponent();
+                gp.setColor(Color.FIREBRICK);
+                return true;
+            }
+        }
+      return false;
+    }
+    private boolean touchDownLogicMovedToTouchUp(int screenX, int screenY, int pointer, int button){
+       // System.out.println("Object");
+        if(_changeBall){
             Vector3 pos = getObject(screenX,screenY);
             changeBallPos(pos);
-       }
-       else if(_changeHole){
-           Vector3 pos = getObject(screenX,screenY);
-           changeHolePos(pos);
-       }
-       else if(_addObjects){
+        }
+        else if(_changeHole){
+            Vector3 pos = getObject(screenX,screenY);
+            changeHolePos(pos);
+        }
+        else if(_addObjects){
 
-           Vector3 pos = getObject(screenX,screenY);
-           addBox(pos);
-       }else if(_eraseObject){
-           eraseObject(screenX,screenY);
+            Vector3 pos = getObject(screenX,screenY);
+            addBox(pos);
+        }else if(_eraseObject){
+            eraseObject(screenX,screenY);
 
-       }
+        }
         return _selecting >= 0;
     }
     public boolean isDragging(){
@@ -256,6 +260,9 @@ public class TerrainEditor extends InputAdapter {
 
     @Override
     public boolean touchUp (int screenX, int screenY, int pointer, int button) {
+       // System.out.println("UP");
+        //Gdx.input.setInputProcessor(this); debug line
+        touchDownLogicMovedToTouchUp( screenX,  screenY,  pointer,  button);
         if(_splineEdit == false) return false;
         if(_dragging){
                 Graphics3DComponent gp = (Graphics3DComponent)_draggingPoint.getGraphicComponent();
@@ -268,7 +275,7 @@ public class TerrainEditor extends InputAdapter {
     }
     public Vector3 getObject (int screenX, int screenY) {
         Ray ray = _cam3D.getPickRay(screenX, screenY,0,0, _cam3D.viewportWidth,_cam3D.viewportHeight);//TODO:Get the WindowsWidth -300 from a constant variable somewhere in graphics, dont hardcode
-        System.out.println("Ray created");
+     //   System.out.println("Ray created");
         Vector3 position = new Vector3();
         _terrainInstance.transform.getTranslation(position);
 
@@ -279,7 +286,7 @@ public class TerrainEditor extends InputAdapter {
             return intersectPos;
         }
         else{
-            System.out.println("No intersect");
+    //        System.out.println("No intersect");
         }
 
         return null;
