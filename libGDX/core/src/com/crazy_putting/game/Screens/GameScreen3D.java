@@ -85,7 +85,6 @@ public class GameScreen3D extends InputAdapter implements Screen {
             boolean addObject = _gui.isAddObjectsActive();
             boolean eraseObject = _gui.isEraseObjectsActive();
             _terrainEditor.updateGUIState(stateSpline,changeBall,changeHole,addObject, eraseObject);
-            System.out.println(_inputMain.getProcessors().size);
             if((stateSpline ||changeBall||changeHole||addObject ||eraseObject)&& !_inputMain.getProcessors().contains(_terrainEditor,true)) {
                      _inputMain.addProcessor(0, _terrainEditor);
           }else if(!(stateSpline ||changeBall||changeHole||addObject ||eraseObject)&& _inputMain.getProcessors().contains(_terrainEditor,true))
