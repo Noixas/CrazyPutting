@@ -176,6 +176,7 @@ public class TerrainEditor extends InputAdapter {
             if(Intersector.intersectRayBoundsFast(ray,pos,col.getDimensions())){
                 obj.enabled = false;
                 obstacles.remove(col);
+                CourseManager.getActiveCourse().deleteObstacle(obj);
                 CollisionManager.deleteCollider(col);
                 return;
             }

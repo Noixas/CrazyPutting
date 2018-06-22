@@ -48,7 +48,7 @@ public class Bot extends SuperBot{
         int goalY = Math.round(CourseManager.getGoalStartPosition(0).y);
 
         Map<Node> nodeMap = new Map<Node>(2000, 2000, new ExampleFactory());
-        ArrayList<Node> path = (ArrayList<Node>)nodeMap.findPath(startX, startY, goalX, goalY); //Find path between StartNode and GoalNode
+        ArrayList<Node> path = (ArrayList<Node>)nodeMap.findPath(startX, startY); //Find path between StartNode and GoalNode
         /*PRINTING THE PATH FOUND*/
         System.out.println("START");
 //                startX -=1000;
