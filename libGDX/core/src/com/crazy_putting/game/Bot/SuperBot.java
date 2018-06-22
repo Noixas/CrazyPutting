@@ -8,8 +8,6 @@ import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.Others.Velocity;
 import com.crazy_putting.game.Physics.Physics;
-import javafx.scene.shape.Sphere;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;

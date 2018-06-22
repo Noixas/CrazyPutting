@@ -15,13 +15,7 @@ Ball Start Pos: 833.6482 561.93726
 Ball Start Pos: 475.53864 638.1942
 Max Speed: 502.0
 Spline Points: 6 6 -32.0  46.0  87.0  70.0  73.0  94.0  -11.0  41.0  16.0  57.0  0.0  96.0  -20.0  0.0  19.0  0.0  102.0  103.0  0.0  -20.0  -6.0  113.0  152.0  0.0  0.0  129.0  -12.0  121.0  180.0  0.0  0.0  0.0  -24.0  -52.0  -37.0  -28.0  
-Obstacles: 2
-Collider type: 2
-Position: 221.70496 516.8304 147.85852 
-Dimensions: 100.0 100.0 100.0 
-Collider type: 2
-Position: 390.3922 357.49472 133.27527 
-Dimensions: 100.0 100.0 100.0 
+Obstacles: 0
 Course End
 COURSE:
 ID: 1
@@ -46,7 +40,7 @@ ID: 2
 Name: Course without name D:
 Height: 0.0003*x^2+0.004*y
 Friction: 0.5
-Goal Pos: -563.45667 638.44
+Goal Pos: 380.76086 -756.6032
 Goal Pos: -563.45667 638.44
 Goal Pos: -563.45667 638.44
 Goal Pos: -563.45667 638.44
@@ -57,7 +51,13 @@ Ball Start Pos: 596.52094 -643.2977
 Ball Start Pos: 596.52094 -643.2977
 Max Speed: 200.0
 Spline Points: 6 6 -78.0  -12.0  -40.0  50.0  428.0  509.0  -17.0  -36.0  -3.0  384.0  248.0  467.0  0.0  39.0  0.0  0.0  373.0  304.0  186.0  149.0  233.0  0.0  0.0  -33.0  149.0  152.0  169.0  0.0  -83.0  -28.0  74.0  100.0  0.0  0.0  -105.0  -30.0  
-Obstacles: 0
+Obstacles: 2
+Collider type: 2
+Position: 480.22113 -653.58795 151.63074 
+Dimensions: 100.0 100.0 100.0 
+Collider type: 2
+Position: 538.12476 -715.1239 151.7201 
+Dimensions: 100.0 100.0 100.0 
 Course End
 COURSE:
 ID: 3

@@ -126,15 +126,6 @@ public class CourseManager {
             return -10;
         }
             if(_spline != null){//Spline mode Height
-                if(!(y<1000&&y>-1000)){
-                    try{
-                        throw new Exception();
-                    }
-                    catch (Exception e){
-                        e.printStackTrace();
-                    }
-                    System.out.println("Out 1");
-                }
                return _spline.getHeightAt(new Vector2(x, y));
             }else {//Formula function
                 if (expr == null) {

@@ -44,11 +44,10 @@ public class Bot extends SuperBot{
         Gdx.app.log("Log",lineGoal.getA()+" "+lineGoal.getB());
         int startX = Math.round(CourseManager.getStartPosition(0).x);
         int startY = Math.round(CourseManager.getStartPosition(0).y);
-        int goalX = Math.round(CourseManager.getGoalStartPosition(0).x);
-        int goalY = Math.round(CourseManager.getGoalStartPosition(0).y);
+
 
         Map<Node> nodeMap = new Map<Node>(2000, 2000, new ExampleFactory());
-        ArrayList<Node> path = (ArrayList<Node>)nodeMap.findPath(startX, startY, goalX, goalY); //Find path between StartNode and GoalNode
+        ArrayList<Node> path = (ArrayList<Node>)nodeMap.findPath(startX, startY); //Find path between StartNode and GoalNode
         /*PRINTING THE PATH FOUND*/
         System.out.println("START");
 //                startX -=1000;

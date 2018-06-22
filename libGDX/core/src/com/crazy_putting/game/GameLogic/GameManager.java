@@ -240,6 +240,7 @@ public class GameManager {
             if (Gdx.input.isKeyJustPressed(Input.Keys.G) && !_ball.isMoving()){
                 // TODO
                 MazeBot mazeBot = new MazeBot(_ball,_hole,CourseManager.getActiveCourse());
+                System.out.println("mazebot initialized");
                 mazeVelocities = mazeBot.findSolution();
             }
         }
