@@ -17,14 +17,18 @@ public class Course {
     private String _name;
     private String _height;
     private float _friction; //friction coefficient
-    private Vector3 _goalPosition;
+    private Vector3[] _goalPosition;
     private float _goalRadius;
-    private  Vector3 _startBall;
+    private  Vector3[] _startBall;
     private float _maxSpeed;
     private float[][] _splinePoints = new float[6][6];
     private List<GameObject> _obstacles = new ArrayList<GameObject>();
     private List<ObstacleData> cacheDataList = new ArrayList<ObstacleData>();
 
+    public Course(){
+        _goalPosition = new Vector3[4];
+        _startBall = new Vector3[4];
+    }
     public void setID(int pID)
     {
         _ID = pID;
@@ -58,13 +62,15 @@ public class Course {
         return _friction;
     }
 
-    public void setGoalPosition(Vector3 pPos)
+    public void setGoalPosition(Vector3 pPos, int pIndex)
     {
-        _goalPosition = pPos;
+        if(pIndex>=_goalPosition.length)throw new ArrayIndexOutOfBoundsException();
+        _goalPosition[pIndex] = pPos;
     }
 
-    public Vector3 getGoalPosition() {
-        return _goalPosition;
+    public Vector3 getGoalPosition( int pIndex) {
+        if(pIndex>=_goalPosition.length)throw new ArrayIndexOutOfBoundsException();
+        return _goalPosition[pIndex];
     }
 
     public void setGoalRadius(float pGoalRadius)
@@ -76,20 +82,21 @@ public class Course {
         return _goalRadius;
     }
 
-    public void setBallStartPos(Vector3 pPos)
+    public void setBallStartPos(Vector3 pPos, int pIndex)
     {
-        _startBall = pPos;
+        if(pIndex>=_goalPosition.length)throw new ArrayIndexOutOfBoundsException();
+        _startBall[pIndex] = pPos;
     }
 
-    public Vector3 getStartBall() {
-        return new Vector3(_startBall);
+    public Vector3 getStartBall( int pIndex) {
+        if(pIndex>=_startBall.length)throw new ArrayIndexOutOfBoundsException();
+        return new Vector3(_startBall[pIndex]);
     }
 
     public void setMaxSpeed(float pMax)
     {
         _maxSpeed = pMax;
     }
-
     public float[][] getSplinePoints(){
         return _splinePoints;
     }
@@ -149,9 +156,15 @@ createObstacle();
         out += ("\nName: ") + getName();
         out += ("\nHeight: " ) + getHeight();
         out += ("\nFriction: ") + getFriction();
-        out += ("\nGoal Pos: ") + getGoalPosition();
+        out += ("\nGoal Pos: ") + getGoalPosition(0);
+        out += ("\nGoal Pos: ") + getGoalPosition(1);
+        out += ("\nGoal Pos: ") + getGoalPosition(2);
+        out += ("\nGoal Pos: ") + getGoalPosition(3);
         out += ("\nGoal Radius: ") + getGoalRadius();
-        out += ("\nBall Start Pos: ") + getStartBall();
+        out += ("\nBall Start Pos: ") + getStartBall(0);
+        out += ("\nBall Start Pos: ") + getStartBall(1);
+        out += ("\nBall Start Pos: ") + getStartBall(2);
+        out += ("\nBall Start Pos: ") + getStartBall(3);
         out += ("\nMax Speed: ") + getMaxSpeed();
         out += ("\nSpline Points: ") + toStringSplinePoints();
         out += getObstaclesString();

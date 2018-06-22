@@ -2,6 +2,7 @@ package com.crazy_putting.game.Bot;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
+import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameLogic.GameManager;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Course;
@@ -41,71 +42,24 @@ public class Bot extends SuperBot{
         Gdx.app.log("Log",lineStartGoal.getA()+" "+lineStartGoal.getB());
         this.lineGoal = lineGoal(lineStartGoal);
         Gdx.app.log("Log",lineGoal.getA()+" "+lineGoal.getB());
+        int startX = Math.round(CourseManager.getStartPosition(0).x);
+        int startY = Math.round(CourseManager.getStartPosition(0).y);
+        int goalX = Math.round(CourseManager.getGoalStartPosition(0).x);
+        int goalY = Math.round(CourseManager.getGoalStartPosition(0).y);
 
-//        int startX = (int)CourseManager.getStartPosition().x;
-//        int startY = (int)CourseManager.getStartPosition().y;
-//        int goalX = (int)CourseManager.getGoalStartPosition().x;
-//        int goalY = (int)CourseManager.getGoalStartPosition().y;
-//        int xAbsDiff = Math.abs(startX-goalX);
-//        int yAbsDiff = Math.abs(startY-goalY);
-//        //System.out.println("X DIFFERENCE: " + xAbsDiff + " Y DIFFERENCE: " + yAbsDiff);
-//
-//        Map<Node> nodeMap = new Map<Node>(xAbsDiff + 1, yAbsDiff + 1, new ExampleFactory());
-//
-//
-//        if(startX > goalX) {
-//            if(startY > goalY){
-//                path = (ArrayList<Node>)nodeMap.findPath( xAbsDiff , yAbsDiff , 0, 0); // START X > GOAL X          START Y > GOAL Y
-//            }
-//            else path = (ArrayList<Node>)nodeMap.findPath(xAbsDiff , 0, 0, yAbsDiff ); // START X > GOAL X           START Y < GOAL Y
-//        }
-//        else if(startY < goalY){
-//            path = (ArrayList<Node>)nodeMap.findPath(0, 0, xAbsDiff , yAbsDiff );      // START X < GOAL X            START Y < GOAL Y
-//        }
-//        else
-//            path = (ArrayList<Node>)nodeMap.findPath(0, yAbsDiff , xAbsDiff , 0);     // START X < GOAL X            START Y > GOAL Y
-//
-//        System.out.println("START");
-//        System.out.print(" (" + startX + ", " + startY + ") -> ");
-//        for (int i = 0; i < path.size(); i++) {
-//            int nodeCoordinateX = path.get(i).getxPosition();
-//            int nodeCoordinateY = path.get(i).getyPosition();
-//
-//            if(startX > goalX) {
-//                // START X > GOAL X
-//                // START Y > GOAL Y
-//                if(startY > goalY){
-//                    nodeCoordinateX += goalX;
-//                    nodeCoordinateY += goalY;
-//
-//                }
-//                // START X > GOAL X
-//                // START Y < GOAL Y
-//                else {
-//                    nodeCoordinateX += goalX;
-//                    nodeCoordinateY += startY;
-//                }
-//            }
-//            // START X < GOAL X
-//            // START Y < GOAL Y
-//            else if(startY < goalY){
-//                nodeCoordinateX += startX;
-//                nodeCoordinateY += startY;
-//            }
-//            // START X < GOAL X
-//            // START Y > GOAL Y
-//            else {
-//                nodeCoordinateX += startX;
-//                nodeCoordinateY += goalY;
-//            }
-//            path.get(i).setCoordinates(nodeCoordinateX, nodeCoordinateY);
-//            if(i!=path.size()-1) System.out.print("(" + path.get(i).getxPosition() + ", " + path.get(i).getyPosition() + ") -> ");
-//            else System.out.println("(" + path.get(i).getxPosition() + ", " + path.get(i).getyPosition() + ")");
-//
-//
-//        }
+        Map<Node> nodeMap = new Map<Node>(2000, 2000, new ExampleFactory());
+        ArrayList<Node> path = (ArrayList<Node>)nodeMap.findPath(startX, startY, goalX, goalY); //Find path between StartNode and GoalNode
+        /*PRINTING THE PATH FOUND*/
+        System.out.println("START");
+//                startX -=1000;
+//                startY -=1000;
+        System.out.print(" (" + startX  + ", " + startY  + ") -> ");
+        for (int i = 0; i < path.size(); i++) {
+            if(i!=path.size() - 1) System.out.print("(" + path.get(i).getxCoordinate() + ", " + path.get(i).getyCoordinate() + ") -> ");
+            else System.out.println("(" + path.get(i).getxCoordinate() + ", " + path.get(i).getyCoordinate() + ") ");
+        }
 //        System.out.println("DONE");
-
+        /*PRINTING THE PATH FOUND*/
 
     }
 
@@ -450,7 +404,7 @@ public class Bot extends SuperBot{
     public Node equivalentNodeX(Vector3 position, ArrayList<Node> path){
         Node node = new Node(0,0);
         for(int i=0;i<path.size();i++){
-            if(path.get(i).getxPosition()==position.x){
+            if(path.get(i).getxCoordinate()==position.x){
                 node = path.get(i);
             }
         }
@@ -459,7 +413,7 @@ public class Bot extends SuperBot{
     
 
     public State ballPathPosition(){
-        if(ball.getPosition().y>equivalentNodeX(ball.getPosition(), path).getyPosition()){
+        if(ball.getPosition().y>equivalentNodeX(ball.getPosition(), path).getyCoordinate()){
             return State.ABOVE_PATH;
         }
         else{
@@ -471,7 +425,7 @@ public class Bot extends SuperBot{
      * Checks if the ball is on the left or right side of the start-goal line
      */
     public State leftRightPath(){
-        if(initial_Position.x<equivalentNodeX(ball.getPosition(), path).getxPosition()){
+        if(initial_Position.x<equivalentNodeX(ball.getPosition(), path).getxCoordinate()){
             if(ballPathPosition()==State.ABOVE_PATH){
                 return State.LEFT_PATH;
             }
