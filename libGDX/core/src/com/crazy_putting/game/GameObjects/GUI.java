@@ -220,6 +220,7 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
            _indexActivePlayerGameManager = playerIndexManager;
            _activaBall = _gameManager.getBall();
            updatePlayerActive();
+           playerSelectBox.setSelectedIndex(_indexActivePlayerGameManager);
        }
     }
     public InputProcessor getUIInputProcessor()
