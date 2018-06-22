@@ -121,7 +121,7 @@ public class GameManager {
         Vector3 pos;
         float distScale =1;
         for(int i = 0; i<nPlayers;i++){
-            distScale= 1.0f/nPlayers;
+            distScale= 1.0f/(nPlayers*2);
             do {
                 allBalls[i].destroy();
 
@@ -258,11 +258,10 @@ public class GameManager {
         }
         else if(_mode == 4 && !MultiplayerSettings.Simultaneous) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !anyBallIsMoving()) {
-                if (!isBallInTheHole(_ball, _hole))
-                    Gdx.input.getTextInput(input, "Input data", "", "For player " + (_player + 1) + ": input speed and direction separated with space");
-                changePlayer();
                 _ball = allBalls[_player];
                 _hole = allHoles[_player];
+                if (!isBallInTheHole(_ball, _hole))
+                    Gdx.input.getTextInput(input, "Input data", "", "For player " + (_player + 1) + ": input speed and direction separated with space");
             }
             if (input.getText() != null) {
                 try {
@@ -274,6 +273,7 @@ public class GameManager {
                         input.clearText();//important to clear text or it will overwrite every frame
                         copyPreviousPosition();
                         checkConstrainsAndSetVelocity(allInput);
+                    changePlayer();
                 } catch (NumberFormatException e) {
                         // later on this will be added on the game screen so that it wasn't printed multiple times
                         // after doing this change, delete printing stack trace
@@ -407,8 +407,8 @@ public class GameManager {
     public void updateHolePos(Vector3 pos, int pPlayer){
         Vector3 cache = allHoles[pPlayer].getPosition();
         allHoles[pPlayer].setPosition(pos);
-        if(checkDistances(allHoles)==false)
-            allHoles[pPlayer].setPosition(cache);
+      //  if(checkDistances(allHoles)==false)
+        //    allHoles[pPlayer].setPosition(cache);
     }
 
     /////////////////////////////////////////////////////////////////////
@@ -419,11 +419,13 @@ public class GameManager {
         return _player;
     }
     public boolean checkDistances(GameObject[] balls){
-        //TODO: can improve the update depends if simultaneous or not
         if (nPlayers==1)
             return true;
-        for (int i=0; i<nPlayers; i++){
-            for (int j=0; j<nPlayers; j++) {
+        int maxUpdate; // update the distance only with the players before the current one
+        if (!MultiplayerSettings.Simultaneous) { maxUpdate = _player; }
+        else { maxUpdate = nPlayers; }
+        for (int i=0; i<maxUpdate; i++){
+            for (int j=0; j<maxUpdate; j++) {
                 double d = euclideanDistance(balls[i].getPosition(), balls[j].getPosition());
                 distancesMatrix[i][j] = d;
                 if (distancesMatrix[i][j] > allowedDistance && allBalls[i].enabled && allBalls[j].enabled) {
@@ -463,7 +465,6 @@ public class GameManager {
             returnToPreviousPosition();
             // TODO: display UI massage
         }
-        // TODO: exceeding depends on simultaneous or not
     }
 
     public void copyPreviousPosition(){

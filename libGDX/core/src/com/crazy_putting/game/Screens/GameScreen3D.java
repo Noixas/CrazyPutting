@@ -74,7 +74,7 @@ public class GameScreen3D extends InputAdapter implements Screen {
     }
     private void initInput(){
         _inputMain = new InputMultiplexer(this);
-        _inputMain.addProcessor(_gui.getUIInputProcessor());
+       _inputMain.addProcessor(_gui.getUIInputProcessor());
         _inputMain.addProcessor(_camController);
         Gdx.input.setInputProcessor(_inputMain);
     }
@@ -86,9 +86,10 @@ public class GameScreen3D extends InputAdapter implements Screen {
             boolean eraseObject = _gui.isEraseObjectsActive();
             _terrainEditor.updateGUIState(stateSpline,changeBall,changeHole,addObject, eraseObject);
             if((stateSpline ||changeBall||changeHole||addObject ||eraseObject)&& !_inputMain.getProcessors().contains(_terrainEditor,true)) {
-                     _inputMain.addProcessor(1, _terrainEditor);
-          }else
+                     _inputMain.addProcessor(0, _terrainEditor);
+          }else if(!(stateSpline ||changeBall||changeHole||addObject ||eraseObject)&& _inputMain.getProcessors().contains(_terrainEditor,true))
               _inputMain.removeProcessor(_terrainEditor);
+
        }
 
         @Override

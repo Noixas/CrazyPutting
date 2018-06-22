@@ -18,7 +18,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.Others.MultiplayerSettings;
-import com.crazy_putting.game.Physics.Euler;
 
 import static com.crazy_putting.game.GameLogic.GraphicsManager.WINDOW_HEIGHT;
 import static com.crazy_putting.game.GameLogic.GraphicsManager.WINDOW_WIDTH;
@@ -205,7 +204,7 @@ public class ChooseCoursesScreen implements Screen{
             //next set the max and min amount to be checked
             buttonGroupSimultaneous.setMaxCheckCount(1);
             buttonGroupSimultaneous.setMinCheckCount(1);
-            buttonGroupSimultaneous.setChecked("Simultaneous");
+            buttonGroupSimultaneous.setChecked("One by one");
 
             table.row();
             table.add(allowedDistanceLabel).align(Align.left);

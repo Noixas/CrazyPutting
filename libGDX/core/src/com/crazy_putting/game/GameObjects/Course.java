@@ -28,6 +28,10 @@ public class Course {
     public Course(){
         _goalPosition = new Vector3[4];
         _startBall = new Vector3[4];
+        for(int i=0; i< 4 ; i++){
+            _goalPosition[i] = new Vector3();
+            _startBall[i] = new Vector3();
+        }
     }
     public void setID(int pID)
     {
@@ -203,6 +207,7 @@ createObstacle();
                 BoxCollider box = (BoxCollider)colliderComponent;
                 out.add("\nCollider type: 2");
                 out.add("\nPosition: "+ obstacle.getPosition().x +" " + obstacle.getPosition().y +" " + obstacle.getPosition().z +" " );
+                System.out.println("Box added with dimensions: x " + box.getDimensions().x + " y " + box.getDimensions() + " z " + box.getDimensions());
                 out.add("\nDimensions: "+box.getDimensions().x+" " + box.getDimensions().y +" " + box.getDimensions().z +" " );
             }
         }

@@ -112,13 +112,13 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         _widthObstacle = new Slider(20,400,10,false,skin);
         _deepObstacle = new Slider(20,400,10,false,skin);
         _heightObstacle = new Slider(20,400,10,false,skin);
-        _widthObstacle.setValue(75);
+        _widthObstacle.setValue(80);
         Label obstacleDim = new Label("Obstacle Dimensions:",skin);
-        _widthObstacleLabel = new Label("Width: 75",skin);
-        _deepObstacle.setValue(75);
-        _deepObstacleLabel = new Label("Deep: 75",skin);
-        _heightObstacle.setValue(75);
-        _heightObstacleLabel = new Label("Height: 75",skin);
+        _widthObstacleLabel = new Label("Width: 80",skin);
+        _deepObstacle.setValue(80);
+        _deepObstacleLabel = new Label("Deep: 80",skin);
+        _heightObstacle.setValue(80);
+        _heightObstacleLabel = new Label("Height: 80",skin);
 
 
         playerSelectBox = new SelectBox<String>(skin);
