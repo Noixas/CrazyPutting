@@ -210,7 +210,7 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         _activaBall = _gameManager.getPlayer(playerSelectBox.getSelectedIndex());
         Graphics3DComponent graphBall2 = (Graphics3DComponent)_activaBall.getGraphicComponent();
         graphBall2.setColor(Color.PURPLE);
-        System.out.println("test");
+ //       System.out.println("test");
     }
     public InputProcessor getUIInputProcessor()
     {

@@ -118,18 +118,15 @@ public class BiCubicSpline {
                 {0},{0},{0},{0}};
         return points;
     }
+    /*
+    If point is not in spline then return -10 as if it was water
+     */
     public float getHeightAt(Vector2 pPos){
         for(SplineInfo spline : _splineList){
             if(spline.getRec().contains(pPos))
                 return getHeightAt(pPos,spline);
         }
-//        try{
-//            throw new Exception();
-//        }
-//        catch (Exception e){
-//            e.printStackTrace();
-//        }
-        return Float.NaN;
+        return -10;
 
     }
     public float[][] getSplinePointsHeight(){

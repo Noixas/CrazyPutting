@@ -119,10 +119,11 @@ public class CourseManager {
         System.out.println("No course have being defined from a file, load a file first");
         return -1;
     }
+
         try{
         if(_activeCourse.checkObstaclesAt(new Vector3(x,y,0)))return -10;
             if(_spline != null){//Spline mode Height
-                return _spline.getHeightAt(new Vector2(x, y));
+               return _spline.getHeightAt(new Vector2(x, y));
             }else {//Formula function
                 if (expr == null) {
                     expr = parser.parse(_activeCourse.getHeight());

@@ -2,15 +2,12 @@ package com.crazy_putting.game.Bot;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
-import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.GameObjects.Hole;
 import com.crazy_putting.game.Others.Velocity;
 import com.crazy_putting.game.Physics.Physics;
 
-import javax.swing.text.Position;
-import java.awt.image.AreaAveragingScaleFilter;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,11 +38,11 @@ public class SuperBot {
     public void simulateShot(Ball b){
         int distance = 4000;
         b.setFitnessValue(distance);
+//        System.out.println("sim");
         int lastDistance = 0;
         boolean firstIteration = true;
         while ((!Physics.physics.isGoingToStop(b) && !b.isFixed())||firstIteration){
             // not sure if firstIteration needed
-
             firstIteration = false;
             if (b.isSlow()) {
                 distance = calcToHoleDistance(b);
