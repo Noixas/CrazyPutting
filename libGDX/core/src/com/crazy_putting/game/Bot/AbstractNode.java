@@ -2,48 +2,63 @@ package com.crazy_putting.game.Bot;
 
 public abstract class AbstractNode {
 
-    protected static final int BASICMOVEMENTCOST = 0;
-    protected static final int DIAGONALMOVEMENTCOST = 0;
+    private float BASICMOVEMENTCOST = 0;
 
-    private int xPosition;
-    private int yPosition;
+    private int xIndex;
+    private int yIndex;
+
     private boolean walkable;
+    private boolean goal;
+
+    private int xCoordinate;
+    private int yCoordinate;
 
     private AbstractNode previous;
-    private boolean diagonally;
     private int movementPenalty; ///optional
 
+    private float gCosts;
+    private float hCosts;
+    private float totalCost;
 
-    private int gCosts;
-    private int hCosts;
-
-
-    public AbstractNode(int xPosition, int yPosition) {
-        this.xPosition = xPosition;
-        this.yPosition = yPosition;
-        this.walkable = true;
+    public AbstractNode(int xIndex, int yIndex) {
+        this.xIndex = xIndex;
+        this.yIndex = yIndex;
+        this.walkable = false;
         this.movementPenalty = 0;
     }
 
-    public boolean isDiagonaly() {
-        return diagonally;
+    public void setBASICMOVEMENTCOST(float value){
+        this.BASICMOVEMENTCOST = value;
     }
 
-    public void setIsDiagonaly(boolean isDiagonaly) {
-        this.diagonally = isDiagonaly;
+    public float getBASICMOVEMENTCOST(){
+        return BASICMOVEMENTCOST;
+    }
+
+    public int getxCoordinate(){
+        return xCoordinate;
+    }
+
+    public int getyCoordinate(){
+        return yCoordinate;
     }
 
     public void setCoordinates(int x, int y) {
-        this.xPosition = x;
-        this.yPosition = y;
+        this.xCoordinate = x;
+        this.yCoordinate = y;
     }
 
-    public int getxPosition() {
-        return xPosition;
+    public void setIndeces(int x, int y) {
+        this.xIndex = x;
+        this.yIndex = y;
     }
 
-    public int getyPosition() {
-        return yPosition;
+    public int getxIndex() {
+        return xIndex;
+    }
+
+    public int getyIndex() {
+        return yIndex;
     }
 
     public boolean isWalkable() {
@@ -54,87 +69,91 @@ public abstract class AbstractNode {
         this.walkable = walkable;
     }
 
+    public boolean isGoal(){
+        return goal;
+    }
+
+    public void setGoal(boolean goal){
+        this.goal = goal;
+    }
+
     public AbstractNode getPrevious() {
         return previous;
     }
-
 
     public void setPrevious(AbstractNode previous) {
         this.previous = previous;
     }
 
-    public void setMovementPenalty(int movementPenalty) {
-        this.movementPenalty = movementPenalty;
-    }
+//    public void setMovementPenalty(int movementPenalty) {
+//        this.movementPenalty = movementPenalty;
+//    }
 
-    public int getfCosts() {
-        return gCosts + hCosts;
-    }
+//    public float getfCosts() {
+//        return gCosts + hCosts;
+//    }
 
-    public int getgCosts() {
+    public float getgCosts() {
         return gCosts;
     }
 
-    private void setgCosts(int gCosts) {
+    public void setgCosts(float gCosts) {
         this.gCosts = gCosts + movementPenalty;
     }
 
-    public void setgCosts(AbstractNode previousAbstractNode, int basicCost) {
+    public void setgCosts(AbstractNode previousAbstractNode, float basicCost) {
         setgCosts(previousAbstractNode.getgCosts() + basicCost);
     }
 
     public void setgCosts(AbstractNode previousAbstractNode) {
-        if (diagonally) {
-            setgCosts(previousAbstractNode, DIAGONALMOVEMENTCOST);
-        } else {
             setgCosts(previousAbstractNode, BASICMOVEMENTCOST);
-        }
     }
 
-    public int calculategCosts(AbstractNode previousAbstractNode) {
-
-        if (diagonally) {
-            return (previousAbstractNode.getgCosts()
-                    + DIAGONALMOVEMENTCOST + movementPenalty);
-        } else {
-            return (previousAbstractNode.getgCosts()
-                    + BASICMOVEMENTCOST + movementPenalty);
-        }
+    public float calculategCosts(AbstractNode previousAbstractNode) {
+            return (previousAbstractNode.getgCosts() + BASICMOVEMENTCOST + movementPenalty);
     }
 
-
-    public int calculategCosts(AbstractNode previousAbstractNode, int movementCost) {
+    public float calculategCosts(AbstractNode previousAbstractNode, int movementCost) {
         return (previousAbstractNode.getgCosts() + movementCost + movementPenalty);
     }
 
-    public int gethCosts() {
+    public float gethCosts() {
         return hCosts;
     }
 
+    public void calculatehCosts(float goalX, float goalY)
+    {
+        int currentX, currentY;
+        currentX = this.xIndex;
+        currentY = this.yIndex;
+        sethCosts(5 * (float) Math.sqrt(Math.pow(currentX - goalX , 2) + Math.pow(currentY - goalY , 2) ) );
+    }
 
-    protected void setCosts(int hCosts) {
+    protected void sethCosts(float hCosts) {
         this.hCosts = hCosts;
     }
 
-    public int calculateHcosts(int goalX, int goalY)
+    public float getTotalCost()
     {
-        int currentX, currentY;
-        currentX = this.xPosition;
-        currentY = this.yPosition;
-        setCosts((int)Math.sqrt(Math.pow( currentX - goalX , 2) + Math.pow(currentY - goalY , 2)));
-        return gethCosts();
+        return totalCost;
+    }
+    public void setTotalCost(float newX, float newY)
+    {
+        calculatehCosts(newX, newY);
+        this.totalCost = getgCosts() + gethCosts();
     }
 
-    public abstract void setCosts(AbstractNode endAbstractNode);
 
-    private int getMovementPenalty() {
-        return movementPenalty;
-    }
+//    public abstract void sethCosts(AbstractNode endAbstractNode);
+
+//    private int getMovementPenalty() {
+//        return movementPenalty;
+//    }
 
     @Override
     public String toString() {
-        return "(" + getxPosition() + ", " + getyPosition() + "): h: "
-                + gethCosts() + " g: " + getgCosts() + " f: " + getfCosts();
+        return "(" + getxIndex() + ", " + getyIndex() + "): h: "
+                + gethCosts() + " g: " + getgCosts() + " f: " + getTotalCost();
     }
 
     @Override
@@ -146,10 +165,10 @@ public abstract class AbstractNode {
             return false;
         }
         final AbstractNode other = (AbstractNode) obj;
-        if (this.xPosition != other.xPosition) {
+        if (this.xIndex != other.xIndex) {
             return false;
         }
-        if (this.yPosition != other.yPosition) {
+        if (this.yIndex != other.yIndex) {
             return false;
         }
         return true;
