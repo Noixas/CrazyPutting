@@ -72,23 +72,24 @@ public class GameManager {
         else
             allInput = new float[1][2];
         CourseManager.initObstacles();
-        do {
+  //      do {
             System.out.println("Setup");
             for (int i = 0; i < nPlayers; i++) {
                 if(allBalls[i] != null){
                     allBalls[i].destroy();
                 }
-                allBalls[i] = new Ball(createPosition(CourseManager.getStartPosition()));
-                allHoles[i] = new Hole((int) CourseManager.getActiveCourse().getGoalRadius(), createPosition(CourseManager.getGoalStartPosition()));
+                allBalls[i] = new Ball((CourseManager.getStartPosition(i)));
+                allHoles[i] = new Hole((int) CourseManager.getActiveCourse().getGoalRadius(), (CourseManager.getGoalStartPosition(i)));
                 System.out.println("Balls "+allBalls[i].getPosition().x+" "+allBalls[i].getPosition().y);
                 System.out.println("Hole "+allHoles[i].getPosition().x+" "+allHoles[i].getPosition().y);
             }
-        } while (_mode==4 && !checkLegitimacy());
+            keepBallsWithinDistances();
+     //   } while (_mode==4 && (!checkLegitimacy()&&false));
         if(MenuScreen.Mode3D ) {//3D Logic
          // if we are in multiplayer mode
             for (int i = 0; i < nPlayers; i++) {
                     allBalls[i].addGraphicComponent(new SphereGraphics3DComponent(40, Color.WHITE));
-                    SphereCollider sphere = new SphereCollider(CourseManager.getStartPosition(),20);
+                    SphereCollider sphere = new SphereCollider(CourseManager.getStartPosition(i),20);
                     allBalls[i].addColliderComponent(sphere);
                     allHoles[i].addGraphicComponent(new SphereGraphics3DComponent(40, Color.BLACK));
             }
@@ -103,7 +104,26 @@ public class GameManager {
         _hole = allHoles[0];
         _player = 0;
     }
+    /*
+     If the balls are further away than they should then we find the centroid and
+     position the balls relative to their position and centroid but within the allowed distance
+     */
+    public void keepBallsWithinDistances(){
 
+        if(checkLegitimacy()) return;
+        Vector3 middle = new Vector3();
+        for(int i = 0; i<nPlayers;i++){
+            middle.add(allBalls[i].getPosition());
+        }
+        middle.x = middle.x/nPlayers;
+        middle.y = middle.y/nPlayers;
+        middle.z = middle.z/nPlayers;
+        for(int i = 0; i<nPlayers;i++){
+            allBalls[i].destroy();
+            allBalls[i] = new Ball(new Vector3(middle).add(new Vector3(middle).sub(allBalls[i].getPosition()).nor().scl(allowedDistance/2)));
+
+        }
+    }
     public void update(float pDelta){
         System.out.println("Position "+_ball.getPosition().x+" "+_ball.getPosition().y);
         if(pDelta > 0.03){
@@ -120,7 +140,7 @@ public class GameManager {
             }
         }
         if (_mode == 4 && !MultiplayerSettings.Simultaneous)
-            Physics.physics.updateSpesificBall(_player, pDelta);
+            Physics.physics.updateObject(_ball, pDelta);
         else
             Physics.physics.update(pDelta);
         CollisionManager.update();
@@ -162,7 +182,7 @@ public class GameManager {
         if(_mode == 1) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.G) && !_ball.isMoving()){
                 System.out.println(_ball.getPosition().x + "  " + _ball.getPosition().y);
-                GeneticAlgorithm GA = new GeneticAlgorithm(_hole, CourseManager.getActiveCourse(),CourseManager.getStartPosition());
+                GeneticAlgorithm GA = new GeneticAlgorithm(_hole, CourseManager.getActiveCourse(),CourseManager.getStartPosition(0));
                 Ball b = GA.getBestBall();
                 float speed = b.getVelocityGA().speed;
                 float angle = b.getVelocityGA().angle;
@@ -208,7 +228,7 @@ public class GameManager {
         }
         else if (_mode == 3){
             if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !_ball.isMoving()){
-                bot = new Bot(_ball,_hole, CourseManager.getActiveCourse(), CourseManager.getStartPosition());
+                bot = new Bot(_ball,_hole, CourseManager.getActiveCourse(), CourseManager.getStartPosition(0));
                 bot.computeOptimalVelocity();
                 Velocity computedVelocity = bot.getBestBall().getVelocity();
                 Gdx.app.log("Ball","Position x "+ _ball.getPosition().x+" position y "+_ball.getPosition().y);
@@ -224,14 +244,15 @@ public class GameManager {
             }
         }
         else if(_mode == 4 && !MultiplayerSettings.Simultaneous) {
-            _ball = allBalls[_player];
-            _hole = allHoles[_player];
-            if (!isBallInTheHole(_ball, _hole)) {
-                if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !anyBallIsMoving()) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !anyBallIsMoving()) {
+                if (!isBallInTheHole(_ball, _hole))
                     Gdx.input.getTextInput(input, "Input data", "", "For player " + (_player + 1) + ": input speed and direction separated with space");
-                }
-                if (input.getText() != null) {
-                    try {
+                changePlayer();
+                _ball = allBalls[_player];
+                _hole = allHoles[_player];
+            }
+            if (input.getText() != null) {
+                try {
                         String[] data = input.getText().split(" ");
                         float speed = Float.parseFloat(data[0]);
                         float angle = Float.parseFloat(data[1]);
@@ -240,16 +261,11 @@ public class GameManager {
                         input.clearText();//important to clear text or it will overwrite every frame
                         copyPreviousPosition();
                         checkConstrainsAndSetVelocity(allInput);
-                        if (_player+1 == nPlayers)
-                            _player = 0;
-                        else
-                            _player++;
-                    } catch (NumberFormatException e) {
+                } catch (NumberFormatException e) {
                         // later on this will be added on the game screen so that it wasn't printed multiple times
                         // after doing this change, delete printing stack trace
                         Gdx.app.error("Exception: ", "You must input numbers");
                         e.getStackTrace();
-                    }
                 }
             }
         }
@@ -342,8 +358,8 @@ public class GameManager {
      */
     public void saveBallAndHolePos(){
         for (int i=0; i<nPlayers; i++) {
-            CourseManager.getActiveCourse().setBallStartPos(allBalls[i].getPosition());
-            CourseManager.getActiveCourse().setGoalPosition(allHoles[i].getPosition());
+            CourseManager.getActiveCourse().setBallStartPos(allBalls[i].getPosition(),i);
+            CourseManager.getActiveCourse().setGoalPosition(allHoles[i].getPosition(),i);
         }
     }
 
@@ -363,28 +379,32 @@ public class GameManager {
      * Change the position of the ball when using the change ball position editor mode
      * @param pos
      */
-    public void updateBallPos(Vector3 pos){
-        Vector3 cache = _ball.getPosition();
-        _ball.setPosition(pos);
+    public void updateBallPos(Vector3 pos, int pPlayer){
+
+        Vector3 cache = allBalls[pPlayer].getPosition();
+        allBalls[pPlayer].setPosition(pos);
         if(checkDistances(allBalls)==false)
-            _ball.setPosition(cache);
+            allBalls[pPlayer].setPosition(cache);
     }
 
     /**
      * Change the position of the hole when using the change hole position editor mode
      * @param pos
      */
-    public void updateHolePos(Vector3 pos){
-        Vector3 cache = _hole.getPosition();
-        _hole.setPosition(pos);
+    public void updateHolePos(Vector3 pos, int pPlayer){
+        Vector3 cache = allHoles[pPlayer].getPosition();
+        allHoles[pPlayer].setPosition(pos);
         if(checkDistances(allHoles)==false)
-            _hole.setPosition(cache);
+            allHoles[pPlayer].setPosition(cache);
     }
 
     /////////////////////////////////////////////////////////////////////
     //////////Methods for multiple players Mode//////////////////////////////
     ////////////////////////////////////////////////////////////////////
 
+    public int getActivePlayerIndex(){
+        return _player;
+    }
     public boolean checkDistances(GameObject[] balls){
         //TODO: can improve the update depends if simultaneous or not
         if (nPlayers==1)
@@ -457,11 +477,12 @@ public class GameManager {
         float size = CourseManager.getCourseDimensions().x / 2;
         float x;
         float y;
+        float z;
         do {
             x = (float) (p.x + Math.random() * allowedDistance/2);
             y = (float) (p.y + Math.random() * allowedDistance/2);
-        } while (x<-1*size || x>size || y<-1*size || y>size);
-        float z = CourseManager.calculateHeight(x, y);
+            z = CourseManager.calculateHeight(x, y);
+        } while (x<-1*size || x>size || y<-1*size || y>size || z<0);
         return new Vector3(x, y, z);
     }
 
@@ -478,6 +499,13 @@ public class GameManager {
             }
         }
         return true;
+    }
+
+    public void changePlayer(){
+        if (_player+1 == nPlayers)
+            _player = 0;
+        else
+            _player++;
     }
 
 }

@@ -24,7 +24,6 @@ public class Midpoint extends Physics{
         }
     }
 
-
     public void updateObject(PhysicsGameObject obj, double dt){
         if(obj.isFixed()) return;
 

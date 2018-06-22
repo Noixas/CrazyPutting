@@ -4,90 +4,42 @@ ID: 0
 Name: Course without name D:
 Height: 800
 Friction: 0.6
+Goal Pos: -318.16974 -126.61141
+Goal Pos: -351.35376 -102.82563
+Goal Pos: -334.02667 -326.69675
 Goal Pos: -605.94507 -512.0307
 Goal Radius: 34.0
+Ball Start Pos: 599.0552 369.36267
+Ball Start Pos: 820.4224 460.05142
+Ball Start Pos: 833.6482 561.93726
 Ball Start Pos: 475.53864 638.1942
 Max Speed: 502.0
 Spline Points: 6 6 -32.0  46.0  87.0  70.0  73.0  94.0  -11.0  41.0  16.0  57.0  0.0  96.0  -20.0  0.0  19.0  0.0  102.0  103.0  0.0  -20.0  -6.0  113.0  152.0  0.0  0.0  129.0  -12.0  121.0  180.0  0.0  0.0  0.0  -24.0  -52.0  -37.0  -28.0  
-Obstacles: 0
+Obstacles: 2
+Collider type: 2
+Position: 221.70496 516.8304 147.85852 
+Dimensions: 100.0 100.0 100.0 
+Collider type: 2
+Position: 390.3922 357.49472 133.27527 
+Dimensions: 100.0 100.0 100.0 
 Course End
 COURSE:
 ID: 1
 Name: Course without name D:
 Height: (sin(x/100)+cos(y/100))*50+50
 Friction: 0.6
-Goal Pos: 394.20056 495.45142
+Goal Pos: -584.748 -658.68365
+Goal Pos: -584.748 -658.68365
+Goal Pos: -584.748 -658.68365
+Goal Pos: -584.748 -658.68365
 Goal Radius: 25.0
-Ball Start Pos: 709.66626 606.2418
+Ball Start Pos: 777.1935 603.48145
+Ball Start Pos: 777.1935 603.48145
+Ball Start Pos: 777.1935 603.48145
+Ball Start Pos: 777.1935 603.48145
 Max Speed: 500.0
 Spline Points: 6 6 306.0  251.0  323.0  297.0  180.0  -42.0  265.0  0.0  15.0  41.0  182.0  -36.0  199.0  110.0  168.0  181.0  201.0  -89.0  -54.0  -22.0  0.0  0.0  29.0  -41.0  -30.0  12.0  -11.0  0.0  12.0  -45.0  -25.0  -25.0  -46.0  0.0  66.0  -38.0  
-Obstacles: 22
-Collider type: 2
-Position: 568.1831 386.1344 5.5166016 
-Dimensions: 100.0 100.0 100.0 
-Collider type: 2
-Position: 219.3088 443.59564 19.08612 
-Dimensions: 100.0 100.0 100.0 
-Collider type: 2
-Position: 428.34912 271.3329 1.5766602 
-Dimensions: 100.0 100.0 100.0 
-Collider type: 2
-Position: 222.49475 505.927 24.798157 
-Dimensions: 100.0 100.0 100.0 
-Collider type: 2
-Position: 827.3996 539.75366 41.7843 
-Dimensions: 100.0 100.0 100.0 
-Collider type: 2
-Position: 840.3478 550.1062 45.04419 
-Dimensions: 100.0 100.0 100.0 
-Collider type: 2
-Position: 637.0447 262.95282 0.88671875 
-Dimensions: 100.0 100.0 100.0 
-Collider type: 2
-Position: 687.5652 367.17126 7.0440674 
-Dimensions: 100.0 100.0 100.0 
-Collider type: 2
-Position: 350.00336 311.16812 4.461426 
-Dimensions: 100.0 100.0 100.0 
-Collider type: 2
-Position: 661.48157 763.1695 -6.364746 
-Dimensions: 100.0 100.0 100.0 
-Collider type: 2
-Position: 348.3968 759.0366 0.723999 
-Dimensions: 100.0 100.0 100.0 
-Collider type: 2
-Position: 760.37573 469.8924 23.354736 
-Dimensions: 100.0 100.0 100.0 
-Collider type: 2
-Position: 756.5864 435.3081 19.139282 
-Dimensions: 100.0 100.0 100.0 
-Collider type: 2
-Position: 829.53735 658.98676 39.88739 
-Dimensions: 100.0 100.0 100.0 
-Collider type: 2
-Position: 863.9292 633.5386 49.647827 
-Dimensions: 100.0 100.0 100.0 
-Collider type: 2
-Position: 733.07794 730.6603 8.644287 
-Dimensions: 100.0 100.0 100.0 
-Collider type: 2
-Position: 470.54163 357.99408 5.5842285 
-Dimensions: 100.0 100.0 100.0 
-Collider type: 2
-Position: 263.08493 356.51532 9.463745 
-Dimensions: 100.0 100.0 100.0 
-Collider type: 2
-Position: 549.72296 714.301 1.3125 
-Dimensions: 100.0 100.0 100.0 
-Collider type: 2
-Position: 430.14743 706.21027 7.7800293 
-Dimensions: 100.0 100.0 100.0 
-Collider type: 2
-Position: 284.78165 598.79767 27.022095 
-Dimensions: 100.0 100.0 100.0 
-Collider type: 2
-Position: 357.6033 661.50366 18.977783 
-Dimensions: 100.0 100.0 100.0 
+Obstacles: 0
 Course End
 COURSE:
 ID: 2
@@ -95,7 +47,13 @@ Name: Course without name D:
 Height: 0.0003*x^2+0.004*y
 Friction: 0.5
 Goal Pos: -563.45667 638.44
+Goal Pos: -563.45667 638.44
+Goal Pos: -563.45667 638.44
+Goal Pos: -563.45667 638.44
 Goal Radius: 40.0
+Ball Start Pos: 596.52094 -643.2977
+Ball Start Pos: 596.52094 -643.2977
+Ball Start Pos: 596.52094 -643.2977
 Ball Start Pos: 596.52094 -643.2977
 Max Speed: 200.0
 Spline Points: 6 6 -78.0  -12.0  -40.0  50.0  428.0  509.0  -17.0  -36.0  -3.0  384.0  248.0  467.0  0.0  39.0  0.0  0.0  373.0  304.0  186.0  149.0  233.0  0.0  0.0  -33.0  149.0  152.0  169.0  0.0  -83.0  -28.0  74.0  100.0  0.0  0.0  -105.0  -30.0  
@@ -107,7 +65,13 @@ Name: Course without name D:
 Height: 1
 Friction: 0.5
 Goal Pos: -563.45667 638.44
+Goal Pos: -563.45667 638.44
+Goal Pos: -563.45667 638.44
+Goal Pos: -563.45667 638.44
 Goal Radius: 30.0
+Ball Start Pos: 596.52094 -643.2977
+Ball Start Pos: 596.52094 -643.2977
+Ball Start Pos: 596.52094 -643.2977
 Ball Start Pos: 596.52094 -643.2977
 Max Speed: 900.0
 Spline Points: 6 6 -78.0  -12.0  -40.0  50.0  428.0  509.0  -17.0  -36.0  -3.0  384.0  248.0  467.0  0.0  39.0  0.0  0.0  373.0  304.0  186.0  149.0  233.0  0.0  0.0  -33.0  149.0  152.0  169.0  0.0  -83.0  -28.0  74.0  100.0  0.0  0.0  -105.0  -30.0  
@@ -119,7 +83,13 @@ Name: Course without name D:
 Height: 1
 Friction: 0.3
 Goal Pos: -329.271 -628.09314
+Goal Pos: -329.271 -628.09314
+Goal Pos: -329.271 -628.09314
+Goal Pos: -329.271 -628.09314
 Goal Radius: 1.0
+Ball Start Pos: 792.37427 366.66968
+Ball Start Pos: 792.37427 366.66968
+Ball Start Pos: 792.37427 366.66968
 Ball Start Pos: 792.37427 366.66968
 Max Speed: 1000.0
 Spline Points: 6 6 -48.0  -42.0  -65.0  0.0  0.0  0.0  395.0  48.0  55.0  -20.0  0.0  0.0  -40.0  27.0  9.0  18.0  -39.0  -82.0  -7.0  -9.0  16.0  0.0  189.0  0.0  0.0  85.0  20.0  74.0  468.0  0.0  0.0  280.0  207.0  178.0  172.0  0.0  
@@ -131,7 +101,13 @@ Name: Course without name D:
 Height: 1
 Friction: 0.5
 Goal Pos: -547.5104 -718.2938
+Goal Pos: -547.5104 -718.2938
+Goal Pos: -547.5104 -718.2938
+Goal Pos: -547.5104 -718.2938
 Goal Radius: 35.0
+Ball Start Pos: 593.8124 600.7277
+Ball Start Pos: 593.8124 600.7277
+Ball Start Pos: 593.8124 600.7277
 Ball Start Pos: 593.8124 600.7277
 Max Speed: 1000.0
 Spline Points: 6 6 478.0  237.0  0.0  0.0  0.0  273.0  34.0  2.0  0.0  0.0  370.0  0.0  0.0  40.0  0.0  201.0  0.0  0.0  -38.0  0.0  213.0  0.0  0.0  0.0  -73.0  -29.0  0.0  0.0  66.0  155.0  -106.0  -97.0  -32.0  0.0  194.0  293.0  

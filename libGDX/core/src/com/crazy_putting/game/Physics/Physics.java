@@ -28,12 +28,6 @@ public abstract class Physics {
 
     public abstract void updateObject(PhysicsGameObject obj, double dt);
 
-    public void updateSpesificBall(int i, double dt){
-        if(!movingObjects.isEmpty() && i<movingObjects.size()){
-                updateObject(movingObjects.get(i),dt);
-        }
-    };
-
     /*
     other
      */
@@ -80,7 +74,7 @@ public abstract class Physics {
         // For single player
         else {
             // TODO fix for maze-like courses
-            obj.setPosition(CourseManager.getStartPosition());
+            obj.setPosition(CourseManager.getStartPosition(0));
             obj.fix(true);
             obj.setVelocity(0.00001f, 0.000001f);
         }

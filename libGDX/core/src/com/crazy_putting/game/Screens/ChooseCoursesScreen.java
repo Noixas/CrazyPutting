@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.Others.MultiplayerSettings;
+import com.crazy_putting.game.Physics.Euler;
 
 import static com.crazy_putting.game.GameLogic.GraphicsManager.WINDOW_HEIGHT;
 import static com.crazy_putting.game.GameLogic.GraphicsManager.WINDOW_WIDTH;
@@ -53,6 +54,10 @@ public class ChooseCoursesScreen implements Screen{
     private Slider allowedDistanceSlider;
     private Button[] multiplayerAmount;
     private ButtonGroup multButtonGroup;
+    private ButtonGroup buttonGroupSimultaneous;
+    private TextButton buttonSimultaneous;
+    private TextButton buttonNotSimultaneous;
+    private boolean simultaneous;
 
     public ChooseCoursesScreen(GolfGame game, int pMode) {
         if(MenuScreen.Spline3D == false)
@@ -183,9 +188,32 @@ public class ChooseCoursesScreen implements Screen{
             multButtonGroup.setMinCheckCount(1);
             multButtonGroup.setMaxCheckCount(1);
 
+            buttonSimultaneous = new TextButton("Simultaneous", skin,"toggle");
+            buttonSimultaneous.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) { simultaneous = true;
+                }
+            });
+            buttonNotSimultaneous = new TextButton("One by one", skin,"toggle");
+            buttonNotSimultaneous.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) { simultaneous = false;
+                }
+            });
+
+            ButtonGroup buttonGroupSimultaneous = new ButtonGroup(buttonSimultaneous, buttonNotSimultaneous);
+            //next set the max and min amount to be checked
+            buttonGroupSimultaneous.setMaxCheckCount(1);
+            buttonGroupSimultaneous.setMinCheckCount(1);
+            buttonGroupSimultaneous.setChecked("Simultaneous");
+
             table.row();
             table.add(allowedDistanceLabel).align(Align.left);
             table.add(allowedDistanceSlider).align(Align.left);
+            table.row();
+            table.add(new Label("Strategy", skin)).align(Align.left);
+            table.add(buttonSimultaneous).align(Align.left);
+            table.add(buttonNotSimultaneous);
             table.row();
             errorLabel = new Label("", skin);
             errorLabel.setSize(200,50);
@@ -271,8 +299,8 @@ public class ChooseCoursesScreen implements Screen{
         if(MenuScreen.Spline3D == false)
         heightValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getHeight());
         frictionValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getFriction()+"");
-        startValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getStartBall().toString());
-        goalValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getGoalPosition().toString());
+        startValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getStartBall(0).toString());
+        goalValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getGoalPosition(0).toString());
         radiusValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getGoalRadius()+"");
         maxVelocityValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getMaxSpeed()+"");
         if(MenuScreen.Spline3D)
@@ -324,8 +352,8 @@ public class ChooseCoursesScreen implements Screen{
         try{
             TextButton button = (TextButton)multButtonGroup.getChecked();
             int playersNumber = Integer.parseInt(button.getText().toString());
-           int allowedDistance = (int)allowedDistanceSlider.getValue();
-            new MultiplayerSettings(playersNumber, allowedDistance, true);
+            int allowedDistance = (int)allowedDistanceSlider.getValue();
+            new MultiplayerSettings(playersNumber, allowedDistance, simultaneous);
         }catch(Exception e)
         {
             System.out.println(e.toString());

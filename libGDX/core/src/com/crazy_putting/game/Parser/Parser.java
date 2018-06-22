@@ -44,9 +44,16 @@ public class Parser {
         out.add("\nName: " + pCourse.getName());
         out.add("\nHeight: " + pCourse.getHeight());
         out.add("\nFriction: " +pCourse.getFriction());
-        out.add("\nGoal Pos: "+ pCourse.getGoalPosition().x + " " + pCourse.getGoalPosition().y);
+        out.add("\nGoal Pos: "+ pCourse.getGoalPosition(0).x + " " + pCourse.getGoalPosition(0).y);
+        out.add("\nGoal Pos: "+ pCourse.getGoalPosition(1).x + " " + pCourse.getGoalPosition(1).y);
+        out.add("\nGoal Pos: "+ pCourse.getGoalPosition(2).x + " " + pCourse.getGoalPosition(2).y);
+        out.add("\nGoal Pos: "+ pCourse.getGoalPosition(3).x + " " + pCourse.getGoalPosition(3).y);
+
         out.add("\nGoal Radius: " + pCourse.getGoalRadius());
-        out.add("\nBall Start Pos: " + pCourse.getStartBall().x + " " + pCourse.getStartBall().y);
+        out.add("\nBall Start Pos: " + pCourse.getStartBall(0).x + " " + pCourse.getStartBall(0).y);
+        out.add("\nBall Start Pos: " + pCourse.getStartBall(1).x + " " + pCourse.getStartBall(1).y);
+        out.add("\nBall Start Pos: " + pCourse.getStartBall(2).x + " " + pCourse.getStartBall(2).y);
+        out.add("\nBall Start Pos: " + pCourse.getStartBall(3).x + " " + pCourse.getStartBall(3).y);
         out.add("\nMax Speed: " + pCourse.getMaxSpeed());
         out.add("\nSpline Points: " + pCourse.toStringSplinePoints());
         List<String> obstacles = pCourse.getObstaclesStringList();
@@ -120,8 +127,9 @@ public class Parser {
     }
     private static void setCourseProperty(Course pCourse, String pProperty, int pLine)
         {
-            switch (pLine)
-            {
+            String[] GoalPos;
+            String[] ballStartPos;
+            switch (pLine){
                 case 0:
                     pProperty = pProperty.replace("ID: ","");
                     pCourse.setID(Integer.parseInt(pProperty));
@@ -138,29 +146,59 @@ public class Parser {
                     pProperty = pProperty.replace("Friction: ","");
                     pCourse.setFriction(Float.parseFloat(pProperty));
                     break;
-                case 4:
+                case 4://Player 1
                     pProperty = pProperty.replace("Goal Pos: ","");
-                    String[] GoalPos = pProperty.trim().split("\\s+");
-                    pCourse.setGoalPosition(new Vector3(Float.parseFloat(GoalPos[0]), Float.parseFloat(GoalPos[1]),0));
+                    GoalPos = pProperty.trim().split("\\s+");
+                    pCourse.setGoalPosition(new Vector3(Float.parseFloat(GoalPos[0]), Float.parseFloat(GoalPos[1]),0),0);
                     break;
-                case 5:
+                case 5://Player 2
+                    pProperty = pProperty.replace("Goal Pos: ","");
+                    GoalPos = pProperty.trim().split("\\s+");
+                    pCourse.setGoalPosition(new Vector3(Float.parseFloat(GoalPos[0]), Float.parseFloat(GoalPos[1]),0),1);
+                    break;
+                case 6://Player 3
+                    pProperty = pProperty.replace("Goal Pos: ","");
+                    GoalPos = pProperty.trim().split("\\s+");
+                    pCourse.setGoalPosition(new Vector3(Float.parseFloat(GoalPos[0]), Float.parseFloat(GoalPos[1]),0),2);
+                    break;
+                case 7://Player 4
+                    pProperty = pProperty.replace("Goal Pos: ","");
+                    GoalPos = pProperty.trim().split("\\s+");
+                    pCourse.setGoalPosition(new Vector3(Float.parseFloat(GoalPos[0]), Float.parseFloat(GoalPos[1]),0),3);
+                    break;
+                case 8:
                     pProperty = pProperty.replace("Goal Radius: ","");
                     pCourse.setGoalRadius(Float.parseFloat(pProperty));
                     break;
-                case 6:
+                case 9://Player 1
                     pProperty = pProperty.replace("Ball Start Pos: ","");
-                    String[] ballStartPos = pProperty.trim().split("\\s+");
-                    pCourse.setBallStartPos(new Vector3(Float.parseFloat(ballStartPos[0]), Float.parseFloat(ballStartPos[1]),0));
+                     ballStartPos = pProperty.trim().split("\\s+");
+                    pCourse.setBallStartPos(new Vector3(Float.parseFloat(ballStartPos[0]), Float.parseFloat(ballStartPos[1]),0),0);
                     break;
-                case 7:
+                case 10://Player 2
+                    pProperty = pProperty.replace("Ball Start Pos: ","");
+                    ballStartPos = pProperty.trim().split("\\s+");
+                    pCourse.setBallStartPos(new Vector3(Float.parseFloat(ballStartPos[0]), Float.parseFloat(ballStartPos[1]),0),1);
+                    break;
+                case 11://Player 3
+                    pProperty = pProperty.replace("Ball Start Pos: ","");
+                    ballStartPos = pProperty.trim().split("\\s+");
+                    pCourse.setBallStartPos(new Vector3(Float.parseFloat(ballStartPos[0]), Float.parseFloat(ballStartPos[1]),0),2);
+                    break;
+                case 12://Player 4
+                    pProperty = pProperty.replace("Ball Start Pos: ","");
+                     ballStartPos = pProperty.trim().split("\\s+");
+                    pCourse.setBallStartPos(new Vector3(Float.parseFloat(ballStartPos[0]), Float.parseFloat(ballStartPos[1]),0),3);
+                    break;
+                case 13:
                     pProperty = pProperty.replace("Max Speed: ","");
                     pCourse.setMaxSpeed(Float.parseFloat(pProperty));
                     break;
-                case 8:
+                case 14:
                     pProperty = pProperty.replace("Spline Points: ", "");
                     pCourse.setSplinePoints(generatePoints(pProperty));
                     break;
-                case 9:
+                case 15:
                     pProperty = pProperty.replace("Obstacles: ", "");
                     _obstaclesAmount = Integer.parseInt(pProperty);
                     break;

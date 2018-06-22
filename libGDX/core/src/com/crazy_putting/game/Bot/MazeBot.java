@@ -2,12 +2,10 @@ package com.crazy_putting.game.Bot;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Components.Graphics.Graphics3DComponent;
 import com.crazy_putting.game.Components.Graphics.SphereGraphics3DComponent;
 import com.crazy_putting.game.GameLogic.CourseManager;
-import com.crazy_putting.game.GameLogic.GameManager;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.GameObjects.Hole;
@@ -43,7 +41,7 @@ public class MazeBot {
         intermediatePoints.add(hole.getPosition());
         calculateZ(intermediatePoints);
         createGraphicPoints(intermediatePoints);
-        startPoint = CourseManager.getStartPosition();
+        startPoint = CourseManager.getStartPosition(0);
         ArrayList<Velocity> mazeVelocities = new ArrayList<Velocity>();
         for(Vector3 point:intermediatePoints){
             Hole destinationPoint = new Hole(intermediateRadius,point);
