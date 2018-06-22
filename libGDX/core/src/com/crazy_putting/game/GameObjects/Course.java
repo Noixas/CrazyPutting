@@ -28,6 +28,10 @@ public class Course {
     public Course(){
         _goalPosition = new Vector3[4];
         _startBall = new Vector3[4];
+        for(int i=0; i< 4 ; i++){
+            _goalPosition[i] = new Vector3();
+            _startBall[i] = new Vector3();
+        }
     }
     public void setID(int pID)
     {
