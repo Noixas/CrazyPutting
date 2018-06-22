@@ -60,9 +60,8 @@ public abstract class Physics {
      */
 
     void dealCollision(PhysicsGameObject obj){
-
         // For multiple players
-        if (MultiplayerSettings.PlayerAmount > 1 && MultiplayerSettings.Simultaneous==true) {
+        if (MultiplayerSettings.PlayerAmount > 1) {
             for (int i = 0; i < movingObjects.size(); i++) {
                 // TODO change for mazelike courses
                 PhysicsGameObject ball = movingObjects.get(i);
