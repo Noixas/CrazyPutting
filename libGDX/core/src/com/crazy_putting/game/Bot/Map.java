@@ -1,7 +1,6 @@
 package com.crazy_putting.game.Bot;
 
 import com.crazy_putting.game.GameLogic.CourseManager;
-import com.crazy_putting.game.GameObjects.Course;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +11,9 @@ public class Map<T extends AbstractNode> {
 
     protected int width;
     protected int length;
+
     //Goal node coordinates
-    private final int GOAL_X = (int)CourseManager.getGoalStartPosition().x, GOAL_Y = (int)CourseManager.getGoalStartPosition().y;
+    private final int GOAL_X = Math.round(CourseManager.getGoalStartPosition().x), GOAL_Y = Math.round(CourseManager.getGoalStartPosition().y);
     private final int GOAL_NODE_X = GOAL_X + 1000, GOAL_NODE_Y = GOAL_Y + 1000;
     private final float GOAL_RADIUS = CourseManager.getActiveCourse().getGoalRadius();
 
@@ -34,15 +34,20 @@ public class Map<T extends AbstractNode> {
         for (int i = 0; i <= width; i++) {
             for (int j = 0; j <= length; j++) {
                 nodes[i][j] = (T) nodeFactory.createNode(i, j);
-                nodes[i][j].setCoordinates(i - 1000, j - 1000);
-                nodes[i][j].setBASICMOVEMENTCOST(0);
-                nodes[i][j].setWalkable(false);
-//                nodes[i][j].setBASICMOVEMENTCOST(CourseManager.calculateHeight(i - 1000, j - 1000)/10);
-                if(CourseManager.calculateHeight( nodes[i][j].getxCoordinate(), nodes[i][j].getyCoordinate()) > + 0) {nodes[i][j].setWalkable(true);}
-                nodes[i][j].setTotalCost(GOAL_NODE_X, GOAL_NODE_Y);
-//                if(Math.sqrt(Math.pow(nodes[i][j].getxCoordinate() - GOAL_X,2) + Math.pow(nodes[i][j].getyCoordinate() - GOAL_Y,2)) < GOAL_RADIUS){
-//                    nodes[i][j].setGoal(true);
-//                }
+                nodes[i][j].setCoordinates(i - 1000, j - 1000); // <------ SETS THE COORDINATES TO BE [INDEX - 1000]
+                //nodes[i][j].setBASICMOVEMENTCOST(0);               // <------ USE THIS IF YOU DO NOT CARE ABOUT HEIGHTS
+                nodes[i][j].setWalkable(true);
+                float height = CourseManager.calculateHeight( nodes[i][j].getxCoordinate(), nodes[i][j].getyCoordinate());
+                if(height < + 0) {
+                    nodes[i][j].setWalkable(false);                 // <------ IF HEIGHT OF POINT IS LESS THAN 0 IT IS UNWALKABLE
+                }
+                else {
+                    nodes[i][j].setBASICMOVEMENTCOST(height/100);   // <----- USE THIS IF YOU CARE ABOUT HEIGHTS
+                    nodes[i][j].setTotalCost(GOAL_NODE_X, GOAL_NODE_Y); // <---- WE CARE ABOUT THE [F=G+H] COST OF THIS NODE SINCE IT IS WALKABLE
+                }
+                if(Math.sqrt(Math.pow(nodes[i][j].getxCoordinate() - GOAL_X,2) + Math.pow(nodes[i][j].getyCoordinate() - GOAL_Y,2)) < GOAL_RADIUS){
+                    nodes[i][j].setGoal(true);                      // <----- Checks if node is inside hole -> it is a GoalNode
+                }
             }
         }
         System.out.println("Nodes INITIALISED");
@@ -55,34 +60,31 @@ public class Map<T extends AbstractNode> {
     private List<T> openList;
     private List<T> closedList;
 
-
-    public final List<T> findPath(int oldX, int oldY, int newX, int newY){
+    public final List<T> findPath(int oldX, int oldY){
         T current;
-        /* Converting coords to node indeces*/
-        oldX += 1000;
-        oldY += 1000;
-        newX += 1000;
-        newY += 1000;
-
         openList = new ArrayList<T>();
         closedList = new ArrayList<T>();
+
+        /* Converting coords to node indices*/
+        oldX += 1000;
+        oldY += 1000;
+        /* Converting coords to node indices*/
+
         current = nodes[oldX][oldY];
         current.setPrevious(current);
         current.setgCosts(0);
-
         openList.add(current);
+
         while(!openList.isEmpty()){
             current = lowestFInOpen();
             openList.remove(current);
-            if(current.getxIndex() == newX && current.getyIndex() == newY){
-                System.out.println("Path found");
-                return null;
-                //return calcPath(nodes[oldX][oldY], current);
+            if(current.isGoal()){
+                return calcPath(nodes[oldX][oldY], current);
             }
             closedList.add(current);
 
             List<T> adjacentNodes = getAdjacent(current);
-            for(int i=0;i<adjacentNodes.size();i++){
+            for(int i = 0; i < adjacentNodes.size(); i++){
                 T currentAdj = adjacentNodes.get(i);
                 if(!closedList.contains(currentAdj)){
                     if(!openList.contains(currentAdj)){
@@ -105,7 +107,7 @@ public class Map<T extends AbstractNode> {
             if(openList.contains(s1)){
                 openList.remove(s1);
             }
-            s1.setTotalCost( GOAL_NODE_X, GOAL_NODE_Y);
+            s1.setTotalCost(GOAL_NODE_X, GOAL_NODE_Y);
             openList.add(s1);
         }
     }
@@ -127,7 +129,6 @@ public class Map<T extends AbstractNode> {
             }
         }
     }
-
 
     private List<T> calcPath(T start, T goal) {
         // TODO if invalid nodes are given (eg cannot find from goal to start, this method will result in an infinite loop!)
@@ -153,7 +154,7 @@ public class Map<T extends AbstractNode> {
         }
         return cheapest;
     }
-
+// Returns a list of all 8 adjacent nodes
     private List<T> getAdjacent(T node) {
         int x = node.getxIndex();
         int y = node.getyIndex();
@@ -218,10 +219,11 @@ public class Map<T extends AbstractNode> {
         }
         return adj;
     }
-
+//Returns true if there is a clear path between parent(s) and s1
     private boolean lineOfSight(T s, T s1)
     {
         int x1,y1,x2,y2;
+
         x1 = s.getPrevious().getxIndex();
         y1 = s.getPrevious().getyIndex();
 
@@ -245,36 +247,37 @@ public class Map<T extends AbstractNode> {
             sy = -1;
         }
         else sy = 1;
+
         if(dx > dy){
             while(x1 != x2) {
                 f += dy;
                 if(f >= dx){
-                    if(nodes[x1 + ((sx - 1) / 2)][y1 + ((sy - 1) / 2)].isWalkable()==false){return false;}
+                    if(nodes[x1 + ((sx - 1) / 2)][y1 + ((sy - 1) / 2)].isWalkable()==false) {return false;}
                     y1 += sy;
                     f -= dx;
                 }
-                if(f != 0 && nodes[x1+((sx-1)/2)][y1+((sy-1)/2)].isWalkable()==false){return false;}
+                if(f != 0 && nodes[x1+((sx-1)/2)][y1+((sy-1)/2)].isWalkable()==false) {return false;}
                 if(dy == 0 && nodes[x1+((sx-1)/2)][y1].isWalkable()==false && nodes[x1 + ((sx - 1) / 2)][y1 - 1].isWalkable()==false) {return false;}
                 x1 += sx;
             }
-
-
         }
+
         else {
             while(y1 != y2) {
                 f += dx;
                 if(f >= dy){
-                    if(nodes[x1 + ((sx - 1) / 2)][y1 + ((sy - 1) / 2)].isWalkable()==false){return false;}
+                    if(nodes[x1 + ((sx - 1) / 2)][y1 + ((sy - 1) / 2)].isWalkable()==false) {return false;}
                     x1 += sx;
                     f -= dy;
                 }
-            if(f != 0 && nodes[x1 + ((sx - 1) / 2)][ y1 + ((sy - 1) / 2)].isWalkable()==false ){return false;}
-            if(dx == 0 && nodes[x1][y1 + ((sy - 1) / 2)].isWalkable()==false && nodes[x1 - 1][y1 + ((sy - 1) / 2)].isWalkable()==false ){return false;}
+            if(f != 0 && nodes[x1 + ((sx - 1) / 2)][ y1 + ((sy - 1) / 2)].isWalkable()==false ) {return false;}
+            if(dx == 0 && nodes[x1][y1 + ((sy - 1) / 2)].isWalkable()==false && nodes[x1 - 1][y1 + ((sy - 1) / 2)].isWalkable()==false ) {return false;}
             y1 += sy;
             }
         }
         return true;
     }
+
     private int calculateStraight(int x1, int y1, int x2, int y2){
         return (int)Math.sqrt(Math.pow(x2 - x1 , 2) + Math.pow(y2 - y1 , 2));
     }

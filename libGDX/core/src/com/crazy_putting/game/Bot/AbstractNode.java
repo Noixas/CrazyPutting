@@ -23,7 +23,7 @@ public abstract class AbstractNode {
     public AbstractNode(int xIndex, int yIndex) {
         this.xIndex = xIndex;
         this.yIndex = yIndex;
-        this.walkable = false;
+        this.walkable = true;
         this.movementPenalty = 0;
     }
 
@@ -35,17 +35,17 @@ public abstract class AbstractNode {
         return BASICMOVEMENTCOST;
     }
 
+    public void setCoordinates(int x, int y) {
+        this.xCoordinate = x;
+        this.yCoordinate = y;
+    }
+
     public int getxCoordinate(){
         return xCoordinate;
     }
 
     public int getyCoordinate(){
         return yCoordinate;
-    }
-
-    public void setCoordinates(int x, int y) {
-        this.xCoordinate = x;
-        this.yCoordinate = y;
     }
 
     public void setIndeces(int x, int y) {
@@ -61,40 +61,28 @@ public abstract class AbstractNode {
         return yIndex;
     }
 
-    public boolean isWalkable() {
-        return walkable;
-    }
-
     public void setWalkable(boolean walkable) {
         this.walkable = walkable;
     }
 
-    public boolean isGoal(){
-        return goal;
+    public boolean isWalkable() {
+        return walkable;
     }
 
     public void setGoal(boolean goal){
         this.goal = goal;
     }
 
-    public AbstractNode getPrevious() {
-        return previous;
+    public boolean isGoal(){
+        return goal;
     }
 
     public void setPrevious(AbstractNode previous) {
         this.previous = previous;
     }
 
-//    public void setMovementPenalty(int movementPenalty) {
-//        this.movementPenalty = movementPenalty;
-//    }
-
-//    public float getfCosts() {
-//        return gCosts + hCosts;
-//    }
-
-    public float getgCosts() {
-        return gCosts;
+    public AbstractNode getPrevious() {
+        return previous;
     }
 
     public void setgCosts(float gCosts) {
@@ -109,12 +97,12 @@ public abstract class AbstractNode {
             setgCosts(previousAbstractNode, BASICMOVEMENTCOST);
     }
 
-    public float calculategCosts(AbstractNode previousAbstractNode) {
-            return (previousAbstractNode.getgCosts() + BASICMOVEMENTCOST + movementPenalty);
+    public float getgCosts() {
+        return gCosts;
     }
 
-    public float calculategCosts(AbstractNode previousAbstractNode, int movementCost) {
-        return (previousAbstractNode.getgCosts() + movementCost + movementPenalty);
+    protected void sethCosts(float hCosts) {
+        this.hCosts = hCosts;
     }
 
     public float gethCosts() {
@@ -129,26 +117,16 @@ public abstract class AbstractNode {
         sethCosts(5 * (float) Math.sqrt(Math.pow(currentX - goalX , 2) + Math.pow(currentY - goalY , 2) ) );
     }
 
-    protected void sethCosts(float hCosts) {
-        this.hCosts = hCosts;
-    }
-
     public float getTotalCost()
     {
         return totalCost;
     }
+
     public void setTotalCost(float newX, float newY)
     {
         calculatehCosts(newX, newY);
         this.totalCost = getgCosts() + gethCosts();
     }
-
-
-//    public abstract void sethCosts(AbstractNode endAbstractNode);
-
-//    private int getMovementPenalty() {
-//        return movementPenalty;
-//    }
 
     @Override
     public String toString() {
