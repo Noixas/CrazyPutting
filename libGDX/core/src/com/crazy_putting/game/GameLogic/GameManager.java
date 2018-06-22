@@ -399,6 +399,9 @@ public class GameManager {
     //////////Methods for multiple players Mode//////////////////////////////
     ////////////////////////////////////////////////////////////////////
 
+    public int getActivePlayerIndex(){
+        return _player;
+    }
     public boolean checkDistances(GameObject[] balls){
         //TODO: can improve the update depends if simultaneous or not
         if (nPlayers==1)

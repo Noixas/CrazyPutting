@@ -56,6 +56,7 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
 
     private SelectBox<String> playerSelectBox;
     private Ball _activaBall;
+    private int _indexActivePlayerGameManager = 0;
 
     public GUI(GolfGame pGame, GameManager pGameManager, FitViewport viewPort, boolean pSpline)
     {
@@ -212,6 +213,15 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         graphBall2.setColor(Color.PURPLE);
  //       System.out.println("test");
     }
+    private void checkIfNextPlayerTurn(){
+       int playerIndexManager = _gameManager.getActivePlayerIndex();
+       if(playerIndexManager != _indexActivePlayerGameManager)
+       {
+           _indexActivePlayerGameManager = playerIndexManager;
+           _activaBall = _gameManager.getBall();
+           updatePlayerActive();
+       }
+    }
     public InputProcessor getUIInputProcessor()
     {
         return UIStage;
@@ -256,7 +266,7 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         int height = (int)CourseManager.calculateHeight(x,y);
         ball_position.setText("Ball Position\n" + "height: " + height + "\nx:" + x + " y: " + y);
         turnCount.setText("Turns: " + _gameManager.getTurns());
-
+        checkIfNextPlayerTurn();
         if(_spline) updateSliders();
         UIStage.draw();
         UIStage.act();
