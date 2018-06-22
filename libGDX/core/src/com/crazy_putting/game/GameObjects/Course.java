@@ -207,6 +207,7 @@ createObstacle();
                 BoxCollider box = (BoxCollider)colliderComponent;
                 out.add("\nCollider type: 2");
                 out.add("\nPosition: "+ obstacle.getPosition().x +" " + obstacle.getPosition().y +" " + obstacle.getPosition().z +" " );
+                System.out.println("Box added with dimensions: x " + box.getDimensions().x + " y " + box.getDimensions() + " z " + box.getDimensions());
                 out.add("\nDimensions: "+box.getDimensions().x+" " + box.getDimensions().y +" " + box.getDimensions().z +" " );
             }
         }

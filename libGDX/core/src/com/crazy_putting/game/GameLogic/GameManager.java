@@ -121,7 +121,7 @@ public class GameManager {
         Vector3 pos;
         float distScale =1;
         for(int i = 0; i<nPlayers;i++){
-            distScale= 1.0f/nPlayers;
+            distScale= 1.0f/(nPlayers*2);
             do {
                 allBalls[i].destroy();
 
