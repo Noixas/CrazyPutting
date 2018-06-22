@@ -18,7 +18,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.Others.MultiplayerSettings;
-import com.crazy_putting.game.Physics.Euler;
 
 import static com.crazy_putting.game.GameLogic.GraphicsManager.WINDOW_HEIGHT;
 import static com.crazy_putting.game.GameLogic.GraphicsManager.WINDOW_WIDTH;
