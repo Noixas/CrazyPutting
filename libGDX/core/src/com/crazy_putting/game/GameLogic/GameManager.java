@@ -125,6 +125,7 @@ public class GameManager {
         }
     }
     public void update(float pDelta){
+        System.out.println("Position "+_ball.getPosition().x+" "+_ball.getPosition().y);
         if(pDelta > 0.03){
             pDelta = 0.00166f;
         }

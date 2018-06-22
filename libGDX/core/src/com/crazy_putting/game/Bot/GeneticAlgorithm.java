@@ -1,6 +1,7 @@
 package com.crazy_putting.game.Bot;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
+import com.crazy_putting.game.Components.Colliders.SphereCollider;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.GameObjects.Hole;
@@ -200,6 +201,8 @@ public class GeneticAlgorithm extends SuperBot{
         for(int i = 0 ; i < POPULATION_SIZE * 5; i++){
             Ball addBall = new Ball(initial_Position);
             addBall.fix(false);
+            SphereCollider sp = new SphereCollider(addBall.getPosition(), 20);
+            addBall.addColliderComponent(sp);
             firstIteration.add(addBall);
         }
     }

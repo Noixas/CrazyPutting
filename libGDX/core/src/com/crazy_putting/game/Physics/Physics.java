@@ -101,13 +101,14 @@ public abstract class Physics {
         float dx = xCur-xPrev;
         float dy = yCur-yPrev;
 
-        if(dx==0&&dy==0){
+        if(dx==0||dy==0){
             return false;
         }
         for (int i = 1; i < 5; i++){
+
             float height = CourseManager.calculateHeight(xPrev + dx / i, equation2Points(dx, dy, xPrev + dx / i, xPrev, yPrev));
             if (height < 0){
-                System.out.println("In the water");
+                System.out.println("In the water "+height);
                 return true;
             }
         }
