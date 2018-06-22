@@ -198,10 +198,7 @@ public class GeneticAlgorithm extends SuperBot{
 
     private void createBallObjects(){
         for(int i = 0 ; i < POPULATION_SIZE * 5; i++){
-
-            Ball addBall = new Ball();
-
-            addBall.setPosition(initial_Position);
+            Ball addBall = new Ball(initial_Position);
             addBall.fix(false);
             firstIteration.add(addBall);
         }

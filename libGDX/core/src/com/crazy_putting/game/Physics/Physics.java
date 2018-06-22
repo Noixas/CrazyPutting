@@ -71,11 +71,10 @@ public abstract class Physics {
         if (MultiplayerSettings.PlayerAmount > 1 && MultiplayerSettings.Simultaneous==true) {
             for (int i = 0; i < movingObjects.size(); i++) {
                 // TODO change for mazelike courses
-                obj.setPosition(CourseManager.getStartPosition());
-                obj.fix(true);
                 PhysicsGameObject ball = movingObjects.get(i);
                 ball.setPosition(ball.getStartPosition());
                 ball.fix(true);
+                ball.setVelocity(0.00001f, 0.000001f);
             }
         }
         // For single player
