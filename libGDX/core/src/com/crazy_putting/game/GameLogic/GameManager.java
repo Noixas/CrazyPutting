@@ -72,7 +72,7 @@ public class GameManager {
         else
             allInput = new float[1][2];
         CourseManager.initObstacles();
-        do {
+  //      do {
             System.out.println("Setup");
             for (int i = 0; i < nPlayers; i++) {
                 if(allBalls[i] != null){
@@ -83,7 +83,8 @@ public class GameManager {
                 System.out.println("Balls "+allBalls[i].getPosition().x+" "+allBalls[i].getPosition().y);
                 System.out.println("Hole "+allHoles[i].getPosition().x+" "+allHoles[i].getPosition().y);
             }
-        } while (_mode==4 && (!checkLegitimacy()&&false));
+            keepBallsWithinDistances();
+     //   } while (_mode==4 && (!checkLegitimacy()&&false));
         if(MenuScreen.Mode3D ) {//3D Logic
          // if we are in multiplayer mode
             for (int i = 0; i < nPlayers; i++) {
@@ -103,7 +104,24 @@ public class GameManager {
         _hole = allHoles[0];
         _player = 0;
     }
+    /*
+     If the balls are further away than they should then we find the centroid and
+     position the balls relative to their position and centroid but within the allowed distance
+     */
+    public void keepBallsWithinDistances(){
 
+        if(checkLegitimacy()) return;
+        Vector3 middle = new Vector3();
+        for(int i = 0; i<nPlayers;i++){
+            middle.add(allBalls[i].getPosition());
+        }
+        middle.x = middle.x/nPlayers;
+        middle.y = middle.y/nPlayers;
+        middle.z = middle.z/nPlayers;
+        for(int i = 0; i<nPlayers;i++){
+            allBalls[i].setPosition(new Vector3(middle).add(new Vector3(middle).sub(allBalls[i].getPosition()).nor().scl(allowedDistance/2)));
+        }
+    }
     public void update(float pDelta){
         if(pDelta > 0.03){
             pDelta = 0.00166f;
