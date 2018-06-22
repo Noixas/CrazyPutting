@@ -1,5 +1,8 @@
 package com.crazy_putting.game.Others;
 
+import com.badlogic.gdx.math.Vector3;
+
+import javax.swing.text.Position;
 import java.util.Random;
 
 public class Noise {
@@ -50,13 +53,19 @@ public class Noise {
         return result;
     }
 
-    public Velocity noiseVelocity(Velocity velocity){
-        velocity.Vx += nextNormal(0,3);
-        velocity.Vy +=nextNormal(0,3);
-        velocity.angle +=nextNormal(0,5);
-
-
+    public Velocity noiseVelocity(Velocity velocity, float stDev){
+        velocity.Vx += nextNormal(0,stDev);
+        velocity.Vy +=nextNormal(0,stDev);
+        velocity.angle +=nextNormal(0,stDev);
         return velocity;
+    }
+
+    public Vector3 noisePosition(Vector3 someVector, float stDev){
+        someVector.x += nextNormal(0,stDev);
+        someVector.y += nextNormal(0,stDev);
+        someVector.z += nextNormal(0,stDev);
+
+        return someVector;
 
     }
 
