@@ -28,12 +28,6 @@ public abstract class Physics {
 
     public abstract void updateObject(PhysicsGameObject obj, double dt);
 
-    public void updateSpesificBall(int i, double dt){
-        if(!movingObjects.isEmpty() && i<movingObjects.size()){
-                updateObject(movingObjects.get(i),dt);
-        }
-    };
-
     /*
     other
      */
