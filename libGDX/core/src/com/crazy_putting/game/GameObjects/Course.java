@@ -248,7 +248,9 @@ createObstacle();
         addObstacleToList(obj);
     }
     }
-
+    public void deleteObstacle(GameObject obj){
+        _obstacles.remove(obj);
+    }
     public List<GameObject> getObstaclesList() {
         return _obstacles;
     }

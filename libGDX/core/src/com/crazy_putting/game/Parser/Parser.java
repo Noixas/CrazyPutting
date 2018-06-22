@@ -35,8 +35,7 @@ public class Parser {
             System.out.println(e);
         }
     }
-    public static String generateStringFile(String pFileName, Course pCourse, int pIndex)
-    {
+    public static String generateStringFile(String pFileName, Course pCourse, int pIndex){
     if(checkForCache() == false) cacheFile(pFileName);
        List<String> out = new ArrayList<String>();//= getCacheFile();
         out.add(_courseSeparator + "");

@@ -118,10 +118,18 @@ public class GameManager {
         middle.x = middle.x/nPlayers;
         middle.y = middle.y/nPlayers;
         middle.z = middle.z/nPlayers;
+        Vector3 pos;
+        float distScale =1;
         for(int i = 0; i<nPlayers;i++){
-            allBalls[i].destroy();
-            allBalls[i] = new Ball(new Vector3(middle).add(new Vector3(middle).sub(allBalls[i].getPosition()).nor().scl(allowedDistance/2)));
+            distScale= 1.0f/nPlayers;
+            do {
+                allBalls[i].destroy();
 
+                 pos = new Vector3(middle).add(new Vector3(middle).sub(allBalls[i].getPosition()).nor().scl(allowedDistance*distScale ));
+                pos.z = CourseManager.calculateHeight(pos.x, pos.y);
+                allBalls[i] = new Ball(pos);
+                distScale /= 2;
+            }while(pos.z < 0);
         }
     }
     public void update(float pDelta){
@@ -414,8 +422,10 @@ public class GameManager {
             for (int j=0; j<nPlayers; j++) {
                 double d = euclideanDistance(balls[i].getPosition(), balls[j].getPosition());
                 distancesMatrix[i][j] = d;
-                if (distancesMatrix[i][j] > allowedDistance && allBalls[i].enabled && allBalls[j].enabled)
+                if (distancesMatrix[i][j] > allowedDistance && allBalls[i].enabled && allBalls[j].enabled) {
+                    System.out.println("Distance "+distancesMatrix[i][j]);
                     return false;
+                }
             }
         }
         return true;
