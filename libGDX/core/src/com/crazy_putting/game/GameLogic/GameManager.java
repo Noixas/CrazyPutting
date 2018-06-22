@@ -471,11 +471,12 @@ public class GameManager {
         float size = CourseManager.getCourseDimensions().x / 2;
         float x;
         float y;
+        float z;
         do {
             x = (float) (p.x + Math.random() * allowedDistance/2);
             y = (float) (p.y + Math.random() * allowedDistance/2);
-        } while (x<-1*size || x>size || y<-1*size || y>size);
-        float z = CourseManager.calculateHeight(x, y);
+            z = CourseManager.calculateHeight(x, y);
+        } while (x<-1*size || x>size || y<-1*size || y>size || z<0);
         return new Vector3(x, y, z);
     }
 
