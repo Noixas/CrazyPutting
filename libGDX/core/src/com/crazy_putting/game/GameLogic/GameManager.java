@@ -241,15 +241,15 @@ public class GameManager {
             }
         }
         else if(_mode == 4 && !MultiplayerSettings.Simultaneous) {
-            changePlayer();
-            _ball = allBalls[_player];
-            _hole = allHoles[_player];
-                if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !anyBallIsMoving()) {
-                    if (!isBallInTheHole(_ball, _hole))
-                        Gdx.input.getTextInput(input, "Input data", "", "For player " + (_player + 1) + ": input speed and direction separated with space");
-                }
-                if (input.getText() != null) {
-                    try {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !anyBallIsMoving()) {
+                if (!isBallInTheHole(_ball, _hole))
+                    Gdx.input.getTextInput(input, "Input data", "", "For player " + (_player + 1) + ": input speed and direction separated with space");
+                changePlayer();
+                _ball = allBalls[_player];
+                _hole = allHoles[_player];
+            }
+            if (input.getText() != null) {
+                try {
                         String[] data = input.getText().split(" ");
                         float speed = Float.parseFloat(data[0]);
                         float angle = Float.parseFloat(data[1]);
@@ -258,13 +258,13 @@ public class GameManager {
                         input.clearText();//important to clear text or it will overwrite every frame
                         copyPreviousPosition();
                         checkConstrainsAndSetVelocity(allInput);
-                    } catch (NumberFormatException e) {
+                } catch (NumberFormatException e) {
                         // later on this will be added on the game screen so that it wasn't printed multiple times
                         // after doing this change, delete printing stack trace
                         Gdx.app.error("Exception: ", "You must input numbers");
                         e.getStackTrace();
-                    }
                 }
+            }
         }
         else if(_mode == 4 && MultiplayerSettings.Simultaneous) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !anyBallIsMoving()) {
