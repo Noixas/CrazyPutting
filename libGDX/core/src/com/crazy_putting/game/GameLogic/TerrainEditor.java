@@ -108,7 +108,7 @@ public class TerrainEditor extends InputAdapter {
     }*/
     @Override
     public boolean touchDown (int screenX, int screenY, int pointer, int button) {
-
+        System.out.println("Object");
        if(_splineEdit) {
            _dragging = false;
            _draggingPoint = intersectSplinePoint(screenX,screenY);
@@ -127,6 +127,7 @@ public class TerrainEditor extends InputAdapter {
            changeHolePos(pos);
        }
        else if(_addObjects){
+
            Vector3 pos = getObject(screenX,screenY);
            addBox(pos);
        }else if(_eraseObject){
@@ -267,7 +268,7 @@ public class TerrainEditor extends InputAdapter {
     }
     public Vector3 getObject (int screenX, int screenY) {
         Ray ray = _cam3D.getPickRay(screenX, screenY,0,0, _cam3D.viewportWidth,_cam3D.viewportHeight);//TODO:Get the WindowsWidth -300 from a constant variable somewhere in graphics, dont hardcode
-
+        System.out.println("Ray created");
         Vector3 position = new Vector3();
         _terrainInstance.transform.getTranslation(position);
 
@@ -276,6 +277,9 @@ public class TerrainEditor extends InputAdapter {
         if (Intersector.intersectRayTriangles(ray,TerrainGenerator.triangleList,intersectPos)) {
             System.out.println("Intersection point "+intersectPos);
             return intersectPos;
+        }
+        else{
+            System.out.println("No intersect");
         }
 
         return null;

@@ -133,7 +133,7 @@ public class GameManager {
         }
     }
     public void update(float pDelta){
-        System.out.println("Position "+_ball.getPosition().x+" "+_ball.getPosition().y);
+  //      System.out.println("Position "+_ball.getPosition().x+" "+_ball.getPosition().y);
         if(pDelta > 0.03){
             pDelta = 0.00166f;
         }
@@ -403,8 +403,8 @@ public class GameManager {
     public void updateHolePos(Vector3 pos, int pPlayer){
         Vector3 cache = allHoles[pPlayer].getPosition();
         allHoles[pPlayer].setPosition(pos);
-        if(checkDistances(allHoles)==false)
-            allHoles[pPlayer].setPosition(cache);
+      //  if(checkDistances(allHoles)==false)
+        //    allHoles[pPlayer].setPosition(cache);
     }
 
     /////////////////////////////////////////////////////////////////////
