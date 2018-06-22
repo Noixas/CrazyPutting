@@ -165,7 +165,7 @@ public class TerrainEditor extends InputAdapter {
         GameObject obstacle  = new GameObject(pPos);
         Vector3 dim = _gui.getObstacleDimensions();
         obstacle.addGraphicComponent(new BoxGraphics3DComponent(dim,Color.DARK_GRAY));
-        BoxCollider box = new BoxCollider(pPos,new Vector3(100,100,100));
+        BoxCollider box = new BoxCollider(pPos,new Vector3(_gui.getObstacleDimensions()));
         obstacle.addColliderComponent(box);
         CourseManager.addObstacle(obstacle);
 
