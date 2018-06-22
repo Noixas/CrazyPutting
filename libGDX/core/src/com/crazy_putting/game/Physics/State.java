@@ -4,10 +4,10 @@ import com.crazy_putting.game.GameObjects.PhysicsGameObject;
 
 public class State {
 
-    private float x;
-    private float y;
-    private float vx;
-    private float vy;
+     private float x;
+     private float y;
+     private float vx;
+     private float vy;
 
     public void update(PhysicsGameObject obj) {
         this.x = obj.getPosition().x;
