@@ -38,8 +38,11 @@ public class MazeBot {
         for(Node node:path){
             intermediatePoints.add(new Vector3(node.getxCoordinate(),node.getyCoordinate(),0));
         }
-        calculateZ(intermediatePoints);
+            calculateZ(intermediatePoints);
         createGraphicPoints(intermediatePoints);
+        for(Vector3 point:intermediatePoints){
+            System.out.println("Point x "+point.x+" y "+point.y+" z "+point.z);
+        }
     }
 
     public ArrayList<Velocity> findSolution(){
@@ -57,21 +60,26 @@ public class MazeBot {
 //            ball.setVelocity(speed,angle);
 //            ball.fix(false);
         }
+        Gdx.app.log("Log","findSolution finished");
 
+        for(Velocity velocity:mazeVelocities){
+            System.out.println("Speed: "+velocity.speed+" "+velocity.angle);
+        }
         return mazeVelocities;
+
     }
 
     public void createGraphicPoints(ArrayList<Vector3> intermediatePoints){
         for(int i=0;i<intermediatePoints.size()-1;i++){
             SplinePoint point = new SplinePoint(new Vector3(intermediatePoints.get(i)));
             point.enabled = true;
-            Graphics3DComponent pointGraphics = new SphereGraphics3DComponent(40, Color.BLUE);
+            Graphics3DComponent pointGraphics = new SphereGraphics3DComponent(40, Color.YELLOW);
             point.addGraphicComponent(pointGraphics);
         }
     }
 
     public void calculateZ(ArrayList<Vector3> intermediatePoints){
-        for(int i=0;i<intermediatePoints.size()-1;i++){
+        for(int i=0;i<intermediatePoints.size();i++){
             intermediatePoints.get(i).z = CourseManager.calculateHeight(intermediatePoints.get(i).x,intermediatePoints.get(i).y);
         }
     }

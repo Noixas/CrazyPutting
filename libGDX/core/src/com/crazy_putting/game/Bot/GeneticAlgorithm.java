@@ -17,7 +17,8 @@ public class GeneticAlgorithm extends SuperBot{
     private final int POPULATION_SIZE = 200;
     private final double ELITE_RATE = 0.1;
     private final double MUTATION_RATE = 0.3;
-    private static final int MAX_ITER = 80;
+    // TODO change later to 80
+    private static final int MAX_ITER = 20;
     public int  nrOfGenerationsProduced;
 
 
@@ -64,6 +65,13 @@ public class GeneticAlgorithm extends SuperBot{
             if(allBalls.get(0).getFitnessValue() == 0){
                 System.out.println("Success");
                 setEndPosition(allBalls.get(0).getEndPosition());
+                //WATCH OUT
+                for(int j =1;j<allBalls.size();j++){
+                    allBalls.get(j).destroy();
+                }
+                for(int j =1;j<firstIteration.size();j++){
+                    firstIteration.get(j).destroy();
+                }
                 return;
             }
 //            if(allBalls.get(0).getFitnessValue()<60){
@@ -77,6 +85,7 @@ public class GeneticAlgorithm extends SuperBot{
             allBalls = elitistCrossover();
 
         }
+        setEndPosition(allBalls.get(0).getEndPosition());
         printBestBall();
 
     }

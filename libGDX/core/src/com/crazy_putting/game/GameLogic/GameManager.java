@@ -133,15 +133,17 @@ public class GameManager {
         }
     }
     public void update(float pDelta){
-  //      System.out.println("Position "+_ball.getPosition().x+" "+_ball.getPosition().y);
         if(pDelta > 0.03){
             pDelta = 0.00166f;
         }
         if(mazeVelocities.size()==0){
+
             handleInput(_game.input);
         }
         else{
+            System.out.println("Maze velocities");
             if(!_ball.isMoving()){
+                System.out.println("Ball starts maze move");
                 _ball.setVelocity(mazeVelocities.get(0));
                 _ball.fix(false);
                 mazeVelocities.remove(0);
@@ -191,6 +193,7 @@ public class GameManager {
     public void handleInput(InputData input){
         // later on it should be if speed of the ball is zero (ball is not moving, then input data)
         if(_mode == 1) {
+
             if (Gdx.input.isKeyJustPressed(Input.Keys.G) && !_ball.isMoving()){
                 System.out.println(_ball.getPosition().x + "  " + _ball.getPosition().y);
                 GeneticAlgorithm GA = new GeneticAlgorithm(_hole, CourseManager.getActiveCourse(),CourseManager.getStartPosition(0));
@@ -201,6 +204,7 @@ public class GameManager {
                 _ball.fix(false);
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !_ball.isMoving()) {
+                MazeBot mazeBot = new MazeBot(_ball,_hole,CourseManager.getActiveCourse());
                 //CourseManager.reWriteCourse();//TODO: CHECK WHY THIS IS HERE
                 Gdx.input.getTextInput(input, "Input data", "", "Input speed and direction separated with space");
             }
@@ -257,11 +261,10 @@ public class GameManager {
         }
         else if(_mode == 4 && !MultiplayerSettings.Simultaneous) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !anyBallIsMoving()) {
-                if (!isBallInTheHole(_ball, _hole))
-                    Gdx.input.getTextInput(input, "Input data", "", "For player " + (_player + 1) + ": input speed and direction separated with space");
-                changePlayer();
                 _ball = allBalls[_player];
                 _hole = allHoles[_player];
+                if (!isBallInTheHole(_ball, _hole))
+                    Gdx.input.getTextInput(input, "Input data", "", "For player " + (_player + 1) + ": input speed and direction separated with space");
             }
             if (input.getText() != null) {
                 try {
@@ -273,6 +276,7 @@ public class GameManager {
                         input.clearText();//important to clear text or it will overwrite every frame
                         copyPreviousPosition();
                         checkConstrainsAndSetVelocity(allInput);
+                    changePlayer();
                 } catch (NumberFormatException e) {
                         // later on this will be added on the game screen so that it wasn't printed multiple times
                         // after doing this change, delete printing stack trace
@@ -418,11 +422,13 @@ public class GameManager {
         return _player;
     }
     public boolean checkDistances(GameObject[] balls){
-        //TODO: can improve the update depends if simultaneous or not
         if (nPlayers==1)
             return true;
-        for (int i=0; i<nPlayers; i++){
-            for (int j=0; j<nPlayers; j++) {
+        int maxUpdate; // update the distance only with the players before the current one
+        if (!MultiplayerSettings.Simultaneous) { maxUpdate = _player; }
+        else { maxUpdate = nPlayers; }
+        for (int i=0; i<maxUpdate; i++){
+            for (int j=0; j<maxUpdate; j++) {
                 double d = euclideanDistance(balls[i].getPosition(), balls[j].getPosition());
                 distancesMatrix[i][j] = d;
                 if (distancesMatrix[i][j] > allowedDistance && allBalls[i].enabled && allBalls[j].enabled) {
@@ -462,7 +468,6 @@ public class GameManager {
             returnToPreviousPosition();
             // TODO: display UI massage
         }
-        // TODO: exceeding depends on simultaneous or not
     }
 
     public void copyPreviousPosition(){

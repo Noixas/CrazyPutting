@@ -77,7 +77,7 @@ public abstract class Physics {
             obj.fix(true);
             obj.setVelocity(0.00001f, 0.000001f);
         }
-        Gdx.app.log("Message","Ball collided");
+//        Gdx.app.log("Message","Ball collided");
 
     }
 
@@ -94,7 +94,7 @@ public abstract class Physics {
 
         if(xCur > CourseManager.getCourseDimensions().x/ 2 || xCur < CourseManager.getCourseDimensions().x / 2 * (-1) ||
                 yCur > CourseManager.getCourseDimensions().y / 2 || yCur < CourseManager.getCourseDimensions().y / 2 * (-1) ){
-            System.out.println("Out of the world "+xCur+" "+yCur);
+//            System.out.println("Out of the world "+xCur+" "+yCur);
             return true;
         }
 
@@ -108,7 +108,7 @@ public abstract class Physics {
 
             float height = CourseManager.calculateHeight(xPrev + dx / i, equation2Points(dx, dy, xPrev + dx / i, xPrev, yPrev));
             if (height < 0){
-                System.out.println("In the water "+height);
+//                System.out.println("In the water "+height);
                 return true;
             }
         }
