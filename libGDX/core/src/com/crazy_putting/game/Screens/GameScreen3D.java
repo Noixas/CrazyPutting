@@ -143,10 +143,22 @@ public class GameScreen3D extends InputAdapter implements Screen {
         Vector2 dir2 = new Vector2(dirShot.x,dirShot.y);
         System.out.println("play2 "+pos2);
         System.out.println("dir2 "+dir2);
-        Vector2 substration = pos2.sub(dir2);
+        Vector2 substration = pos2.cpy().sub(dir2).nor();
         Vector2 unitRight = new Vector2(1,0);
 
         float angle =(float)Math.toDegrees( Math.acos((substration.cpy().dot(unitRight))/(unitRight.len()*substration.len())));
+        if(dir2.y <= pos2.y){
+            angle+=180;
+        }
+        else{
+            if(dir2.x >= pos2.x){
+                angle-=90;
+            }
+            else{
+                angle+=90;
+            }
+        }
+
         System.out.println("Angle "+angle);
         System.out.println("Angle + 90: " + (angle+90));
         System.out.println("Angle + 180: " + (angle+180));
@@ -154,7 +166,7 @@ public class GameScreen3D extends InputAdapter implements Screen {
         float[][] input = new float[_gameManager.getAmountPlayers()][2];
         for(int i = 0; i < _gameManager.getAmountPlayers(); i++){
             input[i][0] = _speedCache;
-            input[i][1] = angle;
+            input[i][1] = angle ;
         }
         _gameManager.checkConstrainsAndSetVelocity(input);
       }
