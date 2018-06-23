@@ -1,6 +1,7 @@
 package com.crazy_putting.game.GameObjects;
 
 import com.badlogic.gdx.math.Vector3;
+import com.crazy_putting.game.Components.Colliders.CollisionManager;
 import com.crazy_putting.game.Components.Colliders.SphereCollider;
 import com.crazy_putting.game.Others.Velocity;
 import com.crazy_putting.game.Physics.Physics;
@@ -46,6 +47,9 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
     }
     public void destroy(){
         enabled = false;
+        if(getColliderComponent()!=null){
+            CollisionManager.deleteCollider(getColliderComponent());
+        }
         Physics.physics.removeMovableObject(this);
     }
     public int getFitnessValue(){

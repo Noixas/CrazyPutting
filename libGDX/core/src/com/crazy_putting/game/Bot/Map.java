@@ -15,7 +15,7 @@ public class Map<T extends AbstractNode> {
     //Goal node coordinates
     private final int GOAL_X = Math.round(CourseManager.getGoalStartPosition(0).x), GOAL_Y = Math.round(CourseManager.getGoalStartPosition(0).y);
     private final int GOAL_NODE_X = GOAL_X + 1000, GOAL_NODE_Y = GOAL_Y + 1000;
-    private final float GOAL_RADIUS = CourseManager.getActiveCourse().getGoalRadius();
+ //   private final float GOAL_RADIUS = CourseManager.getActiveCourse().getGoalRadius();
 
     private float gold = 0;
 
@@ -45,9 +45,9 @@ public class Map<T extends AbstractNode> {
                     nodes[i][j].setBASICMOVEMENTCOST(height/100);   // <----- USE THIS IF YOU CARE ABOUT HEIGHTS
                     nodes[i][j].setTotalCost(GOAL_NODE_X, GOAL_NODE_Y); // <---- WE CARE ABOUT THE [F=G+H] COST OF THIS NODE SINCE IT IS WALKABLE
                 }
-                if(Math.sqrt(Math.pow(nodes[i][j].getxCoordinate() - GOAL_X,2) + Math.pow(nodes[i][j].getyCoordinate() - GOAL_Y,2)) < GOAL_RADIUS){
-                    nodes[i][j].setGoal(true);                      // <----- Checks if node is inside hole -> it is a GoalNode
-                }
+//                if(Math.sqrt(Math.pow(nodes[i][j].getxCoordinate() - GOAL_X,2) + Math.pow(nodes[i][j].getyCoordinate() - GOAL_Y,2)) < GOAL_RADIUS){
+//                    nodes[i][j].setGoal(true);                      // <----- Checks if node is inside hole -> it is a GoalNode
+//                }
             }
         }
         System.out.println("Nodes INITIALISED");
@@ -78,7 +78,7 @@ public class Map<T extends AbstractNode> {
         while(!openList.isEmpty()){
             current = lowestFInOpen();
             openList.remove(current);
-            if(current.isGoal()){
+            if(current.getxIndex()==GOAL_NODE_X && current.getyIndex()==GOAL_NODE_Y){
                 return calcPath(nodes[oldX][oldY], current);
             }
             closedList.add(current);
