@@ -162,6 +162,9 @@ public class GameManager {
             Physics.physics.update(pDelta);
         CollisionManager.update();
         updateGameLogic(pDelta);
+        if(Gdx.input.isKeyPressed(Input.Keys.L)){
+            System.out.println("Ball POS" + allBalls[0]);
+        }
         if (_mode == 4)
             multiPlayerUpdate(pDelta);
     }
@@ -278,6 +281,11 @@ public class GameManager {
                 _hole = allHoles[_player];
                 if (!isBallInTheHole(_ball, _hole))
                     Gdx.input.getTextInput(input, "Input data", "", "For player " + (_player + 1) + ": input speed and direction separated with space");
+                else{
+                    increasePlayer();
+                    if(allBallsInHole() == false)//if
+                    Gdx.input.getTextInput(input, "Input data", "", "For player " + (_player + 1) + ": input speed and direction separated with space");
+                }
             }
             if (input.getText() != null) {
                 try {
@@ -289,7 +297,7 @@ public class GameManager {
                         input.clearText();//important to clear text or it will overwrite every frame
                         copyPreviousPosition();
                         checkConstrainsAndSetVelocity(allInput);
-                    changePlayer();
+                    increasePlayer();
                 } catch (NumberFormatException e) {
                         // later on this will be added on the game screen so that it wasn't printed multiple times
                         // after doing this change, delete printing stack trace
@@ -352,7 +360,7 @@ public class GameManager {
             }
         }
         if (nPlayers==1 || MultiplayerSettings.Simultaneous || _player+1==nPlayers)
-        increaseTurnCount();
+            increaseTurnCount();
     }
 
     public float checkMaxSpeedConstrain(float speed){
@@ -479,6 +487,7 @@ public class GameManager {
         if (!anyBallIsMoving() && !checkDistances(allBalls)){
             System.out.println("Exceeding the allowed distance from each other. Please try again.");
             returnToPreviousPosition();
+            decreasePlayer();
             // TODO: display UI massage
         }
     }
@@ -519,9 +528,10 @@ public class GameManager {
     }
 
     public boolean checkLegitimacy(){
-        if (checkDistances(allBalls)==false || checkDistances(allHoles)==false)
+        if (checkDistances(allBalls)==false /*|| checkDistances(allHoles)==false*/)
             return false;
         int a = 0;
+        // check that there is no overlap between holes
         for (Hole element: allHoles){
             for (Hole element2: allHoles){
                 a++;
@@ -533,11 +543,25 @@ public class GameManager {
         return true;
     }
 
-    public void changePlayer(){
+    private void increasePlayer(){
         if (_player+1 == nPlayers)
             _player = 0;
         else
             _player++;
+    }
+
+    private void decreasePlayer(){
+        if (_player == 0)
+            _player = nPlayers-1;
+        else
+            _player--;
+    }
+
+    private boolean allBallsInHole(){
+        for(int i = 0; i<allBalls.length;i++)
+            if(!isBallInTheHole(allBalls[i],allHoles[i]))
+                return false;
+        return true;
     }
 
 }
