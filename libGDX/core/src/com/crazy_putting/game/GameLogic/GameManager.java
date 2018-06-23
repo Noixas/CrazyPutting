@@ -334,7 +334,6 @@ public class GameManager {
             }
             else{
                 _ball.setVelocity(speed, angle);
-
                 _ball.fix(false);
             }
         }
