@@ -1,9 +1,10 @@
 package com.crazy_putting.game.Components.Colliders;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Vector3;
+import com.crazy_putting.game.GameLogic.GameManager;
 
 public class BoxCollider extends ColliderComponent{
-
     private Vector3 halfSizes;
 
     public BoxCollider(Vector3 pos, Vector3 dim){
@@ -22,6 +23,12 @@ public class BoxCollider extends ColliderComponent{
     public boolean containsPoint(Vector3 pPoint){
         if(getPosition().x-halfSizes.x <= pPoint.x && getPosition().x + halfSizes.x >= pPoint.x &&
                 getPosition().y-halfSizes.y <= pPoint.y && getPosition().y + halfSizes.y >= pPoint.y)return true;
+        else return  false;
+    }
+
+    public boolean containsPointPath(Vector3 pPoint){
+        if(getPosition().x- GameManager.allowedOffset-halfSizes.x <= pPoint.x && getPosition().x + GameManager.allowedOffset+ halfSizes.x >= pPoint.x &&
+                getPosition().y-GameManager.allowedOffset-halfSizes.y <= pPoint.y && getPosition().y +GameManager.allowedOffset+ halfSizes.y >= pPoint.y)return true;
         else return  false;
     }
 }

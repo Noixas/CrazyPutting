@@ -143,7 +143,7 @@ createObstacle();
                     if(sphere.containsPoint(pPosition))return true;
            }else if(colliderComponent instanceof BoxCollider){
                BoxCollider box = (BoxCollider)colliderComponent;
-                if( box.containsPoint(pPosition)) return true;
+                if( box.containsPointPath(pPosition)) return true;
            }
         }
         return false;

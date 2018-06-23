@@ -38,7 +38,7 @@ public class MazeBot {
         for(Node node:path){
             intermediatePoints.add(new Vector3(node.getxCoordinate(),node.getyCoordinate(),0));
         }
-            calculateZ(intermediatePoints);
+        calculateZ(intermediatePoints);
         createGraphicPoints(intermediatePoints);
         for(Vector3 point:intermediatePoints){
             System.out.println("Point x "+point.x+" y "+point.y+" z "+point.z);

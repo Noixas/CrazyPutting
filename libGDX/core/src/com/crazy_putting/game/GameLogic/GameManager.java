@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Bot.Bot;
 import com.crazy_putting.game.Bot.GeneticAlgorithm;
 import com.crazy_putting.game.Bot.MazeBot;
+import com.crazy_putting.game.Components.Colliders.ColliderComponent;
 import com.crazy_putting.game.Components.Colliders.CollisionManager;
 import com.crazy_putting.game.Components.Colliders.SphereCollider;
 import com.crazy_putting.game.Components.Graphics.Graphics2DComponent;
@@ -27,7 +28,7 @@ import com.crazy_putting.game.Screens.MenuScreen;
 import java.util.ArrayList;
 
 public class GameManager {
-
+    public static int allowedOffset = 30;
     private Ball _ball;
     private Hole _hole;
     private GolfGame _game;
@@ -136,6 +137,7 @@ public class GameManager {
         if(pDelta > 0.03){
             pDelta = 0.00166f;
         }
+
         if(mazeVelocities.size()==0){
 
             handleInput(_game.input);
@@ -143,7 +145,12 @@ public class GameManager {
         else{
             System.out.println("Maze velocities");
             if(!_ball.isMoving()){
-                System.out.println("Ball starts maze move");
+                System.out.println("Colliders");
+                for(ColliderComponent c:CollisionManager.colliders){
+                    System.out.println("collider"+c.getPosition().x+" "+c.getPosition().y+" "+c.getClass());
+                }
+                System.out.println("_ball"+_ball.getPosition().x+" "+_ball.getPosition().y);
+                System.out.println("Ball starts maze move"+mazeVelocities.get(0).speed+" "+mazeVelocities.get(0).angle);
                 _ball.setVelocity(mazeVelocities.get(0));
                 _ball.fix(false);
                 mazeVelocities.remove(0);
@@ -179,7 +186,7 @@ public class GameManager {
 
     private void ballIsDone(Ball ball){
         System.out.println("Ball in goal");
-        ball.setVelocityComponents(0, 0);
+        ball.setVelocityComponents(0.0001f, 0.0001f);
         ball.fix(true);
         ball.enabled = false;
         Physics.physics.removeMovableObject(ball);
@@ -251,9 +258,18 @@ public class GameManager {
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.G) && !_ball.isMoving()){
                 // TODO
+                allowedOffset = 30;
                 MazeBot mazeBot = new MazeBot(_ball,_hole,CourseManager.getActiveCourse());
+
                 System.out.println("mazebot initialized");
                 mazeVelocities = mazeBot.findSolution();
+                for(int i =CollisionManager.colliders.size()-1;i>=0;i--){
+                    System.out.println("removed");
+                    if(CollisionManager.colliders.get(i) instanceof SphereCollider && !getPlayer(0).getColliderComponent().equals(CollisionManager.colliders.get(i))){
+                        CollisionManager.colliders.remove(i);
+                    }
+                }
+                allowedOffset = 0;
             }
         }
         else if(_mode == 4 && !MultiplayerSettings.Simultaneous) {
