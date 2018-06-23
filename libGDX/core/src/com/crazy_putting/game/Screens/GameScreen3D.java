@@ -85,21 +85,26 @@ public class GameScreen3D extends InputAdapter implements Screen {
         Gdx.input.setInputProcessor(_inputMain);
     }
         private void retrieveGUIState(){
-            boolean stateSpline =_gui.isSplineEditActive();
-            boolean changeBall = _gui.isChangeBallActive();
-            boolean changeHole = _gui.isChangeHoleActive();
-            boolean addObject = _gui.isAddObjectsActive();
-            boolean eraseObject = _gui.isEraseObjectsActive();
-            _terrainEditor.updateGUIState(stateSpline,changeBall,changeHole,addObject, eraseObject);
-            if((stateSpline ||changeBall||changeHole||addObject ||eraseObject)&& !_inputMain.getProcessors().contains(_terrainEditor,true)) {
+
+            if(checkGUIActive()&& !_inputMain.getProcessors().contains(_terrainEditor,true)) {
                      _inputMain.addProcessor(0, _terrainEditor);
-          }else if(!(stateSpline ||changeBall||changeHole||addObject ||eraseObject)&& _inputMain.getProcessors().contains(_terrainEditor,true))
+          }else if(!checkGUIActive()&& _inputMain.getProcessors().contains(_terrainEditor,true))
               _inputMain.removeProcessor(_terrainEditor);
 
+       }
+       private boolean checkGUIActive(){
+           boolean stateSpline =_gui.isSplineEditActive();
+           boolean changeBall = _gui.isChangeBallActive();
+           boolean changeHole = _gui.isChangeHoleActive();
+           boolean addObject = _gui.isAddObjectsActive();
+           boolean eraseObject = _gui.isEraseObjectsActive();
+           _terrainEditor.updateGUIState(stateSpline,changeBall,changeHole,addObject, eraseObject);
+        return (stateSpline ||changeBall||changeHole||addObject ||eraseObject);
        }
     @Override
     public boolean touchDown (int screenX, int screenY, int pointer, int button) {
 
+        if(checkGUIActive())return false;
         Vector3 pos =_terrainEditor.getObject(screenX,screenY);
         if(pos == null) return false;
         _speedCache=0;
