@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public final class CollisionManager {
 
-    private static ArrayList<ColliderComponent> colliders = new ArrayList<ColliderComponent>();
+    public static ArrayList<ColliderComponent> colliders = new ArrayList<ColliderComponent>();
     private static ArrayList<Contact> contacts = new ArrayList<Contact>();
 
 

@@ -35,7 +35,7 @@ public abstract class ColliderComponent extends BaseComponent {
         if(_owner == null)return true;
         else return _owner.enabled;
     }
-    protected Vector3 getPosition(){
+    public Vector3 getPosition(){
         return this.position;
     }
      public void setPosition(Vector3 position){

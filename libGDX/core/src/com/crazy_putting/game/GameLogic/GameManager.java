@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Bot.Bot;
 import com.crazy_putting.game.Bot.GeneticAlgorithm;
 import com.crazy_putting.game.Bot.MazeBot;
+import com.crazy_putting.game.Components.Colliders.ColliderComponent;
 import com.crazy_putting.game.Components.Colliders.CollisionManager;
 import com.crazy_putting.game.Components.Colliders.SphereCollider;
 import com.crazy_putting.game.Components.Graphics.Graphics2DComponent;
@@ -27,7 +28,7 @@ import com.crazy_putting.game.Screens.MenuScreen;
 import java.util.ArrayList;
 
 public class GameManager {
-
+    public static int allowedOffset = 30;
     private Ball _ball;
     private Hole _hole;
     private GolfGame _game;
@@ -136,6 +137,7 @@ public class GameManager {
         if(pDelta > 0.03){
             pDelta = 0.00166f;
         }
+
         if(mazeVelocities.size()==0){
 
             handleInput(_game.input);
@@ -143,7 +145,12 @@ public class GameManager {
         else{
             System.out.println("Maze velocities");
             if(!_ball.isMoving()){
-                System.out.println("Ball starts maze move");
+                System.out.println("Colliders");
+                for(ColliderComponent c:CollisionManager.colliders){
+                    System.out.println("collider"+c.getPosition().x+" "+c.getPosition().y+" "+c.getClass());
+                }
+                System.out.println("_ball"+_ball.getPosition().x+" "+_ball.getPosition().y);
+                System.out.println("Ball starts maze move"+mazeVelocities.get(0).speed+" "+mazeVelocities.get(0).angle);
                 _ball.setVelocity(mazeVelocities.get(0));
                 _ball.fix(false);
                 mazeVelocities.remove(0);
@@ -182,7 +189,7 @@ public class GameManager {
 
     private void ballIsDone(Ball ball){
         System.out.println("Ball in goal");
-        ball.setVelocityComponents(0, 0);
+        ball.setVelocityComponents(0.0001f, 0.0001f);
         ball.fix(true);
         ball.enabled = false;
         Physics.physics.removeMovableObject(ball);
@@ -254,9 +261,18 @@ public class GameManager {
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.G) && !_ball.isMoving()){
                 // TODO
+                allowedOffset = 30;
                 MazeBot mazeBot = new MazeBot(_ball,_hole,CourseManager.getActiveCourse());
+
                 System.out.println("mazebot initialized");
                 mazeVelocities = mazeBot.findSolution();
+                for(int i =CollisionManager.colliders.size()-1;i>=0;i--){
+                    System.out.println("removed");
+                    if(CollisionManager.colliders.get(i) instanceof SphereCollider && !getPlayer(0).getColliderComponent().equals(CollisionManager.colliders.get(i))){
+                        CollisionManager.colliders.remove(i);
+                    }
+                }
+                allowedOffset = 0;
             }
         }
         else if(_mode == 4 && !MultiplayerSettings.Simultaneous) {
@@ -265,6 +281,11 @@ public class GameManager {
                 _hole = allHoles[_player];
                 if (!isBallInTheHole(_ball, _hole))
                     Gdx.input.getTextInput(input, "Input data", "", "For player " + (_player + 1) + ": input speed and direction separated with space");
+                else{
+                    increasePlayer();
+                    if(allBallsInHole() == false)//if
+                    Gdx.input.getTextInput(input, "Input data", "", "For player " + (_player + 1) + ": input speed and direction separated with space");
+                }
             }
             if (input.getText() != null) {
                 try {
@@ -276,7 +297,7 @@ public class GameManager {
                         input.clearText();//important to clear text or it will overwrite every frame
                         copyPreviousPosition();
                         checkConstrainsAndSetVelocity(allInput);
-                    changePlayer();
+                    increasePlayer();
                 } catch (NumberFormatException e) {
                         // later on this will be added on the game screen so that it wasn't printed multiple times
                         // after doing this change, delete printing stack trace
@@ -338,7 +359,7 @@ public class GameManager {
             }
         }
         if (nPlayers==1 || MultiplayerSettings.Simultaneous || _player+1==nPlayers)
-        increaseTurnCount();
+            increaseTurnCount();
     }
 
     public float checkMaxSpeedConstrain(float speed){
@@ -465,6 +486,7 @@ public class GameManager {
         if (!anyBallIsMoving() && !checkDistances(allBalls)){
             System.out.println("Exceeding the allowed distance from each other. Please try again.");
             returnToPreviousPosition();
+            decreasePlayer();
             // TODO: display UI massage
         }
     }
@@ -505,9 +527,10 @@ public class GameManager {
     }
 
     public boolean checkLegitimacy(){
-        if (checkDistances(allBalls)==false || checkDistances(allHoles)==false)
+        if (checkDistances(allBalls)==false /*|| checkDistances(allHoles)==false*/)
             return false;
         int a = 0;
+        // check that there is no overlap between holes
         for (Hole element: allHoles){
             for (Hole element2: allHoles){
                 a++;
@@ -519,11 +542,25 @@ public class GameManager {
         return true;
     }
 
-    public void changePlayer(){
+    private void increasePlayer(){
         if (_player+1 == nPlayers)
             _player = 0;
         else
             _player++;
+    }
+
+    private void decreasePlayer(){
+        if (_player == 0)
+            _player = nPlayers-1;
+        else
+            _player--;
+    }
+
+    private boolean allBallsInHole(){
+        for(int i = 0; i<allBalls.length;i++)
+            if(!isBallInTheHole(allBalls[i],allHoles[i]))
+                return false;
+        return true;
     }
 
 }
