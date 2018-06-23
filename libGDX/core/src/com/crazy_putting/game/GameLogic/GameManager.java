@@ -512,9 +512,10 @@ public class GameManager {
     }
 
     public boolean checkLegitimacy(){
-        if (checkDistances(allBalls)==false || checkDistances(allHoles)==false)
+        if (checkDistances(allBalls)==false /*|| checkDistances(allHoles)==false*/)
             return false;
         int a = 0;
+        // check that there is no overlap between holes
         for (Hole element: allHoles){
             for (Hole element2: allHoles){
                 a++;
