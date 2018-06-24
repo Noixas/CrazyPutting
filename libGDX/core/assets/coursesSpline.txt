@@ -51,12 +51,30 @@ Ball Start Pos: 596.52094 -643.2977
 Ball Start Pos: 596.52094 -643.2977
 Max Speed: 200.0
 Spline Points: 6 6 -78.0  -12.0  -40.0  50.0  428.0  509.0  -17.0  -36.0  -3.0  384.0  248.0  467.0  0.0  39.0  0.0  0.0  373.0  304.0  186.0  149.0  233.0  0.0  0.0  -33.0  149.0  152.0  169.0  0.0  -83.0  -28.0  74.0  100.0  0.0  0.0  -105.0  -30.0  
-Obstacles: 2
+Obstacles: 8
 Collider type: 2
 Position: 446.0275 -665.28186 151.73364 
 Dimensions: 80.0 80.0 80.0 
 Collider type: 2
 Position: 509.71375 -612.3666 151.61719 
+Dimensions: 80.0 80.0 80.0 
+Collider type: 2
+Position: 380.437 -617.1409 150.39404 
+Dimensions: 80.0 80.0 80.0 
+Collider type: 2
+Position: 303.96625 -557.26025 151.84192 
+Dimensions: 80.0 80.0 80.0 
+Collider type: 2
+Position: 376.97745 -436.11566 170.8551 
+Dimensions: 80.0 80.0 80.0 
+Collider type: 2
+Position: 320.90637 -460.4226 169.0957 
+Dimensions: 80.0 80.0 80.0 
+Collider type: 2
+Position: 500.37064 -525.98016 154.01013 
+Dimensions: 80.0 80.0 80.0 
+Collider type: 2
+Position: 469.4154 -457.62436 161.04333 
 Dimensions: 80.0 80.0 80.0 
 Course End
 COURSE:
