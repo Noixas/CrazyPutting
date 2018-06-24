@@ -135,7 +135,7 @@ public class GameScreen3D extends InputAdapter implements Screen {
         _gui.addShootBar(-100);
         _shootArrow.destroy();
         Vector3 playerPos = _gameManager.getPlayer(_gameManager.getActivePlayerIndex()).getPosition();
-        System.out.println(playerPos);
+        //System.out.println(playerPos);
         Vector3 dirShot = _terrainEditor.getObject(screenX,screenY);
         swapYZ(dirShot);
         System.out.println("dir shot"+dirShot);
@@ -143,35 +143,32 @@ public class GameScreen3D extends InputAdapter implements Screen {
         Vector2 dir2 = new Vector2(dirShot.x,dirShot.y);
         System.out.println("play2 "+pos2);
         System.out.println("dir2 "+dir2);
-        Vector2 substration = pos2.cpy().sub(dir2).nor();
-        Vector2 unitRight = new Vector2(1,0);
+        float distance = dir2.dst(pos2);
+        float initialAngle = (float) Math.toDegrees(Math.acos(Math.abs(pos2.x-dir2.x)/distance));
+        float angle = 0;
 
-        float angle =(float)Math.toDegrees( Math.acos((substration.cpy().dot(unitRight))/(unitRight.len()*substration.len())));
-        if(dir2.y <= pos2.y){
-            angle+=180;
-        }
-        else{
-            if(dir2.x >= pos2.x){
-                angle-=90;
-            }
-            else{
-                angle+=90;
-            }
-        }
-
-        System.out.println("Angle "+angle);
-        System.out.println("Angle + 90: " + (angle+90));
-        System.out.println("Angle + 180: " + (angle+180));
-        System.out.println("Angle + 270: "+ (angle + 270));
+          if(pos2.x<dir2.x && pos2.y<dir2.y){
+              angle = initialAngle;
+          }
+          else if(pos2.x>dir2.x&&pos2.y<dir2.y){
+              angle = 180-initialAngle;
+          }
+          else if(pos2.x>dir2.x&&pos2.y>dir2.y){
+              angle = 180+initialAngle;
+          }
+          else if(pos2.x<dir2.x&&pos2.y>dir2.y){
+              angle = 360-initialAngle;
+          }
         float[][] input = new float[_gameManager.getAmountPlayers()][2];
         for(int i = 0; i < _gameManager.getAmountPlayers(); i++){
             input[i][0] = _speedCache;
-            input[i][1] = angle ;
+            input[i][1] = angle;
         }
         _gameManager.checkConstrainsAndSetVelocity(input);
       }
         _speedPressing =false;
           return false;
+
     }
     private void swapYZ(Vector3 v){
         Vector3 cache = new Vector3(v);
