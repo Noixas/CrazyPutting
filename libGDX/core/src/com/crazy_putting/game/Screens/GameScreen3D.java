@@ -39,7 +39,7 @@ public class GameScreen3D extends InputAdapter implements Screen {
         private CameraInputController _camController;
         private float _speedCache;
         private boolean _speedPressing = false;
-        private float _maxShootSpeed = 100;
+        private float _maxShootSpeed = CourseManager.getMaxSpeed();
         private boolean _increaseSpeedBar = true;
         private GameObject _shootArrow;
     public GameScreen3D(GolfGame pGame, int pMode) {
@@ -160,6 +160,9 @@ public class GameScreen3D extends InputAdapter implements Screen {
           else if(pos2.x<dir2.x&&pos2.y>dir2.y){
               angle = 360-initialAngle;
           }
+          if(_increaseSpeedBar==false){
+              angle+=180;
+          }
         float[][] input = new float[_gameManager.getAmountPlayers()][2];
         for(int i = 0; i < _gameManager.getAmountPlayers(); i++){
             input[i][0] = _speedCache;
@@ -192,18 +195,23 @@ public class GameScreen3D extends InputAdapter implements Screen {
             _gui.render();
         }
         private void handleShootSpeed(){
-            System.out.println(_increaseSpeedBar);
-            float step = CourseManager.getMaxSpeed() / 100;
+            System.out.println("toolbar" + _increaseSpeedBar);
+            float step = _maxShootSpeed / 100;
+            System.out.println(step);
         if(_increaseSpeedBar){
-            _speedCache+=step;
-            _gui.addShootBar(+1);
+            if(_speedCache + step < _maxShootSpeed) {
+                _speedCache += step;
+                _gui.addShootBar(+1);
+            }
         }
         else if(_increaseSpeedBar == false){
             _speedCache-=step;
             _gui.addShootBar(-1);
         }
-        if(_speedCache == _maxShootSpeed || _speedCache == 0)
-           _increaseSpeedBar = !_increaseSpeedBar;
+        if(_speedCache >= _maxShootSpeed || _speedCache == 0) {
+            boolean currentState = _increaseSpeedBar;
+            _increaseSpeedBar = !currentState;
+        }
 }
         private void updateCamera()
         {

@@ -5,6 +5,8 @@ import com.crazy_putting.game.Components.Colliders.SphereCollider;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.GameObjects.Hole;
+import com.crazy_putting.game.Others.Noise;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -164,7 +166,7 @@ public class GeneticAlgorithm extends SuperBot{
             //first ball from the elites
             Ball father = allBalls.get((int) (Math.random() * eliteSize));
             Ball mother = allBalls.get((int) (Math.random() * eliteSize));
-            reproduce(father,mother,i);
+            reproduceLinearly(father,mother,i);
         }
         return children;
     }
@@ -205,6 +207,56 @@ public class GeneticAlgorithm extends SuperBot{
         children.add(iterativeBall);
     }
 
+    private void reproduceLinearly(Ball i1, Ball i2, int i){
+        float angle1 = i1.getVelocityGA().angle;
+        float speed1 = i1.getVelocityGA().speed;
+
+        float angle2 = i2.getVelocityGA().angle;
+        float speed2 = i2.getVelocityGA().speed;
+
+        Ball iterativeBall = allBalls.get(i);
+
+        float u = Noise.getInstance().nextFloat();
+        float newSpeed = course.getMaxSpeed() +1;
+        float newAngle;
+        if(u < 0.33){
+            while(newSpeed > course.getMaxSpeed()) {
+                newSpeed = (float) (0.5 * speed1 + 0.5 * speed2);
+            }
+            newAngle = (float) (0.5 * angle1 + 0.5 * angle2);
+        }
+        else if(u < 0.66){
+            while(newSpeed > course.getMaxSpeed()) {
+                newSpeed = (float) (1.5 * speed1 - 0.5 * speed2);
+            }
+            newAngle = (float) (1.5 * angle1 - 0.5 * angle2);
+        }
+        else{
+            while(newSpeed > course.getMaxSpeed()) {
+                newSpeed = (float) (-0.5 * speed1 + 1.5 * speed2);
+            }
+            newAngle = (float) (-0.5 * angle1 + 1.5 * angle2);
+        }
+
+        if (Noise.getInstance().nextFloat() < MUTATION_RATE) {
+            float randomNum = -1 + rand.nextFloat()*2;
+
+            if (u > 0.5) {
+                newSpeed = speed2 + randomNum*5;
+                newAngle = angle2 + randomNum*5;
+            } else {
+                newSpeed = speed1 + randomNum;
+                newAngle = angle1 + randomNum;
+            }
+        }
+        iterativeBall.setVelocityGA((newSpeed), newAngle);
+        iterativeBall.setVelocity((newSpeed), newAngle);
+
+        iterativeBall.setPosition(initial_Position);
+
+        children.add(iterativeBall);
+
+    }
 
     private void chooseElite(int eSize){
         for(int i=0; i<eSize; i++){
