@@ -114,7 +114,7 @@ public abstract class AbstractNode {
         int currentX, currentY;
         currentX = this.xIndex;
         currentY = this.yIndex;
-        sethCosts(5 * (float) Math.sqrt(Math.pow(currentX - goalX , 2) + Math.pow(currentY - goalY , 2) ) );
+        sethCosts(2 * (float) Math.sqrt(Math.pow(currentX - goalX , 2) + Math.pow(currentY - goalY , 2) ) );
     }
 
     public float getTotalCost()

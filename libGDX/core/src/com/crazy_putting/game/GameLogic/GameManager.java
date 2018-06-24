@@ -264,9 +264,11 @@ public class GameManager {
                 // TODO
                 allowedOffset = 30;
                 MazeBot mazeBot = new MazeBot(_ball,_hole,CourseManager.getActiveCourse());
-
+                if(mazeBot.findSolution()!=null) {
                 System.out.println("mazebot initialized");
                 mazeVelocities = mazeBot.findSolution();
+                }
+                else System.out.println("Did not use mazebot");
                 for(int i =CollisionManager.colliders.size()-1;i>=0;i--){
                     System.out.println("removed");
                     if(CollisionManager.colliders.get(i) instanceof SphereCollider && !getPlayer(0).getColliderComponent().equals(CollisionManager.colliders.get(i))){
@@ -355,7 +357,6 @@ public class GameManager {
             }
             else{
                 _ball.setVelocity(speed, angle);
-
                 _ball.fix(false);
             }
         }

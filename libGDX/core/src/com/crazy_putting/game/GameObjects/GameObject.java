@@ -3,8 +3,10 @@ package com.crazy_putting.game.GameObjects;
 
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Components.Colliders.ColliderComponent;
+import com.crazy_putting.game.Components.Colliders.CollisionManager;
 import com.crazy_putting.game.Components.Graphics.GraphicsComponent;
 import com.crazy_putting.game.GameLogic.CourseManager;
+import com.crazy_putting.game.GameLogic.GraphicsManager;
 
 public class GameObject {
     private GraphicsComponent _graphicComponent;
@@ -51,6 +53,13 @@ public class GameObject {
         if(_colliderComponent!=null){
             _colliderComponent.setPosition(new Vector3(position));
         }
+    }
+    public void destroy(){
+        enabled = false;
+        if(_colliderComponent!= null)
+            CollisionManager.deleteCollider(_colliderComponent);
+        if(_graphicComponent != null)
+            GraphicsManager.deleteGraphicsComponent(_graphicComponent);
     }
 
 
