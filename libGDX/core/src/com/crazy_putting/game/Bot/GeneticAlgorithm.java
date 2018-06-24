@@ -23,8 +23,9 @@ public class GeneticAlgorithm extends SuperBot{
     private static final int MAX_ITER = 20;
     public int  nrOfGenerationsProduced;
     private int stuckCounter;
-    private final int stuckThreshold = 10;
+    private final int stuckThreshold = 20;
     private int lastBestBall;
+
 
 
     public GeneticAlgorithm(Hole hole, Course course, Vector3 initial_position){
@@ -78,10 +79,12 @@ public class GeneticAlgorithm extends SuperBot{
                 for(int j =1;j<firstIteration.size();j++){
                     firstIteration.get(j).destroy();
                 }
+                this.nrOfGenerationsProduced = i+1;
                 return;
             }
             if(isStuck()){
                 startSimplex(allBalls);
+                this.nrOfGenerationsProduced =0;
                 break;
             }
             children = null;

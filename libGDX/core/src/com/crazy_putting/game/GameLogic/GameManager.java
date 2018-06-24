@@ -204,8 +204,20 @@ public class GameManager {
 
             if (Gdx.input.isKeyJustPressed(Input.Keys.G) && !_ball.isMoving()){
                 System.out.println(_ball.getPosition().x + "  " + _ball.getPosition().y);
-                GeneticAlgorithm GA = new GeneticAlgorithm(_hole, CourseManager.getActiveCourse(),CourseManager.getStartPosition(0));
-                Ball b = GA.getBestBall();
+                Ball b = new Ball();
+                float sum = 0;
+                float success = 0;
+                for(int i = 0; i<100; i++) {
+                    GeneticAlgorithm GA = new GeneticAlgorithm(_hole, CourseManager.getActiveCourse(), CourseManager.getStartPosition(0));
+                    sum+=GA.getNrOfGenerationsProduced();
+                    if(GA.getNrOfGenerationsProduced() != 0){
+                        success++;
+                    }
+                    b = GA.getBestBall();
+                }
+                System.out.println("100 simulations done");
+                System.out.println("There were: " + success + " successes");
+                System.out.println("Average number of generations: " + sum/success);
                 float speed = b.getVelocityGA().speed;
                 float angle = b.getVelocityGA().angle;
                 _ball.setVelocity(speed,angle);
