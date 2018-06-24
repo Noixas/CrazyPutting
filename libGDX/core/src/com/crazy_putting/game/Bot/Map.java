@@ -18,6 +18,7 @@ public class Map<T extends AbstractNode> {
  //   private final float GOAL_RADIUS = CourseManager.getActiveCourse().getGoalRadius();
 
     private float gold = 0;
+    float height;
 
     ArrayList<T> path = new ArrayList<T>();
     private NodeFactory nodeFactory;
@@ -37,7 +38,7 @@ public class Map<T extends AbstractNode> {
                 nodes[i][j].setCoordinates(i - 1000, j - 1000); // <------ SETS THE COORDINATES TO BE [INDEX - 1000]
                 //nodes[i][j].setBASICMOVEMENTCOST(0);               // <------ USE THIS IF YOU DO NOT CARE ABOUT HEIGHTS
                 nodes[i][j].setWalkable(true);
-                float height = CourseManager.calculateHeight( nodes[i][j].getxCoordinate(), nodes[i][j].getyCoordinate());
+                height = CourseManager.calculateHeight( nodes[i][j].getxCoordinate(), nodes[i][j].getyCoordinate());
                 if(height < + 0) {
                     nodes[i][j].setWalkable(false);                 // <------ IF HEIGHT OF POINT IS LESS THAN 0 IT IS UNWALKABLE
                 }
@@ -64,6 +65,7 @@ public class Map<T extends AbstractNode> {
         T current;
         openList = new ArrayList<T>();
         closedList = new ArrayList<T>();
+        boolean isOpened = false;
 
         /* Converting coords to node indices*/
         oldX += 1000;
@@ -76,6 +78,10 @@ public class Map<T extends AbstractNode> {
         openList.add(current);
 
         while(!openList.isEmpty()){
+            for(int j = 0; j < openList.size(); j++){
+                if(openList.get(j).isWalkable() == true)isOpened = true;
+            }
+            if(isOpened == false){return null;}
             current = lowestFInOpen();
             openList.remove(current);
             if(current.getxIndex()==GOAL_NODE_X && current.getyIndex()==GOAL_NODE_Y){
@@ -94,9 +100,11 @@ public class Map<T extends AbstractNode> {
                     updateVertex(current, currentAdj);
                 }
             }
+            isOpened = false;
         }
         return null;
     }
+
 
     private void updateVertex(T s, T s1)
     {
@@ -132,11 +140,21 @@ public class Map<T extends AbstractNode> {
 
     private List<T> calcPath(T start, T goal) {
         // TODO if invalid nodes are given (eg cannot find from goal to start, this method will result in an infinite loop!)
-
+        float dX, dY;
         T curr = goal;
         boolean done = false;
         while (!done) {
-            path.add(0,curr);
+
+            dX = Math.abs(curr.getxCoordinate() - curr.getPrevious().getxCoordinate());
+            dY = Math.abs(curr.getyCoordinate() - curr.getPrevious().getyCoordinate());
+            if(dX > 1 || dY > 1 )
+                path .add(0,curr);
+            else {
+                System.out.println("nodes are too close to each other, combining.. ");
+                System.out.println("Curr x: " + curr.getxCoordinate() + " curr y: " + curr.getyCoordinate());
+                System.out.println("Curr Previous x: "+curr.getPrevious().getxCoordinate()+" curr previous y: "+curr.getPrevious().getyCoordinate());
+                System.out.println("");
+            }
             curr = (T) curr.getPrevious();
             if (curr.equals(start)) {
                 done = true;
@@ -144,6 +162,7 @@ public class Map<T extends AbstractNode> {
         }
         return path;
     }
+
 
     private T lowestFInOpen() {
         T cheapest = openList.get(0);

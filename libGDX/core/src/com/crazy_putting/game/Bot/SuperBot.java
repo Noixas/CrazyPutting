@@ -1,5 +1,6 @@
 package com.crazy_putting.game.Bot;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Components.Colliders.SphereCollider;
@@ -29,6 +30,7 @@ public class SuperBot {
         return endPosition;
     }
     public SuperBot(Hole hole, Course course, Vector3 initial_position){
+        Gdx.app.setLogLevel(Application.LOG_INFO);
         this.hole = hole;
         this.course = course;
         this.initial_Position = initial_position;
@@ -68,6 +70,7 @@ public class SuperBot {
         if (b.isFixed ()) {
             b.setFitnessValue(3000+lastDistance);
 //            System.out.println("Fitness value fixed"+b.getFitnessValue()+" position "+b.getPosition().x+" "+b.getPosition().y);
+            b.setEndPosition(b.getPosition());
             b.setPosition(initial_Position);
             b.setVelocity(b.getVelocityGA().speed,b.getVelocityGA().angle);
             return;
@@ -88,7 +91,7 @@ public class SuperBot {
             
 //            System.out.println("Fitness value finished"+b.getFitnessValue()+" position "+b.getPosition().x+" "+b.getPosition().y+" is fixed"+b.getVelocityGA().speed+" "+b.getVelocityGA().angle+
 //                    " "+b.getVelocity().speed+" "+b.getVelocity().angle);
-
+            b.setEndPosition(b.getPosition());
             b.setPosition(initial_Position);
             b.setVelocity(b.getVelocityGA().speed,b.getVelocityGA().angle);
         }
@@ -110,8 +113,8 @@ public class SuperBot {
         ArrayList<Ball> balls = new ArrayList<Ball>();
 
         Ball x1 = initialBalls.get(0).clone();
-        Ball x2 = initialBalls.get(1).clone();
-        Ball x3 = initialBalls.get(2).clone();
+        Ball x2 = initialBalls.get(10).clone();
+        Ball x3 = initialBalls.get(20).clone();
         x1.fix(false);
         x2.fix(false);
         x3.fix(false);
@@ -146,7 +149,7 @@ public class SuperBot {
         }
 
         System.out.println(balls.get(0).getFitnessValue());
-        if(balls.get(0).getFitnessValue()<60&&balls.get(0).getFitnessValue()==balls.get(1).getFitnessValue()&&balls.get(0).getFitnessValue()==balls.get(2).getFitnessValue()){
+        if(isSimplexStuck(balls)){
             bruteForce(balls);
             return;
         }
@@ -299,6 +302,10 @@ public class SuperBot {
 //        }
     }
 
+    public boolean isSimplexStuck(ArrayList<Ball> balls){
+        return balls.get(0).getFitnessValue()==balls.get(1).getFitnessValue()&&balls.get(0).getFitnessValue()==balls.get(2).getFitnessValue();
+    }
+
     public void printBestBall(){
         System.out.println("The best ball that is found");
         System.out.println("Speed: " + df2.format(bestBall.getVelocityGA().speed));
@@ -315,20 +322,20 @@ public class SuperBot {
         newBall.fix(false);
         float[] bestTry ={currentSpeed,currentAngle,balls.get(0).getFitnessValue()};
         System.out.println("Start");
-        for(float i = -range;i<range+1;i+=0.1){
-            for(float j = -range;j<range+1;j+=0.1){
+        for(float i = -range;i<range+1;i+=0.05){
+            for(float j = -range;j<range+1;j+=0.05){
                 newBall.fix(false);
                 newBall.setVelocity(currentSpeed+i,currentAngle+j);
                 newBall.setVelocityGA(currentSpeed+i,currentAngle+j);
                 simulateShot(newBall);
-                System.out.println("simulate "+newBall.getFitnessValue()+" "+(currentSpeed+i)+" "+(currentAngle+j));
+                Gdx.app.debug("Debug","simulate "+newBall.getFitnessValue()+" "+(currentSpeed+i)+" "+(currentAngle+j));
                 if(bestTry[2]>newBall.getFitnessValue()){
                     bestTry[0] = newBall.getVelocityGA().speed;
                     bestTry[1] = newBall.getVelocityGA().angle;
                     bestTry[2] = newBall.getFitnessValue();
                     if(newBall.getFitnessValue()==0){
                         bestBall = newBall;
-                        System.out.println("ball found "+newBall.getVelocityGA().speed+" "+newBall.getVelocityGA().angle);
+                        System.out.println("Ball found "+newBall.getVelocityGA().speed+" "+newBall.getVelocityGA().angle);
                         return;
                     }
                 }

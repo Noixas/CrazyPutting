@@ -145,6 +145,7 @@ public class GameManager {
         else{
             System.out.println("Maze velocities");
             if(!_ball.isMoving()){
+                System.out.println(allowedOffset);
                 System.out.println("Colliders");
                 for(ColliderComponent c:CollisionManager.colliders){
                     System.out.println("collider"+c.getPosition().x+" "+c.getPosition().y+" "+c.getClass());
@@ -264,15 +265,17 @@ public class GameManager {
                 allowedOffset = 30;
                 MazeBot mazeBot = new MazeBot(_ball,_hole,CourseManager.getActiveCourse());
 
-                System.out.println("mazebot initialized");
                 mazeVelocities = mazeBot.findSolution();
+                if(mazeVelocities!=null) {
+                    System.out.println("Mazebot initialized");
+                }
+                else System.out.println("Did not use mazebot");
                 for(int i =CollisionManager.colliders.size()-1;i>=0;i--){
                     System.out.println("removed");
                     if(CollisionManager.colliders.get(i) instanceof SphereCollider && !getPlayer(0).getColliderComponent().equals(CollisionManager.colliders.get(i))){
                         CollisionManager.colliders.remove(i);
                     }
                 }
-                allowedOffset = 0;
             }
         }
         else if(_mode == 4 && !MultiplayerSettings.Simultaneous) {
