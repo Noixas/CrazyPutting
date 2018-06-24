@@ -264,9 +264,10 @@ public class GameManager {
                 // TODO
                 allowedOffset = 30;
                 MazeBot mazeBot = new MazeBot(_ball,_hole,CourseManager.getActiveCourse());
-                if(mazeBot.findSolution()!=null) {
-                System.out.println("mazebot initialized");
+
                 mazeVelocities = mazeBot.findSolution();
+                if(mazeVelocities!=null) {
+                    System.out.println("Mazebot initialized");
                 }
                 else System.out.println("Did not use mazebot");
                 for(int i =CollisionManager.colliders.size()-1;i>=0;i--){
