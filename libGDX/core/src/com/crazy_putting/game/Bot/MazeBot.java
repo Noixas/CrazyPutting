@@ -15,13 +15,14 @@ import com.crazy_putting.game.Others.Velocity;
 import java.util.ArrayList;
 
 public class MazeBot {
-    private final int  intermediateRadius = 30;
+    private final int intermediateRadius = 30;
     private Vector3 startPoint;
     private Hole hole;
     private Ball ball;
     private Course course;
     private ArrayList<Vector3> intermediatePoints;
-    public MazeBot(Ball ball, Hole hole, Course course){
+
+    public MazeBot(Ball ball, Hole hole, Course course) {
         // 1. get intermediate points and tolerance (radius of intermediate points)
         // 2. change GA to make it work not between ball and hole, but between one point and another
         this.ball = ball;
@@ -30,38 +31,55 @@ public class MazeBot {
         int startX = Math.round(CourseManager.getStartPosition(0).x);
         int startY = Math.round(CourseManager.getStartPosition(0).y);
 
-
         Map<Node> nodeMap = new Map<Node>(2000, 2000, new ExampleFactory());
-        ArrayList<Node> path = (ArrayList<Node>)nodeMap.findPath(startX, startY); //Find path between StartNode and GoalNode
+        ArrayList<Node> path = (ArrayList<Node>) nodeMap.findPath(startX, startY); //Find path between StartNode and GoalNode
+
+        if(path!=null){
+            for (int i = 0; i < path.size(); i++) {
+                if (i != path.size() - 1)
+                    System.out.print("(" + path.get(i).getxCoordinate() + ", " + path.get(i).getyCoordinate() + ") -> ");
+                else
+                    System.out.println("(" + path.get(i).getxCoordinate() + ", " + path.get(i).getyCoordinate() + ") ");
+            }
 
         intermediatePoints = new ArrayList<Vector3>();
-        for(Node node:path){
-            intermediatePoints.add(new Vector3(node.getxCoordinate(),node.getyCoordinate(),0));
+        for (Node node : path) {
+            intermediatePoints.add(new Vector3(node.getxCoordinate(), node.getyCoordinate(), 0));
         }
         calculateZ(intermediatePoints);
         createGraphicPoints(intermediatePoints);
-        for(Vector3 point:intermediatePoints){
-            System.out.println("Point x "+point.x+" y "+point.y+" z "+point.z);
+        for (Vector3 point : intermediatePoints) {
+            System.out.println("Point x " + point.x + " y " + point.y + " z " + point.z);
         }
     }
+//
+//        else {
+//            System.out.println(" REDUNDANT NOTIFICATION ");
+//        }
 
+}
     public ArrayList<Velocity> findSolution(){
         startPoint = CourseManager.getStartPosition(0);
         ArrayList<Velocity> mazeVelocities = new ArrayList<Velocity>();
-        for(Vector3 point:intermediatePoints){
-            Hole destinationPoint = new Hole(intermediateRadius,point);
-            Gdx.app.log("Positions "," goal "+point.x+" "+point.y+" start "+startPoint.x+" "+startPoint.y);
-            GeneticAlgorithm ga = new GeneticAlgorithm(destinationPoint,course,startPoint);
-            mazeVelocities.add(new Velocity(ga.getBestBall().getVelocityGA().speed,ga.getBestBall().getVelocityGA().angle));
-            startPoint = ga.getEndPosition();
+        if(intermediatePoints!=null) {
+            for (Vector3 point : intermediatePoints) {
+                Hole destinationPoint = new Hole(intermediateRadius, point);
+                Gdx.app.log("Positions ", " goal " + point.x + " " + point.y + " start " + startPoint.x + " " + startPoint.y);
+                GeneticAlgorithm ga = new GeneticAlgorithm(destinationPoint, course, startPoint);
+                mazeVelocities.add(new Velocity(ga.getBestBall().getVelocityGA().speed, ga.getBestBall().getVelocityGA().angle));
+                startPoint = ga.getEndPosition();
 //            Ball b = ga.getBestBall();
 //            float speed = b.getVelocityGA().speed;
 //            float angle = b.getVelocityGA().angle;
 //            ball.setVelocity(speed,angle);
 //            ball.fix(false);
+            }
+            Gdx.app.log("Log", "findSolution finished");
         }
-        Gdx.app.log("Log","findSolution finished");
-
+        else{
+            System.out.println("No path for maze bot");
+            return null;
+        }
         for(Velocity velocity:mazeVelocities){
             System.out.println("Speed: "+velocity.speed+" "+velocity.angle);
         }

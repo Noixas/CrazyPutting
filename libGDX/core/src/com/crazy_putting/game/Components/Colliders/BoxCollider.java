@@ -31,4 +31,5 @@ public class BoxCollider extends ColliderComponent{
                 getPosition().y-GameManager.allowedOffset-halfSizes.y <= pPoint.y && getPosition().y +GameManager.allowedOffset+ halfSizes.y >= pPoint.y)return true;
         else return  false;
     }
+
 }
