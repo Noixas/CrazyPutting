@@ -20,7 +20,9 @@ public class GeneticAlgorithm extends SuperBot{
     // TODO change later to 80
     private static final int MAX_ITER = 20;
     public int  nrOfGenerationsProduced;
-
+    private int stuckCounter;
+    private final int stuckThreshold = 10;
+    private int lastBestBall;
 
 
     public GeneticAlgorithm(Hole hole, Course course, Vector3 initial_position){
@@ -35,6 +37,8 @@ public class GeneticAlgorithm extends SuperBot{
         run();
         bestBall = allBalls.get(0);
         printBestBall();
+        stuckCounter = 0;
+        lastBestBall = 10000;
     }
 
     //main method for the algorithm
@@ -74,12 +78,10 @@ public class GeneticAlgorithm extends SuperBot{
                 }
                 return;
             }
-//            if(allBalls.get(0).getFitnessValue()<60){
-////                bruteForce(allBalls);
-//                startSimplex(allBalls);
-//            }
-            // why is that here?
-//            Collections.shuffle(allBalls);
+            if(isStuck()){
+                startSimplex(allBalls);
+                break;
+            }
             children = null;
 
             allBalls = elitistCrossover();
@@ -90,6 +92,18 @@ public class GeneticAlgorithm extends SuperBot{
 
     }
 
+    private boolean isStuck(){
+        if(lastBestBall==allBalls.get(0).getFitnessValue()){
+            if(stuckCounter>=stuckThreshold){
+                stuckCounter = 0;
+                return true;
+            }
+            stuckCounter++;
+            return false;
+        }
+        lastBestBall = allBalls.get(0).getFitnessValue();
+        return false;
+    }
 
 
     private void createPopulation(){
@@ -101,12 +115,18 @@ public class GeneticAlgorithm extends SuperBot{
     private void simulateFirstShots(){
         for(int i = 0; i < firstIteration.size(); i++){
             simulateShot(firstIteration.get(i));
+            if(firstIteration.get(i).getFitnessValue()==0){
+                return;
+            }
         }
     }
 
     private void simulateShots(){
         for(int i = 0; i < POPULATION_SIZE; i++){
             simulateShot(allBalls.get(i));
+            if(allBalls.get(i).getFitnessValue()==0){
+                return;
+            }
         }
     }
 
