@@ -6,9 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
-import com.crazy_putting.game.Bot.Bot;
-import com.crazy_putting.game.Bot.GeneticAlgorithm;
-import com.crazy_putting.game.Bot.MazeBot;
+import com.crazy_putting.game.Bot.*;
 import com.crazy_putting.game.Components.Colliders.ColliderComponent;
 import com.crazy_putting.game.Components.Colliders.CollisionManager;
 import com.crazy_putting.game.Components.Colliders.SphereCollider;
@@ -224,7 +222,7 @@ public class GameManager {
                 _ball.fix(false);
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !_ball.isMoving()) {
-                MazeBot mazeBot = new MazeBot(_ball,_hole,CourseManager.getActiveCourse());
+//                MazeBot mazeBot = new MazeBot(_ball,_hole,CourseManager.getActiveCourse());
                 //CourseManager.reWriteCourse();//TODO: CHECK WHY THIS IS HERE
                 Gdx.input.getTextInput(input, "Input data", "", "Input speed and direction separated with space");
             }
@@ -275,13 +273,23 @@ public class GameManager {
             if (Gdx.input.isKeyJustPressed(Input.Keys.G) && !_ball.isMoving()){
                 // TODO
                 allowedOffset = 30;
-                MazeBot mazeBot = new MazeBot(_ball,_hole,CourseManager.getActiveCourse());
+                int startX = Math.round(CourseManager.getStartPosition(0).x);
+                int startY = Math.round(CourseManager.getStartPosition(0).y);
 
-                mazeVelocities = mazeBot.findSolution();
-                if(mazeVelocities!=null) {
-                    System.out.println("Mazebot initialized");
+
+                Map<Node> nodeMap = new Map<Node>(2000, 2000, new ExampleFactory());
+                ArrayList<Node> path = (ArrayList<Node>)nodeMap.findPath(startX, startY);
+
+
+
+                if(path!=null) {
+                    System.out.println("Mazebot initialized - there is a path");
+                    MazeBot mazeBot = new MazeBot(_ball,_hole,CourseManager.getActiveCourse(),path);
+                    mazeVelocities = mazeBot.findSolution();
                 }
-                else System.out.println("Did not use mazebot");
+                else{
+                    System.out.println("Mazebot wasn't initialize - there is no path");
+                }
                 for(int i =CollisionManager.colliders.size()-1;i>=0;i--){
                     System.out.println("removed");
                     if(CollisionManager.colliders.get(i) instanceof SphereCollider && !getPlayer(0).getColliderComponent().equals(CollisionManager.colliders.get(i))){
