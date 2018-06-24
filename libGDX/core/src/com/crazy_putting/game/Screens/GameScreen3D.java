@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.crazy_putting.game.Components.Graphics.ArrowGraphics3DComponent;
 import com.crazy_putting.game.FormulaParser.FormulaParser;
+import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameLogic.GameManager;
 import com.crazy_putting.game.GameLogic.GraphicsManager;
 import com.crazy_putting.game.GameLogic.TerrainEditor;
@@ -192,13 +193,13 @@ public class GameScreen3D extends InputAdapter implements Screen {
         }
         private void handleShootSpeed(){
             System.out.println(_increaseSpeedBar);
-
+            float step = CourseManager.getMaxSpeed() / 100;
         if(_increaseSpeedBar){
-            _speedCache++;
-            _gui.addShootBar(1);
+            _speedCache+=step;
+            _gui.addShootBar(+1);
         }
         else if(_increaseSpeedBar == false){
-            _speedCache--;
+            _speedCache-=step;
             _gui.addShootBar(-1);
         }
         if(_speedCache == _maxShootSpeed || _speedCache == 0)
