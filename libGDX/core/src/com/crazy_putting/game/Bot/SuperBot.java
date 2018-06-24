@@ -68,6 +68,7 @@ public class SuperBot {
         if (b.isFixed ()) {
             b.setFitnessValue(3000+lastDistance);
 //            System.out.println("Fitness value fixed"+b.getFitnessValue()+" position "+b.getPosition().x+" "+b.getPosition().y);
+            b.setEndPosition(b.getPosition());
             b.setPosition(initial_Position);
             b.setVelocity(b.getVelocityGA().speed,b.getVelocityGA().angle);
             return;
@@ -88,7 +89,7 @@ public class SuperBot {
             
 //            System.out.println("Fitness value finished"+b.getFitnessValue()+" position "+b.getPosition().x+" "+b.getPosition().y+" is fixed"+b.getVelocityGA().speed+" "+b.getVelocityGA().angle+
 //                    " "+b.getVelocity().speed+" "+b.getVelocity().angle);
-
+            b.setEndPosition(b.getPosition());
             b.setPosition(initial_Position);
             b.setVelocity(b.getVelocityGA().speed,b.getVelocityGA().angle);
         }

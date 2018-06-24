@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Components.Graphics.Graphics3DComponent;
 import com.crazy_putting.game.Components.Graphics.SphereGraphics3DComponent;
 import com.crazy_putting.game.GameLogic.CourseManager;
+import com.crazy_putting.game.GameLogic.GameManager;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.GameObjects.Hole;
@@ -33,16 +34,37 @@ public class MazeBot {
 
         Map<Node> nodeMap = new Map<Node>(2000, 2000, new ExampleFactory());
         ArrayList<Node> path = (ArrayList<Node>)nodeMap.findPath(startX, startY); //Find path between StartNode and GoalNode
-
+        /*
+            We only wanted the path to compute the nodes for bigger offset, but GA and real game shouldn't have any offset,
+            thus
+         */
+        GameManager.allowedOffset = 0;
         intermediatePoints = new ArrayList<Vector3>();
+        for(int i=0;i<path.size()-1 ;i++){
+            Vector3 pos = new Vector3(path.get(i).getxCoordinate(),path.get(i).getyCoordinate(),0);
+            Vector3 pos2 = new Vector3(path.get(i+1).getxCoordinate(),path.get(i+1).getyCoordinate(),0);
+            if(euclideanDistance(pos,pos2)<5){
+                path.remove(i+1);
+            }
+        }
         for(Node node:path){
             intermediatePoints.add(new Vector3(node.getxCoordinate(),node.getyCoordinate(),0));
+        }
+      //  System.out.print(" (" + startX  + ", " + startY  + ") -> ");
+        for (int i = 0; i < path.size(); i++) {
+            if(i!=path.size() - 1) System.out.print("(" + path.get(i).getxCoordinate() + ", " + path.get(i).getyCoordinate() + ") -> ");
+            else System.out.println("(" + path.get(i).getxCoordinate() + ", " + path.get(i).getyCoordinate() + ") ");
         }
         calculateZ(intermediatePoints);
         createGraphicPoints(intermediatePoints);
         for(Vector3 point:intermediatePoints){
             System.out.println("Point x "+point.x+" y "+point.y+" z "+point.z);
         }
+    }
+
+    public double euclideanDistance(Vector3 start, Vector3 goal){
+        double dist = (float) Math.sqrt(Math.pow(start.x-goal.x,2)+Math.pow(start.y-goal.y,2)+Math.pow(start.z-goal.z,2));
+        return dist;
     }
 
     public ArrayList<Velocity> findSolution(){

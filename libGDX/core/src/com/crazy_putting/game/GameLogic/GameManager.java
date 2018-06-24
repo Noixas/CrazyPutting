@@ -145,6 +145,7 @@ public class GameManager {
         else{
             System.out.println("Maze velocities");
             if(!_ball.isMoving()){
+                System.out.println(allowedOffset);
                 System.out.println("Colliders");
                 for(ColliderComponent c:CollisionManager.colliders){
                     System.out.println("collider"+c.getPosition().x+" "+c.getPosition().y+" "+c.getClass());
@@ -272,7 +273,6 @@ public class GameManager {
                         CollisionManager.colliders.remove(i);
                     }
                 }
-                allowedOffset = 0;
             }
         }
         else if(_mode == 4 && !MultiplayerSettings.Simultaneous) {
