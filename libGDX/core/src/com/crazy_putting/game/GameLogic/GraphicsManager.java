@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.crazy_putting.game.Components.Graphics.Graphics2DComponent;
 import com.crazy_putting.game.Components.Graphics.Graphics3DComponent;
+import com.crazy_putting.game.Components.Graphics.GraphicsComponent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,11 +53,17 @@ public class GraphicsManager {
     public static void render3D(ModelBatch pBatch, Camera pCam3D){
         pBatch.begin(pCam3D);
         Gdx.gl.glViewport(0, 0, WINDOW_WIDTH-300, Gdx.graphics.getHeight());
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT |
+                (Gdx.graphics.getBufferFormat().coverageSampling?GL20.GL_COVERAGE_BUFFER_BIT_NV:0));
+        //config.numSamples = 2
         for(int i = 0; i < _graphics3DComponentList.size(); i++){
             _graphics3DComponentList.get(i).render(pBatch, _environment);
         }
         pBatch.end();
+    }
+    public static void deleteGraphicsComponent(GraphicsComponent comp){
+        if(_graphics3DComponentList.contains(comp))_graphics3DComponentList.remove(comp);
+        if(_graphics2DComponentList.contains(comp))_graphics2DComponentList.remove(comp);
     }
 }
 
