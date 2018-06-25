@@ -362,6 +362,9 @@ public class GameManager {
         }
         return false;
     }
+    public boolean isBallMoving(){
+        return _ball.isMoving();
+    }
     public Ball getPlayer(int pPlayer){
         return allBalls[pPlayer];
     }

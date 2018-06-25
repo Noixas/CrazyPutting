@@ -105,7 +105,7 @@ public class GameScreen3D extends InputAdapter implements Screen {
     @Override
     public boolean touchDown (int screenX, int screenY, int pointer, int button) {
 
-        if(checkGUIActive())return false;
+        if(checkGUIActive()||_gameManager.isBallMoving())return false;
         Vector3 pos =_terrainEditor.getObject(screenX,screenY);
         if(pos == null) return false;
         _speedCache=0;
@@ -183,8 +183,6 @@ public class GameScreen3D extends InputAdapter implements Screen {
         public void render(float delta) {
         if(_speedPressing){
             handleShootSpeed();
-
-
         }
             retrieveGUIState();
             _camController.update();//Input
@@ -199,16 +197,18 @@ public class GameScreen3D extends InputAdapter implements Screen {
             float step = _maxShootSpeed / 100;
             System.out.println(step);
         if(_increaseSpeedBar){
-            if(_speedCache + step < _maxShootSpeed) {
+          //  if(_speedCache + step < _maxShootSpeed) {
                 _speedCache += step;
                 _gui.addShootBar(+1);
-            }
+         //   }
         }
         else if(_increaseSpeedBar == false){
             _speedCache-=step;
             _gui.addShootBar(-1);
         }
-        if(_speedCache >= _maxShootSpeed || _speedCache == 0) {
+            System.out.println(_speedCache+" Speed");
+            System.out.println("Max Speed "+_maxShootSpeed);
+        if(_speedCache > _maxShootSpeed || _speedCache < 0) {
             boolean currentState = _increaseSpeedBar;
             _increaseSpeedBar = !currentState;
         }
