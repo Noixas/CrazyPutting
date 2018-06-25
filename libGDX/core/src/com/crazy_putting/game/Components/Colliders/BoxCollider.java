@@ -1,6 +1,5 @@
 package com.crazy_putting.game.Components.Colliders;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.GameLogic.GameManager;
 

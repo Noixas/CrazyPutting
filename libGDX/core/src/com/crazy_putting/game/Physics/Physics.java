@@ -109,7 +109,7 @@ public abstract class Physics {
 
         if(xCur > CourseManager.getCourseDimensions().x/ 2 || xCur < CourseManager.getCourseDimensions().x / 2 * (-1) ||
                 yCur > CourseManager.getCourseDimensions().y / 2 || yCur < CourseManager.getCourseDimensions().y / 2 * (-1) ){
-//            System.out.println("Out of the world "+xCur+" "+yCur);
+            //System.out.println("Out of the world "+xCur+" "+yCur);
             return true;
         }
 
@@ -122,8 +122,9 @@ public abstract class Physics {
         for (int i = 1; i < 5; i++){
 
             float height = CourseManager.calculateHeight(xPrev + dx / i, equation2Points(dx, dy, xPrev + dx / i, xPrev, yPrev));
+
             if (height < -1){//Changed to -1 fro 0 by Rodrigo since in splines I use -1 so when we create  a new spline terrain the whole terrain is not water
-//                System.out.println("In the water "+height);
+                //System.out.println("In the water " + height);
                 return true;
             }
         }
@@ -188,7 +189,7 @@ public abstract class Physics {
         float x1 =  s.getX() + EPSILON;
         float x2 =  x1 - EPSILON;
         float yCur = s.getY();
-        int slopeScaleCoeff = 3;
+        float slopeScaleCoeff = 1f;
         float partialX = ((CourseManager.calculateHeight(x1, yCur) - CourseManager.calculateHeight(x2, yCur)) / EPSILON);
 
         x1-=EPSILON;

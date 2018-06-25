@@ -176,7 +176,7 @@ public class GameScreen3D extends InputAdapter implements Screen {
             _gui.render();
         }
         private void handleShootSpeed(){
-            System.out.println("toolbar" + _increaseSpeedBar);
+            //System.out.println("toolbar" + _increaseSpeedBar);
             float step = _maxShootSpeed / 100;
             System.out.println(step);
         if(_increaseSpeedBar){
@@ -189,8 +189,8 @@ public class GameScreen3D extends InputAdapter implements Screen {
             _speedCache-=step;
             _gui.addShootBar(-1);
         }
-            System.out.println(_speedCache+" Speed");
-            System.out.println("Max Speed "+_maxShootSpeed);
+            //System.out.println(_speedCache+" Speed");
+            //System.out.println("Max Speed "+_maxShootSpeed);
         if(_speedCache > _maxShootSpeed || _speedCache < 0) {
             boolean currentState = _increaseSpeedBar;
             _increaseSpeedBar = !currentState;
