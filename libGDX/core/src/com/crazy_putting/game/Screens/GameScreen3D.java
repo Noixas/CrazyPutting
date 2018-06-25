@@ -145,9 +145,7 @@ public class GameScreen3D extends InputAdapter implements Screen {
           else if(pos2.x<dir2.x&&pos2.y>dir2.y){
               angle = 360-initialAngle;
           }
-          if(_increaseSpeedBar==false){
-              angle+=180;
-          }
+          
         float[][] input = new float[_gameManager.getAmountPlayers()][2];
         for(int i = 0; i < _gameManager.getAmountPlayers(); i++){
             input[i][0] = _speedCache;
