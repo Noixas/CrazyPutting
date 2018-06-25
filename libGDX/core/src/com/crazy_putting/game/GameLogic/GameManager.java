@@ -372,7 +372,7 @@ public class GameManager {
             }
             checkConstrainsAndSetVelocity(input);
             increasePlayer();
-        
+
     }
     public static boolean isBallInTheHole(Ball ball, Hole hole){
         if(Math.sqrt(Math.pow(ball.getPosition().x -hole.getPosition().x,2) +Math.pow((ball.getPosition().y - hole.getPosition().y),2)+Math.pow((ball.getPosition().z - hole.getPosition().z),2))< hole.getRadius()){
