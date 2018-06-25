@@ -24,9 +24,25 @@ public abstract class Physics {
     Updating physics
      */
 
-    public abstract void update(double dt);
+    public void update(double dt){
+        if(!movingObjects.isEmpty()){
+            for (PhysicsGameObject movingObject : movingObjects) {
+                updateObject(movingObject, dt);
+            }
+        }
+    }
 
-    public abstract void updateObject(PhysicsGameObject obj, double dt);
+    public void updateObject(PhysicsGameObject obj, double dt){
+        if(obj.isFixed()) return;
+
+        if (collided(obj)){
+            dealCollision(obj);
+            return;
+        }
+        updateComponents(obj,dt);
+    }
+
+    public abstract void updateComponents(PhysicsGameObject obj, double dt);
 
     /*
     other

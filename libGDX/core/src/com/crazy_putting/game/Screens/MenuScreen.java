@@ -15,10 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.crazy_putting.game.Physics.Euler;
-import com.crazy_putting.game.Physics.Midpoint;
-import com.crazy_putting.game.Physics.RK4;
-import com.crazy_putting.game.Physics.Verlet;
+import com.crazy_putting.game.Physics.*;
 
 public class MenuScreen implements Screen {
 
@@ -43,7 +40,7 @@ public class MenuScreen implements Screen {
     private Skin skin2;
 
     private TextButton buttonPhysicsV;
-    private TextButton buttonPhysicsM;
+    private TextButton buttonPhysicsH;
     private TextButton buttonPhysicsRK;
     private TextButton buttonPhysicsE;
 
@@ -156,11 +153,11 @@ public class MenuScreen implements Screen {
             }
         });
 
-        buttonPhysicsM = new TextButton("Midpoint", skin,"toggle");
-        buttonPhysicsM.addListener(new ClickListener(){
+        buttonPhysicsH = new TextButton("Heun's3", skin,"toggle");
+        buttonPhysicsH.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                new Midpoint();
+                new Heuns3();
             }
         });
 
@@ -180,7 +177,7 @@ public class MenuScreen implements Screen {
             }
         });
 
-        ButtonGroup buttonGroupPhysics = new ButtonGroup(buttonPhysicsE, buttonPhysicsV, buttonPhysicsM, buttonPhysicsRK);
+        ButtonGroup buttonGroupPhysics = new ButtonGroup(buttonPhysicsE, buttonPhysicsV, buttonPhysicsH, buttonPhysicsRK);
 //next set the max and min amount to be checked
         buttonGroupPhysics.setMaxCheckCount(1);
         buttonGroupPhysics.setMinCheckCount(1);
@@ -204,7 +201,7 @@ public class MenuScreen implements Screen {
         tablePhysics.row();
         tablePhysics.add(buttonPhysicsE).size(100, 50);
         tablePhysics.add(buttonPhysicsV).size(100, 50);
-        tablePhysics.add(buttonPhysicsM).size(100, 50);
+        tablePhysics.add(buttonPhysicsH).size(100, 50);
         tablePhysics.add(buttonPhysicsRK).size(100, 50);
 
         // table
