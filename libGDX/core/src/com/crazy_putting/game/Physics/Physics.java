@@ -1,6 +1,5 @@
 package com.crazy_putting.game.Physics;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameObjects.PhysicsGameObject;
@@ -123,7 +122,7 @@ public abstract class Physics {
         for (int i = 1; i < 5; i++){
 
             float height = CourseManager.calculateHeight(xPrev + dx / i, equation2Points(dx, dy, xPrev + dx / i, xPrev, yPrev));
-            if (height < 0){
+            if (height < -1){//Changed to -1 fro 0 by Rodrigo since in splines I use -1 so when we create  a new spline terrain the whole terrain is not water
 //                System.out.println("In the water "+height);
                 return true;
             }

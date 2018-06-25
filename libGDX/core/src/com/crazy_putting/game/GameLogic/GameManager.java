@@ -299,7 +299,7 @@ public class GameManager {
             }
         }
         else if(_mode == 4 && !MultiplayerSettings.Simultaneous) {
-            if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !anyBallIsMoving()) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !anyBallIsMoving() ) {
                 _ball = allBalls[_player];
                 _hole = allHoles[_player];
                 if (!isBallInTheHole(_ball, _hole))
@@ -355,15 +355,30 @@ public class GameManager {
             }
         }
     }
+    public void shootBallFromGameScreen3DInput(float[][] input){
+        if(_mode == 4 && !MultiplayerSettings.Simultaneous) {
+            _ball = allBalls[_player];
+            _hole = allHoles[_player];
+            while (isBallInTheHole(_ball, _hole)) {
+                increasePlayer();
+                _ball = allBalls[_player];
+                _hole = allHoles[_player];
+                if (allBallsInHole()) {
+                    System.out.println("WON");
+                    return;
 
+                }
+            }
+            }
+            checkConstrainsAndSetVelocity(input);
+            increasePlayer();
+        
+    }
     public static boolean isBallInTheHole(Ball ball, Hole hole){
         if(Math.sqrt(Math.pow(ball.getPosition().x -hole.getPosition().x,2) +Math.pow((ball.getPosition().y - hole.getPosition().y),2)+Math.pow((ball.getPosition().z - hole.getPosition().z),2))< hole.getRadius()){
             return true;
         }
         return false;
-    }
-    public boolean isBallMoving(){
-        return _ball.isMoving();
     }
     public Ball getPlayer(int pPlayer){
         return allBalls[pPlayer];
