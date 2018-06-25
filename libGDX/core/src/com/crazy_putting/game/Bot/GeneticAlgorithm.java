@@ -20,10 +20,10 @@ public class GeneticAlgorithm extends SuperBot{
     private final double ELITE_RATE = 0.1;
     private final double MUTATION_RATE = 0.3;
     // TODO change later to 80
-    private static final int MAX_ITER = 20;
+    public static final int MAX_ITER = 30;
     public int  nrOfGenerationsProduced;
     private int stuckCounter;
-    private final int stuckThreshold = 20;
+    private final int stuckThreshold = 30;
     private int lastBestBall;
 
 
@@ -61,6 +61,7 @@ public class GeneticAlgorithm extends SuperBot{
         createPopulation();
 
         for(int i = 0; i < MAX_ITER;i++){
+            nrOfGenerationsProduced++;
             unFixAllTheBall();
 
             simulateShots();
@@ -79,14 +80,17 @@ public class GeneticAlgorithm extends SuperBot{
                 for(int j =1;j<firstIteration.size();j++){
                     firstIteration.get(j).destroy();
                 }
-                this.nrOfGenerationsProduced = i+1;
+                this.nrOfGenerationsProduced ++;
                 return;
             }
+            /*
             if(isStuck()){
                 startSimplex(allBalls);
-                this.nrOfGenerationsProduced =0;
+                System.out.println("Here");
+                this.nrOfGenerationsProduced = 0;
                 break;
             }
+            */
             children = null;
 
             allBalls = elitistCrossover();
@@ -220,37 +224,42 @@ public class GeneticAlgorithm extends SuperBot{
         Ball iterativeBall = allBalls.get(i);
 
         float u = Noise.getInstance().nextFloat();
-        float newSpeed = course.getMaxSpeed() +1;
+        float newSpeed;
         float newAngle;
         if(u < 0.33){
-            while(newSpeed > course.getMaxSpeed()) {
-                newSpeed = (float) (0.5 * speed1 + 0.5 * speed2);
-            }
+            newSpeed = (float) (0.5 * speed1 + 0.5 * speed2);
             newAngle = (float) (0.5 * angle1 + 0.5 * angle2);
         }
         else if(u < 0.66){
-            while(newSpeed > course.getMaxSpeed()) {
-                newSpeed = (float) (1.5 * speed1 - 0.5 * speed2);
-            }
+            newSpeed = (float) (1.5 * speed1 - 0.5 * speed2);
             newAngle = (float) (1.5 * angle1 - 0.5 * angle2);
         }
         else{
-            while(newSpeed > course.getMaxSpeed()) {
-                newSpeed = (float) (-0.5 * speed1 + 1.5 * speed2);
-            }
+            newSpeed = (float) (-0.5 * speed1 + 1.5 * speed2);
             newAngle = (float) (-0.5 * angle1 + 1.5 * angle2);
         }
 
         if (Noise.getInstance().nextFloat() < MUTATION_RATE) {
-            float randomNum = -1 + rand.nextFloat()*2;
 
-            if (u > 0.5) {
-                newSpeed = speed2 + randomNum*5;
-                newAngle = angle2 + randomNum*5;
-            } else {
-                newSpeed = speed1 + randomNum;
-                newAngle = angle1 + randomNum;
+            float speedAdd;
+            if (Noise.getInstance().nextFloat() > 0.3){
+                speedAdd = Noise.getInstance().nextNormal(0, nrOfGenerationsProduced);
+        }
+        else{
+                speedAdd = Noise.getInstance().nextNormal(0, MAX_ITER - nrOfGenerationsProduced+1);
             }
+            float angleAdd = Noise.getInstance().nextNormal(0,90);
+            //System.out.println(randomNum);
+
+            newSpeed += speedAdd;
+            newAngle += angleAdd;
+
+        }
+        //if(Noise.getInstance().nextInt(1000) < 150) {
+         //   System.out.println("New speed: " + newSpeed + " new angle: " + newAngle);
+        //}
+        if(newSpeed > course.getMaxSpeed()){
+            newSpeed = course.getMaxSpeed();
         }
         iterativeBall.setVelocityGA((newSpeed), newAngle);
         iterativeBall.setVelocity((newSpeed), newAngle);

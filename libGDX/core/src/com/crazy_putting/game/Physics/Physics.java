@@ -12,6 +12,7 @@ public abstract class Physics {
 
     protected final float g = 9.806f;
     protected float EPSILON = 1;
+    protected float SLOPE_MULTIPLIER = 2;
     protected static float mu;
 
     protected ArrayList<PhysicsGameObject> movingObjects = new ArrayList<PhysicsGameObject>();
@@ -182,7 +183,7 @@ public abstract class Physics {
 
         float partialY = ((CourseManager.calculateHeight(x1, yCur) - CourseManager.calculateHeight(x1, y2)) / EPSILON);
 
-        return new Vector3(partialX,partialY,0);
+        return new Vector3(SLOPE_MULTIPLIER*partialX,SLOPE_MULTIPLIER*partialY,0);
 
     }
 

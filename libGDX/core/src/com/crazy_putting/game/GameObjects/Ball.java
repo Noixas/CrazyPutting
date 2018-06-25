@@ -70,8 +70,14 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
     }
 
     public void setVelocity(float speed, float angle){
+
         this.velocity.setAngle(angle);
-        this.velocity.setSpeed(speed);
+        if(speed>0) {
+            this.velocity.setSpeed(speed);
+        }
+        else{
+            this.velocity.setSpeed(0);
+        }
         this.velocity.updateVelocityComponents();
     }
 

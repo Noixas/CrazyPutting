@@ -205,15 +205,15 @@ public class GameManager {
                 Ball b = new Ball();
                 float sum = 0;
                 float success = 0;
-                for(int i = 0; i<100; i++) {
+                for(int i = 0; i<5; i++) {
                     GeneticAlgorithm GA = new GeneticAlgorithm(_hole, CourseManager.getActiveCourse(), CourseManager.getStartPosition(0));
                     sum+=GA.getNrOfGenerationsProduced();
-                    if(GA.getNrOfGenerationsProduced() != 0){
+                    if(GA.getNrOfGenerationsProduced() != GA.MAX_ITER){
                         success++;
                     }
                     b = GA.getBestBall();
                 }
-                System.out.println("100 simulations done");
+                System.out.println("25 simulations done");
                 System.out.println("There were: " + success + " successes");
                 System.out.println("Average number of generations: " + sum/success);
                 float speed = b.getVelocityGA().speed;
