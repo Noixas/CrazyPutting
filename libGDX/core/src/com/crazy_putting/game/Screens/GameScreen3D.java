@@ -105,45 +105,30 @@ public class GameScreen3D extends InputAdapter implements Screen {
     @Override
     public boolean touchDown (int screenX, int screenY, int pointer, int button) {
 
-        if(checkGUIActive())return false;
+        if(checkGUIActive()||_gameManager.anyBallIsMoving())return false;
         Vector3 pos =_terrainEditor.getObject(screenX,screenY);
         if(pos == null) return false;
-        _speedCache=0;
+        _speedCache = 0;
         _speedPressing = true;
         Vector3 playerPos =  _gameManager.getPlayer(_gameManager.getActivePlayerIndex()).getPosition();
-        System.out.println("Ball Pos "+playerPos);
         _shootArrow = new GameObject((new Vector3(playerPos)));
-
-        float hightOffset = 2;
-        Vector3 cache = new Vector3(_terrainEditor.getObject(screenX,screenY));
-        pos.y=cache.z;
-        pos.z=cache.y+hightOffset;
-     //   GameObject arrow = new GameObject();
-        Vector3 to =_terrainEditor.getObject(screenX,screenY);
         int radius = 20;
-        to.y = playerPos.z + radius;
-        System.out.println("ARROW POS "+_shootArrow.getPosition());
-        ArrowGraphics3DComponent g = new ArrowGraphics3DComponent(new Vector3(_gameManager.getPlayer(_gameManager.getActivePlayerIndex()).getPosition()),to, Color.DARK_GRAY);
-       // SphereGraphics3DComponent g = new SphereGraphics3DComponent(40,40,2,Color.RED);
+        pos.y = playerPos.z + radius;
+        ArrowGraphics3DComponent g = new ArrowGraphics3DComponent(new Vector3(playerPos),pos, Color.DARK_GRAY);
         _shootArrow.addGraphicComponent(g);
         return false;
     }
 
     @Override
     public boolean touchUp (int screenX, int screenY, int pointer, int button) {
-        System.out.println("Pressed speed "+_speedCache);
       if(_speedPressing){
         _gui.addShootBar(-100);
         _shootArrow.destroy();
         Vector3 playerPos = _gameManager.getPlayer(_gameManager.getActivePlayerIndex()).getPosition();
-        //System.out.println(playerPos);
         Vector3 dirShot = _terrainEditor.getObject(screenX,screenY);
         swapYZ(dirShot);
-        System.out.println("dir shot"+dirShot);
         Vector2 pos2 = new Vector2(playerPos.x,playerPos.y);
         Vector2 dir2 = new Vector2(dirShot.x,dirShot.y);
-        System.out.println("play2 "+pos2);
-        System.out.println("dir2 "+dir2);
         float distance = dir2.dst(pos2);
         float initialAngle = (float) Math.toDegrees(Math.acos(Math.abs(pos2.x-dir2.x)/distance));
         float angle = 0;
@@ -160,17 +145,15 @@ public class GameScreen3D extends InputAdapter implements Screen {
           else if(pos2.x<dir2.x&&pos2.y>dir2.y){
               angle = 360-initialAngle;
           }
-          if(_increaseSpeedBar==false){
-              angle+=180;
-          }
+          
         float[][] input = new float[_gameManager.getAmountPlayers()][2];
         for(int i = 0; i < _gameManager.getAmountPlayers(); i++){
             input[i][0] = _speedCache;
             input[i][1] = angle;
         }
-        _gameManager.checkConstrainsAndSetVelocity(input);
+        _gameManager.shootBallFromGameScreen3DInput(input);
       }
-        _speedPressing =false;
+        _speedPressing = false;
           return false;
 
     }
@@ -183,8 +166,6 @@ public class GameScreen3D extends InputAdapter implements Screen {
         public void render(float delta) {
         if(_speedPressing){
             handleShootSpeed();
-
-
         }
             retrieveGUIState();
             _camController.update();//Input
@@ -199,16 +180,18 @@ public class GameScreen3D extends InputAdapter implements Screen {
             float step = _maxShootSpeed / 100;
             System.out.println(step);
         if(_increaseSpeedBar){
-            if(_speedCache + step < _maxShootSpeed) {
+          //  if(_speedCache + step < _maxShootSpeed) {
                 _speedCache += step;
                 _gui.addShootBar(+1);
-            }
+         //   }
         }
         else if(_increaseSpeedBar == false){
             _speedCache-=step;
             _gui.addShootBar(-1);
         }
-        if(_speedCache >= _maxShootSpeed || _speedCache == 0) {
+            System.out.println(_speedCache+" Speed");
+            System.out.println("Max Speed "+_maxShootSpeed);
+        if(_speedCache > _maxShootSpeed || _speedCache < 0) {
             boolean currentState = _increaseSpeedBar;
             _increaseSpeedBar = !currentState;
         }

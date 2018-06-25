@@ -11,30 +11,6 @@ public class Euler extends Physics{
         Physics.physics = this;
     }
 
-    /*
-    Updating physics
-     */
-
-    public void update(double dt){
-
-        if(!movingObjects.isEmpty()){
-            for(int i =0;i<movingObjects.size();i++){
-                updateObject(movingObjects.get(i),dt);
-            }
-        }
-    }
-
-    public void updateObject(PhysicsGameObject obj, double dt){
-
-        if(obj.isFixed()) return;
-
-        if (collided(obj)){
-            dealCollision(obj);
-            return;
-        }
-        updateComponents(obj, dt);
-    }
-
     public void updateComponents(PhysicsGameObject obj, double dt){
 
         state.update(obj);
