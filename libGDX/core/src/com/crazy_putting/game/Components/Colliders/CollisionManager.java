@@ -5,7 +5,9 @@ import java.util.ArrayList;
 public final class CollisionManager {
 
     public static ArrayList<ColliderComponent> colliders = new ArrayList<ColliderComponent>();
+
     private static ArrayList<Contact> contacts = new ArrayList<Contact>();
+    private static ArrayList<Contact> simulationsContact = new ArrayList<Contact>();
 
 
     public static ArrayList<ColliderComponent> getColliders(){
@@ -32,6 +34,28 @@ public final class CollisionManager {
 
     }
 
+    public static void updateIgnoreSpheres(){
+        fillIgnoreContact();
+        dealContacts();
+        synchronizeColliders();
+        simulationsContact.clear();
+
+    }
+
+    private static void fillIgnoreContact(){
+        for(ColliderComponent component: colliders){
+            if(!component.isStatic()){
+                for(ColliderComponent anotherComponent : colliders){
+                    if(!component.equals(anotherComponent) && anotherComponent instanceof SphereCollider){
+                        Contact contact = CollisionDetector.detectCollision(component,anotherComponent);
+                        if(contact!=null && !simulationsContact.contains(contact)){
+                            simulationsContact.add(contact);
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     private static void synchronizeColliders(){
         if(!colliders.isEmpty()){
@@ -52,7 +76,7 @@ public final class CollisionManager {
 
     private static void fillContactList(){
         for(ColliderComponent component: colliders){
-            if(!component.isStatic()){
+            if(!component.isStatic() && !component.isEnabled()){
                 for(ColliderComponent anotherComponent : colliders){
                     if(!component.equals(anotherComponent)){
                         Contact contact = CollisionDetector.detectCollision(component,anotherComponent);
