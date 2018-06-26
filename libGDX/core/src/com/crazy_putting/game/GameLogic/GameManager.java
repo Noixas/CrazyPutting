@@ -90,10 +90,11 @@ public class GameManager {
         if(MenuScreen.Mode3D ) {//3D Logic
          // if we are in multiplayer mode
             for (int i = 0; i < nPlayers; i++) {
-                    allBalls[i].addGraphicComponent(new SphereGraphics3DComponent(40, Color.WHITE));
+                int radius = 40;
+                    allBalls[i].addGraphicComponent(new SphereGraphics3DComponent(radius, Color.WHITE));
                     SphereCollider sphere = new SphereCollider(CourseManager.getStartPosition(i),20);
                     allBalls[i].addColliderComponent(sphere);
-                    allHoles[i].addGraphicComponent(new SphereGraphics3DComponent(40, Color.BLACK));
+                    allHoles[i].addGraphicComponent(new SphereGraphics3DComponent(radius * 2.0f, Color.BLACK));
             }
         }
         else{//2D Logic
@@ -318,6 +319,24 @@ public class GameManager {
             }
         }
     }
+    public void shootBallFromGameScreen3DInput(float[][] input){
+        if(_mode == 4 && !MultiplayerSettings.Simultaneous) {
+            _ball = allBalls[_player];
+            _hole = allHoles[_player];
+            while (isBallInTheHole(_ball, _hole)) {
+                increasePlayer();
+                _ball = allBalls[_player];
+                _hole = allHoles[_player];
+                if (allBallsInHole()) {
+                    System.out.println("WON");
+                    return;
+                }
+            }
+            }
+            checkConstrainsAndSetVelocity(input);
+            increasePlayer();
+
+    }
 
     public void chooseMazeBot(String mazeBotType){
         // TODO
@@ -350,7 +369,6 @@ public class GameManager {
             }
         }
     }
-
     public static boolean isBallInTheHole(Ball ball, Hole hole){
         if(Math.sqrt(Math.pow(ball.getPosition().x -hole.getPosition().x,2) +Math.pow((ball.getPosition().y - hole.getPosition().y),2)+Math.pow((ball.getPosition().z - hole.getPosition().z),2))< hole.getRadius()){
             return true;

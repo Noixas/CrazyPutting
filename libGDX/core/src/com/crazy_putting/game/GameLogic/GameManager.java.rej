@@ -1,0 +1,9 @@
+diff a/libGDX/core/src/com/crazy_putting/game/GameLogic/GameManager.java b/libGDX/core/src/com/crazy_putting/game/GameLogic/GameManager.java	(rejected hunks)
+@@ -81,6 +81,7 @@
+                     allBalls[i].destroy();
+                 }
+                 allBalls[i] = new Ball((CourseManager.getStartPosition(i)));
++                System.out.println(CourseManager.getActiveCourse().getGoalRadius()+" radius");
+                 allHoles[i] = new Hole((int) CourseManager.getActiveCourse().getGoalRadius(), (CourseManager.getGoalStartPosition(i)));
+                 System.out.println("Balls "+allBalls[i].getPosition().x+" "+allBalls[i].getPosition().y);
+                 System.out.println("Hole "+allHoles[i].getPosition().x+" "+allHoles[i].getPosition().y);

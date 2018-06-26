@@ -48,14 +48,12 @@ public abstract class SuperBot {
         b.setFitnessValue(distance);
 //        System.out.println("sim");
         int lastDistance = 0;
-        boolean firstIteration = true;
-        while ((!Physics.physics.isGoingToStop(b) && !b.isFixed())||firstIteration){
+        while ((!Physics.physics.isGoingToStop(b) && !b.isFixed())){
             // not sure if firstIteration needed
-            firstIteration = false;
             if (b.isSlow()) {
                 distance = calcToHoleDistance(b);
 //                System.out.println(hole.getRadius()+" distance "+distance);
-                if (distance < hole.getRadius()) {
+                if (distance <= hole.getRadius()-5) {
                     b.setFitnessValue(0);
 //                    System.out.println("Fitness value "+b.getFitnessValue()+" position "+b.getPosition().x+" "+b.getPosition().y);
                     System.out.println("End point speed and angle "+b.getVelocityGA().speed+" "+b.getVelocityGA().angle+" "+b.getPosition().x+" "+b.getPosition().y);
@@ -92,9 +90,6 @@ public abstract class SuperBot {
                 return;
             }
             b.setFitnessValue(distance);
-            
-//            System.out.println("Fitness value finished"+b.getFitnessValue()+" position "+b.getPosition().x+" "+b.getPosition().y+" is fixed"+b.getVelocityGA().speed+" "+b.getVelocityGA().angle+
-//                    " "+b.getVelocity().speed+" "+b.getVelocity().angle);
             b.setEndPosition(b.getPosition());
             b.setPosition(initial_Position);
             b.setVelocity(b.getVelocityGA().speed,b.getVelocityGA().angle);

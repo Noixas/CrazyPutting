@@ -240,7 +240,7 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
     }
     private void checkIfNextPlayerTurn(){
        int playerIndexManager = _gameManager.getActivePlayerIndex();
-       if(playerIndexManager != _indexActivePlayerGameManager)
+       if(playerIndexManager != _indexActivePlayerGameManager && _activaBall.isMoving() == false)
        {
            _indexActivePlayerGameManager = playerIndexManager;
            _activaBall = _gameManager.getBall();

@@ -4,31 +4,33 @@ package com.crazy_putting.game.Physics;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.GameObjects.PhysicsGameObject;
 
+public class Heuns3 extends Physics{
 
-public class Midpoint extends Physics{
-
-    public Midpoint(){
+    public Heuns3(){
         Physics.physics = this;
     }
 
     /*
-    Midpoint
+    RK4
      */
 
-    public void updateComponents(PhysicsGameObject obj, /*float t,*/ double dt) {
+    public void updateComponents(PhysicsGameObject obj, double dt) {
         state.update(obj);
 
         obj.getPreviousPosition().x = state.getX();
         obj.getPreviousPosition().y = state.getY();
 
         Derivative k1 = derivative(0.0f, state, new Derivative());
-        Derivative half_k1 = new Derivative(0.5f*k1.getDx(), 0.5f*k1.getDy(), 0.5f*k1.getDvx(), 0.5f*k1.getDvy());
-        Derivative k2 = derivative(dt*0.5f, state, half_k1);
+        Derivative half_k1 = new Derivative((1.0f/3.0f)*k1.getDx(), (1.0f/3.0f)*k1.getDy(), (1.0f/3.0f)*k1.getDvx(), (1.0f/3.0f)*k1.getDvy());
+        Derivative k2 = derivative(dt*(1.0f/3.0f), state, half_k1);
+        Derivative half_k2 = new Derivative((2.0f/3.0f)*k2.getDx(), (2.0f/3.0f)*k2.getDy(), (2.0f/3.0f)*k2.getDvx(), (2.0f/3.0f)*k2.getDvy());
+        Derivative k3 = derivative(dt*(2.0f/3.0f), state, half_k2);
 
-        float dxdt = k2.getDx();
-        float dydt = k2.getDy();
-        float dvxdt = k2.getDvx();
-        float dvydt = k2.getDvy();
+        float dxdt = 1.0f / 4.0f * ( k1.getDx() + 3.0f*k3.getDx() );
+        float dydt = 1.0f / 4.0f * ( k1.getDy() + 3.0f*k3.getDy() );
+
+        float dvxdt = 1.0f / 4.0f * ( k1.getDvx() + 3.0f*k3.getDvx() );
+        float dvydt = 1.0f / 4.0f * ( k1.getDvy() + 3.0f*k3.getDvy() );
 
         float x = (float) (state.getX() + dxdt*dt);
         float y = (float) (state.getY() + dydt*dt);
@@ -57,4 +59,6 @@ public class Midpoint extends Physics{
         d_new.setDx(dx); d_new.setDy(dy); d_new.setDvx(dvx); d_new.setDvy(dvy);
         return d_new;
     }
+
+
 }

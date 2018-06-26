@@ -1,6 +1,5 @@
 package com.crazy_putting.game.Physics;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameObjects.PhysicsGameObject;
@@ -24,9 +23,25 @@ public abstract class Physics {
     Updating physics
      */
 
-    public abstract void update(double dt);
+    public void update(double dt){
+        if(!movingObjects.isEmpty()){
+            for (PhysicsGameObject movingObject : movingObjects) {
+                updateObject(movingObject, dt);
+            }
+        }
+    }
 
-    public abstract void updateObject(PhysicsGameObject obj, double dt);
+    public void updateObject(PhysicsGameObject obj, double dt){
+        if(obj.isFixed()) return;
+
+        if (collided(obj)){
+            dealCollision(obj);
+            return;
+        }
+        updateComponents(obj,dt);
+    }
+
+    public abstract void updateComponents(PhysicsGameObject obj, double dt);
 
     /*
     other
@@ -94,7 +109,7 @@ public abstract class Physics {
 
         if(xCur > CourseManager.getCourseDimensions().x/ 2 || xCur < CourseManager.getCourseDimensions().x / 2 * (-1) ||
                 yCur > CourseManager.getCourseDimensions().y / 2 || yCur < CourseManager.getCourseDimensions().y / 2 * (-1) ){
-//            System.out.println("Out of the world "+xCur+" "+yCur);
+            //System.out.println("Out of the world "+xCur+" "+yCur);
             return true;
         }
 
@@ -107,8 +122,9 @@ public abstract class Physics {
         for (int i = 1; i < 5; i++){
 
             float height = CourseManager.calculateHeight(xPrev + dx / i, equation2Points(dx, dy, xPrev + dx / i, xPrev, yPrev));
-            if (height < 0){
-//                System.out.println("In the water "+height);
+
+            if (height < -1){//Changed to -1 fro 0 by Rodrigo since in splines I use -1 so when we create  a new spline terrain the whole terrain is not water
+                //System.out.println("In the water " + height);
                 return true;
             }
         }
@@ -173,7 +189,7 @@ public abstract class Physics {
         float x1 =  s.getX() + EPSILON;
         float x2 =  x1 - EPSILON;
         float yCur = s.getY();
-
+        float slopeScaleCoeff = 1f;
         float partialX = ((CourseManager.calculateHeight(x1, yCur) - CourseManager.calculateHeight(x2, yCur)) / EPSILON);
 
         x1-=EPSILON;
@@ -182,7 +198,7 @@ public abstract class Physics {
 
         float partialY = ((CourseManager.calculateHeight(x1, yCur) - CourseManager.calculateHeight(x1, y2)) / EPSILON);
 
-        return new Vector3(partialX,partialY,0);
+        return new Vector3(slopeScaleCoeff * partialX,slopeScaleCoeff * partialY,0);
 
     }
 
