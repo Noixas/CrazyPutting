@@ -12,6 +12,7 @@ public abstract class Physics {
     protected final float g = 9.806f;
     protected float EPSILON = 1;
     protected static float mu;
+    float dt = 0.01666f;
 
     protected ArrayList<PhysicsGameObject> movingObjects = new ArrayList<PhysicsGameObject>();
 
@@ -23,25 +24,26 @@ public abstract class Physics {
     Updating physics
      */
 
-    public void update(double dt){
+    public void update(){
+        float dt = 0.01666f;
         if(!movingObjects.isEmpty()){
             for (PhysicsGameObject movingObject : movingObjects) {
-                updateObject(movingObject, dt);
+                updateObject(movingObject);
             }
         }
     }
 
-    public void updateObject(PhysicsGameObject obj, double dt){
+    public void updateObject(PhysicsGameObject obj){
         if(obj.isFixed()) return;
 
         if (collided(obj)){
             dealCollision(obj);
             return;
         }
-        updateComponents(obj,dt);
+        updateComponents(obj);
     }
 
-    public abstract void updateComponents(PhysicsGameObject obj, double dt);
+    public abstract void updateComponents(PhysicsGameObject obj);
 
     /*
     other
@@ -119,6 +121,7 @@ public abstract class Physics {
         if(dx==0||dy==0){
             return false;
         }
+        if(CourseManager.getActiveCourse().checkObstaclesAt(new Vector3(xCur,yCur,0)));
         for (int i = 1; i < 5; i++){
 
             float height = CourseManager.calculateHeight(xPrev + dx / i, equation2Points(dx, dy, xPrev + dx / i, xPrev, yPrev));

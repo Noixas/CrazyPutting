@@ -70,7 +70,7 @@ public abstract class SuperBot {
             }
             lastDistance = calcToHoleDistance(b);
 
-            Physics.physics.updateObject(b, Gdx.graphics.getDeltaTime());
+            Physics.physics.updateObject(b);
             CollisionManager.update();
 //            System.out.println("Ball"+" position "+b.getPosition().x+" "+b.getPosition().y);
         }

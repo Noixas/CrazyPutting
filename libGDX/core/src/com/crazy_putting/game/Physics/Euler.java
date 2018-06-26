@@ -11,7 +11,7 @@ public class Euler extends Physics{
         Physics.physics = this;
     }
 
-    public void updateComponents(PhysicsGameObject obj, double dt){
+    public void updateComponents(PhysicsGameObject obj){
 
         state.update(obj);
 

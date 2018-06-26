@@ -14,7 +14,7 @@ public class Heuns3 extends Physics{
     RK4
      */
 
-    public void updateComponents(PhysicsGameObject obj, double dt) {
+    public void updateComponents(PhysicsGameObject obj) {
         state.update(obj);
 
         obj.getPreviousPosition().x = state.getX();

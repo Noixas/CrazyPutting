@@ -162,9 +162,9 @@ public class GameManager {
             }
         }
         if (_mode == 4 && !MultiplayerSettings.Simultaneous)
-            Physics.physics.updateObject(_ball, pDelta);
+            Physics.physics.updateObject(_ball);
         else
-            Physics.physics.update(pDelta);
+            Physics.physics.update();
         CollisionManager.update();
         updateGameLogic(pDelta);
         if(Gdx.input.isKeyPressed(Input.Keys.L)){

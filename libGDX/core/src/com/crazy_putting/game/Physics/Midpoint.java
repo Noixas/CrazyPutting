@@ -15,7 +15,7 @@ public class Midpoint extends Physics{
     Midpoint
      */
 
-    public void updateComponents(PhysicsGameObject obj, /*float t,*/ double dt) {
+    public void updateComponents(PhysicsGameObject obj) {
         state.update(obj);
 
         obj.getPreviousPosition().x = state.getX();
@@ -30,11 +30,11 @@ public class Midpoint extends Physics{
         float dvxdt = k2.getDvx();
         float dvydt = k2.getDvy();
 
-        float x = (float) (state.getX() + dxdt*dt);
-        float y = (float) (state.getY() + dydt*dt);
+        float x = (state.getX() + dxdt*dt);
+        float y = (state.getY() + dydt*dt);
 
-        float Vx = (float) (obj.getVelocity().Vx + dvxdt*dt);
-        float Vy = (float) (obj.getVelocity().Vy + dvydt*dt);
+        float Vx = (obj.getVelocity().Vx + dvxdt*dt);
+        float Vy = (obj.getVelocity().Vy + dvydt*dt);
 
         obj.setPositionXYZ(x,y);
         obj.setVelocityComponents(Vx,Vy);
