@@ -107,6 +107,7 @@ public class MazeBot {
         for(Velocity velocity:mazeVelocities){
             System.out.println("Speed: "+velocity.speed+" "+velocity.angle);
         }
+
         return mazeVelocities;
 
     }

@@ -146,7 +146,7 @@ public class GameManager {
         }
         else{
             System.out.println("Maze velocities");
-            System.out.println("is moving "+_ball.isMoving());
+            System.out.println("is fixed"+_ball.isFixed());
             if(!_ball.isMoving()){
                 System.out.println(allowedOffset);
                 System.out.println("Colliders");
@@ -355,6 +355,7 @@ public class GameManager {
             }
             else if (mazeBotType.equals("advanced")){
                 mazeVelocities = mazeBot.runAdvancedMazeBot();
+                _ball.fix(false);
             }
             else{
                 Gdx.app.log("Log","Error: No bot was started");
