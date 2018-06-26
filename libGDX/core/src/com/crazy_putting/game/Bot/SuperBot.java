@@ -3,6 +3,7 @@ package com.crazy_putting.game.Bot;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
+import com.crazy_putting.game.Components.Colliders.CollisionManager;
 import com.crazy_putting.game.Components.Colliders.SphereCollider;
 import com.crazy_putting.game.GameLogic.GameManager;
 import com.crazy_putting.game.GameObjects.Ball;
@@ -22,6 +23,8 @@ public abstract class SuperBot {
     protected static DecimalFormat df2 = new DecimalFormat(".##");
     private Vector3 endPosition;
 
+    private final SphereCollider sp = new SphereCollider(initial_Position,20);
+
     public Ball getBestBall() {
         return bestBall;
     }
@@ -35,14 +38,14 @@ public abstract class SuperBot {
         this.hole = hole;
         this.course = course;
         this.initial_Position = initial_position;
-        this.bestBall = new Ball();
-        SphereCollider sp = new SphereCollider(bestBall.getPosition(),20);
-        bestBall.addColliderComponent(sp);
     }
 
     public abstract boolean isFitForMaze(Ball b);
 
     public void simulateShot(Ball b){
+        b.addColliderComponent(sp);
+        b.setPosition(b.getPosition());
+
         GameManager.simulationCounter++;
         int distance = 4000;
         b.setFitnessValue(distance);
@@ -53,17 +56,20 @@ public abstract class SuperBot {
             if (b.isSlow()) {
                 distance = calcToHoleDistance(b);
 //                System.out.println(hole.getRadius()+" distance "+distance);
-                if (distance <= hole.getRadius()-5) {
+                if (distance <= hole.getRadius()) {
                     b.setFitnessValue(0);
 //                    System.out.println("Fitness value "+b.getFitnessValue()+" position "+b.getPosition().x+" "+b.getPosition().y);
                     System.out.println("End point speed and angle "+b.getVelocityGA().speed+" "+b.getVelocityGA().angle+" "+b.getPosition().x+" "+b.getPosition().y);
                     b.setEndPosition(b.getPosition());
                     b.setPosition(initial_Position);
                     b.setVelocity(b.getVelocityGA().speed,b.getVelocityGA().angle);
+
+                    b.deleteColliderComponent();
                     return;
                 }
             }
             lastDistance = calcToHoleDistance(b);
+            CollisionManager.update();
             Physics.physics.updateObject(b, Gdx.graphics.getDeltaTime());
 //            System.out.println("Ball"+" position "+b.getPosition().x+" "+b.getPosition().y);
         }
@@ -75,6 +81,8 @@ public abstract class SuperBot {
             b.setEndPosition(b.getPosition());
             b.setPosition(initial_Position);
             b.setVelocity(b.getVelocityGA().speed,b.getVelocityGA().angle);
+
+            b.deleteColliderComponent();
             return;
         }
         else{
@@ -87,12 +95,16 @@ public abstract class SuperBot {
                 b.setEndPosition(b.getPosition());
                 b.setPosition(initial_Position);
                 b.setVelocity(b.getVelocityGA().speed,b.getVelocityGA().angle);
+
+                b.deleteColliderComponent();
                 return;
             }
             b.setFitnessValue(distance);
             b.setEndPosition(b.getPosition());
             b.setPosition(initial_Position);
             b.setVelocity(b.getVelocityGA().speed,b.getVelocityGA().angle);
+
+            b.deleteColliderComponent();
         }
 
 
@@ -137,7 +149,7 @@ public abstract class SuperBot {
         balls.add(x3);
         System.out.println("b2 "+x2.getFitnessValue());
         findRoot(balls);
-        Gdx.app.log("Log - simplex ball",bestBall.getVelocityGA().speed+" "+bestBall.getVelocityGA().angle);
+//        Gdx.app.log("Log - simplex ball",bestBall.getVelocityGA().speed+" "+bestBall.getVelocityGA().angle);
     }
 
     public void findRoot(ArrayList<Ball> balls) {

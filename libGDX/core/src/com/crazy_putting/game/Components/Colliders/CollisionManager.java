@@ -27,6 +27,7 @@ public final class CollisionManager {
     }
 
     public static void update(){
+        //System.out.println(colliders.size());
         fillContactList();
         dealContacts();
         synchronizeColliders();
@@ -35,6 +36,7 @@ public final class CollisionManager {
     }
 
     public static void updateIgnoreSpheres(){
+        //System.out.println(colliders.size());
         fillIgnoreContact();
         dealContacts();
         synchronizeColliders();
@@ -56,6 +58,11 @@ public final class CollisionManager {
             }
         }
     }
+    private static void dealSimulatedContacts(){
+        for(Contact contact : simulationsContact){
+            CollisionSolver.dealCollision(contact);
+        }
+    }
 
     private static void synchronizeColliders(){
         if(!colliders.isEmpty()){
@@ -68,15 +75,13 @@ public final class CollisionManager {
 
     private static void dealContacts(){
         for(Contact contact : contacts){
-
             CollisionSolver.dealCollision(contact);
-
         }
     }
 
     private static void fillContactList(){
         for(ColliderComponent component: colliders){
-            if(!component.isStatic() && !component.isEnabled()){
+            if(!component.isStatic()){
                 for(ColliderComponent anotherComponent : colliders){
                     if(!component.equals(anotherComponent)){
                         Contact contact = CollisionDetector.detectCollision(component,anotherComponent);

@@ -124,7 +124,7 @@ public class GeneticAlgorithm extends SuperBot{
 
         }
         setEndPosition(allBalls.get(0).getEndPosition());
-        printBestBall();
+        //printBestBall();
 
     }
 
@@ -315,8 +315,6 @@ public class GeneticAlgorithm extends SuperBot{
         for(int i = 0 ; i < POPULATION_SIZE * 5; i++){
             Ball addBall = new Ball(initial_Position);
             addBall.fix(false);
-            SphereCollider sp = new SphereCollider(addBall.getPosition(), 20);
-            addBall.addColliderComponent(sp);
             firstIteration.add(addBall);
         }
     }

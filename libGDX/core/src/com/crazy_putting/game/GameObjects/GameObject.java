@@ -44,6 +44,11 @@ public class GameObject {
         _colliderComponent = pCollider;
         _colliderComponent.setOwner(this);
     }
+    public void deleteColliderComponent(){
+        if(_colliderComponent != null){
+            _colliderComponent = null;
+        }
+    }
 
     public ColliderComponent getColliderComponent() {
         return _colliderComponent;
