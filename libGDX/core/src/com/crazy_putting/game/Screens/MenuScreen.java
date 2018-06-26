@@ -49,7 +49,7 @@ public class MenuScreen implements Screen {
     private  TextButton button3DSpline;
 
     public static boolean Mode3D = true; //TODO:Check if its better to implement this somewhere else
-    public static boolean Spline3D = false; //TODO:Check if its better to implement this somewhere else
+    public static boolean Spline3D = true; //TODO:Check if its better to implement this somewhere else
     public static boolean Multiplayer = false;
     public MenuScreen(final GolfGame golfGame) {
 
@@ -142,7 +142,7 @@ public class MenuScreen implements Screen {
 //next set the max and min amount to be checked
         buttonGroup.setMaxCheckCount(1);
         buttonGroup.setMinCheckCount(1);
-        buttonGroup.setChecked("3D");
+        buttonGroup.setChecked("Spline");
 
 
         buttonPhysicsV = new TextButton("Verlet", skin,"toggle");
