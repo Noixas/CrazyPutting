@@ -127,7 +127,7 @@ public class GameScreen3D extends InputAdapter implements Screen {
     @Override
     public boolean touchDown (int screenX, int screenY, int pointer, int button) {
 
-        if(checkGUIActive()||_gameManager.anyBallIsMoving())return false;
+        if(MenuScreen.AI || checkGUIActive()||_gameManager.anyBallIsMoving())return false;
 
         dirShot = _terrainEditor.getObject(screenX,screenY);
         if(dirShot == null) return false;
@@ -207,7 +207,6 @@ public class GameScreen3D extends InputAdapter implements Screen {
                 _dialogViewPort.apply();
                 _fullScreenStage.draw();
                 _fullScreenStage.act();
-                System.out.println("WON2");
             }
         }
         private void handleShootSpeed(){

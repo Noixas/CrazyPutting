@@ -51,6 +51,7 @@ public class MenuScreen implements Screen {
     public static boolean Mode3D = true; //TODO:Check if its better to implement this somewhere else
     public static boolean Spline3D = true; //TODO:Check if its better to implement this somewhere else
     public static boolean Multiplayer = false;
+    public static boolean AI = false;
     public MenuScreen(final GolfGame golfGame) {
 
         this.golfGame = golfGame;
@@ -91,6 +92,7 @@ public class MenuScreen implements Screen {
         aiButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                AI = true;
                 golfGame.setScreen(new ChooseCoursesScreen(golfGame,3)); // go to "ModesScreen" screen
             }
         });
