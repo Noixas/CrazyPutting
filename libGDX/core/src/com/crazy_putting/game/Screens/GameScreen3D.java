@@ -51,7 +51,7 @@ public class GameScreen3D extends InputAdapter implements Screen {
         private boolean _increaseSpeedBar = true;
         private GameObject _shootArrow;
         private Vector3 dirShot;// = _terrainEditor.getObject(screenX,screenY);
-
+        private boolean _won = false;
     Stage _fullScreenStage;
     Window newW;
     public GameScreen3D(GolfGame pGame, int pMode) {
@@ -87,6 +87,13 @@ public class GameScreen3D extends InputAdapter implements Screen {
         _cam3D.update();
         _camController = new CameraInputController(_cam3D);
         _camController.translateUnits = 50;
+        newW = new Window("YOU WON!!",  new Skin(Gdx.files.internal("skin/plain-james-ui.json")));
+        newW.setSize(200, 80);
+        newW.add(new Label("Congratulations!!",new Skin(Gdx.files.internal("skin/plain-james-ui.json") )));
+        newW.setModal(true);
+        newW.setMovable(true);
+        newW.setPosition(0, Gdx.graphics.getHeight()/2 - newW.getHeight()/2);
+        newW.setVisible(true);
 
     }
     private void initTerrain() {
@@ -185,19 +192,10 @@ public class GameScreen3D extends InputAdapter implements Screen {
             handleShootSpeed();
         }
         if(_gameManager.isGameWon()){
-            newW = new Window("YOU WON!!",  new Skin(Gdx.files.internal("skin/plain-james-ui.json")));
-            //  windowWithTopRightCornerCloseButton = new WindowWithTopRightCornerCloseButton();
-            newW.setSize(200, 80);
-            newW.add(new Label("Congratulations!!",new Skin(Gdx.files.internal("skin/plain-james-ui.json") )));
-            newW.setModal(true);
-            newW.setMovable(true);
-            newW.setPosition(0, Gdx.graphics.getHeight()/2 - newW.getHeight()/2);
             _fullScreenStage.addActor(newW);
-            newW.setVisible(true);
-            _dialogViewPort.apply();
-            _fullScreenStage.draw();
-            _fullScreenStage.act();
+            _won = true;
         }
+
             retrieveGUIState();
             _camController.update();//Input
             _gameManager.update(delta);//Logic
@@ -205,15 +203,12 @@ public class GameScreen3D extends InputAdapter implements Screen {
             GraphicsManager.render3D(_game.batch3D, _cam3D);
             _hudViewport.apply();
             _gui.render();
-            //_game.batch.setProjectionMatrix(_cam3D.combined);
-            //3D
-            //newW.draw(_game.batch,100);
-        /*    newW.setClip(false);
-            _game.batch.begin();
-
-            newW.draw(_game.batch,50);
-            _game.batch.end();*/
-
+            if(_won){
+                _dialogViewPort.apply();
+                _fullScreenStage.draw();
+                _fullScreenStage.act();
+                System.out.println("WON2");
+            }
         }
         private void handleShootSpeed(){
             //System.out.println("toolbar" + _increaseSpeedBar);
