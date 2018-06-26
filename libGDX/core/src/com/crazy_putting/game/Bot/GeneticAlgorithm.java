@@ -52,7 +52,8 @@ public class GeneticAlgorithm extends SuperBot{
     public void runGenetic(){
         createBallObjects();
         run();
-        bestBall = allBalls.get(0);
+        bestBall = getBestBall();
+        //bestBall = allBalls.get(0);
         printBestBall();
     }
 
@@ -340,7 +341,7 @@ public class GeneticAlgorithm extends SuperBot{
     }
 
     public Ball getBestBall() {
-        return bestBall;
+        return allBalls.get(0);
     }
 
     public int getNrOfGenerationsProduced() {

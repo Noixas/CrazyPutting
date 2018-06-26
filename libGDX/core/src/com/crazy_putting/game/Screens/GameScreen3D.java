@@ -87,15 +87,7 @@ public class GameScreen3D extends InputAdapter implements Screen {
         _cam3D.update();
         _camController = new CameraInputController(_cam3D);
         _camController.translateUnits = 50;
-        newW = new Window("YOU WON!!",  new Skin(Gdx.files.internal("skin/plain-james-ui.json")));
-      //  windowWithTopRightCornerCloseButton = new WindowWithTopRightCornerCloseButton();
-        newW.setSize(200, 80);
-        newW.add(new Label("Congratulations!!",new Skin(Gdx.files.internal("skin/plain-james-ui.json") )));
-        newW.setModal(true);
-        newW.setVisible(false);
-        newW.setMovable(true);
-        newW.setPosition(0, Gdx.graphics.getHeight()/2 - newW.getHeight()/2);
-        _fullScreenStage.addActor(newW);
+
     }
     private void initTerrain() {
             if(MenuScreen.Spline3D)_terrainEditor = new TerrainEditor(_cam3D,true);
@@ -193,7 +185,18 @@ public class GameScreen3D extends InputAdapter implements Screen {
             handleShootSpeed();
         }
         if(_gameManager.isGameWon()){
+            newW = new Window("YOU WON!!",  new Skin(Gdx.files.internal("skin/plain-james-ui.json")));
+            //  windowWithTopRightCornerCloseButton = new WindowWithTopRightCornerCloseButton();
+            newW.setSize(200, 80);
+            newW.add(new Label("Congratulations!!",new Skin(Gdx.files.internal("skin/plain-james-ui.json") )));
+            newW.setModal(true);
+            newW.setMovable(true);
+            newW.setPosition(0, Gdx.graphics.getHeight()/2 - newW.getHeight()/2);
+            _fullScreenStage.addActor(newW);
             newW.setVisible(true);
+            _dialogViewPort.apply();
+            _fullScreenStage.draw();
+            _fullScreenStage.act();
         }
             retrieveGUIState();
             _camController.update();//Input
@@ -210,9 +213,6 @@ public class GameScreen3D extends InputAdapter implements Screen {
 
             newW.draw(_game.batch,50);
             _game.batch.end();*/
-        _dialogViewPort.apply();
-        _fullScreenStage.draw();
-        _fullScreenStage.act();
 
         }
         private void handleShootSpeed(){

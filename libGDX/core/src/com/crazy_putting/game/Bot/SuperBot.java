@@ -30,7 +30,7 @@ public abstract class SuperBot {
     }
 
     public Vector3 getEndPosition(){
-        Gdx.app.log("Log","End position: "+endPosition.x+" "+endPosition.y);
+        Gdx.app.log("Log","End position: "+endPosition.x + " "+ endPosition.y);
         return endPosition;
     }
     public SuperBot(Hole hole, Course course, Vector3 initial_position){
@@ -43,8 +43,8 @@ public abstract class SuperBot {
     public abstract boolean isFitForMaze(Ball b);
 
     public void simulateShot(Ball b){
+        sp.setPosition(initial_Position);
         b.addColliderComponent(sp);
-        b.setPosition(b.getPosition());
 
         GameManager.simulationCounter++;
         int distance = 4000;
