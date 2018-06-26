@@ -123,7 +123,7 @@ public class Map<T extends AbstractNode> {
     }
     private void computeCost(T s, T s1)
     {
-        if(lineOfSight(s, s1))
+        if(lineOfSight( s.getPrevious().getxIndex(), s.getPrevious().getyIndex(), s1.getxIndex(), s1.getyIndex()))
         {
 //          System.out.println("FOUND LOS");
             if(s.getPrevious().getgCosts() + calculateStraight(s.getPrevious().getxIndex(), s.getPrevious().getyIndex(), s1.getxIndex(), s1.getyIndex()) < s1.getgCosts()){
@@ -241,16 +241,8 @@ public class Map<T extends AbstractNode> {
         return adj;
     }
 //Returns true if there is a clear path between parent(s) and s1
-    private boolean lineOfSight(T s, T s1)
+    public boolean lineOfSight(int x1, int y1, int x2, int y2)
     {
-        int x1,y1,x2,y2;
-
-        x1 = s.getPrevious().getxIndex();
-        y1 = s.getPrevious().getyIndex();
-
-        x2 = s1.getxIndex();
-        y2 = s1.getyIndex();
-
         int dx,dy;
         int f = 0;
         int sx, sy; // direction of movement
@@ -294,6 +286,56 @@ public class Map<T extends AbstractNode> {
             if(f != 0 && nodes[x1 + ((sx - 1) / 2)][ y1 + ((sy - 1) / 2)].isWalkable()==false ) {return false;}
             if(dx == 0 && nodes[x1][y1 + ((sy - 1) / 2)].isWalkable()==false && nodes[x1 - 1][y1 + ((sy - 1) / 2)].isWalkable()==false ) {return false;}
             y1 += sy;
+            }
+        }
+        return true;
+    }
+
+    public boolean botLineOfSight(int x1, int y1, int x2, int y2)
+    {
+        int dx,dy;
+        int f = 0;
+        int sx, sy; // direction of movement
+        dx = x2 - x1;
+        dy = y2 - y1;
+
+        if(dx < 0){
+            dx = -dx;
+            sx = -1;
+        }
+        else sx = 1;
+
+        if(dy < 0){
+            dy = -dy;
+            sy = -1;
+        }
+        else sy = 1;
+
+        if(dx > dy){
+            while(x1 != x2) {
+                f += dy;
+                if(f >= dx){
+                    if(nodes[x1 + ((sx - 1) / 2)+1000][y1 + ((sy - 1) / 2)+1000].isWalkable()==false) {return false;}
+                    y1 += sy;
+                    f -= dx;
+                }
+                if(f != 0 && nodes[x1+((sx-1)/2)+1000][y1+((sy-1)/2)+1000].isWalkable()==false) {return false;}
+                if(dy == 0 && nodes[x1+((sx-1)/2)+1000][y1+1000].isWalkable()==false && nodes[x1 + ((sx - 1) / 2)+1000][y1 - 1+1000].isWalkable()==false) {return false;}
+                x1 += sx;
+            }
+        }
+
+        else {
+            while(y1 != y2) {
+                f += dx;
+                if(f >= dy){
+                    if(nodes[x1 + ((sx - 1) / 2)+1000][y1 + ((sy - 1) / 2)+1000].isWalkable()==false) {return false;}
+                    x1 += sx;
+                    f -= dy;
+                }
+                if(f != 0 && nodes[x1 + ((sx - 1) / 2)+1000][ y1 + ((sy - 1) / 2)+1000].isWalkable()==false ) {return false;}
+                if(dx == 0 && nodes[x1][y1 + ((sy - 1) / 2)+1000    ].isWalkable()==false && nodes[x1 - 1][y1 + ((sy - 1) / 2)+1000].isWalkable()==false ) {return false;}
+                y1 += sy;
             }
         }
         return true;

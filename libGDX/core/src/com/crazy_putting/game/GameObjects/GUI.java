@@ -1,5 +1,6 @@
 package com.crazy_putting.game.GameObjects;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
@@ -53,6 +54,8 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
     private Label _widthObstacleLabel;
     private Label _deepObstacleLabel;
     private Label _heightObstacleLabel;
+    private Label controls;
+    private Label simulationCounter;
 
     private SelectBox<String> playerSelectBox;
     private Ball _activaBall;
@@ -168,7 +171,13 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
 
         turnCount = new Label("Turns: " + _gameManager.getTurns(),skin);
         maxSpeed = new Label("Max speed: " + CourseManager.getMaxSpeed()+"\n",skin);
-
+        simulationCounter = new Label("Nr of simulations: "+GameManager.simulationCounter,skin);
+        if(_gameManager.getMode()==3){
+            controls = new Label("Controls: \nG - simple GA \nS - shortest MazeBot \nA - advanced MazeBot",skin);
+        }
+        else{
+                controls = new Label("Controls: \nInput velocity with the \nmouse or  press I",skin);
+        }
         ButtonGroup buttonGroup = new ButtonGroup(_splineEdit, _changeBallPos, _changeHolePos,_addObjects,_eraseObject);
         //next set the max and min amount to be checked
         buttonGroup.setMaxCheckCount(1);
@@ -176,15 +185,19 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         buttonGroup.uncheckAll();
       //  table.top();
         table.setDebug(false);
-        table.add(maxSpeed).colspan(2);;
+        table.add(maxSpeed).colspan(2);
         table.row();
-        table.add(speedText).colspan(2);;
+        table.add(speedText).colspan(2);
         table.row();
         table.add(ball_position).colspan(2);
         table.row();
         table.add(turnCount).colspan(2);
         table.row();
         table.add(playerSelectBox).colspan(2);
+        table.row();
+        table.add(simulationCounter).colspan(2);
+        table.row();
+        table.add(controls).colspan(2);
         if(_spline) {
             table.row();
             table.add(saveSplines).colspan(2);
@@ -279,6 +292,7 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         int height = (int)CourseManager.calculateHeight(x,y);
         ball_position.setText("Ball Position\n" + "height: " + height + "\nx:" + x + " y: " + y);
         turnCount.setText("Turns: " + _gameManager.getTurns());
+        simulationCounter.setText("Nr of simulations: "+ GameManager.simulationCounter);
         checkIfNextPlayerTurn();
         if(_spline) updateSliders();
         UIStage.draw();
