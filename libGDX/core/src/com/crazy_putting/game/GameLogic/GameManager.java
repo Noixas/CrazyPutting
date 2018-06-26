@@ -369,6 +369,11 @@ public class GameManager {
             }
         }
     }
+    public boolean isGameWon(){
+      for(int i = 0; i < allBalls.length; i++)
+            if(isBallInTheHole(allBalls[i],allHoles[i])==false) return false;
+       return true;
+    }
     public static boolean isBallInTheHole(Ball ball, Hole hole){
         if(Math.sqrt(Math.pow(ball.getPosition().x -hole.getPosition().x,2) +Math.pow((ball.getPosition().y - hole.getPosition().y),2)+Math.pow((ball.getPosition().z - hole.getPosition().z),2))< hole.getRadius()){
             return true;
