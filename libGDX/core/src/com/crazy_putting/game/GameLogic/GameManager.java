@@ -352,6 +352,7 @@ public class GameManager {
             MazeBot mazeBot = new MazeBot(_ball,_hole,CourseManager.getActiveCourse(),path,nodeMap);
             if(mazeBotType.equals("simple")){
                 mazeVelocities = mazeBot.runSimpleMazeBot();
+                _ball.fix(false);
             }
             else if (mazeBotType.equals("advanced")){
                 mazeVelocities = mazeBot.runAdvancedMazeBot();
