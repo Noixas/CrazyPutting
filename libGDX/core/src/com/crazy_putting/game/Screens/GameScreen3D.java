@@ -42,6 +42,7 @@ public class GameScreen3D extends InputAdapter implements Screen {
         private float _maxShootSpeed = CourseManager.getMaxSpeed();
         private boolean _increaseSpeedBar = true;
         private GameObject _shootArrow;
+        private Vector3 dirShot;// = _terrainEditor.getObject(screenX,screenY);
     public GameScreen3D(GolfGame pGame, int pMode) {
         _mode = pMode;
         this._game = pGame;
@@ -106,9 +107,12 @@ public class GameScreen3D extends InputAdapter implements Screen {
     public boolean touchDown (int screenX, int screenY, int pointer, int button) {
 
         if(checkGUIActive()||_gameManager.anyBallIsMoving())return false;
-        Vector3 pos =_terrainEditor.getObject(screenX,screenY);
-        if(pos == null) return false;
+
+        dirShot = _terrainEditor.getObject(screenX,screenY);
+        if(dirShot == null) return false;
         _speedCache = 0;
+        Vector3 pos = _terrainEditor.getObject(screenX,screenY);
+
         _speedPressing = true;
         Vector3 playerPos =  _gameManager.getPlayer(_gameManager.getActivePlayerIndex()).getPosition();
         _shootArrow = new GameObject((new Vector3(playerPos)));
@@ -121,11 +125,10 @@ public class GameScreen3D extends InputAdapter implements Screen {
 
     @Override
     public boolean touchUp (int screenX, int screenY, int pointer, int button) {
-      if(_speedPressing){
+      if(_speedPressing && dirShot != null){
         _gui.addShootBar(-100);
         _shootArrow.destroy();
         Vector3 playerPos = _gameManager.getPlayer(_gameManager.getActivePlayerIndex()).getPosition();
-        Vector3 dirShot = _terrainEditor.getObject(screenX,screenY);
         swapYZ(dirShot);
         Vector2 pos2 = new Vector2(playerPos.x,playerPos.y);
         Vector2 dir2 = new Vector2(dirShot.x,dirShot.y);
