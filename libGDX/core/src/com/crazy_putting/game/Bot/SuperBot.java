@@ -4,6 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Components.Colliders.SphereCollider;
+import com.crazy_putting.game.GameLogic.GameManager;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.GameObjects.Hole;
@@ -13,7 +14,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class SuperBot {
+public abstract class SuperBot {
     protected Hole hole;
     protected Course course;
     protected Vector3 initial_Position;
@@ -39,7 +40,10 @@ public class SuperBot {
         bestBall.addColliderComponent(sp);
     }
 
+    public abstract boolean isFitForMaze(Ball b);
+
     public void simulateShot(Ball b){
+        GameManager.simulationCounter++;
         int distance = 4000;
         b.setFitnessValue(distance);
 //        System.out.println("sim");
@@ -78,7 +82,7 @@ public class SuperBot {
         else{
 
             distance = calcToHoleDistance(b);
-            if (distance < hole.getRadius()) {
+            if (distance < hole.getRadius()||isFitForMaze(b)) {
 //                System.out.println("Found in simulation");
                 b.setFitnessValue(0);
 //                System.out.println("End point speed and angle "+b.getVelocityGA().speed+" "+b.getVelocityGA().angle+" "+b.getPosition().x+" "+b.getPosition().y);

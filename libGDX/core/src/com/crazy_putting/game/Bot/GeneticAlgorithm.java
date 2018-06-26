@@ -1,4 +1,5 @@
 package com.crazy_putting.game.Bot;
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Components.Colliders.SphereCollider;
@@ -20,27 +21,61 @@ public class GeneticAlgorithm extends SuperBot{
     private final double ELITE_RATE = 0.1;
     private final double MUTATION_RATE = 0.3;
     // TODO change later to 80
-    private static final int MAX_ITER = 20;
+    private int maxIterations = 20;
     public int  nrOfGenerationsProduced;
     private int stuckCounter;
     private final int stuckThreshold = 10;
     private int lastBestBall;
+    private boolean mazeFitness;
+    private Map<Node> map;
 
-
-    public GeneticAlgorithm(Hole hole, Course course, Vector3 initial_position){
+    public GeneticAlgorithm(Hole hole, Course course, Vector3 initial_position, boolean mazeFitness){
         super(hole,course,initial_position);
         Gdx.app.log("Log","Genetic started");
         // TODO decreaded population size and generations
         this.rand = new Random();
         this.allBalls = new ArrayList<Ball>();
         this.firstIteration = new ArrayList<Ball>();
+        stuckCounter = 0;
+        lastBestBall = 10000;
+        this.mazeFitness = mazeFitness;
+        Gdx.app.setLogLevel(Application.LOG_DEBUG);
+    }
 
+    public GeneticAlgorithm(Hole hole, Course course, Vector3 initial_position, boolean mazeFitness, int maxIterations, Map<Node> map){
+        this(hole,course,initial_position,mazeFitness);
+        this.maxIterations = maxIterations;
+        this.map = map;
+        System.out.println("here");
+
+    }
+
+    public void runGenetic(){
         createBallObjects();
         run();
         bestBall = allBalls.get(0);
         printBestBall();
-        stuckCounter = 0;
-        lastBestBall = 10000;
+    }
+
+    public boolean isFitForMaze(Ball b){
+        if(!mazeFitness){
+            return false;
+        }
+        if(isClose(b)&&map.botLineOfSight((int)b.getPosition().x,(int)b.getPosition().y,(int)hole.getPosition().x,(int)hole.getPosition().y)){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isClose(Ball b){
+        boolean isClose = euclideanDistance(hole.getPosition(),initial_Position)>euclideanDistance(hole.getPosition(),b.getPosition());
+        Gdx.app.debug("Debug",String.valueOf(isClose));
+        return isClose;
+    }
+
+    public double euclideanDistance(Vector3 start, Vector3 goal){
+        double dist = (float) Math.sqrt(Math.pow(start.x-goal.x,2)+Math.pow(start.y-goal.y,2)+Math.pow(start.z-goal.z,2));
+        return dist;
     }
 
     //main method for the algorithm
@@ -58,8 +93,8 @@ public class GeneticAlgorithm extends SuperBot{
 
         //take only the best ones in our original population
         createPopulation();
-
-        for(int i = 0; i < MAX_ITER;i++){
+        Gdx.app.debug("Debug","max iterations"+maxIterations);
+        for(int i = 0; i < maxIterations;i++){
             unFixAllTheBall();
 
             simulateShots();

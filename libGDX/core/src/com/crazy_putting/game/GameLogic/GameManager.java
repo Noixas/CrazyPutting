@@ -32,7 +32,7 @@ public class GameManager {
     private GolfGame _game;
     private int _turns;
     private int _mode;
-    private Bot bot;
+//    private Bot bot;
 
     private int nPlayers;
     private int allowedDistance;
@@ -46,6 +46,8 @@ public class GameManager {
     private int _player;
     private Vector3 _cachePosition;
 
+    public static int simulationCounter;
+
     public GameManager(GolfGame pGame, int pMode){
         _mode = pMode;
         _game = pGame;
@@ -58,6 +60,7 @@ public class GameManager {
             ReadAndAnalyse.calculate("myFile.txt");
         initGameObjects();
         _turns = 0;
+        simulationCounter = 0;
         Physics.physics.updateCoefficients();
     }
 
@@ -153,6 +156,7 @@ public class GameManager {
                 _ball.setVelocity(mazeVelocities.get(0));
                 _ball.fix(false);
                 mazeVelocities.remove(0);
+                increaseTurnCount();
             }
         }
         if (_mode == 4 && !MultiplayerSettings.Simultaneous)
@@ -199,16 +203,6 @@ public class GameManager {
     public void handleInput(InputData input){
         // later on it should be if speed of the ball is zero (ball is not moving, then input data)
         if(_mode == 1) {
-
-            if (Gdx.input.isKeyJustPressed(Input.Keys.G) && !_ball.isMoving()){
-                System.out.println(_ball.getPosition().x + "  " + _ball.getPosition().y);
-                GeneticAlgorithm GA = new GeneticAlgorithm(_hole, CourseManager.getActiveCourse(),CourseManager.getStartPosition(0));
-                Ball b = GA.getBestBall();
-                float speed = b.getVelocityGA().speed;
-                float angle = b.getVelocityGA().angle;
-                _ball.setVelocity(speed,angle);
-                _ball.fix(false);
-            }
             if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !_ball.isMoving()) {
 //                MazeBot mazeBot = new MazeBot(_ball,_hole,CourseManager.getActiveCourse());
                 //CourseManager.reWriteCourse();//TODO: CHECK WHY THIS IS HERE
@@ -248,42 +242,23 @@ public class GameManager {
             }
         }
         else if (_mode == 3){
-            if (Gdx.input.isKeyJustPressed(Input.Keys.I) && !_ball.isMoving()){
-                bot = new Bot(_ball,_hole, CourseManager.getActiveCourse(), CourseManager.getStartPosition(0));
-                bot.computeOptimalVelocity();
-                Velocity computedVelocity = bot.getBestBall().getVelocity();
-                Gdx.app.log("Ball","Position x "+ _ball.getPosition().x+" position y "+_ball.getPosition().y);
-                allInput[0][0] = computedVelocity.speed;
-                allInput[0][1] = computedVelocity.angle;
-                checkConstrainsAndSetVelocity(allInput);
-                Gdx.app.log("Manager","speed "+computedVelocity.speed+" angle "+computedVelocity.angle);
-            }
             if (Gdx.input.isKeyJustPressed(Input.Keys.G) && !_ball.isMoving()){
-                // TODO
-                allowedOffset = 30;
-                int startX = Math.round(CourseManager.getStartPosition(0).x);
-                int startY = Math.round(CourseManager.getStartPosition(0).y);
-
-
-                Map<Node> nodeMap = new Map<Node>(2000, 2000, new ExampleFactory());
-                ArrayList<Node> path = (ArrayList<Node>)nodeMap.findPath(startX, startY);
-
-
-
-                if(path!=null) {
-                    System.out.println("Mazebot initialized - there is a path");
-                    MazeBot mazeBot = new MazeBot(_ball,_hole,CourseManager.getActiveCourse(),path);
-                    mazeVelocities = mazeBot.findSolution();
-                }
-                else{
-                    System.out.println("Mazebot wasn't initialize - there is no path");
-                }
-                for(int i =CollisionManager.colliders.size()-1;i>=0;i--){
-                    System.out.println("removed");
-                    if(CollisionManager.colliders.get(i) instanceof SphereCollider && !getPlayer(0).getColliderComponent().equals(CollisionManager.colliders.get(i))){
-                        CollisionManager.colliders.remove(i);
-                    }
-                }
+                System.out.println(_ball.getPosition().x + "  " + _ball.getPosition().y);
+                GeneticAlgorithm GA = new GeneticAlgorithm(_hole, CourseManager.getActiveCourse(),CourseManager.getStartPosition(0),false);
+                GA.runGenetic();
+                Ball b = GA.getBestBall();
+                float speed = b.getVelocityGA().speed;
+                float angle = b.getVelocityGA().angle;
+                _ball.setVelocity(speed,angle);
+                _ball.fix(false);
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.S) && !_ball.isMoving()){
+                chooseMazeBot("simple");
+                System.out.println("Number of simulations "+GameManager.simulationCounter);
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.A) && !_ball.isMoving()){
+                chooseMazeBot("advanced");
+                System.out.println("Number of simulations "+GameManager.simulationCounter);
             }
         }
         else if(_mode == 4 && !MultiplayerSettings.Simultaneous) {
@@ -340,6 +315,38 @@ public class GameManager {
                     Gdx.app.error("Exception: ", "You must input numbers");
                     e.getStackTrace();
                 }
+            }
+        }
+    }
+
+    public void chooseMazeBot(String mazeBotType){
+        // TODO
+        allowedOffset = 30;
+        int startX = Math.round(CourseManager.getStartPosition(0).x);
+        int startY = Math.round(CourseManager.getStartPosition(0).y);
+        Map<Node> nodeMap = new Map<Node>(2000, 2000, new ExampleFactory());
+        ArrayList<Node> path = (ArrayList<Node>)nodeMap.findPath(startX, startY);
+
+        if(path!=null) {
+            System.out.println("Mazebot initialized - there is a path with "+path.size()+" nodes");
+            MazeBot mazeBot = new MazeBot(_ball,_hole,CourseManager.getActiveCourse(),path,nodeMap);
+            if(mazeBotType.equals("simple")){
+                mazeVelocities = mazeBot.runSimpleMazeBot();
+            }
+            else if (mazeBotType.equals("advanced")){
+                mazeVelocities = mazeBot.runAdvancedMazeBot();
+            }
+            else{
+                Gdx.app.log("Log","Error: No bot was started");
+            }
+        }
+        else{
+            System.out.println("Mazebot wasn't initialize - there is no path");
+        }
+        for(int i =CollisionManager.colliders.size()-1;i>=0;i--){
+            System.out.println("removed");
+            if(CollisionManager.colliders.get(i) instanceof SphereCollider && !getPlayer(0).getColliderComponent().equals(CollisionManager.colliders.get(i))){
+                CollisionManager.colliders.remove(i);
             }
         }
     }
@@ -574,4 +581,7 @@ public class GameManager {
         return true;
     }
 
+    public int getMode() {
+        return _mode;
+    }
 }
