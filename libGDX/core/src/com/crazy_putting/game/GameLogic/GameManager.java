@@ -146,7 +146,7 @@ public class GameManager {
         }
         else{
             System.out.println("Maze velocities");
-            System.out.println("is moving "+_ball.isMoving());
+            System.out.println("is fixed"+_ball.isFixed());
             if(!_ball.isMoving()){
                 System.out.println(allowedOffset);
                 System.out.println("Colliders");
@@ -355,6 +355,7 @@ public class GameManager {
             }
             else if (mazeBotType.equals("advanced")){
                 mazeVelocities = mazeBot.runAdvancedMazeBot();
+                _ball.fix(false);
             }
             else{
                 Gdx.app.log("Log","Error: No bot was started");
@@ -369,6 +370,11 @@ public class GameManager {
                 CollisionManager.colliders.remove(i);
             }
         }
+    }
+    public boolean isGameWon(){
+      for(int i = 0; i < allBalls.length; i++)
+            if(isBallInTheHole(allBalls[i],allHoles[i])==false) return false;
+       return true;
     }
     public static boolean isBallInTheHole(Ball ball, Hole hole){
         if(Math.sqrt(Math.pow(ball.getPosition().x -hole.getPosition().x,2) +Math.pow((ball.getPosition().y - hole.getPosition().y),2)+Math.pow((ball.getPosition().z - hole.getPosition().z),2))< hole.getRadius()){
