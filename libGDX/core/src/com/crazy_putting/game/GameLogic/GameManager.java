@@ -78,6 +78,7 @@ public class GameManager {
                     allBalls[i].destroy();
                 }
                 allBalls[i] = new Ball((CourseManager.getStartPosition(i)));
+                System.out.println(CourseManager.getActiveCourse().getGoalRadius()+" radius");
                 allHoles[i] = new Hole((int) CourseManager.getActiveCourse().getGoalRadius(), (CourseManager.getGoalStartPosition(i)));
                 System.out.println("Balls "+allBalls[i].getPosition().x+" "+allBalls[i].getPosition().y);
                 System.out.println("Hole "+allHoles[i].getPosition().x+" "+allHoles[i].getPosition().y);
@@ -87,10 +88,11 @@ public class GameManager {
         if(MenuScreen.Mode3D ) {//3D Logic
          // if we are in multiplayer mode
             for (int i = 0; i < nPlayers; i++) {
-                    allBalls[i].addGraphicComponent(new SphereGraphics3DComponent(40, Color.WHITE));
+                int radius = 40;
+                    allBalls[i].addGraphicComponent(new SphereGraphics3DComponent(radius, Color.WHITE));
                     SphereCollider sphere = new SphereCollider(CourseManager.getStartPosition(i),20);
                     allBalls[i].addColliderComponent(sphere);
-                    allHoles[i].addGraphicComponent(new SphereGraphics3DComponent(40, Color.BLACK));
+                    allHoles[i].addGraphicComponent(new SphereGraphics3DComponent(radius * 2.0f, Color.BLACK));
             }
         }
         else{//2D Logic
