@@ -269,9 +269,16 @@ public class TerrainEditor extends InputAdapter {
             System.out.println(_draggingPoint.getPosition());
                 gp.setColor(Color.RED);
                 _observer.updateObjectPos();
+            updateObstaclesHeight();
                 return true;
             }
         return false;
+    }
+    private void updateObstaclesHeight(){
+       List<GameObject> obs = CourseManager.getActiveCourse().getObstaclesList();
+        for (GameObject ob :obs){
+            ob.setPosition(new Vector3(ob.getPosition().x,ob.getPosition().y,CourseManager.calculateHeight(ob.getPosition().x,ob.getPosition().y)));
+        }
     }
     public Vector3 getObject (int screenX, int screenY) {
         Ray ray = _cam3D.getPickRay(screenX, screenY,0,0, _cam3D.viewportWidth,_cam3D.viewportHeight);//TODO:Get the WindowsWidth -300 from a constant variable somewhere in graphics, dont hardcode

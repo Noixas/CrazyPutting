@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.crazy_putting.game.Components.Graphics.ArrowGraphics3DComponent;
 import com.crazy_putting.game.FormulaParser.FormulaParser;
@@ -43,6 +45,7 @@ public class GameScreen3D extends InputAdapter implements Screen {
         private boolean _increaseSpeedBar = true;
         private GameObject _shootArrow;
         private Vector3 dirShot;// = _terrainEditor.getObject(screenX,screenY);
+    Window newW;
     public GameScreen3D(GolfGame pGame, int pMode) {
         _mode = pMode;
         this._game = pGame;
@@ -65,7 +68,6 @@ public class GameScreen3D extends InputAdapter implements Screen {
         _cam2D.update();
         _parser = new FormulaParser();
 
-        //3D
         _cam3D = new PerspectiveCamera(67,Width3DScreen, Height2DScreen);
         _cam3D.position.add( new Vector3(0, 1300, 0));
         _cam3D.lookAt(0,0,0);
@@ -74,6 +76,13 @@ public class GameScreen3D extends InputAdapter implements Screen {
         _cam3D.update();
         _camController = new CameraInputController(_cam3D);
         _camController.translateUnits = 50;
+        newW = new Window("WON",  new Skin(Gdx.files.internal("skin/plain-james-ui.json")));
+      //  windowWithTopRightCornerCloseButton = new WindowWithTopRightCornerCloseButton();
+        newW.setSize(400, 300);
+        newW.setModal(true);
+        newW.setVisible(true);
+        newW.setMovable(true);
+        newW.setPosition(Gdx.graphics.getWidth()/2 - newW.getWidth()/2, Gdx.graphics.getHeight()/2 - newW.getHeight()/2);
     }
     private void initTerrain() {
             if(MenuScreen.Spline3D)_terrainEditor = new TerrainEditor(_cam3D,true);
@@ -177,6 +186,15 @@ public class GameScreen3D extends InputAdapter implements Screen {
             GraphicsManager.render3D(_game.batch3D, _cam3D);
             _hudViewport.apply();
             _gui.render();
+            _game.batch.setProjectionMatrix(_cam3D.combined);
+            //3D
+            //newW.draw(_game.batch,100);
+        /*    newW.setClip(false);
+            _game.batch.begin();
+
+            newW.draw(_game.batch,50);
+            _game.batch.end();*/
+
         }
         private void handleShootSpeed(){
             //System.out.println("toolbar" + _increaseSpeedBar);
