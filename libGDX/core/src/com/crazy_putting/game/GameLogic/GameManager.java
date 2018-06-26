@@ -146,6 +146,7 @@ public class GameManager {
         }
         else{
             System.out.println("Maze velocities");
+            System.out.println("is moving "+_ball.isMoving());
             if(!_ball.isMoving()){
                 System.out.println(allowedOffset);
                 System.out.println("Colliders");
