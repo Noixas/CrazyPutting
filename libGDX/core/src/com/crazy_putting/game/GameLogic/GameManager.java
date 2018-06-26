@@ -374,7 +374,7 @@ public class GameManager {
     }
     public boolean isGameWon(){
       for(int i = 0; i < allBalls.length; i++)
-            if(isBallInTheHole(allBalls[i],allHoles[i])==false) return false;
+            if(isBallInTheHole(allBalls[i],allHoles[i])== false || !allBalls[i].isSlow()) return false;
        return true;
     }
     public static boolean isBallInTheHole(Ball ball, Hole hole){
