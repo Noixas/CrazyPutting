@@ -1,6 +1,7 @@
 package com.crazy_putting.game.Components.Colliders;
 
 import com.badlogic.gdx.math.Vector3;
+import com.crazy_putting.game.Screens.MenuScreen;
 
 
 public class CollisionDetector {
@@ -11,17 +12,21 @@ public class CollisionDetector {
         if(comp1 instanceof SphereCollider && comp2 instanceof BoxCollider){
             SphereCollider sphere = (SphereCollider) comp1;
             BoxCollider box = (BoxCollider) comp2;
+            //System.out.println("Sphere with box");
             return SphereWithAABB(sphere,box);
         }
         else if(comp1 instanceof BoxCollider && comp2 instanceof BoxCollider){
             BoxCollider box1 = (BoxCollider) comp1;
             BoxCollider box2 = (BoxCollider) comp2;
+            //System.out.println("box and box");
+
             return AABBwithAABB(box1,box2);
         }
 
         else if(comp1 instanceof BoxCollider && comp2 instanceof SphereCollider){
             BoxCollider box = (BoxCollider) comp1;
             SphereCollider sphere = (SphereCollider) comp2;
+            //System.out.println("Sphere with box");
             return SphereWithAABB(sphere,box);
         }
 
@@ -48,43 +53,47 @@ public class CollisionDetector {
     }
 
     public static Contact SphereWithSphere(SphereCollider sphereCollider1, SphereCollider sphereCollider2){
-        //store the centres of 2 spheres
-        Vector3 centre1 = sphereCollider1.getPosition();
-        Vector3 centre2 = sphereCollider2.getPosition();
+        if(MenuScreen.Multiplayer) {
+
+            //store the centres of 2 spheres
+            Vector3 centre1 = sphereCollider1.getPosition();
+            Vector3 centre2 = sphereCollider2.getPosition();
 
 
-        //Vector between the objects
-        Vector3 midline = centre1.cpy().sub(centre2);
+            //Vector between the objects
+            Vector3 midline = centre1.cpy().sub(centre2);
 
-        float distance = midline.len();
+            float distance = midline.len();
 
-        if(distance <=0.0f || distance >= sphereCollider1.getRadius() + sphereCollider2.getRadius()){
-            return null;
+            if (distance <= 0.0f || distance >= sphereCollider1.getRadius() + sphereCollider2.getRadius()) {
+                return null;
+            }
+
+            // if we are here,then 2 spheres collides
+
+            Vector3 normal = midline.cpy().scl(1.0f / distance);
+
+            Contact contact = new Contact();
+            contact.contactNormal = normal;
+
+            Vector3 intermediate = midline.cpy().scl(0.5f);
+
+            contact.contactPoint = centre1.cpy().add(intermediate);
+
+            contact.penetration = sphereCollider1.getRadius() + sphereCollider2.getRadius() - distance;
+
+            contact.object1 = sphereCollider1;
+            contact.object2 = sphereCollider2;
+            return contact;
         }
-
-        // if we are here,then 2 spheres collides
-
-        Vector3 normal = midline.cpy().scl(1.0f/distance);
-
-        Contact contact = new Contact();
-        contact.contactNormal = normal;
-
-        Vector3 intermediate = midline.cpy().scl(0.5f);
-
-        contact.contactPoint = centre1.cpy().add(intermediate);
-
-        contact.penetration = sphereCollider1.getRadius() + sphereCollider2.getRadius() - distance;
-
-        contact.object1 = sphereCollider1;
-        contact.object2 = sphereCollider2;
-
-        return contact;
+        return null;
     }
 
 
 
 
     public static Contact SphereWithAABB(SphereCollider sphereCollider, BoxCollider bBox){
+
         
         Vector3 pPosition = sphereCollider.getPosition();
 
@@ -134,9 +143,10 @@ public class CollisionDetector {
         else {
             Contact contact = new Contact();
 
-            contact.contactNormal = (pPosition.cpy().sub(closestPoint)).nor();
+            contact.contactNormal = (pPosition.cpy().sub(closestPoint)).cpy().nor();
             contact.contactPoint = closestPoint;
             contact.penetration = (float) (sphereCollider.getRadius() - Math.sqrt(distance));
+            //System.out.println("penetration: " + contact.penetration);
             contact.object1 = sphereCollider;
             contact.object2 = bBox;
             return contact;

@@ -278,3 +278,69 @@ Max Speed: 300.0
 Spline Points: 6 6 -48.0  -42.0  -65.0  0.0  0.0  0.0  395.0  48.0  55.0  -20.0  0.0  0.0  -40.0  27.0  9.0  18.0  -39.0  -82.0  -7.0  -9.0  16.0  0.0  189.0  0.0  0.0  85.0  20.0  74.0  468.0  0.0  0.0  280.0  207.0  178.0  172.0  0.0  
 Obstacles: 0
 Course End
+COURSE:
+ID: 12
+Name: Course without name D:
+Height: 1
+Friction: 0.3
+Goal Pos: -230.62189 380.4969
+Goal Pos: 606.36584 -184.0459
+Goal Pos: -329.271 -628.09314
+Goal Pos: -329.271 -628.09314
+Goal Radius: 50.0
+Ball Start Pos: 475.0894 497.0845
+Ball Start Pos: 556.4475 521.1199
+Ball Start Pos: 509.70523 558.9927
+Ball Start Pos: 792.37427 366.66968
+Max Speed: 200.0
+Spline Points: 6 6 -48.0  -42.0  -65.0  0.0  0.0  0.0  395.0  48.0  55.0  201.0  93.0  0.0  -40.0  27.0  9.0  202.0  210.0  -82.0  -7.0  -9.0  16.0  337.0  274.0  0.0  0.0  85.0  20.0  392.0  445.0  0.0  0.0  280.0  207.0  178.0  172.0  0.0
+Obstacles: 16
+Collider type: 2
+Position: 357.95087 172.8144 351.36536
+Dimensions: 290.0 30.0 380.0
+Collider type: 2
+Position: -299.48053 176.5453 199.93488
+Dimensions: 290.0 30.0 380.0
+Collider type: 2
+Position: 482.94946 635.28174 400.46716
+Dimensions: 290.0 30.0 380.0
+Collider type: 2
+Position: 101.07208 642.5205 255.39264
+Dimensions: 290.0 30.0 380.0
+Collider type: 2
+Position: -70.49725 643.8235 216.0857
+Dimensions: 290.0 30.0 380.0
+Collider type: 2
+Position: -252.01288 640.2449 196.5346
+Dimensions: 290.0 30.0 380.0
+Collider type: 2
+Position: -434.50348 276.94556 195.06677
+Dimensions: 40.0 300.0 380.0
+Collider type: 2
+Position: -417.0973 523.5996 149.5091
+Dimensions: 40.0 300.0 380.0
+Collider type: 2
+Position: 644.0909 570.36676 434.88342
+Dimensions: 40.0 300.0 380.0
+Collider type: 2
+Position: 651.6483 313.23212 391.99664
+Dimensions: 40.0 300.0 380.0
+Collider type: 2
+Position: 554.3754 171.02853 384.39703
+Dimensions: 210.0 60.0 380.0
+Collider type: 2
+Position: 329.1473 518.142 319.72565
+Dimensions: 40.0 330.0 380.0
+Collider type: 2
+Position: -2.4867554 287.46548 264.95227
+Dimensions: 40.0 330.0 380.0
+Collider type: 2
+Position: 40.504307 182.69788 288.1223
+Dimensions: 390.0 60.0 380.0
+Collider type: 2
+Position: 298.04755 648.6636 287.53113
+Dimensions: 80.0 80.0 80.0
+Collider type: 2
+Position: 260.4793 649.4715 272.55603
+Dimensions: 80.0 80.0 80.0
+Course End

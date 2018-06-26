@@ -9,6 +9,7 @@ import com.crazy_putting.game.GameLogic.GameManager;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.GameObjects.Hole;
+import com.crazy_putting.game.Others.Noise;
 import com.crazy_putting.game.Others.Velocity;
 import com.crazy_putting.game.Physics.Physics;
 import java.text.DecimalFormat;
@@ -37,12 +38,14 @@ public abstract class SuperBot {
         Gdx.app.setLogLevel(Application.LOG_INFO);
         this.hole = hole;
         this.course = course;
+        this.bestBall = new Ball();
         this.initial_Position = initial_position;
     }
 
     public abstract boolean isFitForMaze(Ball b);
 
     public void simulateShot(Ball b){
+        int counter = 7000;
         sp.setPosition(initial_Position);
         b.addColliderComponent(sp);
 
@@ -51,8 +54,9 @@ public abstract class SuperBot {
         b.setFitnessValue(distance);
 //        System.out.println("sim");
         int lastDistance = 0;
-        while ((!Physics.physics.isGoingToStop(b) && !b.isFixed())){
+        while ((!Physics.physics.isGoingToStop(b) && !b.isFixed() && counter>0)){
             // not sure if firstIteration needed
+            counter--;
             if (b.isSlow()) {
                 distance = calcToHoleDistance(b);
 //                System.out.println(hole.getRadius()+" distance "+distance);
@@ -69,6 +73,7 @@ public abstract class SuperBot {
                 }
             }
             lastDistance = calcToHoleDistance(b);
+
 
             Physics.physics.updateObject(b);
             CollisionManager.update();
@@ -89,7 +94,8 @@ public abstract class SuperBot {
         else{
 
             distance = calcToHoleDistance(b);
-            if (distance < hole.getRadius()||isFitForMaze(b)) {
+            if (distance < hole.getRadius() ||isFitForMaze(b)) {
+                System.out.println("Fir for maze" + isFitForMaze(b));
 //                System.out.println("Found in simulation");
                 b.setFitnessValue(0);
 //                System.out.println("End point speed and angle "+b.getVelocityGA().speed+" "+b.getVelocityGA().angle+" "+b.getPosition().x+" "+b.getPosition().y);

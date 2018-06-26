@@ -53,8 +53,8 @@ public class GeneticAlgorithm extends SuperBot{
         createBallObjects();
         run();
         bestBall = getBestBall();
-        //bestBall = allBalls.get(0);
-        printBestBall();
+        bestBall = allBalls.get(0);
+        //printBestBall();
     }
 
     public boolean isFitForMaze(Ball b){
@@ -341,7 +341,7 @@ public class GeneticAlgorithm extends SuperBot{
     }
 
     public Ball getBestBall() {
-        return allBalls.get(0);
+        return bestBall;
     }
 
     public int getNrOfGenerationsProduced() {

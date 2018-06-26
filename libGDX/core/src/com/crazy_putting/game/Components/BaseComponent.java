@@ -9,5 +9,7 @@ public abstract class BaseComponent {
         _owner = pGameObj;
     }
 
-
+    public GameObject get_owner() {
+        return _owner;
+    }
 }

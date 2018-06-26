@@ -27,7 +27,7 @@ public abstract class ColliderComponent extends BaseComponent {
         if(position==null){
             System.out.println("position is null");
         }
-       position=_owner.getPosition();
+       position = _owner.getPosition();
 
 
     }
