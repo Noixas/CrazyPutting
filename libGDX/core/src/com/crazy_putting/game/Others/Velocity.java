@@ -90,7 +90,7 @@ public class Velocity{
     }
 
     public String toString(){
-        return "[" + this.Vx + ";" + this.Vy + "]";
+        return "[" + this.Vx + ";" + this.Vy + "] angle :" + angle;
     }
 
     public Velocity clone(){

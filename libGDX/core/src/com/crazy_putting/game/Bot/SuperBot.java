@@ -62,11 +62,11 @@ public abstract class SuperBot {
 //                System.out.println(hole.getRadius()+" distance "+distance);
                 if (distance <= hole.getRadius()) {
                     b.setFitnessValue(0);
-//                    System.out.println("Fitness value "+b.getFitnessValue()+" position "+b.getPosition().x+" "+b.getPosition().y);
+                    System.out.println("actual speed " + b.getVelocity().getSpeed());
                     System.out.println("End point speed and angle "+b.getVelocityGA().speed+" "+b.getVelocityGA().angle+" "+b.getPosition().x+" "+b.getPosition().y);
                     b.setEndPosition(b.getPosition());
                     b.setPosition(initial_Position);
-                    b.setVelocity(b.getVelocityGA().speed,b.getVelocityGA().angle);
+                    //b.setVelocity(b.getVelocityGA().speed,b.getVelocityGA().angle);
 
                     b.deleteColliderComponent();
                     return;
@@ -86,7 +86,7 @@ public abstract class SuperBot {
 //            System.out.println("Fitness value fixed"+b.getFitnessValue()+" position "+b.getPosition().x+" "+b.getPosition().y);
             b.setEndPosition(b.getPosition());
             b.setPosition(initial_Position);
-            b.setVelocity(b.getVelocityGA().speed,b.getVelocityGA().angle);
+            //b.setVelocity(b.getVelocityGA().speed,b.getVelocityGA().angle);
 
             b.deleteColliderComponent();
             return;
@@ -101,7 +101,7 @@ public abstract class SuperBot {
 //                System.out.println("End point speed and angle "+b.getVelocityGA().speed+" "+b.getVelocityGA().angle+" "+b.getPosition().x+" "+b.getPosition().y);
                 b.setEndPosition(b.getPosition());
                 b.setPosition(initial_Position);
-                b.setVelocity(b.getVelocityGA().speed,b.getVelocityGA().angle);
+                //b.setVelocity(b.getVelocityGA().speed,b.getVelocityGA().angle);
 
                 b.deleteColliderComponent();
                 return;

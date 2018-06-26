@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.Bot.*;
-import com.crazy_putting.game.Components.Colliders.ColliderComponent;
 import com.crazy_putting.game.Components.Colliders.CollisionManager;
 import com.crazy_putting.game.Components.Colliders.SphereCollider;
 import com.crazy_putting.game.Components.Graphics.Graphics2DComponent;
@@ -146,16 +145,25 @@ public class GameManager {
         }
         else{
             System.out.println("Maze velocities");
+            System.out.println(mazeVelocities);
             System.out.println("is fixed"+_ball.isFixed());
             if(!_ball.isMoving()){
+                _ball.fix(true);
                 System.out.println(allowedOffset);
                 System.out.println("Colliders");
+                /*
                 for(ColliderComponent c:CollisionManager.colliders){
                     System.out.println("collider"+c.getPosition().x+" "+c.getPosition().y+" "+c.getClass());
                 }
-                System.out.println("_ball"+_ball.getPosition().x+" "+_ball.getPosition().y);
-                System.out.println("Ball starts maze move"+mazeVelocities.get(0).speed+" "+mazeVelocities.get(0).angle);
-                _ball.setVelocity(mazeVelocities.get(0));
+                */
+                System.out.println("_ball position "+_ball.getPosition().x+" "+_ball.getPosition().y);
+                System.out.println("_ball velocity " + _ball.getVelocity());
+                if(Float.isNaN(_ball.getPosition().x)){
+                    _ball.setPosition(CourseManager.getStartPosition(0));
+                    _ball.setVelocity(0,0);
+                }
+                System.out.println("Ball starts maze move" + mazeVelocities.get(0).speed+" "+mazeVelocities.get(0).angle);
+                _ball.setVelocity(mazeVelocities.get(0).speed,mazeVelocities.get(0).angle);
                 _ball.fix(false);
                 mazeVelocities.remove(0);
                 increaseTurnCount();
@@ -365,12 +373,15 @@ public class GameManager {
         else{
             System.out.println("Mazebot wasn't initialize - there is no path");
         }
+        /*
         for(int i =CollisionManager.colliders.size()-1;i>=0;i--){
             System.out.println("removed");
             if(CollisionManager.colliders.get(i) instanceof SphereCollider && !getPlayer(0).getColliderComponent().equals(CollisionManager.colliders.get(i))){
                 CollisionManager.colliders.remove(i);
             }
         }
+        */
+        _ball.setPosition(CourseManager.getStartPosition(0));
     }
     public boolean isGameWon(){
       for(int i = 0; i < allBalls.length; i++)

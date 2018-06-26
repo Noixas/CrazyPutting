@@ -1,7 +1,6 @@
 package com.crazy_putting.game.Components.Colliders;
 
 import com.badlogic.gdx.math.Vector3;
-import javafx.scene.shape.Sphere;
 
 public final class CollisionSolver {
     private static final float RESTITUTION = 0.9f;
