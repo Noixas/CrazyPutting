@@ -20,7 +20,7 @@ public class GeneticAlgorithm extends SuperBot{
     private final double ELITE_RATE = 0.1;
     private final double MUTATION_RATE = 0.3;
     // TODO change later to 80
-    public static final int MAX_ITER = 30;
+    public static final int MAX_ITER = 60;
     public int  nrOfGenerationsProduced;
     private int stuckCounter;
     private final int stuckThreshold = 30;
@@ -139,30 +139,6 @@ public class GeneticAlgorithm extends SuperBot{
         }
     }
 
-//    private ArrayList<Ball> tournamentCrossover(){
-//        // TODO finish
-//        children = new ArrayList<Ball>();
-//        for(int i=0;i<allBalls.size();i++){
-//            ArrayList<Ball> tournamentList = new ArrayList<Ball>();
-//            for(int j=0;j<3;j++){
-//                tournamentList.add(allBalls.get((int)(Math.random()*allBalls.size())));
-//            }
-//            Collections.sort(tournamentList);
-//            System.out.println("Tournament");
-//            for(Ball b:tournamentList){
-//                System.out.println(b.getFitnessValue());
-//            }
-//            Ball father = tournamentList.get(0).clone();
-//            tournamentList.clear();
-//            for(int j=0;j<3;j++){
-//                tournamentList.add(allBalls.get((int)(Math.random()*allBalls.size())));
-//            }
-//            Collections.sort(tournamentList);
-//            Ball mother = tournamentList.get(0).clone();
-//            reproduce(father,mother,i);
-//        }
-//        return children;
-//    }
 
     private ArrayList<Ball> elitistCrossover(){
         int eliteSize = (int) (POPULATION_SIZE*ELITE_RATE);
@@ -238,23 +214,42 @@ public class GeneticAlgorithm extends SuperBot{
             newSpeed = (float) (-0.5 * speed1 + 1.5 * speed2);
             newAngle = (float) (-0.5 * angle1 + 1.5 * angle2);
         }
+        /*
+
+        if (rand.nextFloat() < MUTATION_RATE) {
+            float randomNum = -1 + rand.nextFloat()*2;
+
+            if (u > 0.5) {
+                newSpeed = speed2 + randomNum*5;
+                newAngle = angle2 + randomNum*5;
+            } else {
+                newSpeed = speed1 + randomNum;
+                newAngle = angle1 + randomNum;
+            }
+        }
+        */
+
 
         if (Noise.getInstance().nextFloat() < MUTATION_RATE) {
 
             float speedAdd;
+            float angleAdd;
             if (Noise.getInstance().nextFloat() > 0.3){
                 speedAdd = Noise.getInstance().nextNormal(0, nrOfGenerationsProduced);
+                angleAdd = Noise.getInstance().nextNormal(0,MAX_ITER - nrOfGenerationsProduced+1);
+
         }
         else{
                 speedAdd = Noise.getInstance().nextNormal(0, MAX_ITER - nrOfGenerationsProduced+1);
+                angleAdd = Noise.getInstance().nextNormal(0,nrOfGenerationsProduced * 2.5f);
             }
-            float angleAdd = Noise.getInstance().nextNormal(0,90);
             //System.out.println(randomNum);
 
             newSpeed += speedAdd;
             newAngle += angleAdd;
 
         }
+        
         //if(Noise.getInstance().nextInt(1000) < 150) {
          //   System.out.println("New speed: " + newSpeed + " new angle: " + newAngle);
         //}

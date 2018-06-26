@@ -26,9 +26,8 @@ public class BoxCollider extends ColliderComponent{
     }
 
     public boolean containsPointPath(Vector3 pPoint){
-        if(getPosition().x- GameManager.allowedOffset-halfSizes.x <= pPoint.x && getPosition().x + GameManager.allowedOffset+ halfSizes.x >= pPoint.x &&
-                getPosition().y-GameManager.allowedOffset-halfSizes.y <= pPoint.y && getPosition().y +GameManager.allowedOffset+ halfSizes.y >= pPoint.y)return true;
-        else return  false;
+        return (getPosition().x - GameManager.allowedOffset - halfSizes.x <= pPoint.x && getPosition().x + GameManager.allowedOffset + halfSizes.x >= pPoint.x &&
+                getPosition().y - GameManager.allowedOffset - halfSizes.y <= pPoint.y && getPosition().y + GameManager.allowedOffset + halfSizes.y >= pPoint.y);
     }
 
 }

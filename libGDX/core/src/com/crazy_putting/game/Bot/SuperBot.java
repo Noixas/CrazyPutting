@@ -76,7 +76,7 @@ public class SuperBot {
         else{
 
             distance = calcToHoleDistance(b);
-            if (distance < hole.getRadius()-5) {
+            if (distance < hole.getRadius()) {
 //                System.out.println("Found in simulation");
                 b.setFitnessValue(0);
 //                System.out.println("End point speed and angle "+b.getVelocityGA().speed+" "+b.getVelocityGA().angle+" "+b.getPosition().x+" "+b.getPosition().y);
