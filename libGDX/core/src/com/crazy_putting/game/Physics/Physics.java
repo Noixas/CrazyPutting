@@ -121,7 +121,7 @@ public abstract class Physics {
         if(dx==0||dy==0){
             return false;
         }
-        if(CourseManager.getActiveCourse().checkObstaclesAt(new Vector3(xCur,yCur,0)));
+        
         for (int i = 1; i < 5; i++){
 
             float height = CourseManager.calculateHeight(xPrev + dx / i, equation2Points(dx, dy, xPrev + dx / i, xPrev, yPrev));
