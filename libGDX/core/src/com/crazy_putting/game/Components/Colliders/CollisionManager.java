@@ -35,34 +35,6 @@ public final class CollisionManager {
 
     }
 
-    public static void updateIgnoreSpheres(){
-        //System.out.println(colliders.size());
-        fillIgnoreContact();
-        dealContacts();
-        synchronizeColliders();
-        simulationsContact.clear();
-
-    }
-
-    private static void fillIgnoreContact(){
-        for(ColliderComponent component: colliders){
-            if(!component.isStatic()){
-                for(ColliderComponent anotherComponent : colliders){
-                    if(!component.equals(anotherComponent) && anotherComponent instanceof SphereCollider){
-                        Contact contact = CollisionDetector.detectCollision(component,anotherComponent);
-                        if(contact!=null && !simulationsContact.contains(contact)){
-                            simulationsContact.add(contact);
-                        }
-                    }
-                }
-            }
-        }
-    }
-    private static void dealSimulatedContacts(){
-        for(Contact contact : simulationsContact){
-            CollisionSolver.dealCollision(contact);
-        }
-    }
 
     private static void synchronizeColliders(){
         if(!colliders.isEmpty()){
