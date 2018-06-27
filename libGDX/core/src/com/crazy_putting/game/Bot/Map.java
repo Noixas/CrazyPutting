@@ -53,7 +53,7 @@ public class Map<T extends AbstractNode> {
 //                }
             }
         }
-        //System.out.println("Nodes INITIALISED");
+        System.out.println("Nodes INITIALISED");
     }
 
     public final T getNode(int x, int y) {
@@ -334,7 +334,7 @@ public class Map<T extends AbstractNode> {
                     f -= dy;
                 }
                 if(f != 0 && nodes[x1 + ((sx - 1) / 2)+1000][ y1 + ((sy - 1) / 2)+1000].isWalkable()==false ) {return false;}
-                if(dx == 0 && nodes[x1][y1 + ((sy - 1) / 2)+1000    ].isWalkable()==false && nodes[x1 - 1][y1 + ((sy - 1) / 2)+1000].isWalkable()==false ) {return false;}
+                if(dx == 0 && nodes[x1+1000][y1 + ((sy - 1) / 2)+1000    ].isWalkable()==false && nodes[x1 - 1+1000 ][y1 + ((sy - 1) / 2)+1000].isWalkable()==false ) {return false;}
                 y1 += sy;
             }
         }

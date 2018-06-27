@@ -65,7 +65,7 @@ public abstract class SuperBot {
                 distance = calcToHoleDistance(b);// + amountCollisions*1000;
 //                System.out.println(hole.getRadius()+" distance "+distance);
                 if ((distance < hole.getRadius()&& (!_simple || (_simple && amountCollisions <2))) || isFitForMaze(b)) {
-                    b.setFitnessValue(distance);
+                    b.setFitnessValue(0);
                     System.out.println("actual speed " + b.getVelocity().getSpeed());
                     System.out.println("End point speed and angle "+b.getVelocityGA().speed+" "+b.getVelocityGA().angle+" "+b.getPosition().x+" "+b.getPosition().y);
                     b.setEndPosition(b.getPosition());
@@ -107,7 +107,7 @@ public abstract class SuperBot {
                 System.out.println("Fir for maze" + isFitForMaze(b));
 //                System.out.println("Found in simulation");
                 System.out.println(amountCollisions + "collisions");
-                b.setFitnessValue(distance);
+                b.setFitnessValue(0);
 //                System.out.println("End point speed and angle "+b.getVelocityGA().speed+" "+b.getVelocityGA().angle+" "+b.getPosition().x+" "+b.getPosition().y);
                 b.setEndPosition(b.getPosition());
                 b.setPosition(initial_Position);
@@ -357,7 +357,7 @@ public abstract class SuperBot {
                 newBall.setVelocity(currentSpeed+i,currentAngle+j);
                 newBall.setVelocityGA(currentSpeed+i,currentAngle+j);
                 simulateShot(newBall);
-                Gdx.app.debug("Debug","simulate "+newBall.getFitnessValue()+" "+(currentSpeed+i)+" "+(currentAngle+j));
+//                Gdx.app.debug("Debug","simulate "+newBall.getFitnessValue()+" "+(currentSpeed+i)+" "+(currentAngle+j));
                 if(bestTry[2]>newBall.getFitnessValue()){
                     bestTry[0] = newBall.getVelocityGA().speed;
                     bestTry[1] = newBall.getVelocityGA().angle;

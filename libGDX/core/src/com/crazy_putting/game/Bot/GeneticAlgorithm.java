@@ -66,7 +66,7 @@ public class GeneticAlgorithm extends SuperBot{
 
     public boolean isClose(Ball b){
         boolean isClose = euclideanDistance(hole.getPosition(),initial_Position)>euclideanDistance(hole.getPosition(),b.getPosition());
-        Gdx.app.debug("Debug",String.valueOf(isClose));
+//        Gdx.app.debug("Debug",String.valueOf(isClose));
         return isClose;
     }
 
@@ -100,7 +100,7 @@ public class GeneticAlgorithm extends SuperBot{
 
             System.out.println("Generation: " + (i+1) + " The best score is: " + allBalls.get(0).getFitnessValue()+" speed "+allBalls.get(0).getVelocityGA().speed+" angle "+allBalls.get(0).getVelocityGA().angle+" "+calcToHoleDistance(allBalls.get(0)));
 
-            if(allBalls.get(0).getFitnessValue() < hole.getRadius()){
+            if(allBalls.get(0).getFitnessValue()==0){
                 System.out.println("Success");
                 setEndPosition(allBalls.get(0).getEndPosition());
                 //WATCH OUT
