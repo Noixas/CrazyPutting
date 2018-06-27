@@ -8,7 +8,7 @@ public final class CollisionManager {
 
     private static ArrayList<Contact> contacts = new ArrayList<Contact>();
     private static ArrayList<Contact> simulationsContact = new ArrayList<Contact>();
-
+    private static int lastUpdateCollisions = 0;
 
     public static ArrayList<ColliderComponent> getColliders(){
         return colliders;
@@ -28,13 +28,16 @@ public final class CollisionManager {
 
     public static void update(){
         //System.out.println(colliders.size());
+        lastUpdateCollisions = 0;
         fillContactList();
         dealContacts();
         synchronizeColliders();
         contacts.clear();
 
     }
-
+    public static int getAmountCollisionsLastUpdate(){
+        return lastUpdateCollisions;
+    }
     public static void updateIgnoreSpheres(){
         //System.out.println(colliders.size());
         fillIgnoreContact();
@@ -52,6 +55,7 @@ public final class CollisionManager {
                         Contact contact = CollisionDetector.detectCollision(component,anotherComponent);
                         if(contact!=null && !simulationsContact.contains(contact)){
                             simulationsContact.add(contact);
+
                         }
                     }
                 }
@@ -76,6 +80,7 @@ public final class CollisionManager {
     private static void dealContacts(){
         for(Contact contact : contacts){
             CollisionSolver.dealCollision(contact);
+            lastUpdateCollisions++;
         }
     }
 
@@ -87,6 +92,8 @@ public final class CollisionManager {
                         Contact contact = CollisionDetector.detectCollision(component,anotherComponent);
                         if(contact!=null && !contacts.contains(contact)){
                             contacts.add(contact);
+
+                            //System.out.println("Plus one coll" + lastUpdateCollisions);
                         }
                     }
                 }

@@ -25,7 +25,7 @@ import com.crazy_putting.game.Screens.MenuScreen;
 import java.util.ArrayList;
 
 public class GameManager {
-    public static int allowedOffset = 30;
+    public static int allowedOffset = 50;
     private Ball _ball;
     private Hole _hole;
     private GolfGame _game;
@@ -138,26 +138,26 @@ public class GameManager {
         if(pDelta > 0.03){
             pDelta = 0.00166f;
         }
-
+        pDelta = 1/60f;
         if(mazeVelocities.size()==0){
 
             handleInput(_game.input);
         }
         else{
-            System.out.println("Maze velocities");
-            System.out.println(mazeVelocities);
-            System.out.println("is fixed"+_ball.isFixed());
+           // System.out.println("Maze velocities");
+            //System.out.println(mazeVelocities);
+           // System.out.println("is fixed"+_ball.isFixed());
             if(!_ball.isMoving()){
                 _ball.fix(true);
                 System.out.println(allowedOffset);
-                System.out.println("Colliders");
+             //   System.out.println("Colliders");
                 /*
                 for(ColliderComponent c:CollisionManager.colliders){
                     System.out.println("collider"+c.getPosition().x+" "+c.getPosition().y+" "+c.getClass());
                 }
                 */
-                System.out.println("_ball position "+_ball.getPosition().x+" "+_ball.getPosition().y);
-                System.out.println("_ball velocity " + _ball.getVelocity());
+           //     System.out.println("_ball position "+_ball.getPosition().x+" "+_ball.getPosition().y);
+            //    System.out.println("_ball velocity " + _ball.getVelocity());
                 if(Float.isNaN(_ball.getPosition().x)){
                     _ball.setPosition(CourseManager.getStartPosition(0));
                     _ball.setVelocity(0,0);

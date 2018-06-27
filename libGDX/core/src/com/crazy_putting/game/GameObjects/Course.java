@@ -7,6 +7,7 @@ import com.crazy_putting.game.Components.Colliders.ColliderComponent;
 import com.crazy_putting.game.Components.Colliders.SphereCollider;
 import com.crazy_putting.game.Components.Graphics.BoxGraphics3DComponent;
 import com.crazy_putting.game.Components.Graphics.SphereGraphics3DComponent;
+import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.Parser.ObstacleData;
 
 import java.util.ArrayList;
@@ -235,7 +236,9 @@ createObstacle();
     }
     private void createObstacle(){
         for(ObstacleData cacheData:  cacheDataList){
-        GameObject obj = new GameObject(cacheData.position);
+            Vector3 pos = cacheData.position;
+            pos.z = CourseManager.calculateHeight(pos.x,pos.y);
+        GameObject obj = new GameObject(pos);
         switch (cacheData.type){
             case 1:
                 SphereCollider sphere = new SphereCollider(cacheData.position,cacheData.dimensions.x);
