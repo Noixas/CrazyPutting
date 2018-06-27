@@ -53,7 +53,7 @@ public class Map<T extends AbstractNode> {
 //                }
             }
         }
-        System.out.println("Nodes INITIALISED");
+        //System.out.println("Nodes INITIALISED");
     }
 
     public final T getNode(int x, int y) {

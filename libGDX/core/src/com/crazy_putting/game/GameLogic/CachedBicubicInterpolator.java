@@ -61,13 +61,13 @@ public class CachedBicubicInterpolator
         if(minX > y) minX = y;
         if(maxX < y) maxX = y;
 
-        System.out.println("MIN X "+minX+ "Max X "+ maxX);
+        //System.out.println("MIN X "+minX+ "Max X "+ maxX);
 
         arr[0] = getValue(p[0], x);
         arr[1] = getValue(p[1], x);
         arr[2] = getValue(p[2], x);
         arr[3] = getValue(p[3], x);
-        System.out.println(x+"Y");
+        //System.out.println(x+"Y");
         return (float) arr[3];
        // return (float)getValue(arr, y);
     }

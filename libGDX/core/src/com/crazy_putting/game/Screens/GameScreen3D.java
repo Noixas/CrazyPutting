@@ -212,7 +212,7 @@ public class GameScreen3D extends InputAdapter implements Screen {
         private void handleShootSpeed(){
             //System.out.println("toolbar" + _increaseSpeedBar);
             float step = _maxShootSpeed / 100;
-            System.out.println(step);
+            //System.out.println(step);
         if(_increaseSpeedBar){
           //  if(_speedCache + step < _maxShootSpeed) {
                 _speedCache += step;
