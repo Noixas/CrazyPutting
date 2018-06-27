@@ -1,6 +1,7 @@
 package com.crazy_putting.game.Components.Colliders;
 
 import com.badlogic.gdx.math.Vector3;
+import com.crazy_putting.game.GameObjects.Ball;
 
 public final class CollisionSolver {
     private static final float RESTITUTION = 0.9f;
@@ -8,6 +9,14 @@ public final class CollisionSolver {
 
     public static void dealCollision(Contact contact){
         if(contact!=null) {
+            if(contact.object1.get_owner() instanceof  Ball){
+                Ball ball = (Ball) contact.object1.get_owner();
+                ball.setBounces(ball.getBounces() + 1);
+            }
+            if(contact.object2.get_owner() instanceof  Ball){
+                Ball ball = (Ball) contact.object2.get_owner();
+                ball.setBounces(ball.getBounces() + 1);
+            }
             resolveVelocity(contact);
             resolvePenetration(contact);
         }
