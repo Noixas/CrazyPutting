@@ -16,7 +16,7 @@ import com.crazy_putting.game.Others.Velocity;
 import java.util.ArrayList;
 
 public class MazeBot {
-    private final int  intermediateRadius = 4;
+    private final int  intermediateRadius = 15;
     private Vector3 startPoint;
     private Hole hole;
     private Ball ball;

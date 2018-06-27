@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BiCubicSpline {
+    //Matrix to get the a values
     private double[][] A = {   {1,     0,     0 ,    0,     0,     0,     0,     0,     0,     0,     0,     0,     0 ,    0,     0,     0},
                                 {0,     0,     0,     0,     1,     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,     0},
                                 {-3,     3,     0,     0,    -2,    -1,     0,     0,     0,     0,     0,    0,     0,     0,     0,     0},
