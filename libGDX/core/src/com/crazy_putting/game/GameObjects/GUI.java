@@ -95,11 +95,11 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         _shootBar.setHeight(300);
         ProgressBar.ProgressBarStyle styleProgress = new ProgressBar.ProgressBarStyle();
        // styleProgress.background ;
-      // Texture background = (Texture) _shootBar.getStyle().background;
-      // background.getTextureData().//TODO: change color of backgroud with shader
+        // Texture background = (Texture) _shootBar.getStyle().background;
+        // background.getTextureData().//TODO: change color of backgroud with shader
         _shootBar.setPosition(0,GameScreen3D.Height3DScreen-_shootBar.getHeight()-50);
         initUI();
-        System.out.println("VIEWPORT POS "+ view.getScreenY());
+        //System.out.println("VIEWPORT POS "+ view.getScreenY());
         _activaBall = _gameManager.getBall();
        updatePlayerActive();
 

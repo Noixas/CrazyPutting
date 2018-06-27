@@ -292,9 +292,9 @@ public class ChooseCoursesScreen implements Screen{
      */
     public void updateCourseInfo()
     {
-        System.out.println(selectBox.getSelectedIndex() + " is the box index");
-        System.out.println("amount of cour " + CourseManager.getCourseAmount() );
-        System.out.println("course " + CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()));
+        //System.out.println(selectBox.getSelectedIndex() + " is the box index");
+        //System.out.println("amount of cour " + CourseManager.getCourseAmount() );
+        //System.out.println("course " + CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()));
         if(MenuScreen.Spline3D == false)
         heightValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getHeight());
         frictionValue.setText(CourseManager.getCourseWithIndex(selectBox.getSelectedIndex()).getFriction()+"");

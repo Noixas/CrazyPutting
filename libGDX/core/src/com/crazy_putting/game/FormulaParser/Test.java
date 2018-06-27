@@ -43,16 +43,16 @@ public class Test
       ExpressionNode expr = parser.parse(exprstr);
       expr.accept(new SetVariable("x", 2));
       expr.accept(new SetVariable("y", 1));
-      System.out.println("The value of the expression is "+expr.getValue());
+      //System.out.println("The value of the expression is "+expr.getValue());
       
     }
     catch (ParserException e)
     {
-      System.out.println(e.getMessage());
+      //System.out.println(e.getMessage());
     }
     catch (EvaluationException e)
     {
-      System.out.println(e.getMessage());
+      //System.out.println(e.getMessage());
     }
   }
 }

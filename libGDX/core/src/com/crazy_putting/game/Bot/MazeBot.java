@@ -16,13 +16,14 @@ import com.crazy_putting.game.Others.Velocity;
 import java.util.ArrayList;
 
 public class MazeBot {
-    private final int  intermediateRadius = 30;
+    private final int  intermediateRadius = 15;
     private Vector3 startPoint;
     private Hole hole;
     private Ball ball;
     private Course course;
     private ArrayList<Vector3> intermediatePoints;
     private Map<Node> map;
+    private boolean _simple = false;
 
     public MazeBot(Ball ball, Hole hole, Course course,ArrayList<Node> path, Map<Node> map){
         // 1. get intermediate points and tolerance (radius of intermediate points)
@@ -113,12 +114,14 @@ public class MazeBot {
     }
 
     public ArrayList<Velocity> runSimpleMazeBot() {
+        _simple = true;
         startPoint = CourseManager.getStartPosition(0);
         ArrayList<Velocity> mazeVelocities = new ArrayList<Velocity>();
         for (Vector3 point : intermediatePoints) {
             Hole destinationPoint = new Hole(intermediateRadius, point);
             Gdx.app.log("Positions ", " goal " + point.x + " " + point.y + " start " + startPoint.x + " " + startPoint.y);
             GeneticAlgorithm ga = new GeneticAlgorithm(destinationPoint, course, startPoint,false);
+            ga.setSimple(true);
             ga.runGenetic();
             mazeVelocities.add(new Velocity(ga.getBestBall().getVelocityGA().speed, ga.getBestBall().getVelocityGA().angle));
             startPoint = ga.getEndPosition();

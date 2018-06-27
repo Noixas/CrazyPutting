@@ -30,7 +30,7 @@ public class ArrowGraphics3DComponent extends Graphics3DComponent {
         ModelBuilder modelBuilder = new ModelBuilder();
         swapYZ(_from);
         //swapYZ(_to);
-        System.out.println("From "+_from+" to  "+ _to);
+        //System.out.println("From "+_from+" to  "+ _to);
         Vector3 v = new Vector3();
         _to.sub(_from);
         _to.nor().scl(200);

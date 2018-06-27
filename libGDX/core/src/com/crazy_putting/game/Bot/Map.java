@@ -53,7 +53,7 @@ public class Map<T extends AbstractNode> {
 //                }
             }
         }
-        System.out.println("Nodes INITIALISED");
+        //System.out.println("Nodes INITIALISED");
     }
 
     public final T getNode(int x, int y) {
@@ -152,10 +152,10 @@ public class Map<T extends AbstractNode> {
             if(dX > 1 || dY > 1 )
                 path .add(0,curr);
             else {
-                System.out.println("nodes are too close to each other, combining.. ");
-                System.out.println("Curr x: " + curr.getxCoordinate() + " curr y: " + curr.getyCoordinate());
-                System.out.println("Curr Previous x: "+curr.getPrevious().getxCoordinate()+" curr previous y: "+curr.getPrevious().getyCoordinate());
-                System.out.println("");
+               // System.out.println("nodes are too close to each other, combining.. ");
+                //System.out.println("Curr x: " + curr.getxCoordinate() + " curr y: " + curr.getyCoordinate());
+                //System.out.println("Curr Previous x: "+curr.getPrevious().getxCoordinate()+" curr previous y: "+curr.getPrevious().getyCoordinate());
+               // System.out.println("");
             }
             curr = (T) curr.getPrevious();
             if (curr.equals(start)) {

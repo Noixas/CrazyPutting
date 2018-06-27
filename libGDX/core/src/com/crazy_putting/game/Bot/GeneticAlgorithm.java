@@ -2,7 +2,6 @@ package com.crazy_putting.game.Bot;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
-import com.crazy_putting.game.Components.Colliders.SphereCollider;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.GameObjects.Hole;
@@ -27,7 +26,6 @@ public class GeneticAlgorithm extends SuperBot{
     private int lastBestBall;
     private boolean mazeFitness;
     private Map<Node> map;
-
     public GeneticAlgorithm(Hole hole, Course course, Vector3 initial_position, boolean mazeFitness){
         super(hole,course,initial_position);
         Gdx.app.log("Log","Genetic started");
@@ -40,7 +38,6 @@ public class GeneticAlgorithm extends SuperBot{
         this.mazeFitness = mazeFitness;
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
     }
-
     public GeneticAlgorithm(Hole hole, Course course, Vector3 initial_position, boolean mazeFitness, int maxIterations, Map<Node> map){
         this(hole,course,initial_position,mazeFitness);
         this.maxIterations = maxIterations;
@@ -93,7 +90,7 @@ public class GeneticAlgorithm extends SuperBot{
 
         //take only the best ones in our original population
         createPopulation();
-        Gdx.app.debug("Debug","max iterations"+maxIterations);
+        //Gdx.app.debug("Debug","max iterations"+maxIterations);
         for(int i = 0; i < maxIterations;i++){
             unFixAllTheBall();
 
@@ -103,7 +100,7 @@ public class GeneticAlgorithm extends SuperBot{
 
             System.out.println("Generation: " + (i+1) + " The best score is: " + allBalls.get(0).getFitnessValue()+" speed "+allBalls.get(0).getVelocityGA().speed+" angle "+allBalls.get(0).getVelocityGA().angle+" "+calcToHoleDistance(allBalls.get(0)));
 
-            if(allBalls.get(0).getFitnessValue() == 0){
+            if(allBalls.get(0).getFitnessValue() < hole.getRadius()){
                 System.out.println("Success");
                 setEndPosition(allBalls.get(0).getEndPosition());
                 //WATCH OUT

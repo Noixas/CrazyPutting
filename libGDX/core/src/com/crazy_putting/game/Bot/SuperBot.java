@@ -9,9 +9,9 @@ import com.crazy_putting.game.GameLogic.GameManager;
 import com.crazy_putting.game.GameObjects.Ball;
 import com.crazy_putting.game.GameObjects.Course;
 import com.crazy_putting.game.GameObjects.Hole;
-import com.crazy_putting.game.Others.Noise;
 import com.crazy_putting.game.Others.Velocity;
 import com.crazy_putting.game.Physics.Physics;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,13 +23,16 @@ public abstract class SuperBot {
     protected Ball bestBall;
     protected static DecimalFormat df2 = new DecimalFormat(".##");
     private Vector3 endPosition;
-
+    private boolean _simple = false;
     private final SphereCollider sp = new SphereCollider(initial_Position,20);
 
     public Ball getBestBall() {
         return bestBall;
     }
 
+    public void setSimple(boolean val){
+        _simple = val;
+    }
     public Vector3 getEndPosition(){
         Gdx.app.log("Log","End position: "+endPosition.x + " "+ endPosition.y);
         return endPosition;
@@ -53,20 +56,21 @@ public abstract class SuperBot {
         int distance = 4000;
         b.setFitnessValue(distance);
 //        System.out.println("sim");
+        int amountCollisions = 0;
         int lastDistance = 0;
-        while ((!Physics.physics.isGoingToStop(b) && !b.isFixed() && counter>0)){
+        while (((!Physics.physics.isGoingToStop(b) && !b.isFixed() && counter>0) )){//|| amountCollisions >0)){
             // not sure if firstIteration needed
             counter--;
             if (b.isSlow()) {
-                distance = calcToHoleDistance(b);
+                distance = calcToHoleDistance(b);// + amountCollisions*1000;
 //                System.out.println(hole.getRadius()+" distance "+distance);
-                if (distance <= hole.getRadius()) {
-                    b.setFitnessValue(0);
+                if ((distance < hole.getRadius()&& (!_simple || (_simple && amountCollisions <2))) || isFitForMaze(b)) {
+                    b.setFitnessValue(distance);
                     System.out.println("actual speed " + b.getVelocity().getSpeed());
                     System.out.println("End point speed and angle "+b.getVelocityGA().speed+" "+b.getVelocityGA().angle+" "+b.getPosition().x+" "+b.getPosition().y);
                     b.setEndPosition(b.getPosition());
                     b.setPosition(initial_Position);
-                    //b.setVelocity(b.getVelocityGA().speed,b.getVelocityGA().angle);
+                    b.setVelocity(b.getVelocityGA().speed,b.getVelocityGA().angle);
 
                     b.deleteColliderComponent();
                     return;
@@ -77,6 +81,9 @@ public abstract class SuperBot {
 
             Physics.physics.updateObject(b);
             CollisionManager.update();
+            amountCollisions= CollisionManager.getAmountCollisionsLastUpdate();
+          //  if(_simple && amountCollisions>1)
+         //   System.out.println("Collisions "+amountCollisions+" speed "+b.getVelocity().speed);
 //            System.out.println("Ball"+" position "+b.getPosition().x+" "+b.getPosition().y);
         }
 //        System.out.println("Going to stop or fixed "+b.getVelocity().speed);
@@ -86,7 +93,7 @@ public abstract class SuperBot {
 //            System.out.println("Fitness value fixed"+b.getFitnessValue()+" position "+b.getPosition().x+" "+b.getPosition().y);
             b.setEndPosition(b.getPosition());
             b.setPosition(initial_Position);
-            //b.setVelocity(b.getVelocityGA().speed,b.getVelocityGA().angle);
+            b.setVelocity(b.getVelocityGA().speed,b.getVelocityGA().angle);
 
             b.deleteColliderComponent();
             return;
@@ -94,18 +101,22 @@ public abstract class SuperBot {
         else{
 
             distance = calcToHoleDistance(b);
-            if (distance < hole.getRadius() ||isFitForMaze(b)) {
+            if(_simple && amountCollisions > 0 )distance =distance+amountCollisions*6000;
+
+            if ((distance < hole.getRadius()&& (!_simple || (_simple && amountCollisions <2))) || isFitForMaze(b)){//||isFitForMaze(b)) {
                 System.out.println("Fir for maze" + isFitForMaze(b));
 //                System.out.println("Found in simulation");
-                b.setFitnessValue(0);
+                System.out.println(amountCollisions + "collisions");
+                b.setFitnessValue(distance);
 //                System.out.println("End point speed and angle "+b.getVelocityGA().speed+" "+b.getVelocityGA().angle+" "+b.getPosition().x+" "+b.getPosition().y);
                 b.setEndPosition(b.getPosition());
                 b.setPosition(initial_Position);
-                //b.setVelocity(b.getVelocityGA().speed,b.getVelocityGA().angle);
+                b.setVelocity(b.getVelocityGA().speed,b.getVelocityGA().angle);
 
                 b.deleteColliderComponent();
                 return;
             }
+           // System.out.println("Distance "+ distance + " col "+amountCollisions + "speed"+ b.getVelocity().speed);
             b.setFitnessValue(distance);
             b.setEndPosition(b.getPosition());
             b.setPosition(initial_Position);
