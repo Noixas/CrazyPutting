@@ -38,7 +38,7 @@ public class CourseManager {
             expr = parser.parse(_activeCourse.getHeight());
         }
         else {
-            System.out.println("No courses in the file");
+           // System.out.println("No courses in the file");
             return;
         }
 
@@ -116,7 +116,7 @@ public class CourseManager {
     public static float calculateHeight(float x, float y){
     if(_activeCourse == null)
     {
-        System.out.println("No course have being defined from a file, load a file first");
+        //System.out.println("No course have being defined from a file, load a file first");
         return -1;
     }
 
@@ -140,11 +140,11 @@ public class CourseManager {
         }
         catch (ParserException e)
         {
-            System.out.println(e.getMessage());
+            //System.out.println(e.getMessage());
         }
         catch (EvaluationException e)
         {
-            System.out.println(e.getMessage());
+            //System.out.println(e.getMessage());
         }
         return 0;
     }

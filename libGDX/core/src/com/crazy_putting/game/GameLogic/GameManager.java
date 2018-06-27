@@ -74,15 +74,15 @@ public class GameManager {
             allInput = new float[1][2];
         CourseManager.initObstacles();
   //      do {
-            System.out.println("Setup");
+            //System.out.println("Setup");
             for (int i = 0; i < nPlayers; i++) {
                 if(allBalls[i] != null){
                     allBalls[i].destroy();
                 }
                 allBalls[i] = new Ball((CourseManager.getStartPosition(i)));
                 allHoles[i] = new Hole((int) CourseManager.getActiveCourse().getGoalRadius(), (CourseManager.getGoalStartPosition(i)));
-                System.out.println("Balls "+allBalls[i].getPosition().x+" "+allBalls[i].getPosition().y);
-                System.out.println("Hole "+allHoles[i].getPosition().x+" "+allHoles[i].getPosition().y);
+                //System.out.println("Balls "+allBalls[i].getPosition().x+" "+allBalls[i].getPosition().y);
+                //System.out.println("Hole "+allHoles[i].getPosition().x+" "+allHoles[i].getPosition().y);
             }
             keepBallsWithinDistances();
      //   } while (_mode==4 && (!checkLegitimacy()&&false));
@@ -149,7 +149,7 @@ public class GameManager {
            // System.out.println("is fixed"+_ball.isFixed());
             if(!_ball.isMoving()){
                 _ball.fix(true);
-                System.out.println(allowedOffset);
+                //System.out.println(allowedOffset);
              //   System.out.println("Colliders");
                 /*
                 for(ColliderComponent c:CollisionManager.colliders){
@@ -162,7 +162,7 @@ public class GameManager {
                     _ball.setPosition(CourseManager.getStartPosition(0));
                     _ball.setVelocity(0,0);
                 }
-                System.out.println("Ball starts maze move" + mazeVelocities.get(0).speed+" "+mazeVelocities.get(0).angle);
+                //System.out.println("Ball starts maze move" + mazeVelocities.get(0).speed+" "+mazeVelocities.get(0).angle);
                 _ball.setVelocity(mazeVelocities.get(0).speed,mazeVelocities.get(0).angle);
                 _ball.fix(false);
                 mazeVelocities.remove(0);
@@ -176,7 +176,7 @@ public class GameManager {
         CollisionManager.update();
         updateGameLogic(pDelta);
         if(Gdx.input.isKeyPressed(Input.Keys.L)){
-            System.out.println("Ball POS" + allBalls[0]);
+            //System.out.println("Ball POS" + allBalls[0]);
         }
         if (_mode == 4)
             multiPlayerUpdate(pDelta);
@@ -201,7 +201,7 @@ public class GameManager {
     }
 
     private void ballIsDone(Ball ball){
-        System.out.println("Ball in goal");
+        //System.out.println("Ball in goal");
         ball.setVelocityComponents(0.0001f, 0.0001f);
         ball.fix(true);
         ball.enabled = false;
@@ -240,20 +240,20 @@ public class GameManager {
         }
         else if(_mode == 2){
             if (Gdx.input.isKeyJustPressed(Input.Keys.I)){
-                System.out.println("MODE "+_mode+" with N: " + ReadAndAnalyse.getN());
+                //System.out.println("MODE "+_mode+" with N: " + ReadAndAnalyse.getN());
                 if(!_ball.isMoving() && _turns<ReadAndAnalyse.getN()) {
                     _ball.setVelocity(ReadAndAnalyse.getResult()[_turns][0], ReadAndAnalyse.getResult()[_turns][1]);
                     _ball.fix(false);
                     increaseTurnCount();
                 }
                 else if(_turns>=ReadAndAnalyse.getN()){
-                    System.out.println("No more moves...");
+                   // System.out.println("No more moves...");
                 }
             }
         }
         else if (_mode == 3){
             if (Gdx.input.isKeyJustPressed(Input.Keys.G) && !_ball.isMoving()){
-                System.out.println(_ball.getPosition().x + "  " + _ball.getPosition().y);
+                //System.out.println(_ball.getPosition().x + "  " + _ball.getPosition().y);
                 GeneticAlgorithm GA = new GeneticAlgorithm(_hole, CourseManager.getActiveCourse(),CourseManager.getStartPosition(0),false);
                 GA.runGenetic();
                 Ball b = GA.getBestBall();
@@ -264,11 +264,11 @@ public class GameManager {
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.S) && !_ball.isMoving()){
                 chooseMazeBot("simple");
-                System.out.println("Number of simulations "+GameManager.simulationCounter);
+                //System.out.println("Number of simulations "+GameManager.simulationCounter);
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.A) && !_ball.isMoving()){
                 chooseMazeBot("advanced");
-                System.out.println("Number of simulations "+GameManager.simulationCounter);
+                //System.out.println("Number of simulations "+GameManager.simulationCounter);
             }
         }
         else if(_mode == 4 && !MultiplayerSettings.Simultaneous) {
@@ -337,7 +337,7 @@ public class GameManager {
                 _ball = allBalls[_player];
                 _hole = allHoles[_player];
                 if (allBallsInHole()) {
-                    System.out.println("WON");
+                    //System.out.println("WON");
                     return;
                 }
             }
@@ -356,7 +356,7 @@ public class GameManager {
         ArrayList<Node> path = (ArrayList<Node>)nodeMap.findPath(startX, startY);
 
         if(path!=null) {
-            System.out.println("Mazebot initialized - there is a path with "+path.size()+" nodes");
+            //System.out.println("Mazebot initialized - there is a path with "+path.size()+" nodes");
             MazeBot mazeBot = new MazeBot(_ball,_hole,CourseManager.getActiveCourse(),path,nodeMap);
             if(mazeBotType.equals("simple")){
                 mazeVelocities = mazeBot.runSimpleMazeBot();
@@ -371,7 +371,7 @@ public class GameManager {
             }
         }
         else{
-            System.out.println("Mazebot wasn't initialize - there is no path");
+            //System.out.println("Mazebot wasn't initialize - there is no path");
         }
         /*
         for(int i =CollisionManager.colliders.size()-1;i>=0;i--){
@@ -507,7 +507,7 @@ public class GameManager {
                 double d = euclideanDistance(balls[i].getPosition(), balls[j].getPosition());
                 distancesMatrix[i][j] = d;
                 if (distancesMatrix[i][j] > allowedDistance && allBalls[i].enabled && allBalls[j].enabled) {
-                    System.out.println("Distance "+distancesMatrix[i][j]);
+                    //System.out.println("Distance "+distancesMatrix[i][j]);
                     return false;
                 }
             }
@@ -539,7 +539,7 @@ public class GameManager {
     }
     public void multiPlayerUpdate(double pDelta){
         if (!anyBallIsMoving() && !checkDistances(allBalls)){
-            System.out.println("Exceeding the allowed distance from each other. Please try again.");
+            //System.out.println("Exceeding the allowed distance from each other. Please try again.");
             returnToPreviousPosition();
             decreasePlayer();
             // TODO: display UI massage

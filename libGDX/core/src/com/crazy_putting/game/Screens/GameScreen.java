@@ -242,7 +242,7 @@ public class GameScreen extends InputAdapter implements Screen {
                 else{
                     intervals[x] = maxValue;
                 }
-                System.out.println("Interval "+x+" : "+intervals[x]);
+                //System.out.println("Interval "+x+" : "+intervals[x]);
             }
             //NOTE: Pixmap coordinates start from TOP LEFT so the picture is mirrored with this loop, I changed the y coordinate in the draw to
             //(pixmap.getHeight()/2 - j )instead of (j -pixmap.getHeight()/2 ) this way the image stays true to the world coordinates

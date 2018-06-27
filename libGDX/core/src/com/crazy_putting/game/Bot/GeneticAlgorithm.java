@@ -90,7 +90,7 @@ public class GeneticAlgorithm extends SuperBot{
 
         //take only the best ones in our original population
         createPopulation();
-        Gdx.app.debug("Debug","max iterations"+maxIterations);
+        //Gdx.app.debug("Debug","max iterations"+maxIterations);
         for(int i = 0; i < maxIterations;i++){
             unFixAllTheBall();
 

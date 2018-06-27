@@ -157,7 +157,7 @@ public class CourseCreatorScreen implements Screen {
 
 
             try{
-                System.out.println("Put here game logic...");
+                //System.out.println("Put here game logic...");
                 Course newCourse = new Course();
                 newCourse.setName("Course without name D:");
                 newCourse.setHeight(heightText.getText());
@@ -215,7 +215,7 @@ public class CourseCreatorScreen implements Screen {
 
                 @Override
                 public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                    System.out.println("Button clicked");
+                    //System.out.println("Button clicked");
                     confirmButtonClicked();
                 }
             });

@@ -289,7 +289,7 @@ public class TerrainEditor extends InputAdapter {
         Vector3 intersectPos = new Vector3();
 
         if (Intersector.intersectRayTriangles(ray,TerrainGenerator.triangleList,intersectPos)) {
-            System.out.println("Intersection point "+intersectPos);
+            //System.out.println("Intersection point "+intersectPos);
             return intersectPos;
         }
         else{

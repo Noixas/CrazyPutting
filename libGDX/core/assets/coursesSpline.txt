@@ -353,7 +353,7 @@ Goal Pos: -329.271 -628.09314
 Goal Pos: -329.271 -628.09314
 Goal Pos: -329.271 -628.09314
 Goal Pos: -329.271 -628.09314
-Goal Radius: 30.0
+Goal Radius: 50.0
 Ball Start Pos: 792.37427 366.66968
 Ball Start Pos: 792.37427 366.66968
 Ball Start Pos: 792.37427 366.66968

@@ -31,7 +31,7 @@ public class TriangleGraphics3DComponent extends Graphics3DComponent {
         ModelBuilder modelBuilder = new ModelBuilder();
         swapYZ(_from);
         //swapYZ(_to);
-        System.out.println("From "+_from+" to  "+ _to);
+        //System.out.println("From "+_from+" to  "+ _to);
         Vector3 v = new Vector3();
         _to.sub(_from);
         _model = modelBuilder.createArrow(v.x,v.y,v.z,_to.x,_to.y,_to.z,0.1f,0.1f,10, GL20.GL_TRIANGLES,new Material(ColorAttribute.createDiffuse(_color)), VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);

@@ -94,7 +94,7 @@ public void show(){
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.P))
         {
-            System.out.println("Camera pos = " + cam.position);
+            //System.out.println("Camera pos = " + cam.position);
         }
 
 
@@ -132,7 +132,7 @@ public void show(){
     {
         for(int i = 0; i<array.length; i++)
         {
-            System.out.println(array[i]);
+            //System.out.println(array[i]);
         }
     }
 
