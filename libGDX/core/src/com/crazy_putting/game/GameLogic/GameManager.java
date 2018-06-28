@@ -25,7 +25,7 @@ import com.crazy_putting.game.Screens.MenuScreen;
 import java.util.ArrayList;
 
 public class GameManager {
-    public static int allowedOffset = 50;
+    public static int allowedOffset = 0;
     private Ball _ball;
     private Hole _hole;
     private GolfGame _game;

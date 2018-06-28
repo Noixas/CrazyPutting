@@ -80,7 +80,7 @@ public abstract class SuperBot {
 
 
             Physics.physics.updateObject(b);
-            CollisionManager.update();
+//            CollisionManager.update();
             amountCollisions= CollisionManager.getAmountCollisionsLastUpdate();
           //  if(_simple && amountCollisions>1)
          //   System.out.println("Collisions "+amountCollisions+" speed "+b.getVelocity().speed);
