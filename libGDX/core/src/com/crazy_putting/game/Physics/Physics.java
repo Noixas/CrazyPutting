@@ -50,10 +50,12 @@ public abstract class Physics {
      */
 
     public void addMovableObject(PhysicsGameObject obj) {
-        movingObjects.add(obj);
+        if(!movingObjects.contains(obj)) {
+            movingObjects.add(obj);
+        }
     }
 
-    public void addMovableObject(PhysicsGameObject[] obj) {
+    public void addMovableObjectList(PhysicsGameObject[] obj) {
         for (int i=0; i<obj.length; i++)
             movingObjects.add(obj[i]);
     }
@@ -192,7 +194,7 @@ public abstract class Physics {
         float x1 =  s.getX() + EPSILON;
         float x2 =  x1 - EPSILON;
         float yCur = s.getY();
-        float slopeScaleCoeff = 1f;
+        float slopeScaleCoeff = 1.05f;
         float partialX = ((CourseManager.calculateHeight(x1, yCur) - CourseManager.calculateHeight(x2, yCur)) / EPSILON);
 
         x1-=EPSILON;
@@ -200,7 +202,6 @@ public abstract class Physics {
         float y2 = yCur -EPSILON;
 
         float partialY = ((CourseManager.calculateHeight(x1, yCur) - CourseManager.calculateHeight(x1, y2)) / EPSILON);
-
         return new Vector3(slopeScaleCoeff * partialX,slopeScaleCoeff * partialY,0);
 
     }

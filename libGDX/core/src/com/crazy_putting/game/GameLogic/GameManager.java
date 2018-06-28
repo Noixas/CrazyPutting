@@ -169,9 +169,9 @@ public class GameManager {
                 increaseTurnCount();
             }
         }
-        if (_mode == 4 && !MultiplayerSettings.Simultaneous)
-            Physics.physics.updateObject(_ball);
-        else
+        //if (_mode == 4 && !MultiplayerSettings.Simultaneous)
+        //    Physics.physics.updateObject(_ball);
+       // else
             Physics.physics.update();
         CollisionManager.update();
         updateGameLogic(pDelta);
@@ -474,8 +474,11 @@ public class GameManager {
 
         Vector3 cache = allBalls[pPlayer].getPosition();
         allBalls[pPlayer].setPosition(pos);
-        if(checkDistances(allBalls)==false)
+        if(checkDistances(allBalls)==false) {
             allBalls[pPlayer].setPosition(cache);
+            allBalls[pPlayer].fix(true);
+        }
+
     }
 
     /**

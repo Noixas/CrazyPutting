@@ -22,7 +22,6 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
 
     private Vector3 endPosition;
     private int fitnessValue;
-    private int bounces;
 
 
 
@@ -47,12 +46,6 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
         velocityGA = new Velocity();
         _isFixed=true;
         Physics.physics.addMovableObject(this);
-    }
-    public void setBounces(int howManyTimes){
-        this.bounces = howManyTimes;
-    }
-    public int getBounces(){
-        return this.bounces;
     }
 
     public void destroy(){
@@ -198,11 +191,6 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
 
     @Override
     public int compareTo(Ball o) {
-        if(this.fitnessValue == o.getFitnessValue()){
-            return this.bounces - o.getBounces();
-        }
-        else{
             return this.fitnessValue - o.getFitnessValue();
         }
-    }
 }
