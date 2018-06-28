@@ -194,7 +194,7 @@ public abstract class Physics {
         float x1 =  s.getX() + EPSILON;
         float x2 =  x1 - EPSILON;
         float yCur = s.getY();
-        float slopeScaleCoeff = 1.05f;
+        float slopeScaleCoeff = 1f;
         float partialX = ((CourseManager.calculateHeight(x1, yCur) - CourseManager.calculateHeight(x2, yCur)) / EPSILON);
 
         x1-=EPSILON;
