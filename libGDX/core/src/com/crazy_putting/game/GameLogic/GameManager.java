@@ -542,9 +542,9 @@ public class GameManager {
     }
     public void multiPlayerUpdate(double pDelta){
         if (!anyBallIsMoving() && !checkDistances(allBalls)){
-            //System.out.println("Exceeding the allowed distance from each other. Please try again.");
+            System.out.println("Exceeding the allowed distance from each other. Please try again.");
             returnToPreviousPosition();
-            decreasePlayer();
+            //decreasePlayer();
             // TODO: display UI massage
         }
     }
@@ -556,6 +556,9 @@ public class GameManager {
             }
         }
         else{
+            if(_cachePosition == null){
+               _cachePosition=CourseManager.getStartPosition(_player);
+            }
             _cachePosition = new Vector3(_ball.getPosition());
         }
     }
@@ -567,6 +570,9 @@ public class GameManager {
             }
         }
         else{
+            if(_cachePosition == null){
+                _cachePosition=CourseManager.getStartPosition(_player);
+            }
             _ball.setPosition(_cachePosition);
         }
     }
