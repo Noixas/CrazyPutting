@@ -48,6 +48,8 @@ public class CourseCreatorScreen implements Screen {
         CourseManager.loadFile("courses.txt");
         else CourseManager.loadFile("coursesSpline.txt");
 
+        CourseManager.initObstacles();//IMPORTANT or after creating a course all objects will be deleted
+
         this.game = game;
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
