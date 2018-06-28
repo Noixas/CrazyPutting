@@ -6,7 +6,7 @@ import com.crazy_putting.game.Others.MultiplayerSettings;
 import com.crazy_putting.game.Physics.Physics;
 
 public final class CollisionSolver {
-    private static final float RESTITUTION = 0.75f;
+    private static final float RESTITUTION = 0.9f;
 
 
     public static void dealCollision(Contact contact) {
