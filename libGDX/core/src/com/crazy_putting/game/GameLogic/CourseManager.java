@@ -121,10 +121,13 @@ public class CourseManager {
     }
 
         try{
-        if(_activeCourse.checkObstaclesAt(new Vector3(x,y,0))){
+            if(GameManager.mazeBotType.equals("simple")){
+                if(_activeCourse.checkObstaclesAt(new Vector3(x,y,0))){
 //            System.out.println("Boom");
-            return -10;
-        }
+                    return -10;
+                }
+            }
+
             if(_spline != null){//Spline mode Height
                return _spline.getHeightAt(new Vector2(x, y));
             }else {//Formula function

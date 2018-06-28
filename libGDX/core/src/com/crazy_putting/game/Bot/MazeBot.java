@@ -87,7 +87,7 @@ public class MazeBot {
                     startPoint = ga.getEndPosition();
                     destinationPoint = new Hole(intermediateRadius,hole.getPosition());
                     if(euclideanDistance(ga.getEndPosition(),hole.getPosition())>hole.getRadius()&&j==intermediatePoints.size()-1){
-                        GeneticAlgorithm ga2 = new GeneticAlgorithm(destinationPoint,course,startPoint,false,maxIterations,map);
+                        GeneticAlgorithm ga2 = new GeneticAlgorithm(destinationPoint,course,startPoint,false);
                         ga2.runGenetic();
                         mazeVelocities.add(new Velocity(ga2.getBestBall().getVelocityGA().speed, ga2.getBestBall().getVelocityGA().angle));
                         System.out.println("Maze velocities size "+mazeVelocities.size());
@@ -103,7 +103,7 @@ public class MazeBot {
 //            ball.setVelocity(speed,angle);
 //            ball.fix(false);
         }
-        Gdx.app.log("Log","findSolution finished");
+        Gdx.app.log("Log","findSolution finished "+intermediatePoints.size());
 
         for(Velocity velocity:mazeVelocities){
             System.out.println("Speed: "+velocity.speed+" "+velocity.angle);

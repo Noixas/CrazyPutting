@@ -2,6 +2,7 @@ package com.crazy_putting.game.Bot;
 
 import com.badlogic.gdx.math.Vector3;
 import com.crazy_putting.game.GameLogic.CourseManager;
+import com.crazy_putting.game.GameLogic.GameManager;
 import com.crazy_putting.game.GameObjects.Course;
 
 import java.util.ArrayList;
@@ -33,6 +34,13 @@ public class Map<T extends AbstractNode> {
         initEmptyNodes();
     }
 
+    public boolean shortestAdjustment(int i, int j){
+        if(GameManager.mazeBotType.equals("simple")){
+            return false;
+        }
+        return CourseManager.getActiveCourse().checkObstaclesAt(new Vector3(nodes[i][j].getxCoordinate(), nodes[i][j].getyCoordinate(), 0));
+    }
+
     private void initEmptyNodes() {
         for (int i = 0; i <= width; i++) {
             for (int j = 0; j <= length; j++) {
@@ -41,7 +49,9 @@ public class Map<T extends AbstractNode> {
                 //nodes[i][j].setBASICMOVEMENTCOST(0);               // <------ USE THIS IF YOU DO NOT CARE ABOUT HEIGHTS
                 nodes[i][j].setWalkable(true);
                 height = CourseManager.calculateHeight( nodes[i][j].getxCoordinate(), nodes[i][j].getyCoordinate());
-                if(height < + 0) {
+
+
+                if(height < + 0||shortestAdjustment(i,j)) {
                     nodes[i][j].setWalkable(false);                 // <------ IF HEIGHT OF POINT IS LESS THAN 0 IT IS UNWALKABLE
                 }
                 else {

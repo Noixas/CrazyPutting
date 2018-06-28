@@ -80,7 +80,9 @@ public abstract class SuperBot {
 
 
             Physics.physics.updateObject(b);
-//            CollisionManager.update();
+            if(!GameManager.mazeBotType.equals("simple")){
+                CollisionManager.update();
+            }
             amountCollisions= CollisionManager.getAmountCollisionsLastUpdate();
           //  if(_simple && amountCollisions>1)
          //   System.out.println("Collisions "+amountCollisions+" speed "+b.getVelocity().speed);

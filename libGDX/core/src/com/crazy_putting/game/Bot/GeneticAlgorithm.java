@@ -150,6 +150,8 @@ public class GeneticAlgorithm extends SuperBot{
         for(int i = 0; i < firstIteration.size(); i++){
             simulateShot(firstIteration.get(i));
             if(firstIteration.get(i).getFitnessValue()==0){
+                System.out.println("End position first"+firstIteration.get(i).getEndPosition()+" "+firstIteration.get(i).getVelocityGA());
+
                 return;
             }
         }
@@ -159,6 +161,7 @@ public class GeneticAlgorithm extends SuperBot{
         for(int i = 0; i < POPULATION_SIZE; i++){
             simulateShot(allBalls.get(i));
             if(allBalls.get(i).getFitnessValue()==0){
+                System.out.println("End position "+allBalls.get(i).getEndPosition()+" "+allBalls.get(i).getVelocityGA());
                 return;
             }
         }

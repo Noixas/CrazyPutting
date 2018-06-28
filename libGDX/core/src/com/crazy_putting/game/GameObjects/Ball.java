@@ -44,6 +44,7 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
         _startPosition = new Vector3();
         previousPosition = new Vector3();
         velocity = new Velocity();
+        fitnessValue = 10000;
         velocityGA = new Velocity();
         _isFixed=true;
         Physics.physics.addMovableObject(this);
@@ -192,6 +193,7 @@ public class Ball extends PhysicsGameObject implements Comparable<Ball> {
         newBall.velocityGA.angle = velocityGA.angle;
         newBall._isFixed = _isFixed;
         newBall.fitnessValue = fitnessValue;
+        newBall.endPosition = endPosition;
         return newBall;
 
     }

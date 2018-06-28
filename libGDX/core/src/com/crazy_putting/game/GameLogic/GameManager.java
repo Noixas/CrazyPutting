@@ -46,6 +46,7 @@ public class GameManager {
     private Vector3 _cachePosition;
 
     public static int simulationCounter;
+    public static String mazeBotType="";
 
     public GameManager(GolfGame pGame, int pMode){
         _mode = pMode;
@@ -263,11 +264,13 @@ public class GameManager {
                 _ball.fix(false);
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.S) && !_ball.isMoving()){
-                chooseMazeBot("simple");
+                mazeBotType = "simple";
+                chooseMazeBot();
                 //System.out.println("Number of simulations "+GameManager.simulationCounter);
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.A) && !_ball.isMoving()){
-                chooseMazeBot("advanced");
+                mazeBotType = "advanced";
+                chooseMazeBot();
                 //System.out.println("Number of simulations "+GameManager.simulationCounter);
             }
         }
@@ -347,7 +350,7 @@ public class GameManager {
 
     }
 
-    public void chooseMazeBot(String mazeBotType){
+    public void chooseMazeBot(){
         // TODO
         allowedOffset = 30;
         int startX = Math.round(CourseManager.getStartPosition(0).x);
