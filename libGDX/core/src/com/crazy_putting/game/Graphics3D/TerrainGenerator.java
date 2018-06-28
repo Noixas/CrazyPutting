@@ -33,6 +33,11 @@ static double[][] p ;
 
         return  innerGenerateModelTerrain(pSplines, pPoints);
     }
+    public static void dispose(){
+            _spline = null;
+            triangleList.clear();
+
+    }
     private static Model innerGenerateModelTerrain(boolean pSplines, double[][] pPoints)
     {
         p = pPoints;
@@ -60,11 +65,11 @@ static double[][] p ;
                 nodeAmount++;
                 MeshPartBuilder meshBuilder = modelBuilder.part("part "+code , GL20.GL_TRIANGLES, VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal  | VertexAttributes.Usage.ColorPacked,m);
                 createMesh(meshBuilder, startPosX+verticesPerSide*i,startPosY+verticesPerSide*j, verticesPerSide, scaleVertex, pSplines,splineNode);
-            }
+
+        }
         //_spline.printPoints();
         Model terrain = modelBuilder.end();
-
-        return terrain;
+     return terrain;
     }
     private static int[][] generateSquareIndexes(int pi, int pj){
             int[][] indexes = {{pi,pj},{pi+1,pj},{pi,pj+1},{pi+1,pj+1}};

@@ -48,6 +48,8 @@ public class CourseCreatorScreen implements Screen {
         CourseManager.loadFile("courses.txt");
         else CourseManager.loadFile("coursesSpline.txt");
 
+        CourseManager.initObstacles();//IMPORTANT or after creating a course all objects will be deleted
+
         this.game = game;
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
@@ -172,6 +174,7 @@ public class CourseCreatorScreen implements Screen {
                     CourseManager.addCourseToList(newCourse);
                     CourseManager.setActiveCourseWithIndex(CourseManager.getCourseAmount() - 1);
                     CourseManager.reWriteCourse();
+                    Gdx.app.getApplicationListener().dispose();
                     game.setScreen(new MenuScreen(game));
                 }
             }catch(Exception e)
@@ -275,7 +278,7 @@ public class CourseCreatorScreen implements Screen {
 
     @Override
     public void dispose() {
-
+stage.dispose();
     }
 
 }

@@ -68,6 +68,8 @@ public class CollisionDetector {
             if (distance <= 0.0f || distance >= sphereCollider1.getRadius() + sphereCollider2.getRadius()) {
                 return null;
             }
+            //System.out.println("we are in contact");
+
 
             // if we are here,then 2 spheres collides
 
@@ -75,12 +77,14 @@ public class CollisionDetector {
 
             Contact contact = new Contact();
             contact.contactNormal = normal;
+            //System.out.println("Normal: " + contact.contactNormal);
 
             Vector3 intermediate = midline.cpy().scl(0.5f);
 
             contact.contactPoint = centre1.cpy().add(intermediate);
 
             contact.penetration = sphereCollider1.getRadius() + sphereCollider2.getRadius() - distance;
+           //S System.out.println("Penetration : " + contact.penetration);
 
             contact.object1 = sphereCollider1;
             contact.object2 = sphereCollider2;

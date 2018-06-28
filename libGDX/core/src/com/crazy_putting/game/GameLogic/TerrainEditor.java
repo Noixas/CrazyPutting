@@ -298,6 +298,15 @@ public class TerrainEditor extends InputAdapter {
 
         return null;
     }
+    public void dispose(){
+        _terrainInstance =null;
+        _draggingPoint =null;
+       // _terrainInstance.model.dispose();
+        _cam3D=null;
+        _gui = null;
+        _observer = null;
+        _splinePoints = null;
+    }
     public static void swapYandZ(Vector3 vec){
         Vector3 cache = new Vector3(vec);
         vec.z = cache.y;

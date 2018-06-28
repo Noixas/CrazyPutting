@@ -170,9 +170,9 @@ public class GameManager {
                 increaseTurnCount();
             }
         }
-        if (_mode == 4 && !MultiplayerSettings.Simultaneous)
-            Physics.physics.updateObject(_ball);
-        else
+        //if (_mode == 4 && !MultiplayerSettings.Simultaneous)
+        //    Physics.physics.updateObject(_ball);
+       // else
             Physics.physics.update();
         CollisionManager.update();
         updateGameLogic(pDelta);
@@ -477,8 +477,11 @@ public class GameManager {
 
         Vector3 cache = allBalls[pPlayer].getPosition();
         allBalls[pPlayer].setPosition(pos);
-        if(checkDistances(allBalls)==false)
+        if(checkDistances(allBalls)==false) {
             allBalls[pPlayer].setPosition(cache);
+            allBalls[pPlayer].fix(true);
+        }
+
     }
 
     /**
@@ -542,9 +545,9 @@ public class GameManager {
     }
     public void multiPlayerUpdate(double pDelta){
         if (!anyBallIsMoving() && !checkDistances(allBalls)){
-            //System.out.println("Exceeding the allowed distance from each other. Please try again.");
+            System.out.println("Exceeding the allowed distance from each other. Please try again.");
             returnToPreviousPosition();
-            decreasePlayer();
+            //decreasePlayer();
             // TODO: display UI massage
         }
     }
@@ -556,6 +559,9 @@ public class GameManager {
             }
         }
         else{
+            if(_cachePosition == null){
+               _cachePosition=CourseManager.getStartPosition(_player);
+            }
             _cachePosition = new Vector3(_ball.getPosition());
         }
     }
@@ -567,6 +573,9 @@ public class GameManager {
             }
         }
         else{
+            if(_cachePosition == null){
+                _cachePosition=CourseManager.getStartPosition(_player);
+            }
             _ball.setPosition(_cachePosition);
         }
     }
