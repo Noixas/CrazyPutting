@@ -161,4 +161,7 @@ public class CourseManager {
     {
         return _activeCourse.getMaxSpeed();
     }
+    public static void dispose(){
+        _spline = null;
+    }
 }

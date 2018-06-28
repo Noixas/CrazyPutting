@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
-import com.crazy_putting.game.GameLogic.CourseManager;
 import com.crazy_putting.game.GameLogic.GraphicsManager;
 import com.crazy_putting.game.Others.InputData;
 
@@ -40,13 +39,18 @@ public class GolfGame extends Game {
 
     @Override
     public void dispose() {
-        batch.dispose();
+       /* batch.dispose();
         font.dispose();
+        batch3D.dispose();*/
     }
-
+    public void restart(){
+        create();
+    }
 
     @Override
     public void render() {
         super.render();
+       // batch.dispose();
+     //   batch3D.dispose();
     }
 }

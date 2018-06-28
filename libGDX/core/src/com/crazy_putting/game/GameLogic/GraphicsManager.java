@@ -65,5 +65,14 @@ public class GraphicsManager {
         if(_graphics3DComponentList.contains(comp))_graphics3DComponentList.remove(comp);
         if(_graphics2DComponentList.contains(comp))_graphics2DComponentList.remove(comp);
     }
+    public static void clearGraphicsComponents(){
+        for (Graphics3DComponent g: _graphics3DComponentList) {
+            g.dispose();
+            g.get_owner().deleteGraphicsComponent();
+
+        }
+        _graphics3DComponentList.clear();
+        _graphics2DComponentList.clear();
+    }
 }
 

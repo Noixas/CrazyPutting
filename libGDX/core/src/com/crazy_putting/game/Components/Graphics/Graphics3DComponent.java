@@ -38,4 +38,12 @@ public abstract class Graphics3DComponent extends GraphicsComponent {
         _instance.transform.set(pos,_emptyQuaternion);
         pModelBatch.render(_instance,pEnvironment);
     }
+    public void dispose(){
+      //  if(_model!= null)
+     //   _model.dispose();
+       // if(_instance != null  )
+        //_instance.model.dispose();
+        _model = null;
+        _instance = null;
+    }
 }

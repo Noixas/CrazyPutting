@@ -49,6 +49,9 @@ public class GameObject {
             _colliderComponent = null;
         }
     }
+    public void deleteGraphicsComponent(){
+        _graphicComponent = null;
+    }
 
     public ColliderComponent getColliderComponent() {
         return _colliderComponent;

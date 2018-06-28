@@ -172,6 +172,7 @@ public class CourseCreatorScreen implements Screen {
                     CourseManager.addCourseToList(newCourse);
                     CourseManager.setActiveCourseWithIndex(CourseManager.getCourseAmount() - 1);
                     CourseManager.reWriteCourse();
+                    Gdx.app.getApplicationListener().dispose();
                     game.setScreen(new MenuScreen(game));
                 }
             }catch(Exception e)
@@ -275,7 +276,7 @@ public class CourseCreatorScreen implements Screen {
 
     @Override
     public void dispose() {
-
+stage.dispose();
     }
 
 }

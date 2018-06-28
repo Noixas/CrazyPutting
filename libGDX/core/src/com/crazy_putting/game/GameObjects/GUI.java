@@ -315,4 +315,11 @@ TODO: Use stage and the view part created in gamescreen3D to create an input lis
         return playerSelectBox.getSelectedIndex();
     }
     public boolean isEraseObjectsActive(){ return  _eraseObject.isChecked();}
+    public void dispose(){
+        _gameManager =null;
+        view = null;
+        UIStage.dispose();
+
+
+    }
 }
