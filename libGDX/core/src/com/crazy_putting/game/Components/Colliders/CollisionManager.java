@@ -100,5 +100,8 @@ public final class CollisionManager {
             }
         }
     }
-
+    public static void dispose(){
+        contacts.clear();
+        simulationsContact.clear();
+    }
 }

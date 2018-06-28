@@ -1,9 +1,6 @@
 package com.crazy_putting.game.Screens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -16,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.crazy_putting.game.Components.Colliders.CollisionManager;
 import com.crazy_putting.game.Components.Graphics.ArrowGraphics3DComponent;
 import com.crazy_putting.game.FormulaParser.FormulaParser;
 import com.crazy_putting.game.GameLogic.CourseManager;
@@ -24,6 +22,7 @@ import com.crazy_putting.game.GameLogic.GraphicsManager;
 import com.crazy_putting.game.GameLogic.TerrainEditor;
 import com.crazy_putting.game.GameObjects.GUI;
 import com.crazy_putting.game.GameObjects.GameObject;
+import com.crazy_putting.game.Graphics3D.TerrainGenerator;
 
 /*
 Handles the graphics of the in-Game screen, which is the 3D cam and 2D cam for the GUI and the tools to control the 3D environment
@@ -188,6 +187,11 @@ public class GameScreen3D extends InputAdapter implements Screen {
     }
         @Override
         public void render(float delta) {
+            if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
+               dispose();
+                _game.restart();
+                return;
+            }
         if(_speedPressing){
             handleShootSpeed();
         }
@@ -267,6 +271,17 @@ public class GameScreen3D extends InputAdapter implements Screen {
         }
         @Override
         public void dispose() {
+        _fullScreenStage.dispose();
+        _inputMain.clear();
+      //  _game.batch.dispose();
+            _game.batch3D.dispose();
+            GraphicsManager.clearGraphicsComponents();
+            TerrainGenerator.dispose();
+            CollisionManager.dispose();
+            _gameManager = null;
+            _terrainEditor.dispose();
+            _gui.dispose();
+            _terrainEditor = null;_camController=null;_cam3D =null; _cam2D = null;
 
         }
 

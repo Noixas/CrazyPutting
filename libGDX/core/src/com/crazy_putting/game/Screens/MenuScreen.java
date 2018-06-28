@@ -76,6 +76,8 @@ public class MenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // go to "Select course" screen, with mode 1
+                Gdx.app.getApplicationListener().dispose();
+                AI = false;
                 golfGame.setScreen(new ChooseCoursesScreen(golfGame, 1));
             }
         });
@@ -84,6 +86,8 @@ public class MenuScreen implements Screen {
         fileButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.getApplicationListener().dispose();
+                AI = false;
                 golfGame.setScreen(new ChooseCoursesScreen(golfGame,2));
             }
         });
@@ -93,6 +97,7 @@ public class MenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 AI = true;
+                Gdx.app.getApplicationListener().dispose();
                 golfGame.setScreen(new ChooseCoursesScreen(golfGame,3)); // go to "ModesScreen" screen
             }
         });
@@ -102,6 +107,8 @@ public class MenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Multiplayer = true;
+                AI = false;
+                Gdx.app.getApplicationListener().dispose();
                 golfGame.setScreen(new ChooseCoursesScreen(golfGame,4)); // go to "ModesScreen" screen
             }
         });
@@ -110,6 +117,8 @@ public class MenuScreen implements Screen {
         courseCreatorButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.getApplicationListener().dispose();
+                AI = false;
                 golfGame.setScreen(new CourseCreatorScreen(golfGame)); // go to "Course creator" screen
             }
         });
@@ -269,6 +278,6 @@ public class MenuScreen implements Screen {
 
     @Override
     public void dispose() {
-
+    stage.dispose();
     }
 }
