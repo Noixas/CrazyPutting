@@ -1,0 +1,22 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Debug (Launch) - Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Debug DesktopLauncher <crazy_putting-desktop>",
+            "request": "launch",
+            "mainClass": "com.crazy_putting.game.desktop.DesktopLauncher",
+            "projectName": "crazy_putting-desktop",
+            "cwd": "${workspaceFolder}/core/assets"
+        }
+    ]
+}

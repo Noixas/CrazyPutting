@@ -1,0 +1,86 @@
+
+COURSE:
+ID: 0
+Name: Test3
+Height: 0.1 * x + 0.03 * x^2 + 0.2 * y+100
+Friction: 0.8
+Goal Pos: 140.0 140.0
+Goal Pos: 140.0 140.0
+Goal Pos: 140.0 140.0
+Goal Pos: 140.0 140.0
+Goal Radius: 25.0
+Ball Start Pos: 140.0 100.12558
+Ball Start Pos: 140.0 100.12558
+Ball Start Pos: 140.0 100.12558
+Ball Start Pos: 140.0 100.12558
+Max Speed: 300.0
+Spline Points: 6 6 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+Course End
+COURSE:
+ID: 1
+Name: Course without name D:
+Height: 800
+Friction: 0.6
+Goal Pos: -140.0 -80.0
+Goal Pos: -140.0 -80.0
+Goal Pos: -140.0 -80.0
+Goal Pos: -140.0 -80.0
+Goal Radius: 34.0
+Ball Start Pos: 8.0 8.0
+Ball Start Pos: 8.0 8.0
+Ball Start Pos: 8.0 8.0
+Ball Start Pos: 8.0 8.0
+Max Speed: 102.0
+Spline Points: 6 6 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+Course End
+COURSE:
+ID: 2
+Name: Course without name D:
+Height: (sin(x/100)+cos(y/100))*50+50
+Friction: 0.6
+Goal Pos: -150.0 -90.0
+Goal Pos: -150.0 -90.0
+Goal Pos: -150.0 -90.0
+Goal Pos: -150.0 -90.0
+Goal Radius: 25.0
+Ball Start Pos: 84.0 331.0
+Ball Start Pos: 84.0 331.0
+Ball Start Pos: 84.0 331.0
+Ball Start Pos: 84.0 331.0
+Max Speed: 200.0
+Spline Points: 6 6 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+Course End
+COURSE:
+ID: 3
+Name: Course without name D:
+Height: 0.0003*x^2+0.004*y
+Friction: 0.5
+Goal Pos: -374.0 523.0
+Goal Pos: -374.0 523.0
+Goal Pos: -374.0 523.0
+Goal Pos: -374.0 523.0
+Goal Radius: 30.0
+Ball Start Pos: 100.0 100.0
+Ball Start Pos: 100.0 100.0
+Ball Start Pos: 100.0 100.0
+Ball Start Pos: 100.0 100.0
+Max Speed: 300.0
+Spline Points: 6 6 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+Course End
+COURSE:
+ID: 4
+Name: Course without name D:
+Height: (sin(x/70)+cos(y/70))*30+100
+Friction: 0.7
+Goal Pos: 534.0 442.0
+Goal Pos: 534.0 442.0
+Goal Pos: 534.0 442.0
+Goal Pos: 534.0 442.0
+Goal Radius: 30.0
+Ball Start Pos: -312.0 -334.0
+Ball Start Pos: -312.0 -334.0
+Ball Start Pos: -312.0 -334.0
+Ball Start Pos: -312.0 -334.0
+Max Speed: 300.0
+Spline Points: 6 6 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+Course End

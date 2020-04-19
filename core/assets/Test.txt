@@ -1,0 +1,27 @@
+
+COURSE:
+ID: 1
+Name: 
+Height: 
+Friction: 
+Goal Pos: 
+Goal Radius: 
+Ball Start Pos: 
+Max Speed: :
+ID: 1
+Height: 
+Friction: 
+Goal Pos: 
+Goal Radius: 
+Ball Start Pos: 
+Max Speed: s: 
+Max Speed: s: 
+Max Speed: 
+COURSE:
+ID: 1
+Height: 
+Friction: 
+Goal Pos: 
+Goal Radius: 
+Ball Start Pos: 
+Max Speed: 
