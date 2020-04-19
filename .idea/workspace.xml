@@ -20,228 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cb0c03ff-9dec-4c94-ae31-fc11699ee35e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileChanges/last-build.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileContent/fileContent.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/classAnalysis.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/jarAnalysis.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/taskHistory.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/6.3/executionHistory/executionHistory.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/6.3/executionHistory/executionHistory.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/6.3/fileChanges/last-build.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/6.3/fileContent/fileContent.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/6.3/fileHashes/fileHashes.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/6.3/fileHashes/fileHashes.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/6.3/fileHashes/resourceHashesCache.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/6.3/gc.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/6.3/javaCompile/classAnalysis.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/6.3/javaCompile/jarAnalysis.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/6.3/javaCompile/javaCompile.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/6.3/javaCompile/taskHistory.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/vcs-1/gc.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.project" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.settings/org.eclipse.buildship.core.prefs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.vs/Test libgdx/v16/.suo" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.vs/VSWorkspaceState.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.vs/slnx.sqlite" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.vscode/launch.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/.classpath" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/.project" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/.settings/org.eclipse.buildship.core.prefs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/.settings/org.eclipse.jdt.core.prefs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/build/tmp/jar/MANIFEST.MF" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/FormulaParser/Test.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/GameLogic/GameManager.java.rej" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Physics/PhysicsTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/.classpath" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/.project" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/.settings/org.eclipse.buildship.core.prefs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/.settings/org.eclipse.jdt.core.prefs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/bin/main/GRASS.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/bin/main/GRASS2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/bin/main/GRASS3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/bin/main/GRASS4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/bin/main/Test.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/bin/main/courses.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/bin/main/coursesSpline.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/bin/main/golfBall.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/bin/main/golfField.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/bin/main/hole.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/bin/main/myFile.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/bin/main/skin/font-export.fnt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/bin/main/skin/font-title-export.fnt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/bin/main/skin/plain-james-ui.atlas" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/bin/main/skin/plain-james-ui.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/bin/main/skin/plain-james-ui.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/bin/main/startButton.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/bin/main/uiskin.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/build/resources/main/GRASS.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/build/resources/main/GRASS2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/build/resources/main/GRASS3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/build/resources/main/GRASS4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/build/resources/main/Test.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/build/resources/main/courses.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/build/resources/main/coursesSpline.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/build/resources/main/golfBall.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/build/resources/main/golfField.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/build/resources/main/hole.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/build/resources/main/myFile.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/build/resources/main/skin/font-export.fnt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/build/resources/main/skin/font-title-export.fnt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/build/resources/main/skin/plain-james-ui.atlas" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/build/resources/main/skin/plain-james-ui.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/build/resources/main/skin/plain-james-ui.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/build/resources/main/startButton.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/build/resources/main/uiskin.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/gradle_wrapper.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ReadAndAnalyse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/assets/GRASS.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/core/assets/GRASS.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/assets/GRASS2.png" beforeDir="false" afterPath="$PROJECT_DIR$/core/assets/GRASS2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/assets/GRASS3.png" beforeDir="false" afterPath="$PROJECT_DIR$/core/assets/GRASS3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/assets/GRASS4.png" beforeDir="false" afterPath="$PROJECT_DIR$/core/assets/GRASS4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/assets/Test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/core/assets/Test.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/assets/courses.txt" beforeDir="false" afterPath="$PROJECT_DIR$/core/assets/courses.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/assets/coursesSpline.txt" beforeDir="false" afterPath="$PROJECT_DIR$/core/assets/coursesSpline.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/assets/golfBall.png" beforeDir="false" afterPath="$PROJECT_DIR$/core/assets/golfBall.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/assets/golfField.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/core/assets/golfField.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/assets/hole.png" beforeDir="false" afterPath="$PROJECT_DIR$/core/assets/hole.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/assets/myFile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/core/assets/myFile.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/assets/skin/font-export.fnt" beforeDir="false" afterPath="$PROJECT_DIR$/core/assets/skin/font-export.fnt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/assets/skin/font-title-export.fnt" beforeDir="false" afterPath="$PROJECT_DIR$/core/assets/skin/font-title-export.fnt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/assets/skin/plain-james-ui.atlas" beforeDir="false" afterPath="$PROJECT_DIR$/core/assets/skin/plain-james-ui.atlas" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/assets/skin/plain-james-ui.json" beforeDir="false" afterPath="$PROJECT_DIR$/core/assets/skin/plain-james-ui.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/assets/skin/plain-james-ui.png" beforeDir="false" afterPath="$PROJECT_DIR$/core/assets/skin/plain-james-ui.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/assets/startButton.png" beforeDir="false" afterPath="$PROJECT_DIR$/core/assets/startButton.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/assets/uiskin.json" beforeDir="false" afterPath="$PROJECT_DIR$/core/assets/uiskin.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/core/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Bot/AbstractNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Bot/AbstractNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Bot/Bot.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Bot/Bot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Bot/BotTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Bot/BotTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Bot/ExampleFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Bot/ExampleFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Bot/GeneticAlgorithm.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Bot/GeneticAlgorithm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Bot/LinearFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Bot/LinearFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Bot/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Bot/Map.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Bot/MazeBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Bot/MazeBot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Bot/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Bot/Node.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Bot/NodeFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Bot/NodeFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Bot/State.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Bot/State.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Bot/SuperBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Bot/SuperBot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Components/BaseComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Components/BaseComponent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Components/Colliders/BoxCollider.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Components/Colliders/BoxCollider.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Components/Colliders/Collidable.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Components/Colliders/Collidable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Components/Colliders/ColliderComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Components/Colliders/ColliderComponent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Components/Colliders/CollisionData.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Components/Colliders/CollisionData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Components/Colliders/CollisionDetector.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Components/Colliders/CollisionDetector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Components/Colliders/CollisionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Components/Colliders/CollisionManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Components/Colliders/CollisionSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Components/Colliders/CollisionSolver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Components/Colliders/Contact.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Components/Colliders/Contact.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Components/Colliders/Plane.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Components/Colliders/SphereCollider.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Components/Colliders/SphereCollider.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Components/Graphics/ArrowGraphics3DComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Components/Graphics/ArrowGraphics3DComponent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Components/Graphics/BoxGraphics3DComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Components/Graphics/BoxGraphics3DComponent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Components/Graphics/CustomGraphics3DComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Components/Graphics/CustomGraphics3DComponent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Components/Graphics/Graphics2DComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Components/Graphics/Graphics2DComponent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Components/Graphics/Graphics3DComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Components/Graphics/Graphics3DComponent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Components/Graphics/GraphicsComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Components/Graphics/GraphicsComponent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Components/Graphics/SphereGraphics3DComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Components/Graphics/SphereGraphics3DComponent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Components/Graphics/TriangleGraphics3DComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Components/Graphics/TriangleGraphics3DComponent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/FormulaParser/AdditionExpressionNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/FormulaParser/AdditionExpressionNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/FormulaParser/ConstantExpressionNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/FormulaParser/ConstantExpressionNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/FormulaParser/EvaluationException.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/FormulaParser/EvaluationException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/FormulaParser/ExponentiationExpressionNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/FormulaParser/ExponentiationExpressionNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/FormulaParser/ExpressionNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/FormulaParser/ExpressionNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/FormulaParser/ExpressionNodeVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/FormulaParser/ExpressionNodeVisitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/FormulaParser/FormulaParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/FormulaParser/FormulaParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/FormulaParser/FunctionExpressionNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/FormulaParser/FunctionExpressionNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/FormulaParser/MultiplicationExpressionNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/FormulaParser/MultiplicationExpressionNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/FormulaParser/ParserException.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/FormulaParser/ParserException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/FormulaParser/SequenceExpressionNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/FormulaParser/SequenceExpressionNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/FormulaParser/SetVariable.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/FormulaParser/SetVariable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/FormulaParser/Test.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/FormulaParser/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/FormulaParser/Token.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/FormulaParser/Tokenizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/FormulaParser/Tokenizer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/FormulaParser/VariableExpressionNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/FormulaParser/VariableExpressionNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/GameLogic/CachedBicubicInterpolator.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/GameLogic/CachedBicubicInterpolator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/GameLogic/CourseManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/GameLogic/CourseManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/GameLogic/GameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/GameLogic/GameManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/GameLogic/GameManager.java.rej" beforeDir="false" afterPath="$PROJECT_DIR$/core/bin/main/com/crazy_putting/game/GameLogic/GameManager.java.rej" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/GameLogic/GameManager0.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/GameLogic/GameManager0.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/GameLogic/GraphicsManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/GameLogic/GraphicsManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/GameLogic/Splines/BiCubicSpline.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/GameLogic/Splines/BiCubicSpline.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/GameLogic/Splines/SplineInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/GameLogic/Splines/SplineInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/GameLogic/TerrainEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/GameLogic/TerrainEditor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/GameObjects/Ball.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/GameObjects/Ball.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/GameObjects/Course.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/GameObjects/Course.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/GameObjects/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/GameObjects/GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/GameObjects/GameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/GameObjects/GameObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/GameObjects/Hole.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/GameObjects/Hole.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/GameObjects/PhysicsGameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/GameObjects/PhysicsGameObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/GameObjects/SplinePoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/GameObjects/SplinePoint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Graphics3D/Basic3DTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Graphics3D/Basic3DTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Graphics3D/DebugAxesGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Graphics3D/DebugAxesGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Graphics3D/Multithread/GenerateMeshThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Graphics3D/Multithread/GenerateMeshThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Graphics3D/TerrainGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Graphics3D/TerrainGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Others/InputData.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Others/InputData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Others/MultiplayerSettings.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Others/MultiplayerSettings.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Others/Noise.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Others/Noise.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Others/Noise2.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Others/Noise2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Others/Velocity.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Others/Velocity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Parser/ObstacleData.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Parser/ObstacleData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Parser/Parser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Parser/ReadAndAnalyse.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Parser/ReadAndAnalyse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Physics/Derivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Physics/Derivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Physics/Euler.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Physics/Euler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Physics/Heuns3.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Physics/Heuns3.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Physics/Midpoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Physics/Midpoint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Physics/Physics.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Physics/Physics.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Physics/PhysicsTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/gc.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Physics/RK4.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Physics/RK4.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Physics/State.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Physics/State.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Physics/Verlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Physics/Verlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Screens/ChooseCoursesScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Screens/ChooseCoursesScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Screens/CourseCreatorScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Screens/CourseCreatorScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Screens/GameScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Screens/GameScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Screens/GameScreen3D.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Screens/GameScreen3D.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Screens/GolfGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Screens/GolfGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Screens/InputScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Screens/InputScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Screens/MenuScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Screens/MenuScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Screens/ModeScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Screens/ModeScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/core/src/com/crazy_putting/game/Screens/SettingsMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/crazy_putting/game/Screens/SettingsMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/desktop/build.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/desktop/src/com/crazy_putting/game/desktop/DesktopLauncher.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/com/crazy_putting/game/desktop/DesktopLauncher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/gradlew.bat" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libGDX/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/myFile.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -331,10 +110,10 @@
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="2334" y="140" key="#DesktopLauncher/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1587328623857" />
-    <state x="2334" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1587328793721">
+    <state x="2334" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1587328816075">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="2334" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1587328793721" />
+    <state x="2334" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1587328816075" />
     <state x="693" y="209" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog" timestamp="1587324727079">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -344,22 +123,22 @@
     </state>
     <state x="740" y="261" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1587327138198" />
     <state x="2660" y="261" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1587328777168" />
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1587328626565">
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1587328800213">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1587328626565" />
-    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1587328626565">
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1587328800213" />
+    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1587328800213">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1587328626565" />
-    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1587328626565">
+    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1587328800213" />
+    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1587328800213">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1587328626565" />
-    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1587328626565">
+    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1587328800213" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1587328800213">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1587328626565" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1587328800213" />
     <state x="461" y="165" key="SettingsEditor" timestamp="1587323883402">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
