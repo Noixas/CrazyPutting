@@ -11,19 +11,24 @@ Latest changes:
 - Minor changes in folder structure. 
 - README.md updated.
 
-## Requirements
+## Requirements 
 
 - Java 11.
+- Gradle 6.3.
 
 ## Run Executable
 
-Run `Mini Golf Executable 2020.4.19.jar` 
+~~Run `Mini Golf Executable 2020.4.19.jar~~
+
+
+*The .jar is currently broken, in order to run the software use gradle.*
 
 ## Intellij & VSCode
-Run DesktopLauncher.main file to launch the program
+> Open a terminal in the root folder and run `gradle desktop:run` 
+    >> or Run DesktopLauncher.main file to launch the program in either Intellij or VSCode
 
-To build a .jar file use  `gradle desktop:dist`. The .jar will be located at *../desktop/build/libs*.  
 
+> To build a .jar file use  `gradle desktop:dist`. The .jar will be located at *../desktop/build/libs*.  
 A .jar (Mini Golf Executable 2020.4.19) is provided in the root of this repository for accessibility. 
 
 ## Features
