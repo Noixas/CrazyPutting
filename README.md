@@ -49,4 +49,20 @@ A .jar (Mini Golf Executable 2020.4.19) is provided in the root of this reposito
 ![Realtime 3D Splines map editor](https://raw.githubusercontent.com/Noixas/CrazyPutting/master/gifs/mini-golf-splines.gif)
 ![Obstacles and physics example](https://raw.githubusercontent.com/Noixas/CrazyPutting/master/gifs/mini-golf-obstacles.gif)
 
+## [*Visit my blog for more information.](https://rodrigochavez.dev/mini-golf-with-3d-splines-and-map-editor/) 
+
+- 3D graphics.
+- Map Editor (Real time editing).
+    - Custom Raycasting to interact with the map.
+    - Custom 3D Splines editing.
+    - Obstacles addition and deletion.
+    - UI.
+- Software architecture based on the Game Programming Patterns book.
+    - Object Pooling.
+    - Game Loop.
+    - Component Pattern.
+    - Command Pattern.
+    - Etc.
+
+
 
